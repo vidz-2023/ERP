@@ -79,18 +79,48 @@
     "SalaryStructure": [
         {
             "empCode": "00001",
-            "EffectiveFrom": "",
-            "Basic": "",
-            "ESIEmployeer": "",
-            "PFEmployeer": "",
-            "LWFEmployeer": "",
-            "CTC": "",
-            "ESIEmployee": "",
-            "PFEmployee": "",
-            "TDS": "",
-            "ProfessionalTax": "",
-            "LWFEmployee": "",
-            "InHand": ""
+            "EffectiveFrom": "2023-04-02",
+            "Basic": "10000",
+            "ESIEmployeer": "2000",
+            "PFEmployeer": "1000",
+            "LWFEmployeer": "1000",
+            "CTC": "100000",
+            "ESIEmployee": "1000",
+            "PFEmployee": "1000",
+            "TDS": "10",
+            "ProfessionalTax": "500",
+            "LWFEmployee": "100",
+            "InHand": "8000"
+        },
+        {
+            "empCode": "00002",
+            "EffectiveFrom": "2023-04-02",
+            "Basic": "20000",
+            "ESIEmployeer": "2000",
+            "PFEmployeer": "1000",
+            "LWFEmployeer": "1000",
+            "CTC": "200000",
+            "ESIEmployee": "1000",
+            "PFEmployee": "1000",
+            "TDS": "10",
+            "ProfessionalTax": "500",
+            "LWFEmployee": "100",
+            "InHand": "18000"
+        },
+        {
+            "empCode": "00003",
+            "EffectiveFrom": "2023-04-03",
+            "Basic": "30000",
+            "ESIEmployeer": "2000",
+            "PFEmployeer": "1000",
+            "LWFEmployeer": "1000",
+            "CTC": "200000",
+            "ESIEmployee": "1000",
+            "PFEmployee": "1000",
+            "TDS": "10",
+            "ProfessionalTax": "500",
+            "LWFEmployee": "100",
+            "InHand": "38000"
         }
     ],
     "LeavesMaster": [
@@ -136,20 +166,20 @@
     "expense-claim": [
         {
             "empCode": "00001",
-            "ClaimNo":"",
+            "ClaimNo": "",
             "Branch": "",
             "Date": "",
             "VoucherNo": "",
             "Narration": "",
             "expenseStatus": "",
-            "claimdate":"",
-            "processdate":"",
-            "ApprovedBy":"",
-            "creditGL":"",
-            "TotalAmount":"",
-            "ChequeNo":"",
-            "NEFTNo":"",
-            "CostCenter":""
+            "claimdate": "",
+            "processdate": "",
+            "ApprovedBy": "",
+            "creditGL": "",
+            "TotalAmount": "",
+            "ChequeNo": "",
+            "NEFTNo": "",
+            "CostCenter": ""
         }
     ],
     "expense-claim-detail": [
@@ -160,9 +190,9 @@
             "amountSpent": "",
             "Remarks": "",
             "bilimage": "",
-            "ApprovedAmount":"",
-            "ApproveRemark":"",
-            "CostCenter":""
+            "ApprovedAmount": "",
+            "ApproveRemark": "",
+            "CostCenter": ""
         }
     ]
 }

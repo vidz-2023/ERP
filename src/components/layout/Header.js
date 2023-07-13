@@ -17,13 +17,13 @@ function Header() {
                                 <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Staff Module
                                 </NavLink>
-                                <ul className="dropdown-menu">
+                                <ul className="dropdown-menu dropdown-menu-right" >
                                     <li><NavLink className="dropdown-item" href="#">Staff Master</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Salary Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Staff Other Information</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Salary Structure</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="salary-data">Salary Structure</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Work Location Information</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="worklocation">Work Location Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Timesheet Report</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Expense Claim</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Exit Management System</NavLink></li>
@@ -50,6 +50,10 @@ function Header() {
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link">Reports</a>
+                            </li>
+
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/table">AG-Grid Table</NavLink>
                             </li>
 
                         </ul>
