@@ -1,2 +1,3 @@
-const JSONURL = "http://localhost:3000"
+const JSONURL = "http://localhost:4000"
 export const salaryURL = `${JSONURL}/SalaryStructure`
+export const leaveMasterURL=`${JSONURL}/LeavesMaster`
