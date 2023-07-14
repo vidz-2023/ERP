@@ -4,17 +4,29 @@ import { getBasicInfo } from '../../../../services/basicInfoServices'
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import DeleteEditButtonStaffMaster from './DeleteEditButtonStaffMaster';
 
 function StaffMasterTable() {
     const [basicInfo, setBasicInfo] = useState([])
     const navigate = useNavigate()
 
-    useEffect(() => {
+    /*useEffect(() => {
         getBasicInfo().then((res) =>
 
             setBasicInfo(res.data)
         )
+    }, [])*/
+  
+
+    useEffect(() => {
+        handleGettingBasicTableData()
     }, [])
+
+    const handleGettingBasicTableData = () => {
+        getBasicInfo().then((res) =>
+            setBasicInfo(res.data)
+        )
+    }
 
     const addStaffInformation = () =>{
         navigate('/staffMaster')
@@ -60,17 +72,23 @@ function StaffMasterTable() {
         {
             headerName: 'Nationality', field: 'Nationality'
         },
+      
         {
-            headerName: 'Image', field: 'image'
-        },
+            headerName: "Action",
+            field: "EmpCode",
+            cellRenderer: DeleteEditButtonStaffMaster,
+            cellRendererParams: {
+                funGetBasicInfo: handleGettingBasicTableData
+            }
+        }
     ]
-    const defaultColDefs = { sortable: true, filter: true }
+    const defaultColDefs = { sortable: true, filter: true, flex:1}
     return (
         <div>
            
            <div className='text-center p-3'><button type="button" class="btn btn-info" onClick={() => addStaffInformation()}>Add Staff Information</button></div>
            
-            <div className="ag-theme-alpine m-2 ps-5 me-5" style={{ height: 300, width: 1200 }}>
+            <div className="ag-theme-alpine ms-2 me-1" style={{ height: 300 }}>
                 <AgGridReact rowData={basicInfo} columnDefs={columns} defaultColDef={defaultColDefs} />
             </div>
         </div>

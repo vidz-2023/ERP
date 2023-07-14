@@ -8,8 +8,9 @@ import pic from '../../../../assets/images/profilepic.png';
 import { addBasicInfo } from '../../../../services/basicInfoServices';
 
 function StaffMaster() {
-  console.log("initalize")
-  const [maritalStatus, setMaritalStatus] = useState('single')
+
+  const [maritalStatus, setMaritalStatus] = useState('Single')
+
   const inputFields = {
     FirstName: '',
     LastName: '',
@@ -17,8 +18,8 @@ function StaffMaster() {
     FatherName: '',
     MotherName: '',
     MaritalStatus: '',
-    SpouseName: '',
-    Anniversary: '',
+    SpouseName: ' ',
+    Anniversary: ' ',
     Religion: '',
     DOB: '',
     Sex: '',
@@ -46,23 +47,48 @@ function StaffMaster() {
 
 
   const handleSubmit = (values) => {
-    console.log(values)
+
+    alert('add')
+    console.log(values.EmpCode)
     if (values) {
       addBasicInfo(values)
+      document.getElementById("addBtn").disabled = true;
+      document.getElementById("addBtn").innerHTML = "Added";
 
     }
 
-    
   }
 
-  const handleMaritalStatusChange = (option,setFieldValue) =>{
-        console.log(option.target.value)
-    //console.log(option + "option")
-    //console.log(setFieldValue)
+  const handleMaritalStatusChange = (option, setFieldValue) => {
+
+    setFieldValue('MaritalStatus', option.target.value)
     setMaritalStatus(option.target.value)
 
-    console.log(maritalStatus + "kkk")
   }
+
+  // Address information 
+  const perInputFilelds = {
+    "AddressLine": '',
+    "Country": "",
+    "State": "",
+    "City": "",
+    "PinCode": "",
+    "PhonesNo": "",
+    "Email": ""
+  }
+
+  const addValidationSchema = Yup.object({
+    AddressLine: Yup.string().required("required"),
+    Country: Yup.string().required(" required"),
+    State: Yup.string().required("required"),
+    City: Yup.string().required("required"),
+    PinCode: Yup.string().required("sex"),
+    PhonesNo: Yup.string().required("Required Field"),
+    Email: Yup.string().required("Required Field"),
+
+
+  })
+
   return (
 
     <div className='container mt-3 mb-5'>
@@ -88,7 +114,7 @@ function StaffMaster() {
 
 
       <div class="tab-content">
-        {/*basic info start*/}.
+        {/*basic info start*/}
 
 
         <div class="tab-pane container active" id="basic">
@@ -106,13 +132,11 @@ function StaffMaster() {
                     <div><label class="form-label mt-2">Father Name</label></div>
                     <div><label class="form-label mt-2">Mother Name</label></div>
                     <div><label class="form-label mt-3">Marital Status</label></div>
-                    {maritalStatus != 'single' &&
+                    {maritalStatus != 'Single' &&
                       <div> <div><label class="form-label mt-2">Spouse Name</label></div>
                         <div><label class="form-label mt-2">Anniversary</label></div>
                       </div>
                     }
-
-                    
 
                     <div><label class="form-label mt-2">Religion</label></div>
 
@@ -120,7 +144,7 @@ function StaffMaster() {
                   <div class="col-5">
 
                     <div className="input-group text-danger fs-6">
-                      <Field type='text' name='FirstName' className="form-control" id=""></Field>
+                      <Field type='text' name='FirstName' className="form-control" id="" ></Field>
                       <ErrorMessage name='FirstName' className=" ms-1" />
                     </div>
 
@@ -145,26 +169,27 @@ function StaffMaster() {
                     </div>
 
                     <div className="input-group mt-1 text-danger fs-6">
-                      <Field name="MaritalStatus" as="select" onChange = {(e)=>{handleMaritalStatusChange(e,setFieldValue)}}
+                      <Field name="MaritalStatus" as="select" onChange={(e) => { handleMaritalStatusChange(e, setFieldValue) }}
                         class='form-select form-select'>
-                          <option value="">option </option>
+                        <option value="">option </option>
                         <option value="Married">Married</option>
                         <option value="Single">Single</option>
                       </Field>
                       <ErrorMessage name='MaritalStatus' className="text-danger ms-3" />
                     </div>
-                    {maritalStatus != 'single' &&
+                    {maritalStatus != 'Single' &&
                       <div>
-                    <div className="input-group mt-1 text-danger fs-6">
-                      <Field type='text' name='SpouseName' className="form-control" id="" ></Field>
-                      <ErrorMessage name='SpouseName' className="text-danger ms-3" />
-                    </div>
+                        <div className="input-group mt-1 text-danger fs-6">
+                          <Field type='text' name='SpouseName' className="form-control" id="" ></Field>
+                          <ErrorMessage name='SpouseName' className="text-danger ms-3" />
+                        </div>
 
-                    <div className="input-group mt-1 text-danger fs-6">
-                      <Field type="date" name='Anniversary' className="form-control " id=""></Field>
-                      <ErrorMessage name='Anniversary' className="text-danger ms-3" />
-                    </div> 
-                    </div>}
+                        <div className="input-group mt-1 text-danger fs-6">
+                          <Field type="date" name='Anniversary' className="form-control " id=""></Field>
+                          <ErrorMessage name='Anniversary' className="text-danger ms-3" />
+                        </div>
+                      </div>
+                    }
 
                     {/*<input type="date" class="form-control mt-1" id="" />*/}
 
@@ -232,7 +257,7 @@ function StaffMaster() {
 
                   </div>
                 </div>
-                <div className='text-center p-3 '><button type="submit" class="btn btn-info w-25">Add</button></div>
+                <div className='text-center p-3 '><button type="submit" class="btn btn-info w-25" id="addBtn">Add</button></div>
               </Form>
             )}
 
@@ -240,123 +265,177 @@ function StaffMaster() {
         </div>
 
         {/*address info*/}
-        <div class="tab-pane container fade" id="addressInfo">
-          <div className='row fw-bolder'>
-            <div className='col-6 text-info' >Temporary Address</div>
-            <div className='col-6 text-info' >Permanent Informnation</div>
-          </div>
-          <div class="row mt-3" id="">
-            <div class="col-2 ">
+       
+              <div class="tab-pane container fade" id="addressInfo">
+              <Formik initialValues={perInputFilelds} validationSchema={addValidationSchema} >
+          {({ isSubmitting, setFieldValue }) => (
+            <Form>
+                <div className='row fw-bolder'>
+                  <div className='col-6 text-info' >Permanent Informnation </div>
+                  <div className='col-6 text-info' >Temporary Address</div>
+                </div>
+                <div class="row mt-3" id="">
+                  <div class="col-2 ">
 
-              <div><label class="form-label mt-2"> Address</label></div>
-              <div><label class="form-label  mt-4">Country</label></div>
-              <div><label class="form-label  mt-2">State</label></div>
-              <div><label class="form-label mt-3">City</label></div>
-              <div><label class="form-label mt-3">Pin Code</label></div>
-              <div><label class="form-label mt-3">Phone</label></div>
-              <div><label class="form-label mt-2">Email</label></div>
-
-
-            </div>
-            <div class="col-3">
-              <textarea class="form-control" id="" rows="2"></textarea>
-
-              <select class="form-select  mt-1">
-                <option value="married">India</option>
-                <option value="single">US</option>
-              </select>
-
-              <select class="form-select  mt-1">
-                <option value="married">Delhi</option>
-                <option value="single">UP</option>
-              </select>
-
-              <select class="form-select  mt-1">
-                <option value="married">Noida</option>
-                <option value="single">Agra</option>
-              </select>
-              <input type="text" class="form-control mt-1" id="" />
-              <input type="tel" class="form-control mt-1" id="" />
-              <input type="email" class="form-control mt-1" id="" />
-
-            </div>
-
-            <div className='col-1'></div>
+                    <div><label class="form-label mt-2"> Address</label></div>
+                    <div><label class="form-label  mt-4">Country</label></div>
+                    <div><label class="form-label  mt-2">State</label></div>
+                    <div><label class="form-label mt-3">City</label></div>
+                    <div><label class="form-label mt-3">Pin Code</label></div>
+                    <div><label class="form-label mt-3">Phone</label></div>
+                    <div><label class="form-label mt-2">Email</label></div>
 
 
-            <div class="col-2 ">
+                  </div>
+                  <div class="col-3">
+                    {/*<textarea class="form-control" id="" rows="2"></textarea>*/}
+                    <div className="input-group text-danger fs-6">
+                      <Field type='text' as="textArea" name='AddressLine' className="form-control" id="" ></Field>
+                      <ErrorMessage name='AddressLine' className=" ms-1" />
+                    </div>
 
-              <div><label class="form-label mt-2"> Address</label></div>
-              <div><label class="form-label  mt-4">Country</label></div>
-              <div><label class="form-label  mt-2">State</label></div>
-              <div><label class="form-label mt-3">City</label></div>
-              <div><label class="form-label mt-3">Pin Code</label></div>
-              <div><label class="form-label mt-3">Phone</label></div>
-              <div><label class="form-label mt-2">Email</label></div>
+                    {/*<select class="form-select  mt-1">
+                      <option value="married">India</option>
+                      <option value="single">US</option>
+                     </select>
+                     
+                     <select class="form-select  mt-1">
+                      <option value="married">Delhi</option>
+                      <option value="single">UP</option>
+                    </select>
 
-            </div>
-            <div class="col-3">
-              <textarea class="form-control" id="" rows="2"></textarea>
+                    <select class="form-select  mt-1">
+                      <option value="married">Noida</option>
+                      <option value="single">Agra</option>
+                    </select>
+                    
+                     <input type="text" class="form-control mt-1" id="" />
+                    <input type="tel" class="form-control mt-1" id="" />
+                    <input type="email" class="form-control mt-1" id="" />
+*/}
 
-              <select class="form-select  mt-1">
-                <option value="married">India</option>
-                <option value="single">US</option>
-              </select>
+                    <div className="input-group mt-1 text-danger fs-6">
+                      <Field name="Country" as="select"
+                        class='form-select form-select'>
+                        <option value="India">India</option>
+                        <option value="US">US</option>
+                      </Field>
+                      <ErrorMessage name='Country' className="text-danger ms-3" />
+                    </div>
 
-              <select class="form-select  mt-1">
-                <option value="married">Delhi</option>
-                <option value="single">UP</option>
-              </select>
+                    <div className="input-group mt-1 text-danger fs-6">
+                      <Field name="State" as="select"
+                        class='form-select form-select'>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Delhi">Delhi</option>
+                      </Field>
+                      <ErrorMessage name='State' className="text-danger ms-3" />
+                    </div>
 
-              <select class="form-select  mt-1">
-                <option value="married">Noida</option>
-                <option value="single">Agra</option>
-              </select>
-              <input type="text" class="form-control mt-1" id="" />
-              <input type="tel" class="form-control mt-1" id="" />
-              <input type="email" class="form-control mt-1" id="" />
+                    <div className="input-group mt-1 text-danger fs-6">
+                      <Field name="City" as="select"
+                        class='form-select form-select'>
+                        <option value="Noida">Noida</option>
+                        <option value="Agra">Agra</option>
+                      </Field>
+                      <ErrorMessage name='City' className="text-danger ms-3" />
+                    </div>
 
-            </div>
-          </div>
-        </div>
+                    <div className="input-group text-danger fs-6">
+                      <Field type='number' name='PinCode' className="form-control" id="" ></Field>
+                      <ErrorMessage name='PinCode' className=" ms-1" />
+                    </div>
 
-        {/*emergency contact info*/}
-        <div class="tab-pane container fade" id="emergencyContact">
+                    <div className="input-group text-danger fs-6">
+                      <Field type='number' name='PhonesNo' className="form-control" id="" ></Field>
+                      <ErrorMessage name='PhonesNo' className=" ms-1" />
+                    </div>
 
-          <div class="row mt-3" id="">
-            <div class="col-1 ">
+                    <div className="input-group text-danger fs-6">
+                      <Field type='email' name='Email' className="form-control" id="" ></Field>
+                      <ErrorMessage name='Email' className=" ms-1" />
+                    </div>
 
-              <div><label class="form-label mt-2"> Name</label></div>
-              <div><label class="form-label  mt-2">Relation</label></div>
-              <div><label class="form-label  mt-2">Mobile</label></div>
+                  </div>
 
-            </div>
+                  <div className='col-1'></div>
 
-            <div class="col-4">
+                  <div class="col-2 ">
 
-              <input type="text" class="form-control mt-1" id="" />
-              <input type="text" class="form-control mt-1" id="" />
-              <input type="tel" class="form-control mt-1" id="" />
+                    <div><label class="form-label mt-2"> Address</label></div>
+                    <div><label class="form-label  mt-4">Country</label></div>
+                    <div><label class="form-label  mt-2">State</label></div>
+                    <div><label class="form-label mt-3">City</label></div>
+                    <div><label class="form-label mt-3">Pin Code</label></div>
+                    <div><label class="form-label mt-3">Phone</label></div>
+                    <div><label class="form-label mt-2">Email</label></div>
 
-            </div>
+                  </div>
+                  <div class="col-3">
+                    <textarea class="form-control" id="" rows="2"></textarea>
 
-            <div className='col-1'></div>
+                    <select class="form-select  mt-1 ">
+                      <option value="married">India</option>
+                      <option value="single">US</option>
+                    </select>
 
-            <div class="col-1 ">
+                    <select class="form-select  mt-1">
+                      <option value="married">Delhi</option>
+                      <option value="single">UP</option>
+                    </select>
 
-              <div><label class="form-label mt-3">Phone</label></div>
-              <div><label class="form-label mt-2">Email</label></div>
+                    <select class="form-select  mt-1">
+                      <option value="married">Noida</option>
+                      <option value="single">Agra</option>
+                    </select>
+                    <input type="text" class="form-control mt-1" id="" />
+                    <input type="tel" class="form-control mt-1" id="" />
+                    <input type="email" class="form-control mt-1" id="" />
 
-            </div>
-            <div class="col-4">
+                  </div>
+                </div>
+                </Form>
+          )}
+        </Formik>
+              </div>
 
-              <input type="tel" class="form-control mt-1" id="" />
-              <input type="email" class="form-control mt-1" id="" />
+              {/*emergency contact info*/}
+              <div class="tab-pane container fade" id="emergencyContact">
 
-            </div>
-          </div>
-        </div>
+                <div class="row mt-3" id="">
+                  <div class="col-1 ">
 
+                    <div><label class="form-label mt-2"> Name</label></div>
+                    <div><label class="form-label  mt-2">Relation</label></div>
+                    <div><label class="form-label  mt-2">Mobile</label></div>
+
+                  </div>
+
+                  <div class="col-4">
+
+                    <input type="text" class="form-control mt-1" id="" />
+                    <input type="text" class="form-control mt-1" id="" />
+                    <input type="tel" class="form-control mt-1" id="" />
+
+                  </div>
+
+                  <div className='col-1'></div>
+
+                  <div class="col-1 ">
+
+                    <div><label class="form-label mt-3">Phone</label></div>
+                    <div><label class="form-label mt-2">Email</label></div>
+
+                  </div>
+                  <div class="col-4">
+
+                    <input type="tel" class="form-control mt-1" id="" />
+                    <input type="email" class="form-control mt-1" id="" />
+
+                  </div>
+                </div>
+              </div>
+          
 
       </div>
 

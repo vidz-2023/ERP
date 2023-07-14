@@ -9,11 +9,8 @@ import SalaryStructure from './components/modules/staffModule/Salary/SalaryStruc
 import WorkLocationInfo from './components/modules/staffModule/WorkLocationInfo';
 import Login from './components/extraAgGrid/Login';
 import SalaryTable from './components/modules/staffModule/Salary/SalaryTable';
-import SalaryInformation from './components/modules/staffModule/Salary/SalaryInformation';
-import StaffMasterData from './components/modules/staffModule/staffMaster/StaffMasterTable';
-import StaffMasterTable from './components/modules/staffModule/staffMaster/StaffMasterTable';
 import StaffMaster from './components/modules/staffModule/staffMaster/StaffMaster';
-import ExpenseClaim from './components/modules/staffModule/ExpenseClaim/ExpenseClaim';
+import StaffMasterTable from './components/modules/staffModule/staffMaster/StaffMasterTable';
 
 function App() {
   return (
@@ -30,6 +27,8 @@ function App() {
         <Route path='/salary-info' element={<SalaryInformation />} />
         <Route path= "/expenseclaim" element={<ExpenseClaim />}/>
 
+        <Route path="/staffMasterdata" element={<StaffMasterTable />} />
+        <Route path="/staffMaster" element={<StaffMaster/>} />
       </Routes>
       <Footer />
     </div>
