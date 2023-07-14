@@ -9,6 +9,7 @@ import SalaryStructure from './components/modules/staffModule/Salary/SalaryStruc
 import WorkLocationInfo from './components/modules/staffModule/WorkLocationInfo';
 import Login from './components/extraAgGrid/Login';
 import SalaryTable from './components/modules/staffModule/Salary/SalaryTable';
+import SalaryProcess from './components/modules/staffModule/SalaryProcess/SalaryProcess';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/table" element={<Table />} />
         <Route path="/salary-data" element={<SalaryTable />} />
         <Route path="/worklocation" element={<WorkLocationInfo />} />
+        <Route path="/salaryprocess" element={<SalaryProcess />} />
       </Routes>
       <Footer />
     </div>
