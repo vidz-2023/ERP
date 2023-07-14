@@ -20,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/table" element={<Table />} />
         <Route path="/salary-data" element={<SalaryTable />} />
+        <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
         <Route path="/worklocation" element={<WorkLocationInfo />} />
       </Routes>
       <Footer />
