@@ -19,7 +19,7 @@ function Header() {
                                 </NavLink>
                                 <ul className="dropdown-menu dropdown-menu-right" >
                                     <li><NavLink className="dropdown-item" to ="staffMasterdata">Staff Master</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Salary Information</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="salary-info">Salary Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Staff Other Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="salary-data">Salary Structure</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
