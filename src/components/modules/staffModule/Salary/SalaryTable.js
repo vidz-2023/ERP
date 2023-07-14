@@ -1,47 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { deleteSalary, getSalary } from '../../../../services/salaryService';
+import { getSalary } from '../../../../services/salaryService';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { FaTrash, FaEdit } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
-import DeleteEditButton from './DeleteEditButton';
 
 
 const SalaryTable = () => {
 
     const [salaryStruc, setSalaryStruc] = useState([])
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        handleGettingTableData()
-    }, [])
-
-    const handleGettingTableData = () => {
-        getSalary().then((res) => {
-            console.log(res.data)
-            setSalaryStruc(res.data)
-        })
-    }
-
-
+    // const initialSal = {
+    //     "empCode": "00001",
+    //     "EffectiveFrom": "",
+    //     "Basic": "",
+    //     "ESIEmployeer": "",
+    //     "PFEmployeer": "",
+    //     "LWFEmployeer": "",
+    //     "CTC": "",
+    //     "ESIEmployee": "",
+    //     "PFEmployee": "",
+    //     "TDS": "",
+    //     "ProfessionalTax": "",
+    //     "LWFEmployee": "",
+    //     "InHand": ""
+    // }
     const column = [
         {
             headerName: "empCode",
-            field: "empCode"
+            field: "empCode",
+            checkboxSelection: true
         },
-        {
-            headerName: "EffectiveFrom",
-            field: "EffectiveFrom"
-        },
+        // {
+        //     headerName: "EffectiveFrom",
+        //     field: "EffectiveFrom"
+        // },
         {
             headerName: "Basic",
             field: "Basic"
         },
-        {
-            headerName: "ESIEmployeer",
-            field: "ESIEmployeer"
-        },
+        // {
+        //     headerName: "ESIEmployeer",
+        //     field: "ESIEmployeer"
+        // },
         // {
         //     headerName: "PFEmployeer",
         //     field: "PFEmployeer"
@@ -58,16 +57,16 @@ const SalaryTable = () => {
         //     headerName: "ESIEmployee",
         //     field: "ESIEmployee"
         // },
-        {
-            headerName: "PFEmployee",
-            field: "PFEmployee"
-        },
+        // {
+        //     headerName: "PFEmployee",
+        //     field: "PFEmployee"
+        // },
         {
             headerName: "TDS",
             field: "TDS"
         },
         {
-            headerName: "Professional Tax",
+            headerName: "ProfessionalTax",
             field: "ProfessionalTax"
         },
         // {
@@ -81,12 +80,8 @@ const SalaryTable = () => {
         },
         {
             headerName: "Action",
-            field: "empCode",
-            // cellRenderer: buttonComp
-            cellRenderer: DeleteEditButton,
-            cellRendererParams: {
-                funGetSalary: handleGettingTableData
-            }
+            field: "InHand",
+            cellRendererFramework: (params) => <div>nidhi</div>
         }
 
     ]
@@ -94,42 +89,30 @@ const SalaryTable = () => {
     const defaultColDef = {
         sortable: true,
         filter: true,
-        flex: 1
+        editable: true
     }
 
-    const handleAddSalary = () => {
-        navigate('/salary-structure/0')
-    }
+    useEffect(() => {
+        getSalary().then((res) => {
+            console.log(res.data)
+            setSalaryStruc(res.data)
+        })
+    }, [])
+
 
     return (
         <div className=''>
 
-            <div className='row mt-3'>
-                <div className='col-4 ms-3 '>
-                    <button type="button" className='btn btn-info' onClick={() => { handleAddSalary() }}>
-                        Add Row
-                    </button>
-                </div>
-                <div className='row col-8'>
-                    <div className='col-8'>
-                        <input type="text" className='form-control' />
-                    </div>
-                    <div className='col-4'>
-                        <button type="button" className='btn btn-info'>
-                            Search
-                        </button>
-                    </div>
-                </div>
+            <div className="ag-theme-alpine my-3" style={{ width: 1500, height: 300 }}>
 
+                <AgGridReact rowData={salaryStruc} columnDefs={column} defaultColDef={defaultColDef} />
             </div>
-            <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
+            <div className='row'>
+                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Add Row</button></div>
+                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Delete Row</button></div>
+                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Update Row</button></div>
+            </div>
 
-                <AgGridReact
-                    rowData={salaryStruc}
-                    columnDefs={column}
-                    defaultColDef={defaultColDef}
-                />
-            </div>
         </div>
     )
 }

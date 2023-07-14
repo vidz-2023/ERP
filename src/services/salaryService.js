@@ -7,3 +7,7 @@ import { salaryprocessURL } from "../share/constant"
 export const getSalary = () => {
     return axios.get(salaryURL)
 }
+
+export const getSalaryProcess = () => {
+    return axios.get(salaryprocessURL)
+}
