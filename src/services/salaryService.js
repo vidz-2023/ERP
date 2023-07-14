@@ -12,3 +12,7 @@ export const addSalary = (data) => {
 export const deleteSalary = (id) => {
     return axios.delete(`${salaryURL}/${id}`,)
 }
+
+export const getSalaryById = (id) => {
+    return axios.get(`${salaryURL}/${id}`)
+}

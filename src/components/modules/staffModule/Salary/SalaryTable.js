@@ -24,7 +24,6 @@ const SalaryTable = () => {
         })
     }
 
-
     const column = [
         {
             headerName: "empCode",
@@ -102,8 +101,7 @@ const SalaryTable = () => {
     }
 
     return (
-        <div className=''>
-
+        <div className='container'>
             <div className='row mt-3'>
                 <div className='col-4 ms-3 '>
                     <button type="button" className='btn btn-info' onClick={() => { handleAddSalary() }}>
@@ -120,10 +118,8 @@ const SalaryTable = () => {
                         </button>
                     </div>
                 </div>
-
             </div>
             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
-
                 <AgGridReact
                     rowData={salaryStruc}
                     columnDefs={column}
