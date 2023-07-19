@@ -24,6 +24,10 @@ import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
 import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
 import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
 
+import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
+import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
+import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
+
 
 function App() {
   return (

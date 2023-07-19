@@ -35,6 +35,9 @@ function Header() {
                                     <li><NavLink className="dropdown-item" href="#">Post Salary in Finance</NavLink></li>
                                     <li><NavLink className="dropdown-item"  to="monthlyattendance">Monthly attendance Process</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Apply Leaves</NavLink></li>
+                                    <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="worklocation">Work Location Information</NavLink></li>
+
                                 </ul>
                             </li>
                             <li className="nav-item">

@@ -69,3 +69,16 @@ export const updateSalaryDetail = (data) => {
 export const searchSalaryStructureAnyField = (data) => {
     return axios.get(`${salaryURL}?q=${data}`)
 }
+
+export const addSalaryProcess = (data) => {
+    console.log(salaryprocessURL)
+    return axios.post(salaryprocessURL, data);
+}
+
+export const updateSalaryProcess = (data) => {
+    return axios.put(salaryprocessURL + "/" + data.id, data);
+}
+
+export const deleteSalaryProcess = (id) =>{
+    return axios.delete(salaryprocessURL + "/" + id);
+}
