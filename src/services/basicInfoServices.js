@@ -24,10 +24,6 @@ export const deleteBasicInfo = (data) => {
     return axios.delete(`${basicInfoURL}/${data}`,)
 }
 
-export const getBasicInfoByEmpCode = (data) => {
-    return axios.get(`${basicInfoURL}?empCode=${data}`)
-}
-
 export const getBasicInfoById = (id) => {
     let url = `${basicInfoURL}/${id}`
     console.log(url)
