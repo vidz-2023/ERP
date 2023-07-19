@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
-import { getSalaryInfo } from '../../../../services/salaryInfoService'
+import { getOfficialInfo } from '../../../../services/salaryInfoService'
 import { useNavigate } from 'react-router-dom'
 import DeleteEditSalaryInfo from './DeleteEditSalaryInfo'
 
@@ -15,23 +15,23 @@ const SalaryInformationTable = () => {
   }, [])
 
   const handleSalaryTableData = () => {
-    getSalaryInfo().then(res => {
+    getOfficialInfo().then(res => {
       console.log(res.data)
       setOfficialInfo(res.data)
     })
   }
 
   const columns = [
-    // {
-    //   headerName: 'empCode',
-    //   field: 'empCode'
-    // },
+    {
+      headerName: 'Emp Code',
+      field: 'empCode'
+    },
     // {
     //   headerName: 'CityType',
     //   field: 'CityType'
     // },
     {
-      headerName: 'JoiningDate',
+      headerName: 'Joining Date',
       field: 'JoiningDate'
     },
     // {
@@ -59,23 +59,23 @@ const SalaryInformationTable = () => {
     //   field: 'SkillSet'
     // },
     {
-      headerName: 'PANNo',
+      headerName: 'PAN No',
       field: 'PANNo'
     },
     {
-      headerName: 'UANNo',
+      headerName: 'UAN No',
       field: 'UANNo'
     },
     {
-      headerName: 'VoterIDNo',
+      headerName: 'VoterID No',
       field: 'VoterIDNo'
     },
     {
-      headerName: 'AadharCardNo',
+      headerName: 'Aadhar Card No',
       field: 'AadharCardNo'
     },
     {
-      headerName: 'PassportNo',
+      headerName: 'Passport No',
       field: 'PassportNo'
     },
     // {

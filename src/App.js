@@ -28,9 +28,8 @@ function App() {
         <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
         <Route path="/worklocation" element={<WorkLocationInfo />} />
         <Route path="/salary-info-table" element={<SalaryInformationTable />} />
-        <Route path='/salary-info/:empcode' element={<SalaryInformation />} />
+        <Route path='/salary-info/:id' element={<SalaryInformation />} />
         <Route path= "/expenseclaim" element={<ExpenseClaim />}/>
-
         <Route path="/staffMasterdata" element={<StaffMasterTable />} />
         <Route path="/staffMaster" element={<StaffMaster/>} />
       </Routes>

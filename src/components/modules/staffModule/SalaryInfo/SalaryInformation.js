@@ -1,97 +1,169 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { FaBook, FaEdit } from "react-icons/fa";
+import { FaBook, FaEdit } from 'react-icons/fa'
+import {
+  addEsiPfInfo,
+  addOfficialInfo,
+  addbanckInfo,
+  getOfficialInfo,
+  getOfficialInfoById,
+  updateOfficialInfo
+} from '../../../../services/salaryInfoService'
+import { useParams } from 'react-router-dom'
 
 const SalaryInformation = () => {
+  // const [empcount, setEmpcount] = useState()
+  const [allEmpCode, setAllEmpCode] = useState()
+  const [isUpdate, setIsUpdate] = useState(false)
+  const { id } = useParams()
+
   const inputfields = {
-    city: '',
-    jdate: '',
-    cdate: '',
-    probmonth: '',
-    noticedays: '',
-    salary: '',
-    sourcing: '',
-    skillset: '',
-    pan: '',
-    uanno: '',
-    voterno: '',
-    adhar: '',
-    passportno: '',
-    passportvalidupto: '',
-    dlno: '',
-    dlvalidupto: ''
+    empCode: '',
+    CityType: 'Metro Default value',
+    JoiningDate: '',
+    ConfirmationDate: '',
+    ProbationMonths: '',
+    NoticeDays: '',
+    SalaryWages: '',
+    Sourcing: '',
+    SkillSet: '',
+    PANNo: '',
+    UANNo: '',
+    VoterIDNo: '',
+    AadharCardNo: '',
+    PassportNo: '',
+    PassportValidUpto: '',
+    DLNo: '',
+    DLValidupto: ''
   }
 
   const esiinputfields = {
-    esiappl: '',
-    pfappl: '',
-    proftax: '',
-    lwfapplicable: '',
-    esino: '',
-    esistartdate: '',
-    pfno: '',
-    pfstartdate: ''
+    ESIApplication: '',
+    PFApplication: '',
+    ProfTaxApplicable: '',
+    LWFApplicable: '',
+    ESINo: '',
+    ESIStartDate: '',
+    PFNo: '',
+    PFStartDate: ''
   }
 
   const bankinputfields = {
-    bank: '',
-    branch: '',
-    bankAcc: '',
-    ifsccode: '',
-    acholdername: ''
+    Bank: '',
+    Branch: '',
+    BankAccountNo: '',
+    SwiftCode: '',
+    ACHolderName: ''
   }
-  // .max(6, "Max length").min(2, "Min length")
+
+  const [officialFormValues, setOfficialFormValues] = useState(inputfields)
+
+  useEffect(() => {
+    getAllEmpCode()
+    console.log(id)
+    if (id > 0) {
+      console.log('edit')
+      getOfficialInfoById(id).then(res => {
+        console.log(res)
+        setOfficialFormValues(res)
+      })
+      setIsUpdate(true)
+    }
+  }, [])
+
+  const getAllEmpCode = () => {
+    getOfficialInfo().then(res => {
+      //for getting all emp code on select
+      const codes = res.data.map(emp => emp.empCode)
+      console.log(codes)
+      setAllEmpCode(codes)
+    })
+  }
+  // const getlastEmpCode = () => {
+  //   getOfficialInfo().then(res => {
+  //     //for last emp code
+  //     const data = res.data.slice(-1)[0]
+  //     console.log(data.empCode)
+  //     const prefix = '0000'
+  //     const lastempCode = parseInt(data.empCode) + 1
+  //     setEmpcount(prefix + lastempCode)
+  //     console.log(empcount)
+  //   })
+  // }
 
   const validationSchema = Yup.object({
-    jdate: Yup.string().required('Joining Date is required'),
-    cdate: Yup.string().required('Confirmation Date is required'),
-    probmonth: Yup.string().required('Probation month is required'),
-    noticedays: Yup.string().required('Notice days is required'),
-    salary: Yup.string().required('Salary is required'),
-    // sourcing: Yup.string().required('Confirmation Date is required'),
-    skillset: Yup.string().required('Skillset is required'),
-    pan: Yup.string().required('Pan number is required'),
-    uanno: Yup.string().required('UAN No is required'),
-    voterno: Yup.string().required('Voter Id No is required'),
-    adhar: Yup.string().required('Adhar card No is required'),
-    passportno: Yup.string().required('Passport No is required'),
-    passportvalidupto: Yup.string().required('Passport Valid Upto is required'),
-    dlno: Yup.string().required('DL no is required'),
-    dlvalidupto: Yup.string().required('DL valid upto is required')
+    empCode: Yup.string(),
+    CityType: Yup.string(),
+    JoiningDate: Yup.string().required('Joining Date is required'),
+    ConfirmationDate: Yup.string().required('Confirmation Date is required'),
+    ProbationMonths: Yup.string().required('Probation month is required'),
+    NoticeDays: Yup.string().required('Notice days is required'),
+    SalaryWages: Yup.string().required('Salary is required'),
+    // Sourcing: Yup.string().required('Confirmation Date is required'),
+    SkillSet: Yup.string().required('Skillset is required'),
+    PANNo: Yup.string().required('Pan number is required'),
+    UANNo: Yup.string().required('UAN No is required'),
+    VoterIDNo: Yup.string().required('Voter Id No is required'),
+    AadharCardNo: Yup.string().required('Adhar card No is required'),
+    PassportNo: Yup.string().required('Passport No is required'),
+    PassportValidUpto: Yup.string().required('Passport Valid Upto is required'),
+    DLNo: Yup.string().required('DL no is required'),
+    DLValidupto: Yup.string().required('DL valid upto is required')
   })
 
   const esivalidationSchema = Yup.object({
-    // esiappl: Yup.string().required('Joining Date is required'),
-    pfappl: Yup.string().required('PF application is required'),
-    proftax: Yup.string().required('Profession tax apllicable is required'),
-    lwfapplicable: Yup.string().required('LWF applicable is required'),
-    esino: Yup.string().required('ESI no is required'),
-    esistartdate: Yup.string().required('ESI start date is required'),
-    pfno: Yup.string().required('PF no is required'),
-    pfstartdate: Yup.string().required('PF start date is required')
+    // ESIApplication: Yup.string().required('Joining Date is required'),
+    PFApplication: Yup.string().required('PF application is required'),
+    ProfTaxApplicable: Yup.string().required(
+      'Profession tax apllicable is required'
+    ),
+    LWFApplicable: Yup.string().required('LWF applicable is required'),
+    ESINo: Yup.string().required('ESI no is required'),
+    ESIStartDate: Yup.string().required('ESI start date is required'),
+    PFNo: Yup.string().required('PF no is required'),
+    PFStartDate: Yup.string().required('PF start date is required')
   })
 
   const bankvalidationSchema = Yup.object({
-    bank: Yup.string().required('Bank name is required'),
-    branch: Yup.string().required('branch is required'),
-    bankAcc: Yup.string().required('Account is required'),
-    ifsccode: Yup.string().required('Ifsc code is required'),
-    acholdername: Yup.string().required(
+    Bank: Yup.string().required('Bank name is required'),
+    Branch: Yup.string().required('Branch is required'),
+    BankAccountNo: Yup.string().required('Account is required'),
+    SwiftCode: Yup.string().required('Ifsc code is required'),
+    ACHolderName: Yup.string().required(
       'Please provide the account holder name'
     )
   })
 
-  const handleSubmit = values => {
-    console.log(values)
+  const onOfficialHandlerChange = (e, setFieldValue) => {
+    const {name, value} = e.target
+    setOfficialFormValues({...officialFormValues, [name]: value})
+    setFieldValue([name], value)
+  }
+
+  const handleSubmit = () => {
+    console.log(officialFormValues)
+    if (!isUpdate) {
+      addOfficialInfo(officialFormValues).then(res => console.log(res.data))
+    }else{
+      updateOfficialInfo(officialFormValues, id)
+      alert("Data updated successfully")
+      setOfficialFormValues('')
+    }
   }
 
   const esihandleSubmit = values => {
     console.log(values)
+    if (values) {
+      addEsiPfInfo(values).then(res => console.log(res.data))
+    }
   }
 
   const bankhandleSubmit = values => {
     console.log(values)
+    if (values) {
+      addbanckInfo(values).then(res => console.log(res.data))
+    }
   }
 
   return (
@@ -159,9 +231,10 @@ const SalaryInformation = () => {
             tabIndex='0'
           >
             <Formik
-              initialValues={inputfields}
+              initialValues={officialFormValues}
               onSubmit={handleSubmit}
               validationSchema={validationSchema}
+              enableReinitialize
             >
               {({ isSubmitting, setFieldValue }) => (
                 <Form className='mt-3'>
@@ -169,21 +242,52 @@ const SalaryInformation = () => {
                     <div className='col-md-6'>
                       <div className='row'>
                         <label
-                          htmlFor='staticEmail'
+                          htmlFor='empCode'
+                          className='col-sm-4 col-form-label'
+                        >
+                          Emp Code
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            name='empCode'
+                            type='number'
+                            className='form-control form-control-sm'
+                            value={officialFormValues.empCode}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
+                          />
+                          <ErrorMessage
+                            name='empCode'
+                            className='text-danger'
+                          />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='CityType'
                           className='col-sm-4 col-form-label'
                         >
                           City Type
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='city'
+                            name='CityType'
                             as='select'
                             className='form-select form-select-sm'
-                            disabled
+                            value={officialFormValues.CityType}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           >
-                            <option value='metro'>Metro</option>
+                            <option value='Metro Default only'>
+                              Metro Default only
+                            </option>
                           </Field>
-                          <ErrorMessage name='city' />
+                          <ErrorMessage
+                            name='CityType'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -195,11 +299,18 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='jdate'
+                            name='JoiningDate'
                             type='date'
                             className='form-control form-control-sm'
+                            value={officialFormValues.JoiningDate}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='jdate' />
+                          <ErrorMessage
+                            name='JoiningDate'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -211,11 +322,18 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='cdate'
+                            name='ConfirmationDate'
                             type='date'
                             className='form-control form-control-sm'
+                            value={officialFormValues.ConfirmationDate}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='cdate' />
+                          <ErrorMessage
+                            name='ConfirmationDate'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -227,11 +345,18 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='probmonth'
+                            name='ProbationMonths'
                             type='number'
                             className='form-control form-control-sm'
+                            value={officialFormValues.ProbationMonths}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='probmonth' />
+                          <ErrorMessage
+                            name='ProbationMonths'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -243,11 +368,18 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='noticedays'
+                            name='NoticeDays'
                             type='number'
                             className='form-control form-control-sm'
+                            value={officialFormValues.NoticeDays}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='noticedays' />
+                          <ErrorMessage
+                            name='NoticeDays'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -259,16 +391,23 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='salary'
+                            name='SalaryWages'
                             as='select'
                             className='form-select form-select-sm'
+                            value={officialFormValues.SalaryWages}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           >
                             <option value=''>Select</option>
                             <option value='1'>One</option>
                             <option value='2'>Two</option>
                             <option value='3'>Three</option>
                           </Field>
-                          <ErrorMessage name='salary' />
+                          <ErrorMessage
+                            name='SalaryWages'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -280,11 +419,18 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='sourcing'
+                            name='Sourcing'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.Sourcing}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='sourcing' />
+                          <ErrorMessage
+                            name='Sourcing'
+                            className='text-danger'
+                          />
                         </div>
                       </div>
                       <div className='row'>
@@ -296,9 +442,13 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='skillset'
+                            name='SkillSet'
                             as='select'
                             className='form-select form-select-sm'
+                            value={officialFormValues.SkillSet}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           >
                             <option value=''>Select</option>
                             <option value='html'>HTML</option>
@@ -306,7 +456,7 @@ const SalaryInformation = () => {
                             <option value='js'>Javascript</option>
                             <option value='react'>React</option>
                           </Field>
-                          <ErrorMessage name='skillset' />
+                          <ErrorMessage name='SkillSet' />
                         </div>
                       </div>
                       <div className='row'>
@@ -318,11 +468,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='pan'
+                            name='PANNo'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.PANNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='pan' />
+                          <ErrorMessage name='PANNo' />
                         </div>
                       </div>
                     </div>
@@ -337,11 +491,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='uanno'
+                            name='UANNo'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.UANNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='uanno' />
+                          <ErrorMessage name='UANNo' />
                         </div>
                       </div>
                       <div className='row'>
@@ -353,11 +511,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='voterno'
+                            name='VoterIDNo'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.VoterIDNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='voterno' />
+                          <ErrorMessage name='VoterIDNo' />
                         </div>
                       </div>
                       <div className='row'>
@@ -369,11 +531,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='adhar'
+                            name='AadharCardNo'
                             type='number'
                             className='form-control form-control-sm'
+                            value={officialFormValues.AadharCardNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='adhar' />
+                          <ErrorMessage name='AadharCardNo' />
                         </div>
                       </div>
                       <div className='row'>
@@ -385,11 +551,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='passportno'
+                            name='PassportNo'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.PassportNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='passport' />
+                          <ErrorMessage name='PassportNo' />
                         </div>
                       </div>
                       <div className='row'>
@@ -401,11 +571,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='passportvalidupto'
+                            name='PassportValidUpto'
                             type='date'
                             className='form-control form-control-sm'
+                            value={officialFormValues.PassportValidUpto}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='passportvalidupto' />
+                          <ErrorMessage name='PassportValidUpto' />
                         </div>
                       </div>
                       <div className='row'>
@@ -417,11 +591,15 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='dlno'
+                            name='DLNo'
                             type='text'
                             className='form-control form-control-sm'
+                            value={officialFormValues.DLNo}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
-                          <ErrorMessage name='dlno' />
+                          <ErrorMessage name='DLNo' />
                         </div>
                       </div>
                       <div className='row'>
@@ -433,12 +611,16 @@ const SalaryInformation = () => {
                         </label>
                         <div className='col-sm-8'>
                           <Field
-                            name='dlvalidupto'
+                            name='DLValidupto'
                             type='date'
                             className='form-control form-control-sm'
+                            value={officialFormValues.DLValidupto}
+                            onChange={e =>
+                              onOfficialHandlerChange(e, setFieldValue)
+                            }
                           />
                           <ErrorMessage
-                            name='dlvalidupto'
+                            name='DLValidupto'
                             className='text-danger'
                           />
                         </div>
@@ -447,7 +629,10 @@ const SalaryInformation = () => {
                   </div>
 
                   <div className='row justify-content-md-center'>
-                    <button type='submit' className='w-25 mt-4 mb-4 btn btn-info'>
+                    <button
+                      type='submit'
+                      className='w-25 mt-4 mb-4 btn btn-info'
+                    >
                       Submit
                     </button>
                   </div>
@@ -469,147 +654,182 @@ const SalaryInformation = () => {
               onSubmit={esihandleSubmit}
               validationSchema={esivalidationSchema}
             >
-              <Form className='mt-3'>
-                <h5>ESI/PF Information</h5>
-                <div className='row'>
-                  <div className='col-md-6'>
-                    <div className='row'>
-                      <label
-                        htmlFor='esiappl'
-                        className='col-sm-6 col-form-label'
-                      >
-                        ESI Application
-                      </label>
-                      <div className='col-sm-6'>
-                        <Field
-                          className='form-check-input mt-3'
-                          type='checkbox'
-                          name='esiappl'
-                        />
-                        <ErrorMessage name='esiappl' />
+              {({ isSubmitting, setFieldValue }) => (
+                <Form className='mt-3'>
+                  <h5>ESI/PF Information</h5>
+                  <div className='row'>
+                    <div className='col-md-6'>
+                      <div className='row'>
+                        <label
+                          htmlFor='empCode'
+                          className='col-sm-6 col-form-label'
+                        >
+                          Emp Code
+                        </label>
+                        <div className='col-sm-6'>
+                          <Field
+                            as='select'
+                            name='empCode'
+                            type='text'
+                            className='form-control form-control-sm'
+                          >
+                            {allEmpCode &&
+                              allEmpCode.map(empcode => (
+                                <option key={empcode} value={empcode}>
+                                  {empcode}
+                                </option>
+                              ))}
+                          </Field>
+                          <ErrorMessage
+                            name='empCode'
+                            className='text-danger'
+                          />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='ESIApplication'
+                          className='col-sm-6 col-form-label'
+                        >
+                          ESI Application
+                        </label>
+                        <div className='col-sm-6'>
+                          <Field
+                            className='form-check-input mt-3'
+                            type='checkbox'
+                            name='ESIApplication'
+                          />
+                          <ErrorMessage name='ESIApplication' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='PFApplication'
+                          className='col-sm-6 col-form-label'
+                        >
+                          PF Application
+                        </label>
+                        <div className='col-sm-6'>
+                          <Field
+                            className='form-check-input mt-3'
+                            type='checkbox'
+                            name='PFApplication'
+                          />
+                          <ErrorMessage name='PFApplication' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='ProfTaxApplicableapplicable'
+                          className='col-sm-6 col-form-label'
+                        >
+                          Prof. Tax Applicable
+                        </label>
+                        <div className='col-sm-6'>
+                          <Field
+                            className='form-check-input mt-3'
+                            type='checkbox'
+                            name='ProfTaxApplicable'
+                          />
+                          <ErrorMessage name='ProfTaxApplicable' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='LWFApplicable'
+                          className='col-sm-6 col-form-label'
+                        >
+                          LWF Applicable
+                        </label>
+                        <div className='col-sm-6'>
+                          <Field
+                            className='form-check-input mt-3'
+                            type='checkbox'
+                            name='LWFApplicable'
+                          />
+                          <ErrorMessage name='LWFApplicable' />
+                        </div>
                       </div>
                     </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='pfappl'
-                        className='col-sm-6 col-form-label'
-                      >
-                        PF Application
-                      </label>
-                      <div className='col-sm-6'>
-                        <Field
-                          className='form-check-input mt-3'
-                          type='checkbox'
-                          name='pfappl'
-                        />
-                        <ErrorMessage name='pfappl' />
+
+                    <div className='col-md-6'>
+                      <div className='row'>
+                        <label
+                          htmlFor='ESINo'
+                          className='col-sm-4 col-form-label'
+                        >
+                          ESI No
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            name='ESINo'
+                            type='text'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='ESINo' />
+                        </div>
                       </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='proftaxapplicable'
-                        className='col-sm-6 col-form-label'
-                      >
-                        Prof. Tax Applicable
-                      </label>
-                      <div className='col-sm-6'>
-                        <Field
-                          className='form-check-input mt-3'
-                          type='checkbox'
-                          name='proftax'
-                        />
-                        <ErrorMessage name='proftax' />
+                      <div className='row'>
+                        <label
+                          htmlFor='ESIStartDate'
+                          className='col-sm-4 col-form-label'
+                        >
+                          ESI Start Date
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='date'
+                            name='ESIStartDate'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='ESIStartDate' />
+                        </div>
                       </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='lwfapplicable'
-                        className='col-sm-6 col-form-label'
-                      >
-                        LWF Applicable
-                      </label>
-                      <div className='col-sm-6'>
-                        <Field
-                          className='form-check-input mt-3'
-                          type='checkbox'
-                          name='lwfapplicable'
-                        />
-                        <ErrorMessage name='lwfapplicable' />
+                      <div className='row'>
+                        <label
+                          htmlFor='PFNo'
+                          className='col-sm-4 col-form-label'
+                        >
+                          PF No
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            name='PFNo'
+                            type='text'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='PFNo' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='PFStartDate'
+                          className='col-sm-4 col-form-label'
+                        >
+                          PF Start Date
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='date'
+                            name='PFStartDate'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='PFStartDate' />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className='col-md-6'>
-                    <div className='row'>
-                      <label
-                        htmlFor='esino'
-                        className='col-sm-4 col-form-label'
-                      >
-                        ESI No
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          name='esino'
-                          type='text'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='esino' />
-                      </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='esistartdate'
-                        className='col-sm-4 col-form-label'
-                      >
-                        ESI Start Date
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='date'
-                          name='esistartdate'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='esistartdate' />
-                      </div>
-                    </div>
-                    <div className='row'>
-                      <label htmlFor='pfno' className='col-sm-4 col-form-label'>
-                        PF No
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          name='pfno'
-                          type='text'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='pfno' />
-                      </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='pfstartdate'
-                        className='col-sm-4 col-form-label'
-                      >
-                        PF Start Date
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='date'
-                          name='pfstartdate'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='pfstartdate' />
-                      </div>
-                    </div>
+                  <div className='row justify-content-md-center'>
+                    <button
+                      type='submit'
+                      className='w-25 mt-4 mb-4 btn btn-info'
+                    >
+                      Submit
+                    </button>
                   </div>
-                </div>
-
-                <div className='row justify-content-md-center'>
-                  <button type='submit' className='w-25 mt-4 mb-4 btn btn-info'>
-                    Submit
-                  </button>
-                </div>
-              </Form>
+                </Form>
+              )}
             </Formik>
           </div>
 
@@ -626,103 +846,138 @@ const SalaryInformation = () => {
               onSubmit={bankhandleSubmit}
               validationSchema={bankvalidationSchema}
             >
-              <Form className='mt-3'>
-                <div className='row'>
-                  <div className='col-md-6'>
-                    <div className='row'>
-                      <label htmlFor='bank' className='col-sm-4 col-form-label'>
-                        Bank
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          as='select'
-                          name='bank'
-                          className='form-select form-select-sm'
+              {({ isSubmitting, setFieldValue }) => (
+                <Form className='mt-3'>
+                  <div className='row'>
+                    <div className='col-md-6'>
+                      <div className='row'>
+                        <label
+                          htmlFor='empCode'
+                          className='col-sm-4 col-form-label'
                         >
-                          <option selected>Select...</option>
-                          <option value='1'>One</option>
-                          <option value='2'>Two</option>
-                          <option value='3'>Three</option>
-                        </Field>
-                        <ErrorMessage name='bank' />
+                          Emp Code
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            as='select'
+                            name='empCode'
+                            type='text'
+                            className='form-control form-control-sm'
+                          >
+                            {allEmpCode &&
+                              allEmpCode.map(empcode => (
+                                <option key={empcode} value={empcode}>
+                                  {empcode}
+                                </option>
+                              ))}
+                          </Field>
+                          <ErrorMessage
+                            name='empCode'
+                            className='text-danger'
+                          />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='Bank'
+                          className='col-sm-4 col-form-label'
+                        >
+                          Bank
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            as='select'
+                            name='Bank'
+                            className='form-select form-select-sm'
+                          >
+                            <option selected>Select...</option>
+                            <option value='1'>One</option>
+                            <option value='2'>Two</option>
+                            <option value='3'>Three</option>
+                          </Field>
+                          <ErrorMessage name='Bank' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='Branch'
+                          className='col-sm-4 col-form-label'
+                        >
+                          Branch
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='text'
+                            name='Branch'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='Branch' />
+                        </div>
+                      </div>
+                      <div className='row'>
+                        <label
+                          htmlFor='BankAccountNo'
+                          className='col-sm-4 col-form-label'
+                        >
+                          Bank Account No
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='text'
+                            name='BankAccountNo'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='BankAccountNo' />
+                        </div>
                       </div>
                     </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='branch'
-                        className='col-sm-4 col-form-label'
-                      >
-                        Branch
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='text'
-                          name='branch'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='branch' />
+
+                    <div className='col-md-6'>
+                      <div className='row'>
+                        <label
+                          htmlFor='Swiftcode'
+                          className='col-sm-4 col-form-label'
+                        >
+                          IFSC Code
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='text'
+                            name='SwiftCode'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='SwiftCode' />
+                        </div>
                       </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='bankAcc'
-                        className='col-sm-4 col-form-label'
-                      >
-                        Bank Account No
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='text'
-                          name='bankAcc'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='bankAcc' />
+                      <div className='row'>
+                        <label
+                          htmlFor='ACHolderName'
+                          className='col-sm-4 col-form-label'
+                        >
+                          A/c holder Name
+                        </label>
+                        <div className='col-sm-8'>
+                          <Field
+                            type='text'
+                            name='ACHolderName'
+                            className='form-control form-control-sm'
+                          />
+                          <ErrorMessage name='ACHolderName' />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className='col-md-6'>
-                    <div className='row'>
-                      <label
-                        htmlFor='swiftcode'
-                        className='col-sm-4 col-form-label'
-                      >
-                        IFSC Code
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='text'
-                          name='ifsccode'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='ifsccode' />
-                      </div>
-                    </div>
-                    <div className='row'>
-                      <label
-                        htmlFor='acholdername'
-                        className='col-sm-4 col-form-label'
-                      >
-                        A/c holder Name
-                      </label>
-                      <div className='col-sm-8'>
-                        <Field
-                          type='text'
-                          name='acholdername'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='acholdername' />
-                      </div>
-                    </div>
+                  <div className='row justify-content-md-center'>
+                    <button
+                      type='submit'
+                      className='w-25 mt-4 mb-4 btn btn-info'
+                    >
+                      Submit
+                    </button>
                   </div>
-                </div>
-
-                <div className='row justify-content-md-center'>
-                  <button type='submit' className='w-25 mt-4 mb-4 btn btn-info'>
-                    Submit
-                  </button>
-                </div>
-              </Form>
+                </Form>
+              )}
             </Formik>
           </div>
         </div>
