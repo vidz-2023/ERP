@@ -10,10 +10,9 @@ import WorkLocationInfo from './components/modules/staffModule/WorkLocationInfo'
 import Login from './components/extraAgGrid/Login';
 import SalaryTable from './components/modules/staffModule/Salary/SalaryTable';
 import SalaryInformation from './components/modules/staffModule/SalaryInfo/SalaryInformation';
+import StaffMaster from './components/modules/staffModule/staffMaster/StaffMaster';
 import StaffMasterData from './components/modules/staffModule/staffMaster/StaffMasterTable';
 import StaffMasterTable from './components/modules/staffModule/staffMaster/StaffMasterTable';
-import StaffMaster from './components/modules/staffModule/staffMaster/StaffMaster';
-import ExpenseClaim from './components/modules/staffModule/ExpenseClaim/ExpenseClaim';
 import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/SalaryInformationTable';
 
 function App() {
@@ -32,6 +31,8 @@ function App() {
         <Route path='/salary-info/:empcode' element={<SalaryInformation />} />
         <Route path= "/expenseclaim" element={<ExpenseClaim />}/>
 
+        <Route path="/staffMasterdata" element={<StaffMasterTable />} />
+        <Route path="/staffMaster" element={<StaffMaster/>} />
       </Routes>
       <Footer />
     </div>

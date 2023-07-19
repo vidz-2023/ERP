@@ -7,6 +7,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import ExpenseTable from './ExpenseTable';
 import ExpenseApprove from './ExpenseApprove';
+import { addExpenseClaimDetail } from '../../../../services/ExpenseclaimService';
 
 
 
@@ -34,16 +35,17 @@ function ExpenseClaim() {
         approvedamount: Yup.string().required('Approved Amount is required'),
         approveremark: Yup.string().required('Approve Remark is required'),
         costcenter: Yup.string().required('Cost Center is required'),
-        
+
     })
     const handleSubmit = (values) => {
         console.log(values)
+        addExpenseClaimDetail(values).then((res)=>{
+            console.log(res)
+        })
     }
     const handleChange = (values) => {
         console.log(values)
     }
-
-
     return (
         <div className="container  mx-auto">
             <fieldset>
@@ -62,13 +64,9 @@ function ExpenseClaim() {
                                             Employee Code
                                         </div>
                                         <div className='col-3'>
-                                            <div class="input-group">
-                                                <Field className="form-select" as="select"
-                                                    name="empcode" 
-                                                    onChange={handleChange}>
-                                                    <option>select emp code</option>
-                                                </Field>
-                                                <ErrorMessage name="empcode" className='text-danger' />
+                                            <div class="input-group text-danger">
+                                                <Field className="form-control" type='text' name="empcode" />
+                                                <ErrorMessage name="empcode" />
                                                 {/* <span class="input-group-btn">
                                                     <button className='btn btn-info'><FaEdit /></button>
                                                 </span> */}
@@ -76,9 +74,9 @@ function ExpenseClaim() {
                                         </div>
                                         <div className='col-2'></div>
                                         <div className='col-2 form-label'>
-                                        Claim Code
+                                            Claim Code
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="expenseclaimcode" />
                                             <ErrorMessage name="expenseclaimcode" />
                                         </div>
@@ -86,71 +84,76 @@ function ExpenseClaim() {
                                     </div>
                                     <div className='row mb-1'>
                                         <div className='col-2 form-label'>
-                                        Bill No
+                                            Bill No
                                         </div>
-                                       <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="billno" />
                                             <ErrorMessage name="billno" />
                                         </div>
                                         <div className='col-2'></div>
                                         <div className='col-2 form-label'>
-                                        Amount Spent
+                                            Amount Spent
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="amountSpent" />
                                             <ErrorMessage name="amountSpent" />
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
                                         <div className='col-2 form-label'>
-                                        Remarks
+                                            Remarks
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="remarks" />
                                             <ErrorMessage name="remarks" />
                                         </div>
                                         <div className='col-2'></div>
                                         <div className='col-2 form-label'>
-                                        Bill Image
+                                            Bill Image
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='file' name="billimage" />
                                             <ErrorMessage name="billimage" />
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
                                         <div className='col-2 form-label'>
-                                        Approved Amount
+                                            Approved Amount
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="approvedamount" />
                                             <ErrorMessage name="approvedamount" />
                                         </div>
                                         <div className='col-2'></div>
                                         <div className='col-2 form-label'>
-                                        Approve Remark
+                                            Approve Remark
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <Field className="form-control" type='text' name="approveremark" />
                                             <ErrorMessage name="approveremark" />
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
                                         <div className='col-2 form-label'>
-                                        Cost Center
+                                            Cost Center
                                         </div>
-                                        <div className='col-3'>
-                                            <Field className="form-control" type='text' name="costCenter" />
+                                        <div className='col-3 text-danger'>
+                                            <Field className="form-control" type='text' name="costcenter" />
                                             <ErrorMessage name="costcenter" />
                                         </div>
                                         <div className='col-2'></div>
                                     </div>
+                                </div>
+                                <div className='row justify-content-center mb-5'>
+                                    <div className='col-4'><button type="submit" className='w-50 btn btn-info m-3 '>Save</button></div>
+                                    <div className='col-4'><button type="button" className='w-50 btn btn-info m-3 '>Clear</button></div>
                                 </div>
                             </Form>
                         )}
                     </Formik>
                 </div>
             </fieldset>
+
             <div>
                 <ExpenseTable></ExpenseTable>
                 <ExpenseApprove></ExpenseApprove>

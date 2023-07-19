@@ -1,198 +1,224 @@
 {
-    "emp-basic-info": [
-        {
-            "First name": "Nehha",
-            "Last Name": "Agarwal",
-            "EmpCode": "00001",
-            "FatherName": "",
-            "MotherName": "",
-            "MaritalStatus": "",
-            "SpouseName": "",
-            "Anniversary": "",
-            "Religion": "",
-            "DOB": "",
-            "Sex": "",
-            "BloodGroup": "",
-            "Nationality": "",
-            "image": ""
-        }
-    ],
-    "emp-address-info": [
-        {
-            "empCode": "00001",
-            "AddressLine1": "",
-            "AddressLine2": "",
-            "Country": "",
-            "State": "",
-            "City": "",
-            "Pin Code": "",
-            "PhonesNo": "",
-            "Email": "",
-            "ContactType": "Permanent",
-            "Relation": ""
-        }
-    ],
-    "official-info": [
-        {
-            "empCode": "00001",
-            "CityType": "Metro",
-            "JoiningDate": "",
-            "ConfirmationDate": "",
-            "ProbationMonths": "",
-            "NoticeDays": "",
-            "SalaryWages": "",
-            "Sourcing": "",
-            "SkillSet": "",
-            "PANNo": "",
-            "UANNo": "",
-            "VoterIDNo": "",
-            "AadharCardNo": "",
-            "PassportNo": "",
-            "PassportValidUpto": "",
-            "DLNo": "",
-            "DLValidupto": ""
-        }
-    ],
-    "ESI-PF-Info": [
-        {
-            "empCode": "00001",
-            "ESIApplication": "Yes",
-            "PFApplication": "Yes",
-            "Prof.Tax.Applicable": "No",
-            "LWFApplicable": "No",
-            "ESINo": "",
-            "ESIStartDate": "",
-            "PFNo": "",
-            "PFStartDate": ""
-        }
-    ],
-    "BankDetails": [
-        {
-            "empCode": "00001",
-            "Bank": "",
-            "Branch": "",
-            "BankAccountNo": "",
-            "SwiftCode": "",
-            "ACHolderName": ""
-        }
-    ],
-    "SalaryStructure": [
-        {
-            "empCode": "00001",
-            "EffectiveFrom": "2023-04-02",
-            "Basic": "10000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "100000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "8000"
-        },
-        {
-            "empCode": "00002",
-            "EffectiveFrom": "2023-04-02",
-            "Basic": "20000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "200000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "18000"
-        },
-        {
-            "empCode": "00003",
-            "EffectiveFrom": "2023-04-03",
-            "Basic": "30000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "200000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "38000"
-        }
-    ],
-    "LeavesMaster": [
-        {
-            "LeaveCode": "",
-            "LeaveType": "",
-            "Description": "",
-            "Applicable": "Monthly",
-            "NoOfLeaves": "",
-            "Transferrable": "",
-            "Cashable": ""
-        }
-    ],
-    "ApplyLeaves": [
-        {
-            "empCode": "00001",
-            "LeaveCode": "",
-            "FromDate": "",
-            "ToDate": "",
-            "Days": "",
-            "LeaveIn": "",
-            "Rate": "",
-            "Amount": "",
-            "Reason": "",
-            "Remark": "",
-            "RemarkByFinance": ""
-        }
-    ],
-    "work-locaiton-info": [
-        {
-            "empCode": "00001",
-            "EffectiveFrom": "",
-            "Branch": "",
-            "Department": "",
-            "DateIn": "",
-            "Designation": "",
-            "Category": "",
-            "EmployeeShift": "",
-            "EarlyOut": "",
-            "LoanAmount": ""
-        }
-    ],
-    "expense-claim": [
-        {
-            "empCode": "00001",
-            "ClaimNo": "",
-            "Branch": "",
-            "Date": "",
-            "VoucherNo": "",
-            "Narration": "",
-            "expenseStatus": "",
-            "claimdate": "",
-            "processdate": "",
-            "ApprovedBy": "",
-            "creditGL": "",
-            "TotalAmount": "",
-            "ChequeNo": "",
-            "NEFTNo": "",
-            "CostCenter": ""
-        }
-    ],
-    "expense-claim-detail": [
-        {
-            "empcode": "",
-            "expenseclaimcode": "",
-            "billno": "",
-            "amountSpent": "",
-            "Remarks": "",
-            "bilimage": "",
-            "ApprovedAmount": "",
-            "ApproveRemark": "",
-            "CostCenter": ""
-        }
-    ]
+  "emp-basic-info": [
+    {
+      "First name": "Nehha",
+      "Last Name": "Agarwal",
+      "EmpCode": "00001",
+      "FatherName": "",
+      "MotherName": "",
+      "MaritalStatus": "",
+      "SpouseName": "",
+      "Anniversary": "",
+      "Religion": "",
+      "DOB": "",
+      "Sex": "",
+      "BloodGroup": "",
+      "Nationality": "",
+      "image": ""
+    }
+  ],
+  "emp-address-info": [
+    {
+      "empCode": "00001",
+      "AddressLine1": "",
+      "AddressLine2": "",
+      "Country": "",
+      "State": "",
+      "City": "",
+      "Pin Code": "",
+      "PhonesNo": "",
+      "Email": "",
+      "ContactType": "Permanent",
+      "Relation": ""
+    }
+  ],
+  "official-info": [
+    {
+      "empCode": "00001",
+      "CityType": "Metro",
+      "JoiningDate": "",
+      "ConfirmationDate": "",
+      "ProbationMonths": "",
+      "NoticeDays": "",
+      "SalaryWages": "",
+      "Sourcing": "",
+      "SkillSet": "",
+      "PANNo": "",
+      "UANNo": "",
+      "VoterIDNo": "",
+      "AadharCardNo": "",
+      "PassportNo": "",
+      "PassportValidUpto": "",
+      "DLNo": "",
+      "DLValidupto": ""
+    }
+  ],
+  "ESI-PF-Info": [
+    {
+      "empCode": "00001",
+      "ESIApplication": "Yes",
+      "PFApplication": "Yes",
+      "Prof.Tax.Applicable": "No",
+      "LWFApplicable": "No",
+      "ESINo": "",
+      "ESIStartDate": "",
+      "PFNo": "",
+      "PFStartDate": ""
+    }
+  ],
+  "BankDetails": [
+    {
+      "empCode": "00001",
+      "Bank": "",
+      "Branch": "",
+      "BankAccountNo": "",
+      "SwiftCode": "",
+      "ACHolderName": ""
+    }
+  ],
+  "SalaryStructure": [
+    {
+      "empCode": "00001",
+      "EffectiveFrom": "2023-04-02",
+      "Basic": "10000",
+      "ESIEmployeer": "2000",
+      "PFEmployeer": "1000",
+      "LWFEmployeer": "1000",
+      "CTC": "100000",
+      "ESIEmployee": "1000",
+      "PFEmployee": "1000",
+      "TDS": "10",
+      "ProfessionalTax": "500",
+      "LWFEmployee": "100",
+      "InHand": "8000"
+    },
+    {
+      "empCode": "00002",
+      "EffectiveFrom": "2023-04-02",
+      "Basic": "20000",
+      "ESIEmployeer": "2000",
+      "PFEmployeer": "1000",
+      "LWFEmployeer": "1000",
+      "CTC": "200000",
+      "ESIEmployee": "1000",
+      "PFEmployee": "1000",
+      "TDS": "10",
+      "ProfessionalTax": "500",
+      "LWFEmployee": "100",
+      "InHand": "18000"
+    },
+    {
+      "empCode": "00003",
+      "EffectiveFrom": "2023-04-03",
+      "Basic": "30000",
+      "ESIEmployeer": "2000",
+      "PFEmployeer": "1000",
+      "LWFEmployeer": "1000",
+      "CTC": "200000",
+      "ESIEmployee": "1000",
+      "PFEmployee": "1000",
+      "TDS": "10",
+      "ProfessionalTax": "500",
+      "LWFEmployee": "100",
+      "InHand": "38000"
+    }
+  ],
+  "LeavesMaster": [
+    {
+      "LeaveCode": "",
+      "LeaveType": "",
+      "Description": "",
+      "Applicable": "Monthly",
+      "NoOfLeaves": "",
+      "Transferrable": "",
+      "Cashable": ""
+    }
+  ],
+  "ApplyLeaves": [
+    {
+      "empCode": "00001",
+      "LeaveCode": "",
+      "FromDate": "",
+      "ToDate": "",
+      "Days": "",
+      "LeaveIn": "",
+      "Rate": "",
+      "Amount": "",
+      "Reason": "",
+      "Remark": "",
+      "RemarkByFinance": ""
+    }
+  ],
+  "work-locaiton-info": [
+    {
+      "empCode": "00001",
+      "EffectiveFrom": "",
+      "Branch": "",
+      "Department": "",
+      "DateIn": "",
+      "Designation": "",
+      "Category": "",
+      "EmployeeShift": "",
+      "EarlyOut": "",
+      "LoanAmount": ""
+    }
+  ],
+  "expense-claim": [
+    {
+      "id":"1",
+      "empCode": "00001",
+      "ClaimNo": "",
+      "Branch": "",
+      "Date": "",
+      "VoucherNo": "",
+      "Narration": "",
+      "expenseStatus": "",
+      "claimdate": "",
+      "processdate": "",
+      "ApprovedBy": "",
+      "creditGL": "",
+      "TotalAmount": "",
+      "ChequeNo": "",
+      "NEFTNo": "",
+      "CostCenter": ""
+    }
+  ],
+  "expense-claim-detail": [
+    {
+      "id": "1",
+      "empcode": "",
+      "expenseclaimcode": "",
+      "billno": "",
+      "amountSpent": "",
+      "Remarks": "",
+      "billimage": "",
+      "ApprovedAmount": "",
+      "ApproveRemark": "",
+      "CostCenter": ""
+    },
+    {
+      "empcode": "2314",
+      "expenseclaimcode": "5432",
+      "billno": "5601",
+      "amountSpent": "2000",
+      "Remarks": "cab ",
+      "billimage": "C:\\fakepath\\bill.jpg",
+      "ApprovedAmount": "1500",
+      "ApproveRemark": "extra charge",
+      "CostCenter": "IT",
+      "id": "XiExNXu"
+    },
+    {
+      "empcode": "23",
+      "expenseclaimcode": "88",
+      "billno": "3",
+      "amountSpent": "789",
+      "Remarks": "travel",
+      "billimage": "C:\\fakepath\\bill.jpg",
+      "ApprovedAmount": "500",
+      "ApproveRemark": "extra charge",
+      "CostCenter": "support",
+      "id": "UInqrK5"
+    }
+  ]
 }

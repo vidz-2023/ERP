@@ -3,10 +3,12 @@ import { FaBook } from "react-icons/fa";
 import { addSalary, getSalary } from '../../../../services/salaryService';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup';
+import { getBasicInfo, getBasicInfoByName } from '../../../../services/basicInfoServices';
 
 function SalaryStructure() {
     const inputFields = {
         empCode: "",
+        empName: "",
         EffectiveFrom: "",
         Basic: "",
         ESIEmployeer: "",
@@ -20,22 +22,26 @@ function SalaryStructure() {
         LWFEmployee: "",
         InHand: ""
     }
-    const [salaryStruc, setSalaryStruc] = useState({})
+    const [salaryStruc, setSalaryStruc] = useState([])
+    const [empName, setEmpName] = useState([])
+    const [empCodeDis, setEmpCodeDis] = useState("")
 
     useEffect(() => {
-        getSalary().then((res) =>
-            setSalaryStruc(res.data[0])
-        )
+        // getSalary().then((res) =>
+        //     setSalaryStruc(res.data[0])
+        // )
+        funGetBasicInfo()
     }, [])
 
     const handleSubmit = (values) => {
         console.log(values)
-        addSalary(values).then((res) => console.log(res))
+        // addSalary(values).then((res) => console.log(res))
     }
 
     const validationSchema = Yup.object({
         Basic: Yup.number().required('*Required').min(4, "Min 4 digits"),
         empCode: Yup.string().required('*Required'),
+        empName: Yup.string().required('*Required'),
         EffectiveFrom: Yup.string().required('*Required'),
         ESIEmployeer: Yup.number().required('*Required'),
         PFEmployeer: Yup.number().required('*Required'),
@@ -49,6 +55,22 @@ function SalaryStructure() {
         InHand: Yup.number().required('*Required')
     })
 
+    const handleEmployeeName = (option, setFieldValue) => {
+        setFieldValue("empName", option.target.value)
+        option.target.value ? funGetBasicInfoByName(option.target.value) : setEmpCodeDis("")
+    }
+
+    const funGetBasicInfo = () => {
+        getBasicInfo().then((res) => {
+            setEmpName(res.data)
+        })
+    }
+
+    const funGetBasicInfoByName = (data) => {
+        getBasicInfoByName(data).then((res) => {
+            setEmpCodeDis(res.data[0].EmpCode)
+        })
+    }
 
     return (
         <div className='container pb-3 mb-3 mx-auto'>
@@ -61,14 +83,13 @@ function SalaryStructure() {
                     </h4>
                 </div>
             </div>
-
             <div className='w-75 mx-auto p-5 rounded'>
                 <Formik initialValues={inputFields} onSubmit={handleSubmit} validationSchema={validationSchema}>
                     {({ isSubmitting, setFieldValue }) => (
                         <Form>
-                            <div className='row mb-3'>
-                                <div className='col-4 form-label'>Effective From</div>
-                                <div className='col-8 d-flex'>
+                            <div className='row mb-1'>
+                                <div className='col-2 form-label'>Effective From</div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type='date'
@@ -77,30 +98,9 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='EffectiveFrom' />
                                 </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4'><h6>Description</h6></div>
-                                <div className='col-4'><h6>Amount</h6></div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>Employee Code</div>
-                                <div className='col-8 d-flex'>
-                                    <Field
-                                        className="form-control"
-                                        type="number"
-                                        name="empCode"
-                                        placeholder="00000"
-                                    // value={salaryStruc.Basic}
-                                    />
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='empCode' />
-                                </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>Basic</div>
-                                <div className='col-8 d-flex'>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>Basic</div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -111,10 +111,55 @@ function SalaryStructure() {
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Basic' />
                                 </div>
                             </div>
-
                             <div className='row mb-1'>
-                                <div className='col-4 form-label'>ESI Employer</div>
-                                <div className='col-8 d-flex'>
+                                <div className='col-2 form-label'>Employee Code</div>
+                                <div className='col-3 d-flex'>
+                                    <Field
+                                        className="form-control"
+                                        type="text"
+                                        name="empCode"
+                                        value={empCodeDis}
+                                    // disabled
+                                    >
+                                    </Field>
+                                    <ErrorMessage className="text-danger ms-2" component="div" name='empCode' />
+                                </div>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>Employee Name</div>
+                                <div className='col-3 d-flex'>
+                                    <Field
+                                        className="form-select"
+                                        as="select"
+                                        name="empName"
+                                        onChange={(e) => { handleEmployeeName(e, setFieldValue) }}
+                                    >
+                                        <option value="">Select Name</option>
+                                        {empName.map((item) =>
+                                            <option
+                                                key={item.id}
+                                                value={item["First name"]}
+                                            >
+                                                {item["First name"]}
+                                            </option>)}
+                                    </Field>
+                                    <ErrorMessage className="text-danger  ms-2" component="div" name='empName' />
+                                </div>
+                            </div>
+                            <div className='row mb-1'>
+                                <div className='col-2 form-label'>LWF Employee</div>
+                                <div className='col-3  d-flex'>
+                                    <Field
+                                        className="form-control"
+                                        type="number"
+                                        placeholder="&#8377;0.00"
+                                        name="LWFEmployee"
+                                    // value={salaryStruc.LWFEmployee}
+                                    />
+                                    <ErrorMessage className="text-danger  ms-2" component="div" name='LWFEmployee' />
+                                </div>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>ESI Employer</div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -127,8 +172,8 @@ function SalaryStructure() {
                             </div>
 
                             <div className='row mb-1'>
-                                <div className='col-4 form-label'>PF Employer</div>
-                                <div className='col-8 d-flex'>
+                                <div className='col-2 form-label'>PF Employer</div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -138,11 +183,9 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='PFEmployeer' />
                                 </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>LWF Employer</div>
-                                <div className='col-8 d-flex'>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>LWF Employer</div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -155,8 +198,8 @@ function SalaryStructure() {
                             </div>
 
                             <div className='row mb-1'>
-                                <div className='col-4 form-label'><b>CTC</b></div>
-                                <div className='col-8 d-flex'>
+                                <div className='col-2 form-label'><b>CTC</b></div>
+                                <div className='col-3 d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -166,11 +209,9 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2 ms-2" component="div" name='CTC' />
                                 </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>ESI Employee</div>
-                                <div className='col-8  d-flex'>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>ESI Employee</div>
+                                <div className='col-3  d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -183,8 +224,8 @@ function SalaryStructure() {
                             </div>
 
                             <div className='row mb-1'>
-                                <div className='col-4 form-label'>PF Employee</div>
-                                <div className='col-8  d-flex'>
+                                <div className='col-2 form-label'>PF Employee</div>
+                                <div className='col-3  d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -194,11 +235,9 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='PFEmployee' />
                                 </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>TDS</div>
-                                <div className='col-8  d-flex'>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label'>TDS</div>
+                                <div className='col-3  d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -211,8 +250,8 @@ function SalaryStructure() {
                             </div>
 
                             <div className='row mb-1'>
-                                <div className='col-4 form-label'>Professional Tax</div>
-                                <div className='col-8  d-flex'>
+                                <div className='col-2 form-label'>Professional Tax</div>
+                                <div className='col-3  d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -222,25 +261,9 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='ProfessionalTax' />
                                 </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label'>LWF Employee</div>
-                                <div className='col-8  d-flex'>
-                                    <Field
-                                        className="form-control"
-                                        type="number"
-                                        placeholder="&#8377;0.00"
-                                        name="LWFEmployee"
-                                    // value={salaryStruc.LWFEmployee}
-                                    />
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='LWFEmployee' />
-                                </div>
-                            </div>
-
-                            <div className='row mb-1'>
-                                <div className='col-4 form-label fw-bold'>In Hand</div>
-                                <div className='col-8  d-flex'>
+                                <div className='col-2'></div>
+                                <div className='col-2 form-label fw-bold'>In Hand</div>
+                                <div className='col-3  d-flex'>
                                     <Field
                                         className="form-control"
                                         type="number"
@@ -250,8 +273,8 @@ function SalaryStructure() {
                                     />
                                     <ErrorMessage className="text-danger  ms-2" component="div" name='InHand' />
                                 </div>
-                            </div>
 
+                            </div>
                             <button className="btn btn-info m-4 w-75" type='submit'>Submit</button>
                         </Form>
                     )}

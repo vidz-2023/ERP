@@ -25,7 +25,7 @@ function Header() {
                                     <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="worklocation">Work Location Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Timesheet Report</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Expense Claim</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="expenseclaim">Expense Claim</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Exit Management System</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Loans and Advances</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Salary Appraisal</NavLink></li>

@@ -7,7 +7,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import ExpenseTable from './ExpenseTable';
 import ExpenseApproveTable from './ExpenseApproveTable';
-
+import { addExpenseApproval } from '../../../../services/ExpenseclaimService';
 
 
 function ExpenseApprove() {
@@ -51,6 +51,9 @@ function ExpenseApprove() {
     })
     const handleSubmit = (values) => {
         console.log(values)
+        addExpenseApproval(values).then((res) => {
+            console.log(res)
+        })
     }
     const handleChange = (values) => {
         console.log(values)
@@ -74,13 +77,9 @@ function ExpenseApprove() {
                                         <div className='col-2 form-label'>
                                             Employee Code
                                         </div>
-                                        <div className='col-3'>
+                                        <div className='col-3 text-danger'>
                                             <div class="input-group">
-                                                <Field className="form-select" as="select"
-                                                    name="empcode" 
-                                                    onChange={handleChange}>
-                                                    <option>select emp code</option>
-                                                </Field>
+                                            <Field className="form-control" type='text' name="empcode" />
                                                 <ErrorMessage name="empcode" className="text-danger" />
                                                 {/* <span class="input-group-btn">
                                                     <button className='btn btn-info'><FaEdit /></button>
@@ -93,7 +92,7 @@ function ExpenseApprove() {
                                         </div>
                                         <div className='col-3'>
                                             <Field className="form-control" type='text' name="claimno" />
-                                            <ErrorMessage name="claimno" className="text-danger"/>
+                                            <ErrorMessage name="claimno" className="text-danger" />
                                         </div>
 
                                     </div>
@@ -112,9 +111,9 @@ function ExpenseApprove() {
                                                     <option>Support</option>
                                                 </Field>
                                                 <ErrorMessage name="branch" className="text-danger" />
-                                                <span class="input-group-btn">
+                                                {/* <span class="input-group-btn">
                                                     <button className='btn btn-info'><FaEdit /></button>
-                                                </span>
+                                                </span> */}
                                             </div>
                                         </div>
                                         <div className='col-2'></div>
@@ -123,7 +122,7 @@ function ExpenseApprove() {
                                         </div>
                                         <div className='col-3'>
                                             <Field className="form-control" type='date' name="date" />
-                                            <ErrorMessage name="date" className="text-danger"/>
+                                            <ErrorMessage name="date" className="text-danger" />
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
@@ -137,10 +136,10 @@ function ExpenseApprove() {
                                                     onChange={handleChange}>
                                                     <option>select employee</option>
                                                 </Field>
-                                                <ErrorMessage name="employee" className="text-danger"/>
-                                                <span class="input-group-btn">
+                                                <ErrorMessage name="employee" className="text-danger" />
+                                                {/* <span class="input-group-btn">
                                                     <button className='btn btn-info'><FaEdit /></button>
-                                                </span>
+                                                </span> */}
                                             </div>
                                         </div>
                                         <div className='col-2'></div>
@@ -158,7 +157,7 @@ function ExpenseApprove() {
                                         </div>
                                         <div className='col-3'>
                                             <Field className="form-control" type='text' name="narration" />
-                                            <ErrorMessage name="narration" className="text-danger"/>
+                                            <ErrorMessage name="narration" className="text-danger" />
                                         </div>
                                         <div className='col-2'></div>
                                         <div className='col-2 form-label'>
@@ -166,7 +165,7 @@ function ExpenseApprove() {
                                         </div>
                                         <div className='col-3'>
                                             <Field className="form-control" type='text' name="expensestatus" />
-                                            <ErrorMessage name="expensestatus" className="text-danger"/>
+                                            <ErrorMessage name="expensestatus" className="text-danger" />
                                         </div>
                                     </div>
                                     <div className='row mb-1'>

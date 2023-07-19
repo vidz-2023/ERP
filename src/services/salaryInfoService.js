@@ -9,6 +9,9 @@ export const addSalaryInfo = (data) => {
     return axios.post(`${officialInfoURL}`, data)
 }
 
+export const getOfficialInfo = () => {
+    return axios.get(officialInfoURL)
+}
 export const deleteSalaryInfo = (id) => {
     console.log(id)
     return axios.delete(`${officialInfoURL}/${id}`)
