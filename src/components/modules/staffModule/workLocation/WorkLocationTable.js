@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { deleteSalary, getSalary, searchSalaryStructureAnyField } from '../../../../services/salaryService';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { FaTrash, FaEdit } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import DeleteEditButton from './DeleteEditButton';
+import { getWorkLocation, searchWorkLocationAnyField } from '../../../../services/workLocationServices';
+import DeleteEditButtonWorkLocation from './DeleteEditButtonWorkLocation';
 
 
-const SalaryTable = () => {
-
-    const [salaryStruc, setSalaryStruc] = useState([])
-    const [searchValState, setSearchValState] = useState([])
+const WorkLocationTable = () => {
+    const [workLocationData, setWorkLocationData] = useState([])
+    const [workValState, setWorkValState] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -19,9 +17,9 @@ const SalaryTable = () => {
     }, [])
 
     const handleGettingTableData = () => {
-        getSalary().then((res) => {
+        getWorkLocation().then((res) => {
             console.log(res.data)
-            setSalaryStruc(res.data)
+            setWorkLocationData(res.data)
         })
     }
 
@@ -31,61 +29,51 @@ const SalaryTable = () => {
             field: "empCode"
         },
         {
-            headerName: "EffectiveFrom",
+            headerName: "Effective From",
             field: "EffectiveFrom"
         },
         {
-            headerName: "Basic",
-            field: "Basic"
+            headerName: "Branch",
+            field: "Branch"
         },
         {
-            headerName: "ESIEmployeer",
-            field: "ESIEmployeer"
-        },
-        // {
-        //     headerName: "PFEmployeer",
-        //     field: "PFEmployeer"
-        // },
-        // {
-        //     headerName: "LWFEmployeer",
-        //     field: "LWFEmployeer"
-        // },
-        {
-            headerName: "CTC",
-            field: "CTC"
-        },
-        // {
-        //     headerName: "ESIEmployee",
-        //     field: "ESIEmployee"
-        // },
-        {
-            headerName: "PFEmployee",
-            field: "PFEmployee"
+            headerName: "Department",
+            field: "Department"
         },
         {
-            headerName: "TDS",
-            field: "TDS"
+            headerName: "LateIn",
+            field: "LateIn"
         },
         {
-            headerName: "Professional Tax",
-            field: "ProfessionalTax"
+            headerName: "Designation",
+            field: "Designation"
         },
-        // {
-        //     headerName: "LWFEmployee",
-        //     field: "LWFEmployee"
-        // },
+        {
+            headerName: "Category",
+            field: "Category"
+        },
 
         {
-            headerName: "InHand",
-            field: "InHand"
+            headerName: "EmployeeShift",
+            field: "EmployeeShift"
         },
+        {
+            headerName: "EarlyOut",
+            field: "EarlyOut"
+        },
+
+        {
+            headerName: "LoanAmount",
+            field: "LoanAmount"
+        },
+
         {
             headerName: "Action",
             field: "empCode",
             // cellRenderer: buttonComp
-            cellRenderer: DeleteEditButton,
+            cellRenderer: DeleteEditButtonWorkLocation,
             cellRendererParams: {
-                funGetSalary: handleGettingTableData
+                funGetWorkLocation: handleGettingTableData
             }
         }
 
@@ -97,23 +85,26 @@ const SalaryTable = () => {
         flex: 1
     }
 
-    const handleAddSalary = () => {
-        navigate('/salary-structure/0')
+    const handleAddWorkLocation = () => {
+        navigate('/worklocation/0')
     }
+
+    // searchWorkLocationAnyField
 
     const searchFun = (e) => {
         const searchVal = e.target.value
-        setSearchValState(searchVal)
-        searchSalaryStructureAnyField(searchVal).then((res) => setSalaryStruc(res.data))
+        setWorkValState(searchVal)
+        searchWorkLocationAnyField(searchVal).then((res) => setWorkLocationData(res.data))
     }
     const searchFunThroughBtn = () => {
-        searchSalaryStructureAnyField(searchValState).then((res) => setSalaryStruc(res.data))
+        searchWorkLocationAnyField(workLocationData).then((res) => setWorkLocationData(res.data))
     }
+
     return (
         <div className='container'>
             <div className='row mt-3'>
                 <div className='col-4 ms-3 '>
-                    <button type="button" className='btn btn-info' onClick={() => { handleAddSalary() }}>
+                    <button type="button" className='btn btn-info' onClick={() => { handleAddWorkLocation() }}>
                         Add Row
                     </button>
                 </div>
@@ -130,13 +121,14 @@ const SalaryTable = () => {
             </div>
             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                 <AgGridReact
-                    rowData={salaryStruc}
+                    rowData={workLocationData}
                     columnDefs={column}
                     defaultColDef={defaultColDef}
                 />
             </div>
+
         </div>
     )
 }
 
-export default SalaryTable
+export default WorkLocationTable

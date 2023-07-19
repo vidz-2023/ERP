@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 function Header() {
     return (
         <div>
-            <nav className="navbar bg-dark border-bottom border-bottom-dark navbar-expand-lg bg-primary-subtle">
+            <nav className="navbar  border-bottom border-bottom-dark navbar-expand-lg bg-info-subtle">
                 <div className="container-fluid">
                     <NavLink className="navbar-brand" href="#">ERP</NavLink>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,14 +18,14 @@ function Header() {
                                     Staff Module
                                 </NavLink>
                                 <ul className="dropdown-menu dropdown-menu-right" >
-                                    <li><NavLink className="dropdown-item" href="#">Staff Master</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Salary Information</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="staffMasterdata">Staff Master</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="salary-info-table">Salary Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Staff Other Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="salary-data">Salary Structure</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="worklocation">Work Location Information</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="worklocation-data">Work Location Information</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Timesheet Report</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Expense Claim</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="expenseclaim">Expense Claim</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Exit Management System</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Loans and Advances</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Salary Appraisal</NavLink></li>

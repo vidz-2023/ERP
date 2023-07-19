@@ -1,198 +1,341 @@
 {
-    "emp-basic-info": [
-        {
-            "First name": "Nehha",
-            "Last Name": "Agarwal",
-            "EmpCode": "00001",
-            "FatherName": "",
-            "MotherName": "",
-            "MaritalStatus": "",
-            "SpouseName": "",
-            "Anniversary": "",
-            "Religion": "",
-            "DOB": "",
-            "Sex": "",
-            "BloodGroup": "",
-            "Nationality": "",
-            "image": ""
-        }
-    ],
-    "emp-address-info": [
-        {
-            "empCode": "00001",
-            "AddressLine1": "",
-            "AddressLine2": "",
-            "Country": "",
-            "State": "",
-            "City": "",
-            "Pin Code": "",
-            "PhonesNo": "",
-            "Email": "",
-            "ContactType": "Permanent",
-            "Relation": ""
-        }
-    ],
-    "official-info": [
-        {
-            "empCode": "00001",
-            "CityType": "Metro",
-            "JoiningDate": "",
-            "ConfirmationDate": "",
-            "ProbationMonths": "",
-            "NoticeDays": "",
-            "SalaryWages": "",
-            "Sourcing": "",
-            "SkillSet": "",
-            "PANNo": "",
-            "UANNo": "",
-            "VoterIDNo": "",
-            "AadharCardNo": "",
-            "PassportNo": "",
-            "PassportValidUpto": "",
-            "DLNo": "",
-            "DLValidupto": ""
-        }
-    ],
-    "ESI-PF-Info": [
-        {
-            "empCode": "00001",
-            "ESIApplication": "Yes",
-            "PFApplication": "Yes",
-            "Prof.Tax.Applicable": "No",
-            "LWFApplicable": "No",
-            "ESINo": "",
-            "ESIStartDate": "",
-            "PFNo": "",
-            "PFStartDate": ""
-        }
-    ],
-    "BankDetails": [
-        {
-            "empCode": "00001",
-            "Bank": "",
-            "Branch": "",
-            "BankAccountNo": "",
-            "SwiftCode": "",
-            "ACHolderName": ""
-        }
-    ],
-    "SalaryStructure": [
-        {
-            "empCode": "00001",
-            "EffectiveFrom": "2023-04-02",
-            "Basic": "10000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "100000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "8000"
-        },
-        {
-            "empCode": "00002",
-            "EffectiveFrom": "2023-04-02",
-            "Basic": "20000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "200000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "18000"
-        },
-        {
-            "empCode": "00003",
-            "EffectiveFrom": "2023-04-03",
-            "Basic": "30000",
-            "ESIEmployeer": "2000",
-            "PFEmployeer": "1000",
-            "LWFEmployeer": "1000",
-            "CTC": "200000",
-            "ESIEmployee": "1000",
-            "PFEmployee": "1000",
-            "TDS": "10",
-            "ProfessionalTax": "500",
-            "LWFEmployee": "100",
-            "InHand": "38000"
-        }
-    ],
-    "LeavesMaster": [
-        {
-            "LeaveCode": "",
-            "LeaveType": "",
-            "Description": "",
-            "Applicable": "Monthly",
-            "NoOfLeaves": "",
-            "Transferrable": "",
-            "Cashable": ""
-        }
-    ],
-    "ApplyLeaves": [
-        {
-            "empCode": "00001",
-            "LeaveCode": "",
-            "FromDate": "",
-            "ToDate": "",
-            "Days": "",
-            "LeaveIn": "",
-            "Rate": "",
-            "Amount": "",
-            "Reason": "",
-            "Remark": "",
-            "RemarkByFinance": ""
-        }
-    ],
-    "work-locaiton-info": [
-        {
-            "empCode": "00001",
-            "EffectiveFrom": "",
-            "Branch": "",
-            "Department": "",
-            "DateIn": "",
-            "Designation": "",
-            "Category": "",
-            "EmployeeShift": "",
-            "EarlyOut": "",
-            "LoanAmount": ""
-        }
-    ],
-    "expense-claim": [
-        {
-            "empCode": "00001",
-            "ClaimNo": "",
-            "Branch": "",
-            "Date": "",
-            "VoucherNo": "",
-            "Narration": "",
-            "expenseStatus": "",
-            "claimdate": "",
-            "processdate": "",
-            "ApprovedBy": "",
-            "creditGL": "",
-            "TotalAmount": "",
-            "ChequeNo": "",
-            "NEFTNo": "",
-            "CostCenter": ""
-        }
-    ],
-    "expense-claim-detail": [
-        {
-            "empcode": "",
-            "expenseclaimcode": "",
-            "billno": "",
-            "amountSpent": "",
-            "Remarks": "",
-            "bilimage": "",
-            "ApprovedAmount": "",
-            "ApproveRemark": "",
-            "CostCenter": ""
-        }
-    ]
+  "branch-master": [
+    {
+      "id": 1,
+      "Name": "Noida",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "Name": "Bengaluru",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "Name": "Chennai",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "Name": "Hyderabad",
+      "isActive": true
+    }
+  ],
+  "designation-master": [
+    {
+      "id": 1,
+      "Name": "Trainee Engineer",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "Name": "Software Engineer",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "Name": "System Analyst",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "Name": "Senior Software Engineer",
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "Name": "Project Lead",
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "Name": "Project Manager",
+      "isActive": true
+    }
+  ],
+  "category-master": [
+    {
+      "id": 1,
+      "Name": "E0",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "Name": "E1",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "Name": "E2",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "Name": "E3",
+      "isActive": true
+    }
+  ],
+  "department-master": [
+    {
+      "id": 1,
+      "Name": "IT",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "Name": "HR",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "Name": "Finance",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "Name": "Transport",
+      "isActive": true
+    }
+  ],
+  "employeeShift-master": [
+    {
+      "id": 1,
+      "Name": "Day Shift",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "Name": "Night Shift",
+      "isActive": true
+    }
+  ],
+  "emp-basic-info": [
+    {
+      "FirstName": "Nehha",
+      "LastName": "Agarwal",
+      "EmpCode": "00001",
+      "FatherName": "",
+      "MotherName": "",
+      "MaritalStatus": "",
+      "SpouseName": "",
+      "Anniversary": "",
+      "Religion": "",
+      "DOB": "",
+      "Sex": "",
+      "BloodGroup": "",
+      "Nationality": "",
+      "image": ""
+    },
+    {
+      "FirstName": "Nidhi",
+      "LastName": "Gupta",
+      "EmpCode": "00002",
+      "FatherName": "",
+      "MotherName": "",
+      "MaritalStatus": "",
+      "SpouseName": "",
+      "Anniversary": "",
+      "Religion": "",
+      "DOB": "",
+      "Sex": "",
+      "BloodGroup": "",
+      "Nationality": "",
+      "image": ""
+    },
+    {
+      "FirstName": "Atishay",
+      "LastName": "Gupta",
+      "EmpCode": "00003",
+      "FatherName": "",
+      "MotherName": "",
+      "MaritalStatus": "",
+      "SpouseName": "",
+      "Anniversary": "",
+      "Religion": "",
+      "DOB": "",
+      "Sex": "",
+      "BloodGroup": "",
+      "Nationality": "",
+      "image": ""
+    }
+  ],
+  "emp-address-info": [
+    {
+      "empCode": "00001",
+      "AddressLine1": "",
+      "AddressLine2": "",
+      "Country": "",
+      "State": "",
+      "City": "",
+      "Pin Code": "",
+      "PhonesNo": "",
+      "Email": "",
+      "ContactType": "Permanent",
+      "Relation": ""
+    }
+  ],
+  "official-info": [
+    {
+      "empCode": "00001",
+      "CityType": "Metro",
+      "JoiningDate": "",
+      "ConfirmationDate": "",
+      "ProbationMonths": "",
+      "NoticeDays": "",
+      "SalaryWages": "",
+      "Sourcing": "",
+      "SkillSet": "",
+      "PANNo": "",
+      "UANNo": "",
+      "VoterIDNo": "",
+      "AadharCardNo": "",
+      "PassportNo": "",
+      "PassportValidUpto": "",
+      "DLNo": "",
+      "DLValidupto": ""
+    }
+  ],
+  "ESI-PF-Info": [
+    {
+      "empCode": "00001",
+      "ESIApplication": "Yes",
+      "PFApplication": "Yes",
+      "Prof.Tax.Applicable": "No",
+      "LWFApplicable": "No",
+      "ESINo": "",
+      "ESIStartDate": "",
+      "PFNo": "",
+      "PFStartDate": ""
+    }
+  ],
+  "BankDetails": [
+    {
+      "empCode": "00001",
+      "Bank": "",
+      "Branch": "",
+      "BankAccountNo": "",
+      "SwiftCode": "",
+      "ACHolderName": ""
+    }
+  ],
+  "SalaryStructure": [
+    {
+      "empCode": "00001",
+      "EffectiveFrom": "2023-07-05",
+      "Basic": "10000",
+      "ESIEmployeer": "100",
+      "PFEmployeer": "100",
+      "LWFEmployeer": "100",
+      "CTC": 123600,
+      "ESIEmployee": "100",
+      "PFEmployee": "100",
+      "TDS": "240",
+      "ProfessionalTax": "240",
+      "LWFEmployee": "100",
+      "InHand": 9520,
+      "id": 4
+    },
+    {
+      "empCode": "00002",
+      "EffectiveFrom": "2023-10-10",
+      "Basic": "30000",
+      "ESIEmployeer": "10",
+      "PFEmployeer": "10",
+      "LWFEmployeer": "10",
+      "CTC": 360360,
+      "ESIEmployee": "10",
+      "PFEmployee": "10",
+      "TDS": "240",
+      "ProfessionalTax": "240",
+      "LWFEmployee": "10",
+      "InHand": 29520,
+      "id": 5
+    }
+  ],
+  "LeavesMaster": [
+    {
+      "LeaveCode": "",
+      "LeaveType": "",
+      "Description": "",
+      "Applicable": "Monthly",
+      "NoOfLeaves": "",
+      "Transferrable": "",
+      "Cashable": ""
+    }
+  ],
+  "ApplyLeaves": [
+    {
+      "empCode": "00001",
+      "LeaveCode": "",
+      "FromDate": "",
+      "ToDate": "",
+      "Days": "",
+      "LeaveIn": "",
+      "Rate": "",
+      "Amount": "",
+      "Reason": "",
+      "Remark": "",
+      "RemarkByFinance": ""
+    }
+  ],
+  "work-locaiton-info": [
+    {
+      "empCode": "00002",
+      "EffectiveFrom": "2023-07-05",
+      "Branch": "Bengaluru",
+      "Department": "Transport",
+      "LateIn": "Yes",
+      "Designation": "Project Manager",
+      "Category": "E3",
+      "EmployeeShift": "Day Shift",
+      "EarlyOut": "Yes",
+      "LoanAmount": "2112",
+      "id": 2
+    },
+    {
+      "empCode": "00001",
+      "EffectiveFrom": "2023-07-05",
+      "Branch": "Hyderabad",
+      "Department": "Transport",
+      "LateIn": "Yes",
+      "Designation": "Trainee Engineer",
+      "Category": "E3",
+      "EmployeeShift": "Night Shift",
+      "EarlyOut": "Yes",
+      "LoanAmount": "3112",
+      "id": 3
+    }
+  ],
+  "expense-claim": [
+    {
+      "empCode": "00001",
+      "ClaimNo": "",
+      "Branch": "",
+      "Date": "",
+      "VoucherNo": "",
+      "Narration": "",
+      "expenseStatus": "",
+      "claimdate": "",
+      "processdate": "",
+      "ApprovedBy": "",
+      "creditGL": "",
+      "TotalAmount": "",
+      "ChequeNo": "",
+      "NEFTNo": "",
+      "CostCenter": ""
+    }
+  ],
+  "expense-claim-detail": [
+    {
+      "empcode": "",
+      "expenseclaimcode": "",
+      "billno": "",
+      "amountSpent": "",
+      "Remarks": "",
+      "bilimage": "",
+      "ApprovedAmount": "",
+      "ApproveRemark": "",
+      "CostCenter": ""
+    }
+  ]
 }

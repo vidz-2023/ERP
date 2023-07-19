@@ -1,41 +1,69 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup';
+import axios from 'axios';
 
 function Login() {
+
+    // const [formValue, setFormValue] = useState(null);
     const inputfields = {
-        userName: "",
-        password: ""
+        username: "",
     }
+
+    const [user, setUser] = useState(inputfields);
+
+    useEffect(() => {
+        // const fetchData = async () => {
+        axios.get("http://localhost:3000/del?username=nidhi").then((res) => {
+            console.log("fetched data", res.data[0])
+            setUser(res.data[0])
+        })
+        // }
+        // fetchData()
+    }, [])
+
     const handleSubmit = (values) => {
         console.log(values)
+        // setFormValue(user)
     }
 
     const validationSchema = Yup.object({
-        username: Yup.string().required('Name is required').max(6, "max of 6 words").min(2, "minimum 2 characters"),
-        password: Yup.string().required('Password is required').matches(/^[]$/, "not correct")
+        username: Yup.string().required('Name is required')
     })
 
+    const handleNameChange = (e) => {
+        // setFieldValue("username", e.target.value)
+        const { value, name } = e.target
+        setUser({ ...user, [name]: value })
+    }
+
     return (
-        <div>
-            <Formik initialValues={inputfields} onSubmit={handleSubmit} validationSchema={validationSchema}>
-                {({ isSubmitting, setFieldValue }) => (
+        <Formik initialValues={user}
+            // onSubmit={value => { console.log("result:", value) }}
+
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+            enableReinitialize
+        >
+            {({ values, isSubmitting, setFieldValue }) => {
+                return (
                     <Form>
                         <div>
                             <label>User</label>
-                            <Field type="text" name="username" />
+
+                            <Field
+                                type="text"
+                                name="username"
+                                value={user.username}
+                                onChange={handleNameChange}
+                            />
                             <ErrorMessage name='username' />
-                        </div>
-                        <div>
-                            <label>Password</label>
-                            <Field type="password" name="password" />
-                            <ErrorMessage name="password" />
                         </div>
                         <button type='submit'>Submit</button>
                     </Form>
-                )}
-            </Formik>
-        </div>
+                )
+            }}
+        </Formik >
     )
 }
 
