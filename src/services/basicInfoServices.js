@@ -12,7 +12,12 @@ export const addBasicInfo = (data) => {
 }
 
 export const getBasicInfoByName = (data) => {
-    return axios.get(`${basicInfoURL}?First name=${data}`)
+    return axios.get(`${basicInfoURL}?FirstName=${data}`)
+}
+
+export const getBasicInfoByEmpCode = (data) => {
+    console.log(data)
+    return axios.get(`${basicInfoURL}?EmpCode=0000${data}`)
 }
 
 export const deleteBasicInfo = (data) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { deleteSalary, getSalary } from '../../../../services/salaryService';
+import { deleteSalary, getSalary, searchSalaryStructureAnyField } from '../../../../services/salaryService';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -11,6 +11,7 @@ import DeleteEditButton from './DeleteEditButton';
 const SalaryTable = () => {
 
     const [salaryStruc, setSalaryStruc] = useState([])
+    const [searchValState, setSearchValState] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -100,6 +101,14 @@ const SalaryTable = () => {
         navigate('/salary-structure/0')
     }
 
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+        setSearchValState(searchVal)
+        searchSalaryStructureAnyField(searchVal).then((res) => setSalaryStruc(res.data))
+    }
+    const searchFunThroughBtn = () => {
+        searchSalaryStructureAnyField(searchValState).then((res) => setSalaryStruc(res.data))
+    }
     return (
         <div className='container'>
             <div className='row mt-3'>
@@ -110,10 +119,10 @@ const SalaryTable = () => {
                 </div>
                 <div className='row col-8'>
                     <div className='col-8'>
-                        <input type="text" className='form-control' />
+                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} />
                     </div>
                     <div className='col-4'>
-                        <button type="button" className='btn btn-info'>
+                        <button type="button" className='btn btn-info' onClick={searchFunThroughBtn}>
                             Search
                         </button>
                     </div>

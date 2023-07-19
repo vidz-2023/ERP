@@ -1,18 +1,18 @@
 import React from 'react'
-import { deleteSalary, getSalary } from '../../../../services/salaryService';
+import { useNavigate } from 'react-router-dom'
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { deleteWorkLocation, getWorkLocation } from '../../../../services/workLocationServices';
 
-const DeleteEditButton = (params) => {
+const DeleteEditButtonWorkLocation = (params) => {
     const navigate = useNavigate()
     const handleDelete = (p) => {
-        deleteSalary(p.data.id)
-        getSalary().then()
-        p.funGetSalary()
+        deleteWorkLocation(p.data.id)
+        getWorkLocation().then()
+        p.funGetWorkLocation()
     }
 
     const handleEdit = (p) => {
-        navigate(`/salary-structure/${p.data.empCode}`)
+        navigate(`/worklocation/${p.data.empCode}`)
     }
 
     return (<div>
@@ -22,5 +22,4 @@ const DeleteEditButton = (params) => {
 
 }
 
-
-export default DeleteEditButton
+export default DeleteEditButtonWorkLocation
