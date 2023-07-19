@@ -20,6 +20,10 @@ import StaffMasterTable from './components/modules/staffModule/staffMaster/Staff
 import ExpenseClaim from './components/modules/staffModule/ExpenseClaim/ExpenseClaim';
 import WorkLocationTable from './components/modules/staffModule/workLocation/WorkLocationTable';
 import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/SalaryInformationTable';
+import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
+import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
+import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
+
 
 function App() {
   return (
@@ -46,6 +50,9 @@ function App() {
         <Route path="/staffMasterdata" element={<StaffMasterTable />} />
         <Route path="/staffMaster" element={<StaffMaster />} />
         <Route path="/expenseclaim" element={<ExpenseClaim />} />
+        <Route path="/payslip" element={<Payslip />} />
+        <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
+        <Route path="/timesheet" element={<TimeSheet />} />
       </Routes>
 
       <Footer />

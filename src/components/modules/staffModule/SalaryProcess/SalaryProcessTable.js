@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import DeleteEditButton from './DeleteEditButton';
+
 //import aggrid
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -36,94 +38,126 @@ export const SalaryProcessTable = () => {
     //     date: ""
     // }]
 
+    //table header and display the fields
     const column = [
         {
             headerName: "Code",
             field: "empcode",
+            width:90
         },
         {
             headerName: "Name",
             field: "empname",
+            width:90
         },
         {
             headerName: "Paid Days",
-            field: "paid"
-        },
-        {
-            headerName: "InHand",
-            field: "inhand"
-        },
-        {
-            headerName: "Basic Salary",
-            field: "basic"
-        },
-        {
-            headerName: "Leave Days",
-            field: "leave"
-        },
-        {
-            headerName: "Indemnity",
-            field: "indemnity"
-        },
-        {
-            headerName: "Bonus",
-            field: "bonus"
-        },
-        {
-            headerName: "Loan",
-            field: "loan"
-        },
-        {
-            headerName: "Advance",
-            field: "advance"
-        },
-        {
-            headerName: "TDS",
-            field: "tds"
+            field: "paid",
+            width:90
         },
         {
             headerName: "CTC",
-            field: "ctc"
+            field: "ctc",
+            width:90
         },
         {
+            headerName: "InHand",
+            field: "inhand",
+            width:90
+        },
+        {
+            headerName: "Basic",
+            field: "basic",
+            width:90
+        },
+        {
+            headerName: "Leave Salary",
+            field: "leave",
+            width:90
+        },
+        {
+            headerName: "Indemnity",
+            field: "indemnity",
+            width:90
+        },
+        {
+            headerName: "Bonus",
+            field: "bonus",
+            width:90
+        },
+        {
+            headerName: "Loan",
+            field: "loan",
+            width:90
+        },
+        {
+            headerName: "Advance",
+            field: "advance",
+            width:90
+        },
+        {
+            headerName: "TDS",
+            field: "tds",
+            width:90
+        },
+        
+        {
             headerName: "ESI",
-            field: "esi"
+            field: "esi",
+            width:90
         },
         {
             headerName: "PF",
-            field: "pf"
+            field: "pf",
+            width:90
         },
         {
             headerName: "LWF",
-            field: "lwf"
+            field: "lwf",
+            width:90
         },
         {
             headerName: "ProfessionalTax",
-            field: "pt"
+            field: "pt",
+            width:90
         },
         {
-            headerName: "NetAmount",
-            field: "net"
+            headerName: "NetPayable",
+            field: "net",
+            width:90
         },
         {
             headerName: "Branch",
-            field: "branch"
+            field: "branch",
+            width:90
         },
         {
             headerName: "Department",
-            field: "dept"
+            field: "dept",
+            width:90
         },
         {
             headerName: "Designation",
-            field: "designation"
+            field: "designation",
+            width:90
         },
         {
             headerName: "Category",
-            field: "category"
+            field: "category",
+            width:90
         },
         {
             headerName: "Joining Date",
-            field: "date"
+            field: "date",
+            width:90
+        },
+        {
+            headerName: "Action",
+            field: "empCode",
+            cellRenderer: DeleteEditButton,
+            cellRendererParams: {
+                GetSalary: getSalaryProcess
+            }
         }
     ]
 
@@ -142,15 +176,11 @@ export const SalaryProcessTable = () => {
 
     return (
         <>
-            <div className="ag-theme-alpine my-3" style={{ width: 1500, height: 300 }}>
-                <AgGridReact rowData={salaryProcess} columnDefs={column} defaultColDef={defaultColDef} />
+            <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
+                <AgGridReact rowData={salaryProcess} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
-            <div className='row'>
-                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Add</button></div>
-                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Delete</button></div>
-                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3'>Update</button></div>
-            </div>
+            
         </>
 
     )
