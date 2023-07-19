@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // Import React Icons
 import { MdOutlineHolidayVillage } from "react-icons/md";
 //Import Formik and Yup
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import LeaveMasterTable from './LeaveMasterTable';
+import { addLeaveMaster, getLeaveMasterByID, updateLeaveMaster } from '../../../../services/LeaveMasterService';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function LeaveMaster() {
+    const [isLeaveUpdate, setIsLeaveUpdate] = useState(false);
+    console.log(isLeaveUpdate)
+    const { id } = useParams();
+    console.log(id)
+    const navigate = useNavigate()
 
-    // ------------------- Used For Drop Downs ---------------------------//
-    const selectOpt = ["0001", "0002", "0003"]
-    const selectOpt1 = ["Casual Leave", "Earned Leave", "Paid Leave"]
-    const selectOpt2 = ["Daliy", "Weekly", "Monthly"]
     // Intial Value for Formik
     const inputFields = {
         description: '',
@@ -21,8 +24,10 @@ function LeaveMaster() {
         applicable: '',
         noOfLeave: '',
         transferable: '',
-        cashable: ''
+        cashable: '',
+        leaveBalance: ''
     }
+    const [leaveMasterValue, setLeaveMasterValue] = useState(inputFields)
     // ------------------- It is for Yup ---------------------------//
     const validateyupSchema = Yup.object({
         description: Yup.string().required('Description is required'),
@@ -32,14 +37,42 @@ function LeaveMaster() {
         applicable: Yup.string().required('Applicabale si required'),
         noOfLeave: Yup.string().required('No of Leave is required'),
         transferable: Yup.string().required('Transferable si required'),
-        cashable: Yup.string().required('Cashable is required')
+        cashable: Yup.string().required('Cashable is required'),
     })
+    useEffect(() => {
+        if (id >= 0) {
+            getLeaveMasterByID(id).then(res => {
+                console.log(res)
+                setLeaveMasterValue(res)
+            })
+            setIsLeaveUpdate(true)
+        }
+    }, [])
+
     // ------------------- For Submit the Function ---------------------------//
-    const handleSubmit = (values) => {
-        console.log(values)
+
+    const handleSubmit = () => {
+        if (!isLeaveUpdate) {
+            addLeaveMaster(leaveMasterValue)
+            navigate('/leaveMasterTable')
+        } else {
+            updateLeaveMaster(leaveMasterValue, id)
+            navigate('/leaveMasterTable')
+        }
+    }
+    // ------------------- Function Declaration ---------------------------//
+    // const onHandleChange = (option,setFieldValue) => {
+    //     setFieldValue(option.target.value)
+    //     console.log(setFieldValue)
+    // }
+    const onLeaveMasterHandlerChange = (e, setFieldValue) => {
+        const { name, value } = e.target
+        setLeaveMasterValue({ ...leaveMasterValue, [name]: value })
+        setFieldValue([name], value)
     }
     return (
         <>
+
             <div className='contianer mx-auto'>
                 <fieldset>
                     <div className='m-5'>
@@ -48,8 +81,12 @@ function LeaveMaster() {
                                 <MdOutlineHolidayVillage className='me-2' />Leave Master
                             </div>
                         </h4>
-                        <Formik initialValues={inputFields} validationSchema={validateyupSchema} onSubmit={handleSubmit}>
-                            {({ isSubmitting }) => (
+                        <Formik
+                            initialValues={leaveMasterValue}
+                            validationSchema={validateyupSchema}
+                            onSubmit={handleSubmit}
+                            enableReinitialize>
+                            {({ isSubmitting, setFieldValue }) => (
                                 <Form>
                                     <div className='w-75 mx-auto'>
 
@@ -58,11 +95,14 @@ function LeaveMaster() {
                                                 Description
                                             </div>
                                             <div className='col-3 '>
-                                                <div class="input-group text-danger">
+                                                <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='description' />
+                                                        name='description'
+                                                        value={leaveMasterValue.description}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    />
                                                     <ErrorMessage name='description' />
                                                 </div>
                                             </div>
@@ -71,10 +111,17 @@ function LeaveMaster() {
                                                 Leave Code
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field as="select" name="leaveCode" className="form-select">
-                                                        {selectOpt.map((item) => <option>{item}</option>)}
-                                                    </Field>                                                        <ErrorMessage name='leaveCode' />
+                                                <div class="mb-2 text-danger">
+                                                    <Field as="select"
+                                                        name="leaveCode"
+                                                        className="form-select"
+                                                        value={leaveMasterValue.leaveCode}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    >
+                                                        <option value="0001"> 0001</option>
+                                                        <option value="0002"> 0002</option>
+                                                        <option value="0003"> 0003</option>
+                                                    </Field>                                                       <ErrorMessage name='leaveCode' />
                                                 </div>
                                             </div>
                                         </div>
@@ -84,9 +131,16 @@ function LeaveMaster() {
                                                 Leave Type
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field as="select" name="leaveType" className="form-select">
-                                                        {selectOpt1.map((item) => <option>{item}</option>)}
+                                                <div class="mb-2 text-danger">
+                                                    <Field as="select"
+                                                        name="leaveType"
+                                                        className="form-select"
+                                                        value={leaveMasterValue.leaveType}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    >
+                                                        <option value="CL"> Casual Leave</option>
+                                                        <option value="EL"> Earned Leave</option>
+                                                        <option value="PL"> Paid Leave</option>
                                                     </Field>
                                                     <ErrorMessage name='leaveType' />
                                                 </div>
@@ -96,9 +150,15 @@ function LeaveMaster() {
                                                 Applicable
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field as="select" name="applicable" className="form-select">
-                                                        {selectOpt2.map((item) => <option>{item}</option>)}
+                                                <div class="mb-2 text-danger">
+                                                    <Field as="select"
+                                                        name="applicable"
+                                                        className="form-select"
+                                                        value={leaveMasterValue.applicable}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    >
+                                                        <option value="Yes"> Yes</option>
+                                                        <option value="No"> No</option>
                                                     </Field>
                                                     <ErrorMessage name='applicable' />
                                                 </div>
@@ -110,8 +170,14 @@ function LeaveMaster() {
                                                 No of Leave
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field className="form-control" type='text' name='noOfLeave' />
+                                                <div class="mb-2 text-danger">
+                                                    <Field
+                                                        className="form-control"
+                                                        type='text'
+                                                        name='noOfLeave'
+                                                        value={leaveMasterValue.noOfLeave}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    />
                                                     <ErrorMessage name='noOfLeave' />
                                                 </div>
                                             </div>
@@ -120,8 +186,14 @@ function LeaveMaster() {
                                                 Transferable
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field className="form-control" type='text' name='transferable' />
+                                                <div class="mb-2 text-danger">
+                                                    <Field
+                                                        className="form-control"
+                                                        type='text'
+                                                        name='transferable'
+                                                        value={leaveMasterValue.transferable}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    />
                                                     <ErrorMessage name='transferable' />
                                                 </div>
                                             </div>
@@ -132,19 +204,32 @@ function LeaveMaster() {
                                                 Cashable
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field className="form-control" type='text' name='cashable' />
+                                                <div class="mb-2 text-danger">
+                                                    <Field
+                                                        className="form-control"
+                                                        type='text'
+                                                        name='cashable'
+                                                        value={leaveMasterValue.cashable}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                    />
                                                     <ErrorMessage name='cashable' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
                                             <div className='col-2 form-label'>
-                                                Email ID
+                                                Leave Balance
                                             </div>
                                             <div className='col-3'>
-                                                <div class="input-group text-danger">
-                                                    <Field className="form-control" type='email' name='email' />
-                                                    <ErrorMessage name='email' />
+                                                <div class="mb-2 text-danger">
+                                                    <Field
+                                                        className="form-control"
+                                                        type='number'
+                                                        name='number'
+                                                        value={leaveMasterValue.leaveBalance}
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage name='number' />
                                                 </div>
                                             </div>
 
@@ -153,21 +238,34 @@ function LeaveMaster() {
 
                                         <div className=' row mt-3'>
                                             <div className='col-3'>
-                                                <button type="submit" className='w-50 btn btn-info'>Save</button></div>
-
-                                            <div className='col-3'>
-                                                <button type="button" className='w-50 btn btn-info'>Clear</button>
+                                                <button
+                                                    type="submit"
+                                                    className='w-50 btn btn-info'
+                                                >Save
+                                                </button>
                                             </div>
 
                                             <div className='col-3'>
-                                                <button type="button" className='w-50 btn btn-info'>Delete</button>
+                                                <button
+                                                    type="button"
+                                                    className='w-50 btn btn-info'>Clear
+                                                </button>
                                             </div>
 
                                             <div className='col-3'>
-                                                <button type="button" className='w-50 btn btn-info'>Exit</button>
+                                                <button
+                                                    type="button"
+                                                    className='w-50 btn btn-info'>
+                                                    Delete</button>
+                                            </div>
+
+                                            <div className='col-3'>
+                                                <button
+                                                    type="button"
+                                                    className='w-50 btn btn-info'>Exit
+                                                </button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </Form>)}
                         </Formik>
@@ -175,7 +273,6 @@ function LeaveMaster() {
                 </fieldset>
             </div>
 
-            <LeaveMasterTable/>
         </>
     )
 }

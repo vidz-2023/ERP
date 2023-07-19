@@ -3,9 +3,14 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getLeaveMaster } from '../../../../services/LeaveMasterService';
+import { useNavigate } from 'react-router-dom';
+import LeaveMaster from './LeaveMaster';
+import LeaveEditDelete from './LeaveEditDelete';
 
 function LeaveMasterTable() {
-    const [leave, setLeave] = useState([])
+    const [leave, setLeave] = useState([]);
+    const navigate = useNavigate();
+ 
     // const leaveMaster = [
     //     {
     //         Description: "EMergency Leave",
@@ -20,51 +25,75 @@ function LeaveMasterTable() {
     const column = [
         {
             headerName: "Description",
-            field: "Description"
+            field: "description"
         },
         {
             headerName: "LeaveCode",
-            field: "LeaveCode"
+            field: "leaveCode"
         },
         {
             headerName: "LeaveType",
-            field: "LeaveType"
-        }, {
-            headerName: "Applicable",
-            field: "Applicable"
-        }, {
-            headerName: "NoOfLeaves",
-            field: "NoOfLeaves"
-        }, {
-            headerName: "Transferrable",
-            field: "Transferrable"
-        }, {
-            headerName: "Cashable",
-            field: "Cashable"
+            field: "leaveType"
         },
+        {
+            headerName: "Applicable",
+            field: "applicable"
+        },
+        {
+            headerName: "NoOfLeaves",
+            field: "noOfLeave"
+        },
+        {
+            headerName: "Transferable",
+            field: "transferable"
+        },
+        {
+            headerName: "Cashable",
+            field: "cashable"
+        },
+        {
+            headerName:"Leave Balance",
+            field:"leaveBalance"
+        },
+        {
+            cellRenderer: LeaveEditDelete,
+            cellRendererParams: {
+                GetSalary: getLeaveMaster
+            }
+        }
     ]
     const defaultColDef = {
         sortable: true,
         filter: true,
-        editable: true
+        editable: true,
+        flex:1
     }
 
+    const onAdd = () => {
+        alert('Hi');
+       navigate('/leaveMaster')
+    }
 
     useEffect(() => {
         getLeaveMaster().then((res) => {
             console.log(res.data)
             setLeave(res.data)
         })
+    },[])
 
-    }, [])
     return (
         <>
             <div className='input-group'>
-                <button className='btn btn-info' > Add </button> 
+                <button
+                    type="button"
+                    class="btn btn-info mb-2 mt-5"
+                    style={{ position: 'relative', left: '600px' }}
+                    onClick={() => onAdd()} >Add</button>
             </div>
-            <div className="ag-theme-alpine my-3" style={{ width: 1500, height: 300 }}>
-                <AgGridReact rowData={leave} columnDefs={column} defaultColDef={defaultColDef} />
+            <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
+                <AgGridReact rowData={leave} columnDefs={column} defaultColDef={defaultColDef} animateRows={true}/>
             </div>
+
         </>
     )
 }

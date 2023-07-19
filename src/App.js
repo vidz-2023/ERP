@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import Home from './components/Home';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -8,6 +8,11 @@ import Table from './components/extraAgGrid/Table';
 import SalaryStructure from './components/modules/staffModule/Salary/SalaryStructure';
 import WorkLocationInfo from './components/modules/staffModule/workLocation/WorkLocationInfo';
 import SalaryTable from './components/modules/staffModule/Salary/SalaryTable';
+import LeaveMaster from './components/modules/staffModule/leaves/LeaveMaster';
+import LeaveForm from './components/modules/staffModule/leaves/LeaveForm';
+import LeaveMasterTable from './components/modules/staffModule/leaves/LeaveMasterTable';
+import LeaveFormTable from './components/modules/staffModule/leaves/LeaveFormTable';
+
 import SalaryInformation from './components/modules/staffModule/SalaryInfo/SalaryInformation';
 import StaffMaster from './components/modules/staffModule/staffMaster/StaffMaster';
 import StaffMasterData from './components/modules/staffModule/staffMaster/StaffMasterTable';
@@ -18,7 +23,6 @@ import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/
 
 function App() {
   return (
-
     <div className="App">
       <Header />
       <Routes>
@@ -28,6 +32,12 @@ function App() {
         <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
         <Route path="/worklocation-data" element={<WorkLocationTable />} />
         <Route path="/worklocation" element={<WorkLocationInfo />} />
+        <Route path="leaveMaster" element={<LeaveMaster />} />
+        <Route path='leaveMaster/:id' element={<LeaveMaster />} />
+        <Route path="leaveMasterTable" element={<LeaveMasterTable />} />
+        <Route path='leaveForm' element={<LeaveForm />} />
+        <Route path="leaveForm/:id" element={<LeaveForm />} />
+        <Route path="leaveFormTable" element={<LeaveFormTable />} />
         <Route path="/worklocation/:empcode" element={<WorkLocationInfo />} />
         <Route path="/salary-info-table" element={<SalaryInformationTable />} />
         <Route path='/salary-info' element={<SalaryInformation />} />
@@ -37,6 +47,7 @@ function App() {
         <Route path="/staffMaster" element={<StaffMaster />} />
         <Route path="/expenseclaim" element={<ExpenseClaim />} />
       </Routes>
+
       <Footer />
     </div>
   );
