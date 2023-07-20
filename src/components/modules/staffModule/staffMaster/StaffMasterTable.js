@@ -10,12 +10,7 @@ function StaffMasterTable() {
     const [basicInfo, setBasicInfo] = useState([])
     const navigate = useNavigate()
 
-    /*useEffect(() => {
-        getBasicInfo().then((res) =>
-
-            setBasicInfo(res.data)
-        )
-    }, [])*/
+   
   
 
     useEffect(() => {
@@ -29,7 +24,7 @@ function StaffMasterTable() {
     }
 
     const addStaffInformation = () =>{
-        navigate('/staffMaster')
+        navigate('/staffMaster/0')
     }
     
     const columns = [
@@ -40,7 +35,7 @@ function StaffMasterTable() {
             headerName: 'Last Name', field: 'LastName'
         },
         {
-            headerName: 'Emp Code', field: 'EmpCode'
+            headerName: 'Emp Code', field: 'empCode'
         },
         {
             headerName: 'Father Name', field: 'FatherName'
@@ -48,34 +43,18 @@ function StaffMasterTable() {
         {
             headerName: 'Mother Name', field: 'MotherName'
         },
-        {
-            headerName: 'Marital Status', field: 'MaritalStatus'
-        },
-        {
-            headerName: 'Spouse Name', field: 'SpouseName'
-        },
-        {
-            headerName: 'Anniversary', field: 'Anniversary'
-        },
-        {
-            headerName: 'Religion', field: 'Religion'
-        },
+        
         {
             headerName: 'DOB', field: 'DOB'
         },
         {
             headerName: 'Sex', field: 'Sex'
         },
-        {
-            headerName: 'Blood Group', field: 'BloodGroup'
-        },
-        {
-            headerName: 'Nationality', field: 'Nationality'
-        },
+    
       
         {
             headerName: "Action",
-            field: "EmpCode",
+            field: "empCode",
             cellRenderer: DeleteEditButtonStaffMaster,
             cellRendererParams: {
                 funGetBasicInfo: handleGettingBasicTableData

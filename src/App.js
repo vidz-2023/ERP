@@ -23,6 +23,8 @@ import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/
 import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
 import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
 import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
+import SalaryAdvances from './components/modules/staffModule/salarayAdvances/SalaryAdvances';
+import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvances/SalaryAdvancesTable';
 
 function App() {
   return (
@@ -47,11 +49,13 @@ function App() {
         <Route path='/salary-info/:id' element={<SalaryInformation />} />
         <Route path="/expenseclaim" element={<ExpenseClaim />} />
         <Route path="/staffMasterdata" element={<StaffMasterTable />} />
-        <Route path="/staffMaster" element={<StaffMaster />} />
+        <Route path="/staffMaster/:id" element={<StaffMaster />} />
         <Route path="/expenseclaim" element={<ExpenseClaim />} />
         <Route path="/payslip" element={<Payslip />} />
         <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
         <Route path="/timesheet" element={<TimeSheet />} />
+        <Route path="/salaryAdvances/:empcode" element={<SalaryAdvances />} />
+        <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable/>} />
       </Routes>
 
       <Footer />

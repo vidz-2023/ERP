@@ -17,3 +17,5 @@ export const leaveMasterURL=`${JSONURL}/LeavesMaster`
 export const leaveFormURL=`${JSONURL}/ApplyLeaves`
 
 export const salaryprocessURL = `${JSONURL}/salaryprocessURL`
+export const addressInfoURL = `${JSONURL}/emp-address-info`
+export const SalaryAdvancesInfoURL = `${JSONURL}/salary-advances`

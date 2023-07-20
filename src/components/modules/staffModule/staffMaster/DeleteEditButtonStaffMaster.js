@@ -1,21 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { deleteBasicInfo } from '../../../../services/basicInfoServices';
+import { deleteAddressInfo, getAddressDataByEmpCode } from '../../../../services/addressService';
 
 const DeleteEditButtonStaffMaster = (params) => {
     const navigate = useNavigate()
-    const handleDelete = (p) => {
+    const [addData,setAddData] = useState([])
+    const addressDataArr = []
+    const handleDelete = async (p) => {
         console.log(params)
-        console.log(p.data.id)
+        console.log(p.data.empCode)
+        
+        await getAddressDataByEmpCode(p.data.empCode).then((res) =>
+          //setAddData(res.data)
+         addressDataArr.push(res.data)
+        )
+        const arr  = []
+        arr.push(...addressDataArr[0])
+       
         deleteBasicInfo(p.data.id)
-       // getSalary().then()
-        p.funGetBasicInfo()
+          p.funGetBasicInfo()
+        if(arr != null)
+        {
+             deleteAddressInfo(arr)
+        }
+        
+         
     }
 
+    
     const handleEdit = (p) => {
-       // navigate(`/salary-structure/${p.data.id}`)
+        console.log(p.data.id)
+        navigate(`/staffMaster/${p.data.id}`)
     }
 
     return (<div>
