@@ -333,27 +333,29 @@
   ],
   "official-info": [
     {
+      "id": 1,
       "empCode": "00001",
       "CityType": "Metro",
-      "JoiningDate": "",
-      "ConfirmationDate": "",
-      "ProbationMonths": "",
-      "NoticeDays": "",
-      "SalaryWages": "",
-      "Sourcing": "",
-      "SkillSet": "",
-      "PANNo": "",
-      "UANNo": "",
-      "VoterIDNo": "",
-      "AadharCardNo": "",
-      "PassportNo": "",
-      "PassportValidUpto": "",
-      "DLNo": "",
-      "DLValidupto": ""
+      "JoiningDate": "2023-02-16",
+      "ConfirmationDate": "2023-02-1",
+      "ProbationMonths": "1",
+      "NoticeDays": "30",
+      "SalaryWages": "5",
+      "Sourcing": "Returnship",
+      "SkillSet": "HTML",
+      "PANNo": "ABCYH3933J",
+      "UANNo": "AA1122",
+      "VoterIDNo": "VOTE123",
+      "AadharCardNo": "321423",
+      "PassportNo": "PASS22",
+      "PassportValidUpto": "2024-02-2",
+      "DLNo": "11",
+      "DLValidupto": "2024-04-12"
     }
   ],
   "ESI-PF-Info": [
     {
+      "id": 1,
       "empCode": "00001",
       "ESIApplication": "Yes",
       "PFApplication": "Yes",
@@ -367,6 +369,7 @@
   ],
   "BankDetails": [
     {
+      "id": 1,
       "empCode": "00001",
       "Bank": "",
       "Branch": "",

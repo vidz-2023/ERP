@@ -121,9 +121,9 @@ const ExpenseApproveTable = () => {
     const [approve, setApprove] = useState()
 
     useEffect(() => {
-        getExpenseApproval().then((res) =>
-        setApprove(res.data)
-        )
+        // getExpenseApproval().then((res) =>
+        // setApprove(res.data)
+        // )
     }, [])
     return (
         <div className='justify-content-center'>

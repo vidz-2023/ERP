@@ -1,17 +1,34 @@
 import axios from "axios";
-import { expenseInfoURL, expenseApproveInfoURL } from '../share/constant';
+import { expenseClaimURL, expenseClaimDetailURL } from '../share/constant';
 
+//Expense Claim
+export const getExpenseClaim = () =>{
+    return axios.get(expenseClaimURL)
+}
+
+export const addExpenseClaim = (data) =>{
+    return axios.post(expenseClaimURL, data)
+}
+
+export const updateExpenseClaim = (data, id) => {
+    let url = `${expenseClaimURL}/${id}`
+    return axios.put(url, data)
+}
+
+export const deleteExpenseClaim = (id) => {
+    //console.log(id)
+    return axios.delete(`${expenseClaimURL}/${id}`)
+}
+
+//Expense Claim Detail
 export const getExpenseClaimDetail = () =>{
-    return axios.get(expenseInfoURL)
+    return axios.get(expenseClaimDetailURL)
 }
-
 export const addExpenseClaimDetail = (data) =>{
-    return axios.post(expenseInfoURL, data)
+    return axios.post(expenseClaimDetailURL, data)
 }
 
-export const getExpenseApproval = () =>{
-    return axios.get(expenseApproveInfoURL)
-}
-export const addExpenseApproval = (data) =>{
-    return axios.post(expenseApproveInfoURL, data)
+export const deleteExpenseClaimDetail = (id) => {
+    //console.log(id)
+    return axios.delete(`${expenseClaimDetailURL}/${id}`)
 }

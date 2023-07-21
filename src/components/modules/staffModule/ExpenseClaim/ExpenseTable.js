@@ -1,134 +1,117 @@
 import React, { useEffect, useState } from 'react'
-import { getSalary } from '../../../../services/salaryService';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { getExpenseClaimDetail } from '../../../../services/ExpenseclaimService';
-
+import { getSalary } from '../../../../services/salaryService'
+import { AgGridReact } from 'ag-grid-react'
+import 'ag-grid-community/styles/ag-grid.css'
+import 'ag-grid-community/styles/ag-theme-alpine.css'
+import { getExpenseClaim } from '../../../../services/ExpenseclaimService.js'
+import DeleteEditExpenseClaim from './DeleteEditExpenseClaim'
+import { useNavigate } from 'react-router-dom'
 
 const ExpenseTable = () => {
+  const [expensedata, setexpensedata] = useState('')
+  const navigate = useNavigate()
 
-    const [expensedata, setexpensedata] = useState('')
-    // const data = [
-    //     {
-    //         sno: 1,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
-    //     {
-    //         sno: 2,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
-    //     {
-    //         sno: 3,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
-    //     {
-    //         sno: 4,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
-    //     {
-    //         sno: 5,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
-    //     {
-    //         sno: 6,
-    //         ledger: "",
-    //         panel: "",
-    //         invest: "",
-    //         amount: 0.00,
-    //         remark: "",
-    //         costcenter: ""
-    //     },
+  useEffect(() => {
+    handleExpenseData()
+  }, [])
 
-    // ]
-    const column = [{
-        headerName: "S No",
-        field: "sno",
-        checkboxSelection: true
-        // sortable: true,
-        // filter: true,
-        // editable: true
+  const handleExpenseData = () => {
+    getExpenseClaim().then(res => {
+      console.log(res.data)
+      setexpensedata(res.data)
+    })
+  }
+
+  const column = [
+    {
+      headerName: 'S No',
+      field: 'sno',
+      checkboxSelection: true
     },
     {
-        headerName: "Employee code", field: "empcode", sortable: true
+      headerName: 'Employee Code',
+      field: 'empcode'
     },
     {
-        headerName: "Expense Claim code", field: "expenseclaimcode", sortable: true
+      headerName: 'Expense Status',
+      field: 'expenseStatus'
     },
     {
-        headerName: "Bill No", field: "billno", sortable: true
+      headerName: 'Claim Date',
+      field: 'claimdate'
+    },
+    // {
+    //   headerName: 'Process Date',
+    //   field: 'processdate'
+    // },
+    {
+      headerName: 'Approved By',
+      field: 'ApprovedBy'
+    },
+    // {
+    //   headerName: 'Credit GL',
+    //   field: 'creditGL'
+    // },
+    {
+      headerName: 'Total Amount',
+      field: 'TotalAmount'
     },
     {
-        headerName: "Amount Spent", field: "amountSpent", sortable: true
+      headerName: 'Cheque No',
+      field: 'ChequeNo'
     },
     {
-        headerName: "Remark", field: "Remarks", sortable: true
+      headerName: 'NEFT No',
+      field: 'NEFTNo'
     },
     {
-        headerName: "Billimage", field: "billimage", sortable: true
+      headerName: 'Cost Center',
+      field: 'CostCenter'
     },
     {
-        headerName: "approvedamount", field: "ApprovedAmount", sortable: true
-    },
-    {
-        headerName: "approveremark", field: "ApproveRemark", sortable: true
-    },
-    {
-        headerName: "Cost Center", field: "CostCenter", sortable: true
+      headerName: 'Action',
+      field: 'empCode',
+      cellRenderer: DeleteEditExpenseClaim,
+      cellRendererParams: {
+        funGetSalaryInfo: handleExpenseData
+      }
     }
-    ]
+  ]
 
-    // this way not to repeatedly write with all column
-    const defaultColDef = {
-        sortable: true,
-        filter: true,
-        editable: true
-    }
+  // this way not to repeatedly write with all column
+  const defaultColDef = {
+    sortable: true,
+    filter: true,
+    flex: 1
+  }
 
-    useEffect(() => {
-        getExpenseClaimDetail().then((res) =>
-        setexpensedata(res.data)
-        )
-    }, [])
-    
-    return (
-        <div>
+  const handleExpenseTable = () => {
+    navigate('/expenseclaim/0')
+  }
 
-
-            <div className="ag-theme-alpine" style={{ width: 1300, height: 300 }}>
-                <AgGridReact rowData={expensedata} columnDefs={column} defaultColDef={defaultColDef} />
-
-            </div>
-            <div className='row justify-content-center mb-5'>
-                <div className='col-4'><button type="button" className='w-50 btn btn-info m-3 '>Add Blank Row</button></div>
-            </div>
+  return (
+    <>
+      <div className='container-fluid mt-4 mb-5'>
+        <div className='row justify-content-md-center mb-3'>
+          <button
+            type='button'
+            className='w-25 btn btn-info'
+            onClick={() => {
+              handleExpenseTable()
+            }}
+          >
+            Add Row
+          </button>
         </div>
-    )
-
+        <div className='ag-theme-alpine' style={{ height: 300 }}>
+          <AgGridReact
+            rowData={expensedata}
+            columnDefs={column}
+            defaultColDef={defaultColDef}
+          />
+        </div>
+      </div>
+    </>
+  )
 }
 export default ExpenseTable
