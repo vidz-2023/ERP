@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getBasicInfo } from '../../../../services/basicInfoServices'
+import { getBasicInfo, searchBasicInfoAnyField } from '../../../../services/basicInfoServices'
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -26,6 +26,11 @@ function StaffMasterTable() {
     const addStaffInformation = () =>{
         navigate('/staffMaster/0')
     }
+
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+         searchBasicInfoAnyField(searchVal).then((res) => setBasicInfo(res.data))
+     }
     
     const columns = [
         {
@@ -63,15 +68,31 @@ function StaffMasterTable() {
     ]
     const defaultColDefs = { sortable: true, filter: true, flex:1}
     return (
-        <div>
-           
-           <div className='text-center p-3'><button type="button" class="btn btn-info" onClick={() => addStaffInformation()}>Add Staff Information</button></div>
-           
-            <div className="ag-theme-alpine ms-2 me-1" style={{ height: 300 }}>
-                <AgGridReact rowData={basicInfo} columnDefs={columns} defaultColDef={defaultColDefs} />
+        <div className='container'>
+            <div className='row mt-3'>
+                <div className='col-4 ms-3 '>
+                    <button type="button" className='btn btn-info'
+                    onClick={() => addStaffInformation()}>
+                        Add Row
+                    </button>
+                </div>
+                <div className='row col-8'>
+                <div className='col-8'>
+                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} placeholder='Search'/>
+                    </div>
+                   
+                </div>
+            </div>
+            <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
+                <AgGridReact
+                    rowData={basicInfo}
+                    columnDefs={columns}
+                    defaultColDef={defaultColDefs}
+                />
             </div>
         </div>
     )
+  
 }
 
 export default StaffMasterTable

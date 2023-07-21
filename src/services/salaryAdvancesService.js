@@ -23,6 +23,17 @@ export const getSalAdvancesByEmpCode = (data) => {
 
 }
 
+export const updateSalAdvances = (data, id) => {
+
+    let url = `${SalaryAdvancesInfoURL}/${id}`
+
+    return axios.put(url, data)
+
+}
+
+export const searchSalAdvancesAnyField = (data) => {
+    return axios.get(`${SalaryAdvancesInfoURL}?q=${data}`)
+}
 
 
 

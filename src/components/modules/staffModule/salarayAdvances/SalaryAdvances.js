@@ -3,13 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { FaBook, FaEdit } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { addSalAdvancesInfo, getSalAdvancesByEmpCode } from '../../../../services/salaryAdvancesService';
+import { addSalAdvancesInfo, getSalAdvancesByEmpCode, updateSalAdvances } from '../../../../services/salaryAdvancesService';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import Moment from 'react-moment';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
+import RightMarkComponent from '../../../../share/RightMarkComponet';
+import CrossMarkComponent from '../../../../share/CrossMarkComponent';
+import PlusSignComponent from '../../../../share/PlusSignComponent';
+
+
+
 
 function SalaryAdvances() {
 
@@ -44,7 +50,8 @@ function SalaryAdvances() {
         EMI: "",
         PA: "",
         IA: 0,
-        Bal: ""
+        Bal: "",
+        Status:"No"
 
     }
 
@@ -56,9 +63,8 @@ function SalaryAdvances() {
     const [showApprovedDate, setApproveDate] = useState(false)
     const [rePayData, setRepayData] = useState([])
     const [isUpdate, setIsUpdate] = useState(false)
-    const rePayArr = []
-
-  // var temValues = {}
+    var rePayArr = []
+    const emiStatusArr = ['Yes','No','Yes','No','Yes']
 
     useEffect(() => {
         getDataByEmpCode()
@@ -68,15 +74,25 @@ function SalaryAdvances() {
 
         console.log(empcode)
         if (empcode > 0) {
-           await getSalAdvancesByEmpCode(empcode).then(res => {
-                
+            await getSalAdvancesByEmpCode(empcode).then(res => {
+
                 setPeriods(res.data[0].RepayPeriodsInMonth)
                 setMonthlyAmt(res.data[0].RepayMonthlyAmt)
                 setFormValue(res.data[0])
+                formValues.RepayStartDate = res.data[0].RepayStartDate
+                formValues.ApprovedLoanAmt = res.data[0].ApprovedLoanAmt
+                formValues.RepayPeriodsInMonth = res.data[0].RepayPeriodsInMonth
+                formValues.RepayMonthlyAmt = res.data[0].RepayMonthlyAmt
+                console.log(periods + "pppp")
+                console.log(res.data[0].RepayStartDate + "date")
+                console.log(res.data[0].ApprovedLoanAmt + "bal")
+                console.log(formValues.RepayStartDate + "date")
+                console.log(formValues.ApprovedLoanAmt + "bal")
+                rePayArr =[]
+                setRepaymentSchedule()
 
-              
             })
-          await  getRepaymentSchedule()
+           
             setIsUpdate(true)
         }
 
@@ -97,7 +113,7 @@ function SalaryAdvances() {
         ApprovedDate: Yup.string().required("required"),
         RepaymentMethod: Yup.string().required("required"),
         RepayMonthlyAmt: Yup.number().required("required").min(0, "Only positive value"),
-          RepayPeriodsInMonth: Yup.number().required("required").min(0, "Only positive value"),
+        RepayPeriodsInMonth: Yup.number().required("required").min(0, "Only positive value"),
         RepayStartDate: Yup.string().required("required"),
         PaymentMode: Yup.string().required("required"),
         // CollectionLoc: Yup.string().required("required"),
@@ -118,7 +134,6 @@ function SalaryAdvances() {
             console.log("--------")
             calculatePeriodOfMonths(value)
 
-
         }
 
         else if (name == "RepayPeriodsInMonth" && formValues.RepaymentMethod == "Periods") {
@@ -138,14 +153,23 @@ function SalaryAdvances() {
     }
 
     const handleSubmit = () => {
-        
-       formValues.RepayPeriodsInMonth = periods
-       formValues.RepayMonthlyAmt = monthlyAmt
-        //setFormValue({ ...formValues, "RepayMonthlyAmt": monthlyAmt, "RepayPeriodsInMonth": periods })
 
+        formValues.RepayPeriodsInMonth = periods
+        formValues.RepayMonthlyAmt = monthlyAmt
         console.log(formValues)
-        addSalAdvancesInfo(formValues)
+
+        if (isUpdate) {
+            let id = formValues.id
+           updateSalAdvances(formValues, id)
+          
+        }
+        else {
+
+            addSalAdvancesInfo(formValues)
+           
+        }
         navigate('/salaryAdvancesData')
+
     }
     const calculatePeriodOfMonths = (amt) => {
 
@@ -162,17 +186,15 @@ function SalaryAdvances() {
         amt = formValues.ApprovedLoanAmt / month
         setMonthlyAmt(amt)
         setPeriods(month)
-        formValues.RepayMonthlyAmt = amt
-        //console.log(formValues)
-
 
     }
 
+
     const getRepaymentSchedule = () => {
 
-       console.log(formValues)
+        console.log(rePayData)
         let startDate = moment(formValues.RepayStartDate).format('L');;
-     
+
         rePayValue.Bal = formValues.ApprovedLoanAmt - monthlyAmt
         rePayValue.EMI = monthlyAmt
         rePayValue.PA = monthlyAmt
@@ -188,7 +210,8 @@ function SalaryAdvances() {
                 EMI: monthlyAmt,
                 PA: monthlyAmt,
                 IA: 0,
-                Bal: ""
+                Bal: "",
+                Status: "No"
 
             }
             obj.Bal = bal - monthlyAmt * i
@@ -199,13 +222,53 @@ function SalaryAdvances() {
 
         console.log(rePayArr)
         setRepayData(rePayArr)
-    
+
 
     }
 
+    const setRepaymentSchedule = () => {
+
+        console.log(rePayArr)
+        let startDate = moment(formValues.RepayStartDate).format('L');;
+
+        rePayValue.Bal = formValues.ApprovedLoanAmt - formValues.RepayMonthlyAmt
+        rePayValue.EMI = formValues.RepayMonthlyAmt
+        rePayValue.PA = formValues.RepayMonthlyAmt
+        rePayValue.RePayDate = startDate
+        rePayValue.Status = emiStatusArr[0]
+        rePayArr.push(rePayValue)
+        let bal = rePayValue.Bal
+        for (let i = 1; i < formValues.RepayPeriodsInMonth; i++) {
+            console.log(i)
+            const obj = {
+
+                EmiNo: i + 1,
+                RePayDate: "",
+                EMI: formValues.RepayMonthlyAmt,
+                PA: formValues.RepayMonthlyAmt,
+                IA: 0,
+                Bal: "",
+                Status: emiStatusArr[i]
+
+            }
+            obj.Bal = bal - formValues.RepayMonthlyAmt * i
+            obj.RePayDate = moment(startDate).add(1, 'M').format('L');
+            startDate = obj.RePayDate
+            rePayArr.push(obj)
+        }
+
+        console.log(rePayArr)
+        setRepayData(rePayArr)
+
+
+    }
+
+    
+
     const columns = [
         {
-            headerName: 'S.No', field: 'EmiNo'
+            headerName: 'S.No', field: 'EmiNo',
+             cellRenderer: PlusSignComponent,
         },
         {
             headerName: 'Payment Date', field: 'RePayDate'
@@ -223,6 +286,20 @@ function SalaryAdvances() {
 
         {
             headerName: 'Balance', field: 'Bal'
+        },
+        {
+            headerName: 'Paid Status', field: "Status",
+           // cellRenderer: setEmiStatus,
+           cellRendererSelector: p => {
+            if(p.value == "Yes")
+            {
+                return {component:RightMarkComponent}
+            }
+            if(p.value == "No")
+            {
+                return {component:CrossMarkComponent}
+            }
+           }
         }
 
     ]
@@ -238,16 +315,17 @@ function SalaryAdvances() {
                 </div>
             </h4>
             <Formik initialValues={formValues} validationSchema={validationSchema}
+                enableReinitialize
                 onSubmit={handleSubmit}>
                 {({ isSubmitting, setFieldValue }) => (
                     <Form>
                         <div className='row fw-bolder mt-3'>
-                            <div className='col-3 text-info' >New Loan Type1 </div>
+                            <div className='col-3 text-info' > Loan Details </div>
                             <div className='col-3'></div>
                             <div className='col-4 text-info'>
                                 Repayment Information </div>
                             <div className='col-2'><button type="submit"
-                                class="btn btn-info " id="">submit</button>
+                                class="btn btn-info " id="">Submit</button>
                             </div>
                         </div>
 
@@ -282,7 +360,7 @@ function SalaryAdvances() {
                                 </div>
 
                                 <div className="input-group text-danger fs-6 mt-1">
-                                    <Field type="text" className="form-control" disabled
+                                    <Field type="text" className="form-control" 
                                         name="empCode"
                                         value={formValues.empCode}
                                         onChange={e => handleChange(e, setFieldValue)}></Field>
@@ -372,15 +450,6 @@ function SalaryAdvances() {
 
                                 <div><label class="form-label">Loan Amount</label></div>
                                 <div><label class="form-label mt-3">Repayment Method</label></div>
-
-                                {/* {formValues.RepaymentMethod == "Fix" && <div className="input-group text-danger fs-6 mt-1">
-                                    <Field type="number" className="form-control"
-                                        placeholder = "Monthly Amount"
-                                        name="RepayMonthlyAmt"
-                                        value={formValues.RepayMonthlyAmt}
-                                        onChange={e => handleChange(e, setFieldValue)}></Field>
-                                    <ErrorMessage name='RepayMonthlyAmt' className=" ms-1" />
-                                </div>}*/}
 
                                 {formValues.RepaymentMethod == "Fix" && <div><label class="form-label mt-2">Monthly Repayment amount</label></div>}
                                 {formValues.RepaymentMethod == "Fix" && <div><label class="form-label ">Repayment Period in months</label></div>}
@@ -555,7 +624,7 @@ function SalaryAdvances() {
             </Formik>
 
             <div className='row '> Repayment Schedule
-                <div className='col-2'><button type="button"
+                <div className='col-2 '><button type="button"
                     class="btn btn-info " id="" onClick={getRepaymentSchedule}>Get</button>
                 </div>
             </div>

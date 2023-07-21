@@ -4,7 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import { useNavigate } from 'react-router-dom';
-import { getSalaryAdvancesInfo } from '../../../../services/salaryAdvancesService';
+import { getSalaryAdvancesInfo, searchSalAdvancesAnyField } from '../../../../services/salaryAdvancesService';
 import DeleteEditButtonSalAdv from './DeleteEditButtonSalAdv';
 
 
@@ -28,6 +28,13 @@ const SalaryAdvancesTable = () => {
     const addSalAdvInformation = () =>{
         navigate('/salaryAdvances/0')
     }
+
+    const searchFun = (e) => {
+       const searchVal = e.target.value
+        searchSalAdvancesAnyField(searchVal).then((res) => setSalaryAdvData(res.data))
+    }
+    
+
     const columns = [
         {
             headerName: 'Emp Name', field: 'EmpName'
@@ -70,14 +77,10 @@ const SalaryAdvancesTable = () => {
                     </button>
                 </div>
                 <div className='row col-8'>
-                    <div className='col-8'>
-                        <input type="text" className='form-control' />
+                <div className='col-8'>
+                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} placeholder='Search'/>
                     </div>
-                    <div className='col-4'>
-                        <button type="button" className='btn btn-info'>
-                            Search
-                        </button>
-                    </div>
+                   
                 </div>
             </div>
             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
