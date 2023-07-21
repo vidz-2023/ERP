@@ -13,8 +13,8 @@ export const bankInfoURL = `${JSONURL}/BankDetails`
 export const basicInfoURL = `${JSONURL}/emp-basic-info`
 export const expenseInfoURL = `${JSONURL}/expense-claim-detail`
 export const expenseApproveInfoURL = `${JSONURL}/expense-claim`
-export const leaveMasterURL=`${JSONURL}/LeavesMaster`
-export const leaveFormURL=`${JSONURL}/ApplyLeaves`
+export const leaveMasterURL = `${JSONURL}/LeavesMaster`
+export const leaveFormURL = `${JSONURL}/ApplyLeaves`
 
 export const salaryprocessURL = `${JSONURL}/salaryprocessURL`
 export const addressInfoURL = `${JSONURL}/emp-address-info`

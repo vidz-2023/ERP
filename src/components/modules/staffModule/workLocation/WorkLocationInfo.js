@@ -84,8 +84,6 @@ function WorkLocationInfo() {
                     const resObj = resName.data.find((item) => {
                         return item.EmpCode === empcode
                     })
-                    // setWorkLocationData({ ...res.data[0], "empName": resObj.FirstName })
-                    // setIsUpdate(true)
                     console.log(resObj)
                     if (res.data.length) {
                         setWorkLocationData({ ...res.data[0], "empName": resObj.FirstName })

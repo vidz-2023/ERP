@@ -38,7 +38,6 @@ function SalaryStructure() {
     const [professionalTax, setProfessionalTax] = useState(0)
     const [tds, setTDS] = useState(0)
 
-
     useEffect(() => {
         getEmpSalaryStructureDataByEmpCode(empcode)
     }, [])

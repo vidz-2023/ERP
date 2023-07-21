@@ -379,34 +379,50 @@
     {
       "empCode": "00001",
       "EffectiveFrom": "2023-07-05",
-      "Basic": "10000",
+      "Basic": "90000",
       "ESIEmployeer": "100",
       "PFEmployeer": "100",
       "LWFEmployeer": "100",
-      "CTC": 123600,
+      "CTC": 1080000,
       "ESIEmployee": "100",
       "PFEmployee": "100",
-      "TDS": "240",
+      "TDS": "24",
       "ProfessionalTax": "240",
       "LWFEmployee": "100",
-      "InHand": 9520,
+      "InHand": 89760,
       "id": 4
     },
     {
       "empCode": "00002",
       "EffectiveFrom": "2023-10-10",
-      "Basic": "30000",
+      "Basic": "500000",
       "ESIEmployeer": "10",
       "PFEmployeer": "10",
       "LWFEmployeer": "10",
-      "CTC": 360360,
+      "CTC": 6000000,
       "ESIEmployee": "10",
       "PFEmployee": "10",
       "TDS": "240",
       "ProfessionalTax": "240",
       "LWFEmployee": "10",
-      "InHand": 29520,
+      "InHand": 499760,
       "id": 5
+    },
+    {
+      "empCode": "00003",
+      "EffectiveFrom": "2023-07-06",
+      "Basic": "100000000",
+      "ESIEmployeer": "00",
+      "PFEmployeer": "00",
+      "LWFEmployeer": "000",
+      "CTC": 1200000000,
+      "ESIEmployee": "00",
+      "PFEmployee": "00",
+      "TDS": "100000",
+      "ProfessionalTax": "1000",
+      "LWFEmployee": "000",
+      "InHand": 99999000,
+      "id": 6
     }
   ],
   "LeavesMaster": [
@@ -461,6 +477,19 @@
       "EarlyOut": "Yes",
       "LoanAmount": "3112",
       "id": 3
+    },
+    {
+      "empCode": "00003",
+      "EffectiveFrom": "2023-07-07",
+      "Branch": "Noida",
+      "Department": "IT",
+      "LateIn": "Yes",
+      "Designation": "Software Engineer",
+      "Category": "E0",
+      "EmployeeShift": "Day Shift",
+      "EarlyOut": "Yes",
+      "LoanAmount": "399999",
+      "id": 4
     }
   ],
   "expense-claim": [

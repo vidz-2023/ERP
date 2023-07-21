@@ -23,20 +23,26 @@ import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/
 import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
 import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
 import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
+import EmpNameCode from './share/EmpNameCode';
+import SalaryStructureWithSharedComponent from './components/modules/staffModule/Salary/SalaryStructureWithSharedComponent';
+import Attendence from './components/modules/staffModule/AttendanceMarking/Attendence';
 import SalaryAdvances from './components/modules/staffModule/salarayAdvances/SalaryAdvances';
 import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvances/SalaryAdvancesTable';
 
 function App() {
   return (
     <div className="App">
+      {/*<EmpNameCode />*/}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/table" element={<Table />} />
         <Route path="/salary-data" element={<SalaryTable />} />
         <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
+        {/* <Route path="/salary-structure/:empcode" element={<SalaryStructureWithSharedComponent />} />*/}
         <Route path="/worklocation-data" element={<WorkLocationTable />} />
         <Route path="/worklocation" element={<WorkLocationInfo />} />
+        <Route path="/attendance" element={<Attendence />} />
         <Route path="leaveMaster" element={<LeaveMaster />} />
         <Route path='leaveMaster/:id' element={<LeaveMaster />} />
         <Route path="leaveMasterTable" element={<LeaveMasterTable />} />
@@ -55,7 +61,7 @@ function App() {
         <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
         <Route path="/timesheet" element={<TimeSheet />} />
         <Route path="/salaryAdvances/:empcode" element={<SalaryAdvances />} />
-        <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable/>} />
+        <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
       </Routes>
 
       <Footer />

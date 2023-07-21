@@ -17,7 +17,7 @@ export const getBasicInfoByName = (data) => {
 
 /*export const getBasicInfoByEmpCode  = (data) => {
     console.log(data)
-    return axios.get(`${basicInfoURL}?EmpCode=0000${data}`)
+    return axios.get(`${basicInfoURL}?EmpCode=${data}`)
 }
 */
 export const deleteBasicInfo = (data) => {
