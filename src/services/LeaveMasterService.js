@@ -5,6 +5,10 @@ export const getLeaveMaster = () => {
     return axios.get(leaveMasterURL)
 }
 
+export const getLeaveByNoOfLeave = (leaveCode) => {
+    console.log(`${leaveMasterURL}?leaveCode=${leaveCode}`)
+    return axios.get(`${leaveMasterURL}?leaveCode=${leaveCode}`)
+}
 export const addLeaveMaster = (data) => {
     console.log(data)
     return axios.post(leaveMasterURL, data)

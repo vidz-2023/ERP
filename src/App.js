@@ -49,6 +49,7 @@ function App() {
         <Route path="leaveMasterTable" element={<LeaveMasterTable />} />
         <Route path='leaveForm' element={<LeaveForm />} />
         <Route path="leaveForm/:id" element={<LeaveForm />} />
+        <Route path="leaveForm/:employee" element={<LeaveForm />} />
         <Route path="leaveFormTable" element={<LeaveFormTable />} />
         <Route path="/worklocation/:empcode" element={<WorkLocationInfo />} />
         <Route path="/salary-info-table" element={<SalaryInformationTable />} />

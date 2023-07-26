@@ -11,7 +11,7 @@ export const addLeaveForm = (data) => {
 }
 
 export const editLeaveForm = (data) => {
-    return axios.put(leaveFormURL + '/' + data.id,data)
+    return axios.put(leaveFormURL + '/' + data.id, data)
 }
 
 export const deleteLeaveForm = (id) => {
@@ -22,5 +22,9 @@ export const getLeaveFormByID = (id) => {
     const fetchByIDURL = leaveFormURL + "/" + id;
     return axios.get(fetchByIDURL)
         .then(res => res.data);
+}
+
+export const getLeaveFormByEmpCode = (employee) => {
+    return axios.get(`${leaveFormURL}?employee=${employee}`)
 }
 

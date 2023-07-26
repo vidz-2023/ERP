@@ -10,7 +10,7 @@ import LeaveEditDelete from './LeaveEditDelete';
 function LeaveMasterTable() {
     const [leave, setLeave] = useState([]);
     const navigate = useNavigate();
- 
+
     // const leaveMaster = [
     //     {
     //         Description: "EMergency Leave",
@@ -52,10 +52,6 @@ function LeaveMasterTable() {
             field: "cashable"
         },
         {
-            headerName:"Leave Balance",
-            field:"leaveBalance"
-        },
-        {
             cellRenderer: LeaveEditDelete,
             cellRendererParams: {
                 GetSalary: getLeaveMaster
@@ -66,12 +62,12 @@ function LeaveMasterTable() {
         sortable: true,
         filter: true,
         editable: true,
-        flex:1
+        flex: 1
     }
 
     const onAdd = () => {
         alert('Hi');
-       navigate('/leaveMaster')
+        navigate('/leaveMaster')
     }
 
     useEffect(() => {
@@ -79,7 +75,7 @@ function LeaveMasterTable() {
             console.log(res.data)
             setLeave(res.data)
         })
-    },[])
+    }, [])
 
     return (
         <>
@@ -88,10 +84,10 @@ function LeaveMasterTable() {
                     type="button"
                     class="btn btn-info mb-2 mt-5"
                     style={{ position: 'relative', left: '600px' }}
-                    onClick={() => onAdd()} >Add</button>
+                    onClick={() => onAdd()} >Add Leave Master</button>
             </div>
             <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={leave} columnDefs={column} defaultColDef={defaultColDef} animateRows={true}/>
+                <AgGridReact rowData={leave} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
         </>

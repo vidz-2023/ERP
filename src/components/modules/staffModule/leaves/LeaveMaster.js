@@ -5,34 +5,32 @@ import { MdOutlineHolidayVillage } from "react-icons/md";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import LeaveMasterTable from './LeaveMasterTable';
-import { addLeaveMaster, getLeaveMasterByID, updateLeaveMaster } from '../../../../services/LeaveMasterService';
+import { addLeaveMaster, getLeaveByNoOfLeave, getLeaveMasterByID, updateLeaveMaster } from '../../../../services/LeaveMasterService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function LeaveMaster() {
-    const [isLeaveUpdate, setIsLeaveUpdate] = useState(false);
-    console.log(isLeaveUpdate)
-    const { id } = useParams();
-    console.log(id)
-    const navigate = useNavigate()
-
     // Intial Value for Formik
     const inputFields = {
         description: '',
         leaveCode: '',
-        email: '',
         leaveType: '',
         applicable: '',
         noOfLeave: '',
         transferable: '',
         cashable: '',
-        leaveBalance: ''
     }
+    const [isLeaveUpdate, setIsLeaveUpdate] = useState(false);
+    console.log(isLeaveUpdate)
+    const { id } = useParams();
+    console.log(id)
+    const navigate = useNavigate()
+   
+
     const [leaveMasterValue, setLeaveMasterValue] = useState(inputFields)
     // ------------------- It is for Yup ---------------------------//
     const validateyupSchema = Yup.object({
         description: Yup.string().required('Description is required'),
         leaveCode: Yup.string().required('Leavecode is rquired'),
-        email: Yup.string().required('Email Id i srequired'),
         leaveType: Yup.string().required('Leave Type is required'),
         applicable: Yup.string().required('Applicabale si required'),
         noOfLeave: Yup.string().required('No of Leave is required'),
@@ -40,6 +38,7 @@ function LeaveMaster() {
         cashable: Yup.string().required('Cashable is required'),
     })
     useEffect(() => {
+    
         if (id >= 0) {
             getLeaveMasterByID(id).then(res => {
                 console.log(res)
@@ -60,12 +59,8 @@ function LeaveMaster() {
             navigate('/leaveMasterTable')
         }
     }
-    // ------------------- Function Declaration ---------------------------//
-    // const onHandleChange = (option,setFieldValue) => {
-    //     setFieldValue(option.target.value)
-    //     console.log(setFieldValue)
-    // }
-    const onLeaveMasterHandlerChange = (e, setFieldValue) => {
+    // ------------------- On Change Function Declaration ---------------------------//
+      const onLeaveMasterHandlerChange = (e, setFieldValue) => {
         const { name, value } = e.target
         setLeaveMasterValue({ ...leaveMasterValue, [name]: value })
         setFieldValue([name], value)
@@ -215,23 +210,22 @@ function LeaveMaster() {
                                                     <ErrorMessage name='cashable' />
                                                 </div>
                                             </div>
-                                            <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            {/* <div className='col-2'></div>
+                                             <div className='col-2 form-label'>
                                                 Leave Balance
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
-                                                        type='number'
-                                                        name='number'
+                                                        type='text'
+                                                        name='leaveBalance'
                                                         value={leaveMasterValue.leaveBalance}
-                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
-                                                        disabled
+                                                        onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}                                                        
                                                     />
-                                                    <ErrorMessage name='number' />
+                                                    <ErrorMessage name='leaveBalance' />
                                                 </div>
-                                            </div>
+                                            </div>  */}
 
                                         </div>
 

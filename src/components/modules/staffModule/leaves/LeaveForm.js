@@ -4,20 +4,16 @@ import { MdOutlineHolidayVillage } from "react-icons/md";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import LeaveFormTable from './LeaveFormTable';
-import { addLeaveForm, editLeaveForm, getLeaveFormByID } from '../../../../services/LeaveFormService';
+import { addLeaveForm, editLeaveForm, getLeaveFormByEmpCode, getLeaveFormByID } from '../../../../services/LeaveFormService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaBullseye } from 'react-icons/fa';
+import { getLeaveByNoOfLeave, getLeaveMaster } from '../../../../services/LeaveMasterService';
+
 
 function LeaveForm() {
-  //Declaration
-  const [isUpdate, setIsUpdate] = useState(false);
-  console.log(isUpdate)
-  const { id } = useParams();
-  const navigate = useNavigate()
 
   // InitialValues Value for Formik
   const inputFields = {
-
     employee: '',
     voucherno: '',
     leavecode: '',
@@ -33,8 +29,23 @@ function LeaveForm() {
     branch: '',
     department: '',
     designation: '',
+    availableLeaves: ""
   }
+
+  //Declaration
+  const [isUpdate, setIsUpdate] = useState(false);
+  const { id } = useParams();
+  const { employee } = useParams();
+  const navigate = useNavigate()
   const [leaveFormValue, setLeveFormValue] = useState(inputFields)
+  const [avbLeaves, setAvbLeaves] = useState(0)
+  var acqLeaves = 0;
+  const tempArray = [];
+  var newLeaCodAcqLea = []
+  const [data, setData] = useState([])
+  var countDays = 0
+  var pendingLeaves = 0;
+  var getAvbLeave;
 
   const validateyupSchema = Yup.object({
     employee: Yup.string().required('Employee is required'),
@@ -48,9 +59,9 @@ function LeaveForm() {
     amount: Yup.string().required(' Amount is required'),
     remark: Yup.string().required('Remark is required'),
     reason: Yup.string().required('Reason is required'),
-    remarkByFinance: Yup.string().required('Remarks are required')
+    remarkByFinance: Yup.string().required('Remarks are required'),
+    //availableLeaves: Yup.string().required('Check the data')
   })
-
 
   useEffect(() => {
     if (id >= 0) {
@@ -62,7 +73,6 @@ function LeaveForm() {
     }
   }, [])
 
-
   const handleSubmit = () => {
     if (!isUpdate) {
       addLeaveForm(leaveFormValue)
@@ -72,21 +82,100 @@ function LeaveForm() {
       navigate('/leaveFormTable')
     }
   }
+
   //Function Declration
   const onLeaveHandlerChange = (e, setFieldValue) => {
     const { name, value } = e.target
     setLeveFormValue({ ...leaveFormValue, [name]: value })
     setFieldValue([name], value)
+    fetchEmp(value)
+  }
+
+  const onLeavecodeChange = (e, setFieldValue) => {
+    const { name, value } = e.target
+    setLeveFormValue({ ...leaveFormValue, [name]: value })
+    setFieldValue([name], value)
+    getAvbBasedOnLeaveCode(value)
+  }
+
+  //To fetch the LeaveCode and No of Leave from The LeaveMaster 
+  const getAvbBasedOnLeaveCode = async (value) => {
+    console.log(value)
+
+    await getLeaveByNoOfLeave(value).then(res => {
+      console.log(res.data)
+      console.log(res.data[0].noOfLeave);
+      leaveFormValue.availableLeaves = res.data[0].noOfLeave
+      console.log(leaveFormValue.availableLeaves)
+      setAvbLeaves(leaveFormValue.availableLeaves)
+      getAvbLeave = res.data[0].noOfLeave
+    })
+    console.log(data)
+    let output = data.filter(item => item.empLeaveCode == value);
+    console.log(output)
+    for (let i = 0; i < output.length; i++) {
+      console.log(output[i].empAcqLeave)
+      countDays += Number(output[i].empAcqLeave)
+    };
+    console.log(countDays)
+    console.log(getAvbLeave)
+    pendingLeaves = getAvbLeave - countDays
+    console.log(pendingLeaves)
+    setAvbLeaves(pendingLeaves)
+  }
+
+  //TO fetch the total acquired leaves from the Employee code
+  const fetchEmp = async (value) => {
+    await getLeaveFormByEmpCode(value).then(res => {
+      console.log(res.data)
+      console.log(res.data[0].days)
+      tempArray.push(...res.data)
+      console.log(tempArray)
+      getAcqDays(tempArray)
+      getAcqDaysLeaveCode(tempArray)
+    })
+  }
+
+  //To get total of the Acquired Leaves based on the EmpCode
+  const getAcqDays = (tempArray) => {
+    console.log(tempArray)
+    let newAcqLeaves = []
+    for (let i = 0; i < tempArray.length; i++) {
+      console.log(tempArray[i].days)
+      newAcqLeaves.push(tempArray[i].days)
+    }
+    console.log(newAcqLeaves)
+    for (let i = 0; i < newAcqLeaves.length; i++) {
+      acqLeaves += Number(newAcqLeaves[i])
+    }
+    console.log(acqLeaves)
+  }
+
+  //To get the Leave Code and Acquired Leave to display in the Field
+  const getAcqDaysLeaveCode = (tempArray) => {
+
+    for (let i = 0; i < tempArray.length; i++) {
+      const newObjAcqDaysLeaveCode = {
+        "empLeaveCode": "",
+        "empAcqLeave": ""
+      }
+      newObjAcqDaysLeaveCode.empLeaveCode = tempArray[i].leavecode
+      newObjAcqDaysLeaveCode.empAcqLeave = tempArray[i].days
+      newLeaCodAcqLea.push(newObjAcqDaysLeaveCode)
+    }
+    console.log(newLeaCodAcqLea)
+    setData(newLeaCodAcqLea)
   }
 
   return (
     <>
+
       <div className='contianer mx-auto'>
         <fieldset>
           <div className='m-3'>
             <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
               <div className='m-2'>
-                <MdOutlineHolidayVillage className='me-2' />Leave Form
+                <MdOutlineHolidayVillage className='me-2' />Apply Leave
               </div>
             </h4>
             <Formik
@@ -110,6 +199,7 @@ function LeaveForm() {
                             className="form-select"
                             value={leaveFormValue.employee}
                             onChange={e => onLeaveHandlerChange(e, setFieldValue)}>
+                            <option value="">Select...</option>
                             <option value="00001"> 00001</option>
                             <option value="00002"> 00002</option>
                             <option value="00003"> 00003</option>
@@ -152,7 +242,7 @@ function LeaveForm() {
                       </div>
                       <div className='col-2'></div>
                       <div className='col-2 form-label'>
-                       Department
+                        Department
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
@@ -164,7 +254,7 @@ function LeaveForm() {
                             onChange={e => onLeaveHandlerChange(e, setFieldValue)} />
                           <ErrorMessage name='department' />
                         </div>
-                      </div>                     
+                      </div>
 
                     </div>
 
@@ -180,7 +270,8 @@ function LeaveForm() {
                             name="leavecode"
                             className="form-select"
                             value={leaveFormValue.leavecode}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)}>
+                            onChange={e => onLeavecodeChange(e, setFieldValue)}
+                          >
                             <option value="0001"> 0001</option>
                             <option value="0002"> 0002</option>
                             <option value="0003"> 0003</option>
@@ -338,8 +429,6 @@ function LeaveForm() {
                         </div>
                       </div>
 
-
-
                     </div>
 
                     <div className='row mb-1'>
@@ -353,11 +442,28 @@ function LeaveForm() {
                             type='text'
                             name='voucherno'
                             value={leaveFormValue.voucherno}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)} />
+                            onChange={e => onLeaveHandlerChange(e, setFieldValue)}
+                          />
                           <ErrorMessage name='voucherno' />
                         </div>
                       </div>
-                    
+                      <div className='col-2'></div>
+                      <div className='col-2 form-label'>
+                        AvailableLeaves
+                      </div>
+                      <div className='col-3'>
+                        <div class="mb-2 text-danger">
+                          <Field
+                            className="form-control"
+                            type='text'
+                            name='availableLeaves'
+                            //value={avbLeaves}
+                            value={leaveFormValue.availableLeaves = avbLeaves}
+                            onChange={e => onLeaveHandlerChange(e, setFieldValue)}
+                            disabled />
+                          <ErrorMessage name='availableLeaves' />
+                        </div>
+                      </div>
                     </div>
 
                     <div className=' row mt-1'>
@@ -384,244 +490,6 @@ function LeaveForm() {
         </fieldset>
       </div>
 
-      {/* Form Editing the data with props */}
-      {/* {isForm &&
-        <div className='contianer mx-auto'>
-        <fieldset>
-          <div className='m-5'>
-            <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
-              <div className='m-2'>
-                <MdOutlineHolidayVillage className='me-2' />Leave Form
-              </div>
-            </h4>
-            <Formik
-              initialValues={inputFields}
-              validationSchema={validateyupSchema}
-              onSubmit={handleSubmit}
-              enableReinitialize>
-              {({ isSubmitting, values }) => (
-                <Form>
-                  <div className='w-75 mx-auto'>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        Employee
-                      </div>
-                      <div className='col-3 '>
-                        <div class="input-group text-danger">
-                          <Field
-                            as="select"
-                            name="employee"
-                            className="form-select"
-                            value={values.employee}>
-                            <option value="EMP0001"> EMP0001</option>
-                            <option value="EMP0002"> EMP0002</option>
-                            <option value="EMP0002"> EMP0003</option>
-                          </Field>
-                          <ErrorMessage name='employee' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        Voucher No
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='voucherno'
-                            value={values.voucherno} />
-                          <ErrorMessage name='voucherno' />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        Leave Code
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            as="select"
-                            name="leavecode"
-                            className="form-select"
-                            value={values.leavecode}>
-                            <option value="0001"> 0001</option>
-                            <option value="0002"> 0002</option>
-                            <option value="0003"> 0003</option>
-                          </Field>
-                          <ErrorMessage name='leavecode' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        Leave In
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            as="select"
-                            name="leaveIn"
-                            className="form-select"
-                            value={values.leaveIn}>
-                            <option value="FD"> FullDay</option>
-                            <option value="FH"> FirstHalf</option>
-                            <option value="SH"> SecondHalf</option>
-                          </Field>
-                          <ErrorMessage name='leaveIn' />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        From Date
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='date'
-                            name='fromDate'
-                            value={values.fromDate} />
-                          <ErrorMessage name='fromDate' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        To Date
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='date'
-                            name='toDate'
-                            value={values.toDate} />
-                          <ErrorMessage name='toDate' />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        Days
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='days'
-                            value={values.days} />
-                          <ErrorMessage name='days' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        Rate
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='rate'
-                            value={values.rate} />
-                          <ErrorMessage name='rate' />
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        Amount
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='amount'
-                            value={values.amount} />
-                          <ErrorMessage name='amount' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        Reason
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='reason'
-                            value={values.reason} />
-                          <ErrorMessage name='reason' />
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div className='row mb-1'>
-                      <div className='col-2 form-label'>
-                        Remark
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='remark'
-                            value={values.remark} />
-                          <ErrorMessage name='remark' />
-                        </div>
-                      </div>
-                      <div className='col-2'></div>
-                      <div className='col-2 form-label'>
-                        Remark By Finance
-                      </div>
-                      <div className='col-3'>
-                        <div class="input-group text-danger">
-                          <Field
-                            className="form-control"
-                            type='text'
-                            name='remarkByFinance'
-                            value={values.remarkByFinance} />
-                          <ErrorMessage name='remarkByFinance' />
-                        </div>
-                      </div>
-
-                    </div>
-
-
-                    <div className=' row mt-3'>
-                      <div className='col-3'>
-                        <button type="submit" className='w-50 btn btn-info'>Apply</button></div>
-
-                      <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Clear</button>
-                      </div>
-
-                      <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Delete</button>
-                      </div>
-
-                      <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Exit</button>
-                      </div>
-                    </div>
-
-                  </div>
-                </Form>)}
-            </Formik>
-          </div>
-        </fieldset>
-      </div>}   */}
     </>
   )
 }

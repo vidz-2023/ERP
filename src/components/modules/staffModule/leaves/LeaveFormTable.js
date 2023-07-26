@@ -30,58 +30,82 @@ function LeaveFormTable() {
         {
             headerName: "Employee",
             field: "employee",
+            width:85
         },
         {
             headerName: "Designation",
             field: "designation",
+            width:85
         },
         {
             headerName: "Branch",
             field: "branch",
+            width:85
         },
         {
             headerName: "Department",
             field: "department",
+            width:85
         },
         {
             headerName: "LeaveCode",
             field: "leavecode",
+            width:85
         },
+        {
+            headerName: "AvailableLeaves",
+            field: "availableLeaves",
+            width:85
+        },
+         {
+            headerName: "Voucherno",
+            field: "voucherno",
+            width:85
+        },        
         {
             headerName: "FromDate",
             field: "fromDate",
+            width:85
         },
         {
             headerName: "ToDate",
             field: "toDate",
+            width:85
         },
         {
             headerName: "Days",
             field: "days",
+            width:70
         },
         {
             headerName: "LeaveIn",
             field: "leaveIn",
+            width:70
         },
         {
             headerName: "Rate",
             field: "rate",
+            width:70
         },
         {
             headerName: "Amount",
             field: "amount",
+            width:70
         },
         {
             headerName: "Reason",
             field: "reason",
+            width:70
         },
         {
             headerName: "Remark",
             field: "remark",
+            width:70
         },
         {
             headerName: "RemarkByFinance",
             field: "remarkByFinance",
+            width:70
         },
         {
             cellRenderer: LeaveFormEditDelete,
@@ -94,7 +118,7 @@ function LeaveFormTable() {
         sortable: true,
         filter: true,
         editable: true,
-        flex: 1,
+        //  flex: 1,
     }
     const onAdd = () => {
         alert('DO you want to open the form');
@@ -113,7 +137,7 @@ function LeaveFormTable() {
                 type="button"
                 class="btn btn-info mb-2 mt-5"
                 style={{ position: 'relative', left: '600px' }}
-                onClick={() => onAdd()} >Add</button>
+                onClick={() => onAdd()} >Apply Leave</button>
             <div className="ag-theme-alpine  mb-5 ms-5" style={{ width: 1200, height: 300 }}>
                 <AgGridReact rowData={applyLeave} columnDefs={column} defaultColDef={defaultColDef} />
             </div>
