@@ -4,7 +4,6 @@ import * as Yup from 'yup'
 import { FaEdit, FaBook } from 'react-icons/fa'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
-import bill from '../../../../assets/images/bill.jpg'
 import {
   addExpenseClaim,
   addExpenseClaimDetail,
