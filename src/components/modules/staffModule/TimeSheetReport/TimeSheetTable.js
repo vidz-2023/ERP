@@ -8,7 +8,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 export const TimeSheetTable = () => {
 
     const TimeSheet = [{
-        sno:"1",
+        sno: "1",
         save: "+",
         cancel: "X",
         employee: "Indhu",
@@ -24,17 +24,17 @@ export const TimeSheetTable = () => {
         {
             headerName: "SNo",
             field: "sno",
-            width:90
+            width: 90
         },
         {
             headerName: "",
             field: "save",
-            width:90
+            width: 90
         },
         {
             headerName: "",
             field: "cancel",
-            width:90
+            width: 90,
         },
         {
             headerName: "Employee",
@@ -47,7 +47,7 @@ export const TimeSheetTable = () => {
         {
             headerName: "Hours",
             field: "hours",
-            width:90
+            width: 90
         },
         {
             headerName: "Project",
@@ -66,13 +66,28 @@ export const TimeSheetTable = () => {
     const defaultColDef = {
         sortable: true,
         filter: true,
-        editable: true
+        editable: true,
+        resizable: true,
+        flex: 1
     }
 
     return (
         <>
             <div className="ag-theme-alpine my-3 mb-5 ms-3" style={{ width: 1300, height: 300 }}>
                 <AgGridReact rowData={TimeSheet} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+            </div>
+
+            <div className='row mb-5 ms-3 border border-light-secondary' style={{ width: 1300, height: 150 }}>
+                <div className='col-2 mt-5 ms-5 form-label'>
+                    Remarks
+                </div>
+
+                <div className='col-3 mt-3'>
+                    <div class="input-group" style={{ width: 600, height: 100 }} >
+                        <input className="form-control" type='text' name='remarks' />
+                    </div>
+                </div>
+
             </div>
         </>
 

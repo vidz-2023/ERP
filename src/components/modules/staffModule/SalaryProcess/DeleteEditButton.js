@@ -1,5 +1,5 @@
 import React from 'react'
-import {  deleteSalaryProcess, getSalaryProcess, updateSalaryProcess } from '../../../../services/salaryService';
+import {  deleteSalaryProcess, getSalaryProcess, updateSalaryProcess } from '../../../../services/MonthlySalaryService';
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 

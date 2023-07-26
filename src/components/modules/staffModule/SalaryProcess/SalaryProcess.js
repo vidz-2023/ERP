@@ -9,7 +9,7 @@ import { HiUserGroup } from "react-icons/hi";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { SalaryProcessTable } from './SalaryProcessTable';
-import { addSalaryProcess, updateSalaryProcess } from '../../../../services/salaryService';
+import { addSalaryProcess } from '../../../../services/MonthlySalaryService';
 
 //import { useParams } from 'react-router-dom';
 
@@ -34,13 +34,13 @@ function SalaryProcess() {
         month: " ",
         year: " ",
         empcode: "",
-        empname: "",
+        Name: "",
         paid: "",
         ctc: "",
         inhand: "",
         basic: "",
         leave: "",
-        indemnity: "",
+        othours: "",
         bonus: "",
         loan: "",
         advance: "",
@@ -84,7 +84,7 @@ function SalaryProcess() {
         month: Yup.string().required('*Required'),
         year: Yup.string().required('*Required'),
         empcode: Yup.string().required('*Required'),
-        empname: Yup.string().required('*Required'),
+        Name: Yup.string().required('*Required'),
         paid: Yup.string().required('*Required'),
         ctc: Yup.string().required('*Required'),
         inhand: Yup.string().required('*Required'),
@@ -107,9 +107,9 @@ function SalaryProcess() {
         date: Yup.string().required('*Required'),
     })
 
-    const onAdd = () => {
-        setShowForm(true);
-    }
+    // const onAdd = () => {
+    //     setShowForm(true);
+    // }
 
 
     return (
@@ -128,7 +128,7 @@ function SalaryProcess() {
                                         </h4>
 
                                         <div className='w-100 mx-auto'>
-                                            <div className='row mb-1'>
+                                            {/* <div className='row mb-1'>
                                                 <div className='col-1 form-label'>
                                                     Month
                                                 </div>
@@ -142,7 +142,7 @@ function SalaryProcess() {
                                                 </div>
                                                 <div className='col-2'>
                                                     <div class="input-group">
-                                                        <Field className="form-control" type="number" placeholder="YYYY" min="1999" max="2023" name='year' />
+                                                        <Field className="form-control" type="text" placeholder="YYYY"  name='year'/>
                                                         <ErrorMessage name='year' />
                                                     </div>
                                                 </div>
@@ -150,12 +150,12 @@ function SalaryProcess() {
                                                 <div className='col-2'><button type="button" className='w-50 btn btn-info'>Filter</button></div>
                                                 <div className='col-2'><button type="button" className='w-50 btn btn-info'>Display</button></div>
                                                 <div className='col-2'><button type="button" className='w-50 btn btn-info'>Process</button></div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className='row'>
+                                            {/* <div className='row'>
                                                 <div className='col-4'></div>
                                                 <div className='col-4 mt-2'><button type="button" className='w-50 btn btn-info m-3' onClick={() => onAdd()}>Add</button></div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         {showForm && <div>
                                         <h4 className='text-info w-100 mb-3 mt-5 text-center border border-info-subtle'>
@@ -182,8 +182,8 @@ function SalaryProcess() {
                                                 </div>
                                                 <div className='col-3'>
                                                     <div class="input-group text-danger">
-                                                        <Field className="form-control" type='text' name='empname' />
-                                                        <ErrorMessage name='empname' />
+                                                        <Field className="form-control" type='text' name='Name' />
+                                                        <ErrorMessage name='Name' />
                                                     </div>
                                                 </div>
                                             </div>
@@ -248,12 +248,12 @@ function SalaryProcess() {
                                                 </div>
                                                 <div className='col-2'></div>
                                                 <div className='col-2 form-label'>
-                                                    Indemnity
+                                                    OTHours
                                                 </div>
                                                 <div className='col-3'>
                                                     <div class="input-group text-danger">
-                                                        <Field className="form-control" type='text' name='indemnity' />
-                                                        <ErrorMessage name='indemnity' />
+                                                        <Field className="form-control" type='text' name='othours' />
+                                                        <ErrorMessage name='othours' />
                                                     </div>
                                                 </div>
                                             </div>

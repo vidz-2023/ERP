@@ -16,6 +16,11 @@ export const expenseClaimDetailURL = `${JSONURL}/expense-claim-detail`
 export const leaveMasterURL=`${JSONURL}/LeavesMaster`
 export const leaveFormURL=`${JSONURL}/ApplyLeaves`
 
-export const salaryprocessURL = `${JSONURL}/salaryprocessURL`
+// export const salaryprocessURL = `${JSONURL}/salaryprocess`
+export const monthlyAttendanceURL = `${JSONURL}/monthlyAttendance`
+export const monthlySalaryURL = `${JSONURL}/monthlySalary`
+
+
+
 export const addressInfoURL = `${JSONURL}/emp-address-info`
 export const SalaryAdvancesInfoURL = `${JSONURL}/salary-advances`

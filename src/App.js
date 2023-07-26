@@ -20,9 +20,11 @@ import StaffMasterTable from './components/modules/staffModule/staffMaster/Staff
 import ExpenseClaim from './components/modules/staffModule/ExpenseClaim/ExpenseClaim';
 import WorkLocationTable from './components/modules/staffModule/workLocation/WorkLocationTable';
 import SalaryInformationTable from './components/modules/staffModule/SalaryInfo/SalaryInformationTable';
-import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
+// import { Payslip } from './components/modules/staffModule/Payslip/Payslip';
 import MonthlyAttendance from './components/modules/staffModule/MonthlyAttendance/MonthlyAttendance';
 import TimeSheet from './components/modules/staffModule/TimeSheetReport/Timesheet';
+import SalaryProcess from './components/modules/staffModule/SalaryProcess/SalaryProcess';
+import { Salaryslip } from './components/modules/staffModule/Payslip/Salaryslip';
 import ExpenseTable from './components/modules/staffModule/ExpenseClaim/ExpenseTable';
 import EmpNameCode from './share/EmpNameCode';
 import SalaryStructureWithSharedComponent from './components/modules/staffModule/Salary/SalaryStructureWithSharedComponent';
@@ -60,7 +62,9 @@ function App() {
         <Route path="/staffMaster/:id" element={<StaffMaster />} />
         <Route path="/expenseclaim" element={<ExpenseClaim />} />
         <Route path="/expenseclaim/:id" element={<ExpenseClaim />} />
-        <Route path="/payslip" element={<Payslip />} />
+        <Route path="/salaryprocess" element={<SalaryProcess />} />
+        {/* <Route path="/payslip" element={<Payslip />} /> */}
+        <Route path="/salaryslip" element={<Salaryslip />} />
         <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
         <Route path="/timesheet" element={<TimeSheet />} />
         <Route path="/salaryAdvances/:empcode" element={<SalaryAdvances />} />

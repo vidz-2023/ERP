@@ -2,19 +2,17 @@ import React, { useState } from 'react'
 
 //import icons
 import { BiTime } from "react-icons/bi";
-import {AiOutlineSearch} from "react-icons/ai";
+//import {AiOutlineSearch} from "react-icons/ai";
 
 //import formik and yup
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TimeSheetTable } from './TimeSheetTable';
 
-
 function TimeSheet() {
 
     //dropdowns
     const Branch = ["BAN", "CHE", "HYD"]
-
 
     //setinitialvalue
     const initialValue = {
@@ -28,7 +26,6 @@ function TimeSheet() {
     const handleSubmit = (values) => {
         console.log(values)
     }
-
 
     //yup declare-display
     const validationSchema = Yup.object({
@@ -145,7 +142,6 @@ function TimeSheet() {
                                                 <div class="input-group text-danger">
                                                     <Field className="form-control" type='text' name='search'/>
                                                     <ErrorMessage name='search' />
-                                                    <AiOutlineSearch />
                                                 </div>
                                             </div>
                                         </div>

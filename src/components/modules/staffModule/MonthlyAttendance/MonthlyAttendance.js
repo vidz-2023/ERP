@@ -17,25 +17,18 @@ function MonthlyAttendance() {
 
     //setinitialvalue
     const initialValue = {
-        month: " ",
-        year: " ",
+        month: "",
+        year: "",
         empcode: "",
-        empname: "",
-        paid: "",
-        ctc: "",
-        inhand: "",
-        basic: "",
-        leave: "",
-        indemnity: "",
-        bonus: "",
-        loan: "",
-        advance: "",
-        tds: "",
-        esi: "",
-        pf: "",
-        lwf: "",
-        pt: "",
-        net: "",
+        Name: "",
+        monthdays: "",
+        HolidayDays: "",
+        holidays: "",
+        workingdays: "",
+        paidleave: "",
+        unpaidleave: "",
+        othours: "",
+        paiddays: "",
         branch: "",
         dept: "",
         designation: "",
@@ -69,7 +62,7 @@ function MonthlyAttendance() {
                                     </h4>
 
                                     <div className='w-100 mx-auto'>
-                                        <div className='row mb-1'>
+                                        {/* <div className='row mb-1'>
                                             <div className='col-1 form-label'>
                                                 Month
                                             </div>
@@ -91,7 +84,7 @@ function MonthlyAttendance() {
                                             <div className='col-2'><button type="button" className='w-50 btn btn-info'>Filter</button></div>
                                             <div className='col-2'><button type="button" className='w-50 btn btn-info'>Display</button></div>
                                             <div className='col-2'><button type="button" className='w-50 btn btn-info'>Process</button></div>
-                                        </div>
+                                        </div> */}
 
                                     </div>
 

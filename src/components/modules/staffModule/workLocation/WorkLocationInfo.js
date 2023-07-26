@@ -49,7 +49,6 @@ function WorkLocationInfo() {
         EmployeeShift: Yup.string().required('*Required'),
         EarlyOut: Yup.string().required('*Required'),
         LoanAmount: Yup.number().required('*Required').min(0, "Only positive value")
-
     })
 
     useEffect(() => {

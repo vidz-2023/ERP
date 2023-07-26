@@ -6,12 +6,14 @@ import DeleteEditButton from './DeleteEditButton';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { getSalaryProcess } from '../../../../services/salaryService';
+import { getSalaryProcess, searchSalaryProcessAnyField } from '../../../../services/MonthlySalaryService';
+
 
 
 export const SalaryProcessTable = () => {
 
     const [salaryProcess, setSalaryProcess] = useState([])
+    const [searchValState, setSearchValState] = useState([])
 
     // const salaryProcess = [{
     //     empcode: "000001",
@@ -40,131 +42,91 @@ export const SalaryProcessTable = () => {
 
     //table header and display the fields
     const column = [
+        // {
+        //     headerName: "SNo",
+        //     field: "sno"
+        // },
         {
-            headerName: "Code",
-            field: "empcode",
-            width:90
+            headerName: "Month",
+            field: "month"
         },
         {
-            headerName: "Name",
-            field: "empname",
-            width:90
+            headerName: "Year",
+            field: "year"
         },
         {
-            headerName: "Paid Days",
-            field: "paid",
-            width:90
+            headerName: 'Employee Info',
+            children: [
+                { field: 'empcode' },
+                { field: 'Name' }
+            ]
         },
         {
-            headerName: "CTC",
-            field: "ctc",
-            width:90
+            headerName: '',
+            children: [
+                { field: 'paid' },
+                { field: 'ctc' },
+                { field: 'inhand' }
+            ]
         },
         {
-            headerName: "InHand",
-            field: "inhand",
-            width:90
+            headerName: 'Salary component',
+            children: [
+                { field: 'basic' }
+            ]
         },
         {
-            headerName: "Basic",
-            field: "basic",
-            width:90
+            headerName: 'Other Earning',
+            children: [
+                { field: 'leave' },
+                { field: 'othours' },
+                { field: 'bonus' }
+            ]
         },
         {
-            headerName: "Leave Salary",
-            field: "leave",
-            width:90
+            headerName: 'Deductions',
+            children: [
+                { field: 'loan' },
+                { field: 'advance' },
+                { field: 'tds' },
+                { field: 'esi' },
+                { field: 'pf' },
+                { field: 'lwf' },
+                { field: 'pt' },
+            ]
         },
         {
-            headerName: "Indemnity",
-            field: "indemnity",
-            width:90
+            headerName: 'NetPayable',
+            children: [
+                { field: 'net' }
+            ]
         },
         {
-            headerName: "Bonus",
-            field: "bonus",
-            width:90
+            headerName: 'Employee Details',
+            children: [
+                { field: 'branch' },
+                { field: 'dept' },
+                { field: 'designation' },
+                { field: 'category' },
+                { field: 'date' }
+            ]
         },
-        {
-            headerName: "Loan",
-            field: "loan",
-            width:90
-        },
-        {
-            headerName: "Advance",
-            field: "advance",
-            width:90
-        },
-        {
-            headerName: "TDS",
-            field: "tds",
-            width:90
-        },
-        
-        {
-            headerName: "ESI",
-            field: "esi",
-            width:90
-        },
-        {
-            headerName: "PF",
-            field: "pf",
-            width:90
-        },
-        {
-            headerName: "LWF",
-            field: "lwf",
-            width:90
-        },
-        {
-            headerName: "ProfessionalTax",
-            field: "pt",
-            width:90
-        },
-        {
-            headerName: "NetPayable",
-            field: "net",
-            width:90
-        },
-        {
-            headerName: "Branch",
-            field: "branch",
-            width:90
-        },
-        {
-            headerName: "Department",
-            field: "dept",
-            width:90
-        },
-        {
-            headerName: "Designation",
-            field: "designation",
-            width:90
-        },
-        {
-            headerName: "Category",
-            field: "category",
-            width:90
-        },
-        {
-            headerName: "Joining Date",
-            field: "date",
-            width:90
-        },
-        {
-            headerName: "Action",
-            field: "empCode",
-            cellRenderer: DeleteEditButton,
-            cellRendererParams: {
-                GetSalary: getSalaryProcess
-            }
-        }
+        // {
+        //     headerName: "Action",
+        //     field: "empCode",
+        //     cellRenderer: DeleteEditButton,
+        //     cellRendererParams: {
+        //         GetSalary: getSalaryProcess
+        //     }
+        // }
     ]
 
     const defaultColDef = {
         sortable: true,
         filter: true,
-        editable: true
+        editable: true,
+        resizable: true,
+        width: 90
     }
 
     useEffect(() => {
@@ -174,14 +136,52 @@ export const SalaryProcessTable = () => {
         })
     }, [])
 
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+        setSearchValState(searchVal)
+        searchSalaryProcessAnyField(searchVal).then((res) => setSalaryProcess(res.data))
+    }
+    const searchFunThroughBtn = () => {
+        searchSalaryProcessAnyField(searchValState).then((res) => setSalaryProcess(res.data))
+    }
+
     return (
         <>
+            <div className='container'>
+                <div className='row mt-3'>
+                    <div className='col-1 form-label'>
+                        Month
+                    </div>
+                    <div className='col-2'>
+                        <input type="month" className='form-control' name='month' />
+                    </div>
+
+
+                    <div className='col-1 form-label'>
+                        Year
+                    </div>
+                    <div className='col-2'>
+                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} name='year' />
+                    </div>
+                    <div className='col-2'>
+                        <button type="button" className='btn btn-info' onClick={searchFunThroughBtn}>
+                            Filter
+                        </button>
+                    </div>
+                    <div className='col-2'>
+                        <button type="button" className='btn btn-info'> Display</button>
+                    </div>
+                    <div className='col-2'>
+                        <button type="button" className='btn btn-info'> Process</button>
+                    </div>
+                </div>
+
+            </div>
+
             <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
                 <AgGridReact rowData={salaryProcess} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
-            
         </>
-
     )
 }
