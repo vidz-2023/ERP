@@ -24,3 +24,6 @@ export const monthlySalaryURL = `${JSONURL}/monthlySalary`
 
 export const addressInfoURL = `${JSONURL}/emp-address-info`
 export const SalaryAdvancesInfoURL = `${JSONURL}/salary-advances`
+
+export const attendanceMarkingURL = `${JSONURL}/attendance-marking`
+export const attendanceMarkMasterURL = `${JSONURL}/attendance-mark-master`
