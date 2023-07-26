@@ -1,13 +1,13 @@
 import axios from "axios";
 import { expenseClaimURL, expenseClaimDetailURL } from '../share/constant';
 
-//Expense Claim
+//----------------Expense Claim-------------------
 export const getExpenseClaim = () =>{
     return axios.get(expenseClaimURL)
 }
 
 export const addExpenseClaim = (data) =>{
-    return axios.post(expenseClaimURL, data)
+    return axios.post(`${expenseClaimURL}`, data)
 }
 
 export const updateExpenseClaim = (data, id) => {
@@ -20,12 +20,23 @@ export const deleteExpenseClaim = (id) => {
     return axios.delete(`${expenseClaimURL}/${id}`)
 }
 
-//Expense Claim Detail
+export const getExpenseClaimById = (id) => {
+    let url = `${expenseClaimURL}/${id}`
+    //console.log(url)
+    return axios.get(url).then(res => res.data)
+}
+
+//------------Expense Claim Detail-------------
 export const getExpenseClaimDetail = () =>{
     return axios.get(expenseClaimDetailURL)
 }
 export const addExpenseClaimDetail = (data) =>{
     return axios.post(expenseClaimDetailURL, data)
+}
+
+export const updateExpenseClaimDetail = (data, id) => {
+    let url = `${expenseClaimDetailURL}/${id}`
+    return axios.put(url, data)
 }
 
 export const deleteExpenseClaimDetail = (id) => {

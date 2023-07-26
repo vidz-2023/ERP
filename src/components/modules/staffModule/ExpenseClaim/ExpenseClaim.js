@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { FaEdit, FaBook } from 'react-icons/fa'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
-import pic from '../../../../assets/images/profilepic.png'
-import ExpenseTable from './ExpenseTable'
-import ExpenseApprove from './ExpenseApprove'
-import { addExpenseClaim, addExpenseClaimDetail, updateExpenseClaim } from '../../../../services/ExpenseclaimService'
+import bill from '../../../../assets/images/bill.jpg'
+import {
+  addExpenseClaim,
+  addExpenseClaimDetail,
+  getExpenseClaimById,
+  updateExpenseClaim,
+  updateExpenseClaimDetail
+} from '../../../../services/ExpenseclaimService'
 import { useParams } from 'react-router-dom'
+import ExpenseClaimDetailTable from './ExpenseClaimDetailTable'
 
 function ExpenseClaim () {
   const [isUpdate, setIsUpdate] = useState(false)
-  const {id} = useParams()
+  const { id } = useParams()
 
   const inputFields = {
     empCode: '',
@@ -49,23 +54,34 @@ function ExpenseClaim () {
     expenseDetailInputFields
   )
 
+  useEffect(() => {
+    console.log(id)
+    if (id > 0) {
+      console.log('edit')
+      getExpenseClaimById(id).then(res => {
+        console.log(res)
+        setExpenseClaim(res)
+      })
+      setIsUpdate(true)
+    }
+  }, [])
+
   const validationSchema = Yup.object({
-    empcode: Yup.string().required('Employee code is required'),
-    claimno: Yup.string().required('Claim No is required'),
-    branch: Yup.string().required('Branch Name is required'),
-    date: Yup.string().required('Date is required'),
-    employee: Yup.string().required('Employee is required'),
-    voucherno: Yup.string().required('Voucherno is required'),
-    narration: Yup.string().required('Narration is required'),
-    expensestatus: Yup.string().required('Expensestatus is required'),
+    empCode: Yup.string().required('Employee code is required'),
+    ClaimNo: Yup.string().required('Claim No is required'),
+    Branch: Yup.string().required('Branch Name is required'),
+    Date: Yup.string().required('Date is required'),
+    VoucherNo: Yup.string().required('Voucherno is required'),
+    Narration: Yup.string(),
+    expenseStatus: Yup.string().required('Expensestatus is required'),
     claimdate: Yup.string().required('Claim date is required'),
     processdate: Yup.string().required('Process date is required'),
-    approvedby: Yup.string().required('Approved by field is required'),
-    creditGL: Yup.string().required('creditGL is required'),
-    totalamount: Yup.string().required('Total amount is required'),
-    chequeno: Yup.string().required('Cheque no is required'),
-    NEFTno: Yup.string().required('NEFT no is required'),
-    costcenter: Yup.string().required('Cost center is required')
+    ApprovedBy: Yup.string().required('Approved by field is required'),
+    creditGL: Yup.string(),
+    TotalAmount: Yup.string().required('Total amount is required'),
+    ChequeNo: Yup.string(),
+    NEFTNo: Yup.string(),
+    CostCenter: Yup.string()
   })
 
   const expenseDetailValidationSchema = Yup.object({
@@ -73,31 +89,42 @@ function ExpenseClaim () {
     expenseclaimcode: Yup.string().required('Expense Claim No is required'),
     billno: Yup.string().required('Bill no is required'),
     amountSpent: Yup.string().required('AmountSpent is required'),
-    remarks: Yup.string().required('Remarks is required'),
-    billimage: Yup.string().required('Bill image is required'),
-    approvedamount: Yup.string().required('Approved Amount is required'),
-    approveremark: Yup.string().required('Approve Remark is required'),
-    costcenter: Yup.string().required('Cost Center is required')
+    Remarks: Yup.string(),
+    bilimage: Yup.string(),
+    ApprovedAmount: Yup.string().required('Approved Amount is required'),
+    ApproveRemark: Yup.string(),
+    CostCenter: Yup.string()
   })
 
-  const handleSubmit = () => {
+  const onExpenseClaimHandler = (e, setFieldValue) => {
+    const { name, value } = e.target
+    setExpenseClaim({ ...expenseClaim, [name]: value })
+    setFieldValue([name], value)
+  }
+
+  const expenseClaimHandleSubmit = () => {
     console.log(expenseClaim)
     if (!isUpdate) {
-        addExpenseClaim(inputFields).then(res => console.log(res.data))
-        alert("Data added successfully")
-    }else{
-        updateExpenseClaim(inputFields, id)
-        alert("Data updated successfully")
+      addExpenseClaim(expenseClaim)
+      alert('Data added successfully')
+    } else {
+      updateExpenseClaim(expenseClaim, id)
+      alert('Data updated successfully')
     }
   }
 
-  const expenseDetailhandleSubmit = values => {
-    console.log(values)
+  const onExpenseDetailHandler = (e, setFieldValue) => {
+    const { name, value } = e.target
+    setExpenseClaimDetail({ ...expenseClaimDetail, [name]: value })
+    setFieldValue([name], value)
   }
 
-  const handleChange = values => {
-    console.log(values)
+  const expenseDetailhandleSubmit = () => {
+    console.log(expenseClaimDetail)
+    addExpenseClaimDetail(expenseClaimDetail)
+    alert('Data added successfully')
   }
+
   return (
     <div className='container mt-3 mb-5'>
       <h4 className='text-info w-100 mb-3 text-center border border-2 border-info-subtle'>
@@ -147,9 +174,10 @@ function ExpenseClaim () {
           tabIndex='0'
         >
           <Formik
-            onSubmit={handleSubmit}
-            initialValues={inputFields}
+            onSubmit={expenseClaimHandleSubmit}
+            initialValues={expenseClaim}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form className='mt-3'>
@@ -166,6 +194,10 @@ function ExpenseClaim () {
                         <Field
                           name='empCode'
                           type='text'
+                          value={expenseClaim.empCode}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                           className='form-control form-control-sm'
                         />
                         <ErrorMessage name='empCode' className='text-danger' />
@@ -181,10 +213,14 @@ function ExpenseClaim () {
                       <div className='col-sm-8'>
                         <Field
                           type='number'
-                          name='claimno'
+                          name='ClaimNo'
+                          value={expenseClaim.ClaimNo}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                           className='form-control form-control-sm'
                         />
-                        <ErrorMessage name='claimno' className='text-danger' />
+                        <ErrorMessage name='ClaimNo' className='text-danger' />
                       </div>
                     </div>
                     <div className='row'>
@@ -199,38 +235,50 @@ function ExpenseClaim () {
                           type='text'
                           name='Branch'
                           className='form-control form-control-sm'
+                          value={expenseClaim.Branch}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='Branch' className='text-danger' />
                       </div>
                     </div>
                     <div className='row'>
-                      <label htmlFor='date' className='col-sm-4 col-form-label'>
+                      <label htmlFor='Date' className='col-sm-4 col-form-label'>
                         Date
                       </label>
                       <div className='col-sm-8'>
                         <Field
-                          type='text'
-                          name='date'
+                          type='date'
+                          name='Date'
                           className='form-control form-control-sm'
+                          value={expenseClaim.Date}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
-                        <ErrorMessage name='date' className='text-danger' />
+                        <ErrorMessage name='Date' className='text-danger' />
                       </div>
                     </div>
                     <div className='row'>
                       <label
-                        htmlFor='voucherno'
+                        htmlFor='VoucherNo'
                         className='col-sm-4 col-form-label'
                       >
-                        VoucherNo
+                        Voucher No
                       </label>
                       <div className='col-sm-8'>
                         <Field
                           type='text'
-                          name='voucherno'
+                          name='VoucherNo'
                           className='form-control form-control-sm'
+                          value={expenseClaim.VoucherNo}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name='voucherno'
+                          name='VoucherNo'
                           className='text-danger'
                         />
                       </div>
@@ -247,6 +295,10 @@ function ExpenseClaim () {
                           type='text'
                           name='Narration'
                           className='form-control form-control-sm'
+                          value={expenseClaim.Narration}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='Narration'
@@ -266,6 +318,10 @@ function ExpenseClaim () {
                           type='text'
                           name='expenseStatus'
                           className='form-control form-control-sm'
+                          value={expenseClaim.expenseStatus}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='expenseStatus'
@@ -278,13 +334,17 @@ function ExpenseClaim () {
                         htmlFor='claimdate'
                         className='col-sm-4 col-form-label'
                       >
-                        claim date
+                        Claim Date
                       </label>
                       <div className='col-sm-8'>
                         <Field
                           type='date'
                           name='claimdate'
                           className='form-control form-control-sm'
+                          value={expenseClaim.claimdate}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='claimdate'
@@ -307,6 +367,10 @@ function ExpenseClaim () {
                           type='date'
                           name='processdate'
                           className='form-control form-control-sm'
+                          value={expenseClaim.processdate}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='processdate'
@@ -326,6 +390,10 @@ function ExpenseClaim () {
                           type='text'
                           name='ApprovedBy'
                           className='form-control form-control-sm'
+                          value={expenseClaim.ApprovedBy}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='ApprovedBy'
@@ -338,13 +406,17 @@ function ExpenseClaim () {
                         htmlFor='creditGL'
                         className='col-sm-4 col-form-label'
                       >
-                        credit GL
+                        Credit GL
                       </label>
                       <div className='col-sm-8'>
                         <Field
                           type='text'
                           name='creditGL'
                           className='form-control form-control-sm'
+                          value={expenseClaim.creditGL}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='creditGL' className='text-danger' />
                       </div>
@@ -361,6 +433,10 @@ function ExpenseClaim () {
                           type='text'
                           name='TotalAmount'
                           className='form-control form-control-sm'
+                          value={expenseClaim.TotalAmount}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='TotalAmount'
@@ -373,13 +449,17 @@ function ExpenseClaim () {
                         htmlFor='ChequeNo'
                         className='col-sm-4 col-form-label'
                       >
-                        ChequeNo
+                        Cheque No
                       </label>
                       <div className='col-sm-8'>
                         <Field
                           type='text'
                           name='ChequeNo'
                           className='form-control form-control-sm'
+                          value={expenseClaim.ChequeNo}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='ChequeNo' className='text-danger' />
                       </div>
@@ -396,6 +476,10 @@ function ExpenseClaim () {
                           type='text'
                           name='NEFTNo'
                           className='form-control form-control-sm'
+                          value={expenseClaim.NEFTNo}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='NEFTNo' className='text-danger' />
                       </div>
@@ -412,6 +496,10 @@ function ExpenseClaim () {
                           type='text'
                           name='CostCenter'
                           className='form-control form-control-sm'
+                          value={expenseClaim.CostCenter}
+                          onChange={e =>
+                            onExpenseClaimHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='CostCenter'
@@ -440,8 +528,9 @@ function ExpenseClaim () {
         >
           <Formik
             onSubmit={expenseDetailhandleSubmit}
-            initialValues={expenseDetailInputFields}
+            initialValues={expenseClaimDetail}
             validationSchema={expenseDetailValidationSchema}
+            enableReinitialize
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form className='mt-3'>
@@ -456,11 +545,15 @@ function ExpenseClaim () {
                       </label>
                       <div className='col-sm-8'>
                         <Field
-                          name='empCode'
                           type='text'
+                          name='empcode'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.empcode}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
-                        <ErrorMessage name='empCode' className='text-danger' />
+                        <ErrorMessage name='empcode' className='text-danger' />
                       </div>
                     </div>
                     <div className='row'>
@@ -472,9 +565,13 @@ function ExpenseClaim () {
                       </label>
                       <div className='col-sm-8'>
                         <Field
-                          type='number'
+                          type='text'
                           name='expenseclaimcode'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.expenseclaimcode}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='expenseclaimcode'
@@ -491,9 +588,13 @@ function ExpenseClaim () {
                       </label>
                       <div className='col-sm-8'>
                         <Field
-                          type='number'
+                          type='text'
                           name='billno'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.billno}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='billno' className='text-danger' />
                       </div>
@@ -506,20 +607,18 @@ function ExpenseClaim () {
                         Bill Image
                       </label>
                       <div className='col-sm-8'>
-                        {/* <Field
-                          type='number'
-                          name='bilimage'
-                          className='form-control form-control-sm'
-                        />
-                        <ErrorMessage name='bilimage' className='text-danger' /> */}
-                        <div className='border w-50 mx-auto'>
-                          <img src={pic} className='img-fluid' alt='...' />
-                          <div className='mt-2 ms-2 mb-4'>
-                            {' '}
-                            <button type='button' className='btn btn-info'>
-                              Browse
-                            </button>
-                          </div>
+                        <div class='input-group mb-3'>
+                          <input
+                            type='text'
+                            class='form-control'
+                          />
+                          <button
+                            class='btn btn-outline-secondary'
+                            type='button'
+                            id='button-addon2'
+                          >
+                            Browse
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -538,6 +637,10 @@ function ExpenseClaim () {
                           type='number'
                           name='amountSpent'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.amountSpent}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='amountSpent'
@@ -557,6 +660,10 @@ function ExpenseClaim () {
                           type='number'
                           name='ApprovedAmount'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.ApprovedAmount}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='ApprovedAmount'
@@ -576,6 +683,10 @@ function ExpenseClaim () {
                           type='text'
                           name='ApproveRemark'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.ApproveRemark}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='ApproveRemark'
@@ -592,9 +703,13 @@ function ExpenseClaim () {
                       </label>
                       <div className='col-sm-8'>
                         <Field
-                          type='number'
+                          type='text'
                           name='CostCenter'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.CostCenter}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name='CostCenter'
@@ -614,6 +729,10 @@ function ExpenseClaim () {
                           type='text'
                           name='Remarks'
                           className='form-control form-control-sm'
+                          value={expenseClaimDetail.Remarks}
+                          onChange={e =>
+                            onExpenseDetailHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage name='Remarks' className='text-danger' />
                       </div>
@@ -629,17 +748,9 @@ function ExpenseClaim () {
               </Form>
             )}
           </Formik>
-        </div>
-
-        <div className='row'>
-            
+          <ExpenseClaimDetailTable />
         </div>
       </div>
-
-      {/* <div>
-        {/* <ExpenseTable></ExpenseTable>
-                <ExpenseApprove></ExpenseApprove>
-      </div> */}
     </div>
   )
 }

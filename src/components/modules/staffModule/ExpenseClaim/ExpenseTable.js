@@ -30,7 +30,7 @@ const ExpenseTable = () => {
     },
     {
       headerName: 'Employee Code',
-      field: 'empcode'
+      field: 'empCode'
     },
     {
       headerName: 'Expense Status',
