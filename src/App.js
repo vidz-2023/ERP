@@ -31,6 +31,7 @@ import SalaryStructureWithSharedComponent from './components/modules/staffModule
 import Attendence from './components/modules/staffModule/AttendanceMarking/Attendence';
 import SalaryAdvances from './components/modules/staffModule/salarayAdvances/SalaryAdvances';
 import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvances/SalaryAdvancesTable';
+import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/RePaymentLoanInfo';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
         <Route path="/timesheet" element={<TimeSheet />} />
         <Route path="/salaryAdvances/:empcode" element={<SalaryAdvances />} />
         <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
+        <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
       </Routes>
 
       <Footer />

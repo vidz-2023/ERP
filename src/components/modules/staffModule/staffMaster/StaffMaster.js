@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { FaBook, FaEdit } from "react-icons/fa";
 import pic from '../../../../assets/images/profilepic.png';
 import { addBasicInfo, getBasicInfoByEmpCode, getBasicInfoById, updateBasicInfo } from '../../../../services/basicInfoServices';
-import { addAddressData, getAddressDataByEmpCode, updateAddressInfo } from '../../../../services/addressService';
+import { addAddressData, getAddressDataByEmpCode, updateAddressInfo, updateEmergencyAdd } from '../../../../services/addressService';
 
 function StaffMaster() {
 
@@ -14,6 +14,8 @@ function StaffMaster() {
   const [empCode, setEmpCode] = useState(" ")
   const [isUpdate, setIsUpdate] = useState(false)
   const { id } = useParams()
+  const [isEmergencyAdd, setIsEmergencyAdd] = useState(false)
+  const [isAdd,setIsAdd] = useState(false)
 
   const inputFields = {
     FirstName: '',
@@ -86,9 +88,13 @@ function StaffMaster() {
       getBasicInfoById(id).then(res => {
        // console.log(res.data)
         setBasicFormValues(res.data)
+        getAddressData(res.data.empCode)
       } )
     
       document.getElementById("eCode").disabled = true;
+      document.getElementById("addressTab").setAttribute("data-bs-toggle", "tab")
+      document.getElementById("emergTab").setAttribute("data-bs-toggle", "tab")
+   
       setIsUpdate(true)
 
     }
@@ -120,8 +126,7 @@ function StaffMaster() {
     console.log(basicInfoFormValues)
 
     setEmpCode(basicInfoFormValues.empCode)
-    perFormValues.empCode = basicInfoFormValues.empCode
-    tempFormValues.empCode = basicInfoFormValues.empCode
+   
  
     if (!isUpdate) {
 
@@ -129,7 +134,7 @@ function StaffMaster() {
     }
     else {
        updateBasicInfo(basicInfoFormValues, id)
-       getAddressData()
+      // getAddressData()
         
 
     }
@@ -140,15 +145,28 @@ function StaffMaster() {
 
   }
 
-  const getAddressData = async () => {
+  const getAddressData = async (empcode) => {
 
     const addressDataArr = []
-
-   await getAddressDataByEmpCode(basicInfoFormValues.empCode).then((res) => {
+   console.log(empCode)
+   await getAddressDataByEmpCode(empcode).then((res) => {
       console.log(res.data)
-      setPerFormValues(res.data[0])
-      setTempFormValues(res.data[1])
-      setEmergFormValues(res.data[2])
+      if(res.data[0])
+      {
+        setPerFormValues(res.data[0])
+      }
+      if(res.data[1])
+      {
+        setTempFormValues(res.data[1])
+        setIsAdd(true)
+      }
+     
+      if(res.data[2])
+      {
+        setEmergFormValues(res.data[2])
+        setIsEmergencyAdd(true)
+      }
+     
     
      
     } )
@@ -220,12 +238,15 @@ function StaffMaster() {
   }
 
   const handleAddressSubmit = () => {
-
+   
+    console.log(tempFormValues)
+    perFormValues.empCode = basicInfoFormValues.empCode
+    tempFormValues.empCode = basicInfoFormValues.empCode
     const arr = []
     arr.push({ ...perFormValues })
     arr.push({ ...tempFormValues })
     console.log(arr)
-    if(id >0)
+    if(isAdd)
     {
        updateAddressInfo(arr)
     }
@@ -241,14 +262,16 @@ function StaffMaster() {
 
   const handleEmergSubmit = (values) => {
 
-    values.empCode = empCode
-    console.log(values.empCode)
+    emergencyFormValues.empCode = basicInfoFormValues.empCode
+    console.log(emergencyFormValues.empCode)
+ 
     const arrEmerg = []
     arrEmerg.push(values)
    
-    if(id >0)
+    if(isEmergencyAdd)
     {
-       updateAddressInfo(arrEmerg)
+      // updateAddressInfo(arrEmerg)
+      updateEmergencyAdd(emergencyFormValues, emergencyFormValues.id)
     }
     else{
       addAddressData(arrEmerg)
@@ -261,7 +284,10 @@ function StaffMaster() {
 
     console.log(e.target.checked + "adka")
     if (e.target.checked) {
-      setTempFormValues(perFormValues)
+      setTempFormValues( { ...perFormValues, ContactType: "Temporary"})
+     
+      console.log(tempFormValues)
+      //tempFormValues.ContactType = "Temporary"
       console.log(tempFormValues)
     }
   }

@@ -24,6 +24,7 @@ function SalaryAdvances() {
         "empCode": "",
         "EmpName": "",
         "LoanName": "",
+        "LoanNo":"",
         "RequestedLoanAmt": "",
         "ApprovedLoanAmt": "",
         "InterestRate": "",
@@ -103,6 +104,7 @@ function SalaryAdvances() {
 
         EmpName: Yup.string().required("required"),
         LoanName: Yup.string().required("required").matches(/^[A-Za-z]\w*/, "not correct"),
+        LoanNo: Yup.string().required("required"),
         RequestedLoanAmt: Yup.number().required("required").min(0, "Only positive value"),
         ApprovedLoanAmt: Yup.number().required("required").min(0, "Only positive value"),
         InterestRate: Yup.number().required("required").min(0, "Only positive value"),
@@ -336,6 +338,7 @@ function SalaryAdvances() {
                                 <div><label className="form-label mt-3">Employee Name</label></div>
                                 <div><label className="form-label mt-2">Employee Code</label></div>
                                 <div><label className="form-label"> Loan Name</label></div>
+                                <div><label className="form-label"> Loan Code</label></div>
                                 <div><label className="form-label"> Requested Loan Amount</label></div>
                                 <div><label className="form-label"> Rate of interest(%) yearly</label></div>
                                 <div><label className="form-label"> Description</label></div>
@@ -374,6 +377,14 @@ function SalaryAdvances() {
                                         onChange={e => handleChange(e, setFieldValue)}
                                     ></Field>
                                     <ErrorMessage name='LoanName' className=" ms-1" />
+                                </div>
+                                <div className="input-group text-danger fs-6 ">
+                                    <Field type="text" className="form-control"
+                                        name="LoanNo"
+                                        value={formValues.LoanNo}
+                                        onChange={e => handleChange(e, setFieldValue)}
+                                    ></Field>
+                                    <ErrorMessage name='LoanNo' className=" ms-1" />
                                 </div>
 
                                 <div className="input-group text-danger fs-6 mt-1">

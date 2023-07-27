@@ -27,3 +27,4 @@ export const SalaryAdvancesInfoURL = `${JSONURL}/salary-advances`
 
 export const attendanceMarkingURL = `${JSONURL}/attendance-marking`
 export const attendanceMarkMasterURL = `${JSONURL}/attendance-mark-master`
+export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`

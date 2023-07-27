@@ -36,7 +36,6 @@ export const deleteAddressInfo= (data) => {
 
 export const updateAddressInfo = (data) => {
 
-
     for (let i = 0; i < data.length; i++) {
 
         let putUrl = `${addressInfoURL}/${data[i].id}`
@@ -45,5 +44,13 @@ export const updateAddressInfo = (data) => {
 
     }
     return 0
+
+}
+
+export const updateEmergencyAdd = (data, id) => {
+
+    let url = `${addressInfoURL}/${id}`
+
+    return axios.put(url, data)
 
 }

@@ -65,7 +65,12 @@ const SalaryAdvancesTable = () => {
        
     ]
     const defaultColDefs = { sortable: true, filter: true, flex:1}
+
    
+   const onRowClickHandler = (e) =>{
+    console.log(e.data.LoanNo)
+    navigate(`/rePayLoanInfo/${e.data.LoanNo}`)
+   }
 
     return (
         <div className='container'>
@@ -88,6 +93,8 @@ const SalaryAdvancesTable = () => {
                     rowData={salaryAdvData}
                     columnDefs={columns}
                     defaultColDef={defaultColDefs}
+                    onRowDoubleClicked={e => onRowClickHandler(e)}
+                   
                 />
             </div>
         </div>
