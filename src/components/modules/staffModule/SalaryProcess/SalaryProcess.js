@@ -50,6 +50,7 @@ function SalaryProcess() {
         lwf: "",
         pt: "",
         net: "",
+        HouseRent:"",
         branch: "",
         dept: "",
         designation: "",

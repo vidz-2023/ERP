@@ -78,8 +78,7 @@ export const MonthlyAttendanceTable = () => {
         sortable: true,
         filter: true,
         editable: true,
-        resizable: true,
-        flex: 1
+        resizable: true
     }
 
     useEffect(() => {

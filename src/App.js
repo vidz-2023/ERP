@@ -65,6 +65,7 @@ function App() {
         <Route path="/salaryprocess" element={<SalaryProcess />} />
         {/* <Route path="/payslip" element={<Payslip />} /> */}
         <Route path="/salaryslip" element={<Salaryslip />} />
+        <Route path="/salaryslip/:data" element={<Salaryslip />} />
         <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
         <Route path="/timesheet" element={<TimeSheet />} />
         <Route path="/salaryAdvances/:empcode" element={<SalaryAdvances />} />

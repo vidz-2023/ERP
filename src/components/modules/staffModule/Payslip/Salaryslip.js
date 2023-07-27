@@ -4,10 +4,20 @@ import { useParams } from 'react-router-dom';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup';
-import { getEmpByEmpCode, getEmpInfoByName, getMonthlyAttendance } from '../../../../services/SalarySlipServices';
+import { getEmpByEmpCode, getEmpInfoByName, getMonthlyAttendance, getPayslipData } from '../../../../services/SalarySlipServices';
+import { async } from 'q';
 
 
 export const Salaryslip = () => {
+
+    const { data } = useParams();
+    console.log(data);
+
+    const [DisplayData, setDisplayData] = useState([])
+    var DummyValue = [];
+
+    let grossSal = 0;
+
 
     const inputfields = {
         month: "",
@@ -24,7 +34,7 @@ export const Salaryslip = () => {
         PaidDays: "",
         Branch: "",
         Department: "",
-        Designation:"",
+        Designation: "",
         JoiningDate: ""
 
     }
@@ -41,7 +51,15 @@ export const Salaryslip = () => {
 
     useEffect(() => {
         getEmpByEmpCodes(empcode)
+        getPayslipData(data).then(res => {
+            console.log(res.data);
+            DummyValue = res.data[0]
+            console.log(DummyValue)
+            setDisplayData(DummyValue)
+        })
+
     }, [])
+
 
     const validationSchema = Yup.object({
         Name: Yup.string().required('*Required'),
@@ -103,7 +121,7 @@ export const Salaryslip = () => {
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="text-center lh-1 mb-2">
-                                            <h4 class="fw-bold text-center">Company Name</h4> <span class="fw-bold">Salary slip for Mar 2023</span>
+                                            <h4 class="fw-bold text-center">Company Name</h4> <span class="fw-bold">Salary slip for {DisplayData.month} {DisplayData.year}</span>
                                         </div>
                                         {/* <div class="d-flex justify-content-end"> <span>Working Branch:ROHINI</span> </div> */}
                                         <div class="row">
@@ -112,33 +130,22 @@ export const Salaryslip = () => {
                                                 <div className='col-2 form-label'>Employee Name</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-select"
-                                                        component="select"
+                                                        className="form-control"
+                                                        type="text"
                                                         name="Name"
-                                                        onChange={(e) => { handleEmployeeName(e, setFieldValue) }}
+                                                        value={DisplayData.Name}
                                                     >
-                                                        <option value="">Select Name</option>
-                                                        {
-                                                            Name.map((item) => {
-                                                                return <option
-                                                                    key={item.id}
-                                                                    value={item.Name}
-                                                                >
-                                                                    {item.Name}
-                                                                </option>
-                                                            }
-                                                            )}
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Name' />
                                                 </div>
                                                 <div className='col-2'></div>
                                                 <div className='col-2 form-label'>Department</div>
                                                 <div className='col-3 d-flex'>
-                                                <Field
+                                                    <Field
                                                         className="form-control"
                                                         type="text"
                                                         name="Department"
-                                                        
+                                                        value={DisplayData.dept}
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Department' />
@@ -151,7 +158,7 @@ export const Salaryslip = () => {
                                                         className="form-control"
                                                         type="text"
                                                         name="empcode"
-                                                        
+                                                        value={DisplayData.empcode}
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger ms-2" component="div" name='empcode' />
@@ -163,7 +170,7 @@ export const Salaryslip = () => {
                                                         className="form-control"
                                                         type="text"
                                                         name="Bank"
-
+                                                        value="HDFC"
                                                     />
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Bank' />
                                                 </div>
@@ -171,11 +178,11 @@ export const Salaryslip = () => {
                                             <div className='row mb-1'>
                                                 <div className='col-2 form-label'>Designation</div>
                                                 <div className='col-3 d-flex'>
-                                                <Field
+                                                    <Field
                                                         className="form-control"
                                                         type="text"
                                                         name="Designation"
-                                                       
+                                                        value={DisplayData.designation}
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Designation' />
@@ -187,7 +194,7 @@ export const Salaryslip = () => {
                                                         className="form-control"
                                                         type="text"
                                                         name="acno"
-
+                                                        value="xxxxxxx"
                                                     />
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='acno' />
                                                 </div>
@@ -250,50 +257,50 @@ export const Salaryslip = () => {
                                                 <tbody>
                                                     <tr>
                                                         <td>Basic Salary</td>
-                                                        <td>25200</td>
+                                                        <td>{DisplayData.basic}</td>
                                                         <td>EPF</td>
-                                                        <td>1800.00</td>
+                                                        <td>{DisplayData.pf}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>HouseRent Allowance</td>
-                                                        <td>9408</td>
+                                                        <td>{DisplayData.HouseRent}</td>
                                                         <td>Health Insurance</td>
-                                                        <td>500</td>
+                                                        <td>{DisplayData.esi}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Conveyance Allowance</td>
-                                                        <td>1493</td>
+                                                        <td>{DisplayData.Conveyance}</td>
                                                         <td>Professional Tax</td>
-                                                        <td>200</td>
+                                                        <td>{DisplayData.pt}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Medical Allowances</td>
-                                                        <td>1167</td>
+                                                        <td>{DisplayData.Medical}</td>
                                                         <td>TDS</td>
-                                                        <td></td>
+                                                        <td>{DisplayData.tds}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Special Allowances</td>
-                                                        <td>18732</td>
+                                                        <td>{DisplayData.bonus}</td>
                                                         <td></td>
                                                         <td></td>
                                                     </tr>
 
                                                     <tr class="border-top">
                                                         <td>Gross Salary</td>
-                                                        <th scope='row'>56000</th>
+                                                        <th scope='row'>15000</th>
                                                         <td>Total Deductions</td>
-                                                        <th scope='row'>2500</th>
+                                                        <th scope='row'>1300</th>
                                                     </tr>
 
                                                     <tr class="border-top">
                                                         <td colspan="2" class="fw-bolder" style={{ textAlign: 'center' }}>Net Pay</td>
-                                                        <td colspan="2" class="fw-bolder" style={{ textAlign: 'center' }}>53500</td>
+                                                        <td colspan="2" class="fw-bolder" style={{ textAlign: 'center' }}>16300</td>
                                                     </tr>
-                                                    <tr class="border-top">
+                                                    {/* <tr class="border-top">
                                                         <td colspan="2" style={{ textAlign: 'right' }}>Amount In Words:</td>
                                                         <td colspan="2">Fifty Three Thousand Five Hundred Only</td>
-                                                    </tr>
+                                                    </tr> */}
                                                 </tbody>
                                             </table>
                                         </div>

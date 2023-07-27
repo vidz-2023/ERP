@@ -20,3 +20,6 @@ export const getEmpByEmpCode = (empid) => {
     return axios.get(`${monthlyAttendanceURL}?empcode=${empid}`)
 }
 
+export const getPayslipData= (data) => {
+    return axios.get(`${monthlySalaryURL}?empcode=${data}`)
+}

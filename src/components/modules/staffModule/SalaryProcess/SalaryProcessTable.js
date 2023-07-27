@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import DeleteEditButton from './DeleteEditButton';
 
@@ -10,10 +11,14 @@ import { getSalaryProcess, searchSalaryProcessAnyField } from '../../../../servi
 
 
 
+
 export const SalaryProcessTable = () => {
 
     const [salaryProcess, setSalaryProcess] = useState([])
     const [searchValState, setSearchValState] = useState([])
+    const navigate = useNavigate()
+
+const DummyValue =[];
 
     // const salaryProcess = [{
     //     empcode: "000001",
@@ -39,6 +44,8 @@ export const SalaryProcessTable = () => {
     //     category: "",
     //     date: ""
     // }]
+
+
 
     //table header and display the fields
     const column = [
@@ -101,6 +108,12 @@ export const SalaryProcessTable = () => {
                 { field: 'net' }
             ]
         },
+        // {
+        //     headerName:'Basic Info',
+        //     children:[
+        //         {field:'HouseRent'}
+        //     ]
+        // },
         {
             headerName: 'Employee Details',
             children: [
@@ -125,8 +138,13 @@ export const SalaryProcessTable = () => {
         sortable: true,
         filter: true,
         editable: true,
-        resizable: true,
-        width: 90
+        resizable: true
+    }
+
+    const onRowClickHandler = (e) => {
+        alert("Row as Selected")
+        console.log(e.data)
+        navigate(`/salaryslip/${e.data.empcode}`)
     }
 
     useEffect(() => {
@@ -147,6 +165,7 @@ export const SalaryProcessTable = () => {
 
     return (
         <>
+
             <div className='container'>
                 <div className='row mt-3'>
                     <div className='col-1 form-label'>
@@ -179,7 +198,13 @@ export const SalaryProcessTable = () => {
             </div>
 
             <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={salaryProcess} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+                <AgGridReact
+                    rowData={salaryProcess}
+                    columnDefs={column}
+                    defaultColDef={defaultColDef}
+                    animateRows={true}
+                    onRowDoubleClicked={e => onRowClickHandler(e)}
+                />
             </div>
 
         </>
