@@ -9,6 +9,7 @@ const LeaveEditDelete = (params) => {
     const handleDelete = (p) => {
         deleteLeaveMaster(p.data.id)
         getLeaveMaster().then()
+        p.GetMaster()
     }
 
     const handleEdit = (p) => {

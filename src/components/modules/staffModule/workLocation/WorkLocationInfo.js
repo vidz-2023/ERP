@@ -67,7 +67,7 @@ function WorkLocationInfo() {
 
     const funGetBasicInfoByName = (data) => {
         getBasicInfoByName(data).then((res) => {
-            const updateEmpCode = res.data[0].EmpCode
+            const updateEmpCode = res.data[0].empCode
             console.log(updateEmpCode)
             getEmpWorklocationDataByEmpCode(updateEmpCode)
         })
@@ -81,7 +81,7 @@ function WorkLocationInfo() {
                 getWorkLocationByEmpCode(empcode).then((res) => {
                     console.log(res.data)
                     const resObj = resName.data.find((item) => {
-                        return item.EmpCode === empcode
+                        return item.empCode === empcode
                     })
                     console.log(resObj)
                     if (res.data.length) {

@@ -48,7 +48,7 @@ function SalaryStructure() {
             if (empcode > 0) {
                 getSalaryStructureByEmpCode(empcode).then((res) => {
                     const resObj = resName.data.find((item) => {
-                        return item.EmpCode === empcode
+                        return item.empCode === empcode
                     })
                     if (res.data.length) {
                         setEmpSalaryData({ ...res.data[0], "empName": resObj.FirstName })
@@ -98,7 +98,7 @@ function SalaryStructure() {
 
     const funGetBasicInfoByName = (data) => {
         getBasicInfoByName(data).then((res) => {
-            const updateEmpCode = res.data[0].EmpCode
+            const updateEmpCode = res.data[0].empCode
             getEmpSalaryStructureDataByEmpCode(updateEmpCode)
         })
     }

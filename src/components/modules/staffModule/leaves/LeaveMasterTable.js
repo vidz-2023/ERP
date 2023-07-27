@@ -22,6 +22,17 @@ function LeaveMasterTable() {
     //         Cashable: " Yes"
     //     }
     // ]
+
+    useEffect(() => {
+        gettingTableMasterData()
+    }, [])
+
+    const gettingTableMasterData = () => {
+        getLeaveMaster().then((res) => {
+            console.log(res.data)
+            setLeave(res.data)
+        })
+    }
     const column = [
         {
             headerName: "Description",
@@ -54,7 +65,7 @@ function LeaveMasterTable() {
         {
             cellRenderer: LeaveEditDelete,
             cellRendererParams: {
-                GetSalary: getLeaveMaster
+                GetMaster: gettingTableMasterData
             }
         }
     ]
@@ -70,14 +81,7 @@ function LeaveMasterTable() {
         navigate('/leaveMaster')
     }
 
-    useEffect(() => {
-        getLeaveMaster().then((res) => {
-            console.log(res.data)
-            setLeave(res.data)
-        })
-    }, [])
-
-    return (
+       return (
         <>
             <div className='input-group'>
                 <button

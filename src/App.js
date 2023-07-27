@@ -44,7 +44,7 @@ function App() {
         <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
         {/* <Route path="/salary-structure/:empcode" element={<SalaryStructureWithSharedComponent />} />*/}
         <Route path="/worklocation-data" element={<WorkLocationTable />} />
-        <Route path="/worklocation" element={<WorkLocationInfo />} />
+        {/* <Route path="/worklocation" element={<WorkLocationInfo />} /> */}
         <Route path="/attendance" element={<Attendence />} />
         <Route path="leaveMaster" element={<LeaveMaster />} />
         <Route path='leaveMaster/:id' element={<LeaveMaster />} />

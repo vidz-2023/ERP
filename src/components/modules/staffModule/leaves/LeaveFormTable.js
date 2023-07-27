@@ -26,91 +26,101 @@ function LeaveFormTable() {
     //         RemarkByFinance: ''
     //     }
     // ]
+    useEffect(() => {
+        gettingTableData()
+    }, [])
+
+    const gettingTableData = () => {
+        getLeaveForm().then((res) => {
+            console.log(res.data)
+            setApplyLeave(res.data)
+        })
+    }
     const column = [
         {
             headerName: "Employee",
             field: "employee",
-            width:85
+            width: 85
         },
         {
             headerName: "Designation",
             field: "designation",
-            width:85
+            width: 85
         },
         {
             headerName: "Branch",
             field: "branch",
-            width:85
+            width: 85
         },
         {
             headerName: "Department",
             field: "department",
-            width:85
+            width: 85
         },
         {
             headerName: "LeaveCode",
             field: "leavecode",
-            width:85
+            width: 85
         },
         {
             headerName: "AvailableLeaves",
             field: "availableLeaves",
-            width:85
+            width: 85
         },
-         {
+        {
             headerName: "Voucherno",
             field: "voucherno",
-            width:85
-        },        
+            width: 85
+        },
         {
             headerName: "FromDate",
             field: "fromDate",
-            width:85
+            width: 85
         },
         {
             headerName: "ToDate",
             field: "toDate",
-            width:85
+            width: 85
         },
         {
             headerName: "Days",
             field: "days",
-            width:70
+            width: 70
         },
         {
             headerName: "LeaveIn",
             field: "leaveIn",
-            width:70
+            width: 70
         },
         {
             headerName: "Rate",
             field: "rate",
-            width:70
+            width: 70
         },
         {
             headerName: "Amount",
             field: "amount",
-            width:70
+            width: 70
         },
         {
             headerName: "Reason",
             field: "reason",
-            width:70
+            width: 70
         },
         {
             headerName: "Remark",
             field: "remark",
-            width:70
+            width: 70
         },
         {
             headerName: "RemarkByFinance",
             field: "remarkByFinance",
-            width:70
+            width: 70
         },
         {
             cellRenderer: LeaveFormEditDelete,
             cellRendererParams: {
-                GetLeave: getLeaveForm
+                GetLeave: gettingTableData
             }
         }
     ]
@@ -125,12 +135,7 @@ function LeaveFormTable() {
         navigate('/leaveForm')
     }
 
-    useEffect(() => {
-        getLeaveForm().then((res) => {
-            console.log(res.data)
-            setApplyLeave(res.data)
-        })
-    }, [])
+ 
     return (
         <>
             <button
