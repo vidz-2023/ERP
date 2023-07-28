@@ -1,102 +1,225 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import HeaderCalender from './HeaderCalender';
 import moment from 'moment';
-
-import { getSalary } from '../../../../services/salaryService';
 import { getBasicInfo } from '../../../../services/basicInfoServices';
-import { getAttendance, getAttendenceMark } from '../../../../services/attendanceMarkingServices';
+import { addAttendance, getAttendance, updateAttendance } from '../../../../services/attendanceMarkingServices';
 
 const Attendence = () => {
-
-
     let currentMonthYear = `${moment().year()}-0${moment().month() + 1}`
     const [monthYear, setMonthYear] = useState(currentMonthYear)
     let numOfDaysCurrent = moment(monthYear, "YYYY-MM").daysInMonth()
-
-    // const [getRowData, setGetRowData] = useState([])
     const days = []
-    // const [employees, setEmployees] = useState([])
-    const flagAttendanceArr = ["P", "A", "WE", "H", "EHD", "MHD"]
-
-    useEffect(() => {
-        // getAllName()
-        // let numOfDaysCurrent = moment(monthYear, "YYYY-MM").daysInMonth()
-        // getRowDataFunction(numOfDaysCurrent)
-    }, [])
-
+    const [employeesNumber, setEmployeesNumbers] = useState(0)
+    let data = {
+        "empName": "",
+        "present": 0,
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": "",
+        "8": "",
+        "9": "",
+        "10": "",
+        "11": "",
+        "12": "",
+        "13": "",
+        "14": "",
+        "15": "",
+        "16": "",
+        "17": "",
+        "18": "",
+        "19": "",
+        "20": "",
+        "21": "",
+        "22": "",
+        "23": "",
+        "24": "",
+        "25": "",
+        "26": "",
+        "27": "",
+        "28": "",
+        "29": "",
+        "30": "",
+        "31": ""
+    }
+    let attendanceChangeArray = []
+    let attendanceNewIdArray = []
 
     const getRowDataFunction = (numOfDays) => {
 
-        // console.log(numOfDays)
-        // let headingRow = { Name: "Nidhi", Attendance: 0 }
-
-        // for (let i = 1;i < numOfDays + 1;i++) {
-        //     headingRow = { ...headingRow, [i]: i }
-        // }
-
-        // days.push({ headingRow })
-        // console.log(days)
-        // setGetRowData(days)
+    }
+    // ================================================= calculating weekends =========================
+    const getWeekdaysWeekends = (year, month) => {
+        const firstDayOfMonth = moment({ year, month, day: 1 });
+        const lastDayOfMonth = firstDayOfMonth.clone().endOf('month');
+        let current = moment(firstDayOfMonth);
+        let weekdaysList = [];
+        let weekendsList = [];
+        while (current <= lastDayOfMonth) {
+            const dayOfWeek = current.day();
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                // 0 represents Sunday and 6 represents Saturday
+                weekendsList.push(current.format('D'));
+            } else {
+                weekdaysList.push(current.format('D'));
+            }
+            current.add(1, 'day');
+        }
+        return { weekendsList, weekdaysList }
     }
 
+    // =========================================================Table================================
     const onGridReady = (params) => {
 
-        let headingRow = { empName: "Nidhi", present: 0 }
+        const { weekendsList, weekdaysList } = getWeekdaysWeekends(2023, 6)
+
+        // ============================================== heading row ======================== 
+
+        let headingRow = { id: "", empName: "", present: 0, month: "", year: "" }
 
         for (let i = 1;i < numOfDaysCurrent + 1;i++) {
-            headingRow = { ...headingRow, [i]: "p" }
+            headingRow = { ...headingRow, [i]: "" }
         }
 
         const keys = Object.keys(headingRow);
         const alphabeticalKeys = keys.filter(key => isNaN(key));
         const numericalKeys = keys.filter(key => !isNaN(key));
         const sortedKeys = alphabeticalKeys.concat(numericalKeys);
-        console.log(sortedKeys)
-        params.api.setColumnDefs(sortedKeys.map(item => ({ field: item })))
+        params.api.setColumnDefs(sortedKeys.map(item => {
+
+            let fieldObj = {}
+            if (item === "empName") {
+                fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 130, editable: false }
+
+            } else if (item === "present") {
+                fieldObj = {
+                    ...fieldObj,
+                    field: item,
+                    pinned: "left",
+                    maxWidth: 130,
+                    editable: false,
+                    valueFormatter: function (present, total = weekdaysList.length) {
+                        console.log(present, total)
+                        return present.value + ' / ' + total
+                    }
+                }
+
+            } else if (item === "id" || item === "month" || item === "year") {
+                fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 70, editable: false, hide: true }
+
+            } else {
+                fieldObj = { ...fieldObj, field: item, maxWidth: 80, editable: true }
+            }
+
+            return (fieldObj)
+        }))
 
         days.push(headingRow)
-        console.log(days)
         params.api.setRowData(days)
 
-        getAttendance().then((res) => {
-            params.api.setRowData(res.data)
+        //============================================ populate data in cell =====================================
+        getBasicInfo().then((resBasicInfo) => {
+
+            let names = resBasicInfo.data.map((item) => {
+                let fullName = item.FirstName + " " + item.LastName
+                return fullName
+            })
+            setEmployeesNumbers(names.length)
+            let namePresentInAttendance = []
+            getAttendance().then((resAttendance) => {
+
+                let populatedAllData = []
+
+                names.forEach((item) => {
+                    data = { ...data, empName: item }
+                    // =====================================weekend data================
+                    weekendsList.forEach((item) => {
+                        data = { ...data, [item]: "WE" }
+                    })
+                    // =======================================week days data =============
+                    resAttendance.data.forEach((itemAttendance) => {
+
+                        if (item === itemAttendance.empName) {
+                            let present = 0
+                            namePresentInAttendance.push(itemAttendance.empName)
+                            weekdaysList.forEach((weekdaysItem) => {
+
+                                if (itemAttendance[weekdaysItem] === 'P') {
+                                    present++
+                                }
+
+                                data = {
+                                    ...data,
+                                    [weekdaysItem]: itemAttendance[weekdaysItem],
+                                    present: present,
+                                    id: itemAttendance.id,
+                                    month: itemAttendance.month,
+                                    year: itemAttendance.year
+                                }
+                            })
+                            populatedAllData.push(data)
+                        }
+                    })
+                    if (!namePresentInAttendance.includes(item)) {
+                        weekdaysList.forEach((weekdaysItem) => {
+                            data = { ...data, [weekdaysItem]: "", present: 0, id: "" }
+                        })
+                        populatedAllData.push(data)
+                    }
+                })
+                params.api.setRowData(populatedAllData)
+            })
         })
-
-
     }
-
     const handleChangeMonth = (e) => {
         setMonthYear(e.target.value)
-        // console.log(e.target.value)
         const numOfDays = moment(e.target.value, "YYYY-MM").daysInMonth()
-        // console.log(numOfDays)
-        // setNumOfDaysForAttendance(numOfDays)
         getRowDataFunction(numOfDays)
     }
 
-    // const getAllAttendanceFlags = () => {
-    //     getAttendenceMark().then((res) => { console.log(res.data) })
-    // }
-
-
     const handleCellClick = (params) => {
-        console.log(params)
-        params.setDataValue("hi")
+        console.log(params.data)
+        if (params.data[params.colDef.field] === "A") {
+            params.data[params.colDef.field] = "P"
+        } else {
+            params.data[params.colDef.field] = "A"
+        }
+
+        if (params.data.id) {
+            data = { ...data, ...params.data }
+            attendanceChangeArray.push(data)
+        } else {
+            data = { ...data, ...params.data }
+            attendanceNewIdArray.pop()
+            attendanceNewIdArray.push(data)
+        }
+    }
+    const submitAttendanceHandle = () => {
+        attendanceChangeArray && attendanceChangeArray.forEach((item) => {
+            updateAttendance(item).then((res) => {
+                window.location.reload(false);
+            })
+        })
+        attendanceNewIdArray && attendanceNewIdArray.forEach((item) => {
+            addAttendance(item).then((res) => {
+                window.location.reload(false);
+            })
+
+        })
+        alert("Attendance submitted successfully ")
     }
 
     const defaultColDef = {
         sortable: true,
         filter: true,
-        editable: true,
-        maxWidth: 120,
-        // onCellValueChanged: handleCellValueChanged,
+        lockPinned: true,
         onCellClicked: handleCellClick,
-        // flex: 1,
         cellStyle: (params) => {
-
             switch (params.value) {
                 case "P":
                     return { backgroundColor: "#D0F0C0", color: "#1DB954" }
@@ -110,25 +233,16 @@ const Attendence = () => {
                     return { backgroundColor: "#ADFF2F", color: "#008000" }
                 case "EHD":
                     return { backgroundColor: "#20B2AA", color: "#008B8B" }
-
                 default:
-                // return { border: "1px solid black" }
-
             }
         }
-
-
     }
 
-
-    // const getAllName = () => {
-    //     getBasicInfo().then((res) => setEmployees(res.data))
-    // }
     return (
         <>
             <div className='container m-2'>
                 <div className='row input-group'>
-                    <h6 className='col-3 form-label'>No. of Employees:3</h6>
+                    <h6 className='col-3 form-label'>No. of Employees: {employeesNumber}</h6>
                     <input
                         className='col-3 form-control'
                         type="month"
@@ -138,20 +252,24 @@ const Attendence = () => {
                         value={monthYear}
                         onChange={handleChangeMonth}
                     />
-
+                    <div className='col-2'></div>
+                    <div className='col-4 ms-3 '>
+                        <button type="button"
+                            className='btn btn-info'
+                            onClick={submitAttendanceHandle}
+                        >
+                            Submit Attendance
+                        </button>
+                    </div>
                 </div>
             </div >
-            <div className="ag-theme-alpine" style={{ height: 400 }}>
+            <div className="ag-theme-alpine" style={{ height: 500 }}>
                 <AgGridReact
-                    // rowData={getRowData}
-                    // columnDefs={columnDefs}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
                 />
             </div>
         </>
     )
-
 }
-
 export default Attendence
