@@ -33,7 +33,7 @@ function Header() {
                                     <li><NavLink className="dropdown-item" href="#">Salary Appraisal</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="salaryprocess">Salary Process</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="salaryslip">Payslip</NavLink></li>
-                                    <li><NavLink className="dropdown-item" href="#">Post Salary in Finance</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="postsalary">Post Salary in Finance</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="monthlyattendance">Monthly attendance Process</NavLink></li>
                                     {/* <li><NavLink className="dropdown-item" href="#">Apply Leaves</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Leaves</NavLink></li>
