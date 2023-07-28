@@ -168,7 +168,7 @@ function LeaveMaster() {
                                                 <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
-                                                        type='text'
+                                                        type='number'
                                                         name='noOfLeave'
                                                         value={leaveMasterValue.noOfLeave}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}

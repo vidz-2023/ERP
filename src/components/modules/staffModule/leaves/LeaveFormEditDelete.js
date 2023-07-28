@@ -5,13 +5,10 @@ import { deleteLeaveForm, getLeaveForm } from '../../../../services/LeaveFormSer
 import LeaveForm from './LeaveForm';
 
 const LeaveFormEditDelete = (params) => {
-    const [formData, setFormData] = useState([]);
-    const [isForm, setIsForm] = useState(false)
 
     const navigate = useNavigate()
     const handleDelete = (p) => {
         deleteLeaveForm(p.data.id)
-        console.log(p)
         getLeaveForm().then()
         p.GetLeave()
     }
@@ -24,7 +21,7 @@ const LeaveFormEditDelete = (params) => {
     return (<div>
         <button className='btn btn-info me-2 ' onClick={() => { handleEdit(params) }}><FaEdit /></button>
         <button className='btn btn-danger' onClick={() => { handleDelete(params) }}><FaTrash /></button>
-      
+
     </div>)
 }
 

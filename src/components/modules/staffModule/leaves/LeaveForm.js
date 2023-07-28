@@ -8,6 +8,8 @@ import { addLeaveForm, editLeaveForm, getLeaveFormByEmpCode, getLeaveFormByID } 
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaBullseye } from 'react-icons/fa';
 import { getLeaveByNoOfLeave, getLeaveMaster } from '../../../../services/LeaveMasterService';
+import { getWorkLocation, getWorkLocationByEmpCode } from '../../../../services/workLocationServices';
+import { getBasicInfo, getBasicInfoByName } from '../../../../services/basicInfoServices';
 
 
 function LeaveForm() {
@@ -46,6 +48,10 @@ function LeaveForm() {
   var countDays = 0
   var pendingLeaves = 0;
   var getAvbLeave;
+  var newDataOBjWork = []
+  const [getEMPWorkData, setGetEMPWorkData] = useState([])
+  const [getEMPWorkDetail, setGetEMPWorkDetail] = useState([])
+  
 
   const validateyupSchema = Yup.object({
     employee: Yup.string().required('Employee is required'),
@@ -64,6 +70,7 @@ function LeaveForm() {
   })
 
   useEffect(() => {
+
     if (id >= 0) {
       getLeaveFormByID(id).then(res => {
         console.log(res)
@@ -71,9 +78,18 @@ function LeaveForm() {
       })
       setIsUpdate(true)
     }
+    getEMPDetailFromWorkLocation()
   }, [])
 
+  const getEMPDetailFromWorkLocation = async () => {
+    await getWorkLocation().then(resWorKData => {
+      console.log(resWorKData.data)
+      setGetEMPWorkData(resWorKData.data)
+    })
+  }
+
   const handleSubmit = () => {
+  
     if (!isUpdate) {
       addLeaveForm(leaveFormValue)
       navigate('/leaveFormTable')
@@ -83,12 +99,15 @@ function LeaveForm() {
     }
   }
 
-  //Function Declration
+  //On Change Function Declration
   const onLeaveHandlerChange = (e, setFieldValue) => {
     const { name, value } = e.target
+
     setLeveFormValue({ ...leaveFormValue, [name]: value })
+    if (name == "employee") {
+      fetchEmp(value)
+    }
     setFieldValue([name], value)
-    fetchEmp(value)
   }
 
   const onLeavecodeChange = (e, setFieldValue) => {
@@ -134,7 +153,12 @@ function LeaveForm() {
       getAcqDays(tempArray)
       getAcqDaysLeaveCode(tempArray)
     })
+    await getWorkLocationByEmpCode(value).then(res => {
+      console.log(res.data)
+      setGetEMPWorkDetail(res.data)
+    })
   }
+
 
   //To get total of the Acquired Leaves based on the EmpCode
   const getAcqDays = (tempArray) => {
@@ -198,11 +222,17 @@ function LeaveForm() {
                             name="employee"
                             className="form-select"
                             value={leaveFormValue.employee}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)}>
-                            <option value="">Select...</option>
-                            <option value="00001"> 00001</option>
-                            <option value="00002"> 00002</option>
-                            <option value="00003"> 00003</option>
+                            onChange={e => onLeaveHandlerChange(e, setFieldValue)
+
+                            }>
+                            <option value=" "> Select...</option>
+                            {getEMPWorkData.map((item) =>
+                              <option
+                                key={item.id}
+                                value={item.empCode}
+                              >
+                                {item.empCode}
+                              </option>)}
                           </Field>
                           <ErrorMessage name='employee' />
                         </div>
@@ -213,7 +243,7 @@ function LeaveForm() {
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
-                          <Field
+                        <Field
                             className="form-control"
                             type='text'
                             name='designation'
@@ -487,8 +517,8 @@ function LeaveForm() {
                 </Form>)}
             </Formik>
           </div>
-        </fieldset>
-      </div>
+        </fieldset >
+      </div >
 
     </>
   )
