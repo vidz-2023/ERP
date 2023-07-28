@@ -11,7 +11,8 @@ const DeleteEditButtonSalAdv = (params) => {
     }
 
     const handleEdit = (p) => {
-        navigate(`/salaryAdvances/${p.data.empCode}`)
+        //console.log(p.data.LoanCode)
+        navigate(`/salaryAdvances/${p.data.LoanNo}`)
     }
 
     return (<div>

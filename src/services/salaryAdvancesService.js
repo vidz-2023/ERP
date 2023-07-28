@@ -35,5 +35,12 @@ export const searchSalAdvancesAnyField = (data) => {
     return axios.get(`${SalaryAdvancesInfoURL}?q=${data}`)
 }
 
+export const getSalAdvancesByLoanNo = (data) => {
+     
+    console.log(`${SalaryAdvancesInfoURL}?LoanNo=${data}`)
+    return axios.get(`${SalaryAdvancesInfoURL}?LoanNo=${data}`)
+
+}
+
 
 

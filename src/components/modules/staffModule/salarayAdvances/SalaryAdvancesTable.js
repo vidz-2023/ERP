@@ -44,6 +44,9 @@ const SalaryAdvancesTable = () => {
             headerName: 'Emp Code', field: 'empCode'
         },
         {
+            headerName: 'Loan No', field: 'LoanNo'
+        },
+        {
             headerName: 'Loan Name', field: 'LoanName'
         },
         {

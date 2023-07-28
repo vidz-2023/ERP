@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBook, FaEdit } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { addSalAdvancesInfo, getSalAdvancesByEmpCode, updateSalAdvances } from '../../../../services/salaryAdvancesService';
+import { addSalAdvancesInfo, getSalAdvancesByEmpCode, getSalAdvancesByLoanNo, updateSalAdvances } from '../../../../services/salaryAdvancesService';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import RightMarkComponent from '../../../../share/RightMarkComponet';
 import CrossMarkComponent from '../../../../share/CrossMarkComponent';
 import PlusSignComponent from '../../../../share/PlusSignComponent';
+import { getBasicInfo, getBasicInfoByEmpCode, getBasicInfoByName } from '../../../../services/basicInfoServices';
 
 
 
@@ -24,7 +25,7 @@ function SalaryAdvances() {
         "empCode": "",
         "EmpName": "",
         "LoanName": "",
-        "LoanNo":"",
+        "LoanNo": "",
         "RequestedLoanAmt": "",
         "ApprovedLoanAmt": "",
         "InterestRate": "",
@@ -52,11 +53,14 @@ function SalaryAdvances() {
         PA: "",
         IA: 0,
         Bal: "",
-        Status:"No"
+        Status: "No"
 
     }
 
-    const { empcode } = useParams()
+    const [empNameList, setEmpNameList] = useState([])
+    const [empName, setEmpName] = useState("")
+    const [empCode, setEmpCode] = useState(0)
+    const { LoanNo } = useParams()
     const navigate = useNavigate()
     const [formValues, setFormValue] = useState(initialValue)
     const [periods, setPeriods] = useState(0)
@@ -65,7 +69,7 @@ function SalaryAdvances() {
     const [rePayData, setRepayData] = useState([])
     const [isUpdate, setIsUpdate] = useState(false)
     var rePayArr = []
-    const emiStatusArr = ['Yes','No','Yes','No','Yes']
+    const emiStatusArr = ['Yes', 'No', 'Yes', 'No', 'Yes']
 
     useEffect(() => {
         getDataByEmpCode()
@@ -73,28 +77,34 @@ function SalaryAdvances() {
 
     const getDataByEmpCode = async () => {
 
-        console.log(empcode)
-        if (empcode > 0) {
-            await getSalAdvancesByEmpCode(empcode).then(res => {
+        console.log(LoanNo)
+        if (LoanNo>0) {
+            await getSalAdvancesByLoanNo(LoanNo).then(res => {
 
                 setPeriods(res.data[0].RepayPeriodsInMonth)
                 setMonthlyAmt(res.data[0].RepayMonthlyAmt)
+                setEmpCode(res.data[0].empCode)
+                setEmpName(res.data[0].EmpName)
                 setFormValue(res.data[0])
                 formValues.RepayStartDate = res.data[0].RepayStartDate
                 formValues.ApprovedLoanAmt = res.data[0].ApprovedLoanAmt
                 formValues.RepayPeriodsInMonth = res.data[0].RepayPeriodsInMonth
                 formValues.RepayMonthlyAmt = res.data[0].RepayMonthlyAmt
-                console.log(periods + "pppp")
-                console.log(res.data[0].RepayStartDate + "date")
-                console.log(res.data[0].ApprovedLoanAmt + "bal")
-                console.log(formValues.RepayStartDate + "date")
-                console.log(formValues.ApprovedLoanAmt + "bal")
-                rePayArr =[]
+               
+                rePayArr = []
                 setRepaymentSchedule()
 
             })
-           
+
             setIsUpdate(true)
+        }
+
+        else {
+
+            getBasicInfo().then((resName) => {
+                console.log(resName.data)
+                setEmpNameList(resName.data)
+            })
         }
 
         console.log(formValues)
@@ -104,7 +114,7 @@ function SalaryAdvances() {
 
         EmpName: Yup.string().required("required"),
         LoanName: Yup.string().required("required").matches(/^[A-Za-z]\w*/, "not correct"),
-        LoanNo: Yup.string().required("required"),
+        LoanNo: Yup.number().required("required"),
         RequestedLoanAmt: Yup.number().required("required").min(0, "Only positive value"),
         ApprovedLoanAmt: Yup.number().required("required").min(0, "Only positive value"),
         InterestRate: Yup.number().required("required").min(0, "Only positive value"),
@@ -125,6 +135,25 @@ function SalaryAdvances() {
         //  IFSCCode: Yup.string().required("required"),
 
     })
+
+    const handleEmployeeName = (option, setFieldValue) => {
+        setFieldValue("EmpName", option.target.value)
+        console.log(option.target.value)
+        
+      setEmpName(option.target.value)
+        option.target.value && funGetBasicInfoByName(option.target.value)
+    }
+    
+    const funGetBasicInfoByName = (data) => {
+        getBasicInfoByName(data).then((res) => {
+            const updateEmpCode = res.data[0].empCode
+            console.log(updateEmpCode)
+           // formValues.empCode = updateEmpCode
+           setEmpCode(updateEmpCode)
+
+          
+        })
+    }
 
     const handleChange = (e, setFieldValue) => {
 
@@ -158,17 +187,19 @@ function SalaryAdvances() {
 
         formValues.RepayPeriodsInMonth = periods
         formValues.RepayMonthlyAmt = monthlyAmt
+        formValues.empCode = empCode
+         formValues.EmpName = empName
         console.log(formValues)
 
-        if (isUpdate) {
+      if (isUpdate) {
             let id = formValues.id
-           updateSalAdvances(formValues, id)
-          
+            updateSalAdvances(formValues, id)
+
         }
         else {
 
             addSalAdvancesInfo(formValues)
-           
+
         }
         navigate('/salaryAdvancesData')
 
@@ -265,12 +296,12 @@ function SalaryAdvances() {
 
     }
 
-    
+
 
     const columns = [
         {
             headerName: 'S.No', field: 'EmiNo',
-             cellRenderer: PlusSignComponent,
+            cellRenderer: PlusSignComponent,
         },
         {
             headerName: 'Payment Date', field: 'RePayDate'
@@ -291,17 +322,15 @@ function SalaryAdvances() {
         },
         {
             headerName: 'Paid Status', field: "Status",
-           // cellRenderer: setEmiStatus,
-           cellRendererSelector: p => {
-            if(p.value == "Yes")
-            {
-                return {component:RightMarkComponent}
+            // cellRenderer: setEmiStatus,
+            cellRendererSelector: p => {
+                if (p.value == "Yes") {
+                    return { component: RightMarkComponent }
+                }
+                if (p.value == "No") {
+                    return { component: CrossMarkComponent }
+                }
             }
-            if(p.value == "No")
-            {
-                return {component:CrossMarkComponent}
-            }
-           }
         }
 
     ]
@@ -354,19 +383,42 @@ function SalaryAdvances() {
 
                             <div className='col-3  mt-2'>
 
-                                <div className="input-group text-danger fs-6 mt-1">
+                            {!isUpdate &&  <div className="input-group text-danger fs-6 mt-1">
+                                   
+                                    <Field
+                                        className="form-select"
+                                        name="EmpName"
+                                        component="select"
+                                        value = {empName}
+                                        onChange={(e) => { handleEmployeeName(e, setFieldValue) }}
+
+                                    >
+                                        <option value="">Select.......</option>
+                                        {empNameList.map((item) =>
+                                            <option
+                                                key={item.id}
+                                                value={item.FirstName}
+                                            >
+                                                {item.FirstName}
+                                            </option>)}
+                                    </Field>
+                                    <ErrorMessage name='EmpName' className=" ms-1" />
+                                </div>}
+                               {isUpdate && <div className="input-group text-danger fs-6 mt-1">
                                     <Field type="text" className="form-control"
                                         name="EmpName"
-                                        value={formValues.EmpName}
-                                        onChange={e => handleChange(e, setFieldValue)}></Field>
-                                    <ErrorMessage name='EmpName' className=" ms-1" />
-                                </div>
+                                        value= {empName}
+                                       
+                                        disabled></Field>
+                                </div>}
+
 
                                 <div className="input-group text-danger fs-6 mt-1">
-                                    <Field type="text" className="form-control" 
+                                    <Field type="text" className="form-control"
                                         name="empCode"
-                                        value={formValues.empCode}
-                                        onChange={e => handleChange(e, setFieldValue)}></Field>
+                                        value= {empCode}
+                                       
+                                        disabled></Field>
                                     <ErrorMessage name='empCode' className=" ms-1" />
                                 </div>
 
@@ -379,7 +431,7 @@ function SalaryAdvances() {
                                     <ErrorMessage name='LoanName' className=" ms-1" />
                                 </div>
                                 <div className="input-group text-danger fs-6 ">
-                                    <Field type="text" className="form-control"
+                                    <Field type="number" className="form-control"
                                         name="LoanNo"
                                         value={formValues.LoanNo}
                                         onChange={e => handleChange(e, setFieldValue)}
