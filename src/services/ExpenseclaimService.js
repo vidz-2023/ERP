@@ -20,10 +20,9 @@ export const deleteExpenseClaim = (id) => {
     return axios.delete(`${expenseClaimURL}/${id}`)
 }
 
-export const getExpenseClaimById = (id) => {
-    let url = `${expenseClaimURL}/${id}`
-    //console.log(url)
-    return axios.get(url).then(res => res.data)
+export const getExpenseClaimByExpenseCode = async (claimCode) => {
+    let url = `${expenseClaimURL}?ClaimNo=${claimCode}`
+    return await axios.get(url).then(res => res.data[0])
 }
 
 //------------Expense Claim Detail-------------
@@ -42,4 +41,14 @@ export const updateExpenseClaimDetail = (data, id) => {
 export const deleteExpenseClaimDetail = (id) => {
     //console.log(id)
     return axios.delete(`${expenseClaimDetailURL}/${id}`)
+}
+
+export const getExpenseClaimDetailByEmpCode = (emp) => {
+    console.log(emp)
+    return axios.get(`${expenseClaimDetailURL}?empcode=${emp}`)
+}
+
+export const getExpenseClaimDetailByExpenseCode = (expense) => {
+    console.log(expense)
+    return axios.get(`${expenseClaimDetailURL}?expenseclaimcode=${expense}`)
 }

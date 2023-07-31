@@ -15,8 +15,8 @@ const DeleteEditExpenseClaim = (params) => {
     }
 
     const handleEdit = (p) => {
-        console.log(p.data.id);
-        navigate(`/expenseclaim/${p.data.id}`)
+        console.log(p.data.ClaimNo);
+        navigate(`/expenseclaim/${p.data.ClaimNo}`)
     }
   return (
     <div>

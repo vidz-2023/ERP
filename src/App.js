@@ -62,8 +62,8 @@ function App() {
         <Route path="/expenseClaimTable" element={<ExpenseTable  />} />
         <Route path="/staffMasterdata" element={<StaffMasterTable />} />
         <Route path="/staffMaster/:id" element={<StaffMaster />} />
-        <Route path="/expenseclaim" element={<ExpenseClaim />} />
-        <Route path="/expenseclaim/:id" element={<ExpenseClaim />} />
+        {/* <Route path="/expenseclaim" element={<ExpenseClaim />} /> */}
+        <Route path="/expenseclaim/:ClaimNo" element={<ExpenseClaim />} />
         <Route path="/salaryprocess" element={<SalaryProcess />} />
         {/* <Route path="/payslip" element={<Payslip />} /> */}
         <Route path="/salaryslip" element={<Salaryslip />} />

@@ -40,10 +40,10 @@ const ExpenseTable = () => {
       headerName: 'Claim Date',
       field: 'claimdate'
     },
-    // {
-    //   headerName: 'Process Date',
-    //   field: 'processdate'
-    // },
+    {
+      headerName: 'Process Date',
+      field: 'processdate'
+    },
     {
       headerName: 'Approved By',
       field: 'ApprovedBy'
@@ -52,22 +52,22 @@ const ExpenseTable = () => {
     //   headerName: 'Credit GL',
     //   field: 'creditGL'
     // },
-    {
-      headerName: 'Total Amount',
-      field: 'TotalAmount'
-    },
-    {
-      headerName: 'Cheque No',
-      field: 'ChequeNo'
-    },
-    {
-      headerName: 'NEFT No',
-      field: 'NEFTNo'
-    },
-    {
-      headerName: 'Cost Center',
-      field: 'CostCenter'
-    },
+    // {
+    //   headerName: 'Total Amount',
+    //   field: 'TotalAmount'
+    // },
+    // {
+    //   headerName: 'Cheque No',
+    //   field: 'ChequeNo'
+    // },
+    // {
+    //   headerName: 'NEFT No',
+    //   field: 'NEFTNo'
+    // },
+    // {
+    //   headerName: 'Cost Center',
+    //   field: 'CostCenter'
+    // },
     {
       headerName: 'Action',
       field: 'empCode',
