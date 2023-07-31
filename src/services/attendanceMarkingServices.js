@@ -10,7 +10,6 @@ export const addAttendance = (data) => {
 }
 
 export const updateAttendance = (data) => {
-    console.log("update service", data)
     return axios.put(`${attendanceMarkingURL}/${data.id}`, data)
 }
 

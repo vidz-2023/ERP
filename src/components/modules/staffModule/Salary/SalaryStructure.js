@@ -52,6 +52,13 @@ function SalaryStructure() {
                     })
                     if (res.data.length) {
                         setEmpSalaryData({ ...res.data[0], "empName": resObj.FirstName })
+                        console.log(res.data[0])
+                        setGrossSalary(parseInt(res.data[0].Basic) +
+                            parseInt(res.data[0].ESIEmployeer) +
+                            parseInt(res.data[0].LWFEmployeer) +
+                            parseInt(res.data[0].PFEmployeer))
+
+                        setBasicSalary(parseInt(res.data[0].Basic))
                         setIsUpdate(true)
                     } else {
                         setEmpSalaryData({ ...inputFields, "empName": resObj.FirstName, "empCode": empcode })
@@ -66,11 +73,13 @@ function SalaryStructure() {
     }
 
     const handleSubmit = (values) => {
-        console.log(values)
+
         delete values.empName
         if (isUpdate) {
             updateSalaryDetail(values).then((res) => {
+
                 navigate("/salary-data")
+
             })
         } else {
             addSalary(values).then((res) => {
@@ -113,7 +122,6 @@ function SalaryStructure() {
             switch (e.target.name) {
                 case "LWFEmployeer":
                     grossSal = parseInt(basicSalary) + parseInt(value) + parseInt(esiEmployeer) + parseInt(pfEmployeer)
-
                     setGrossSalary(grossSal)
                     setLWFEmployeer(value)
                     setEmpSalaryData({

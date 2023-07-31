@@ -75,27 +75,20 @@ const Attendence = () => {
 
     // =========================================================Table================================
     const onGridReady = (params) => {
-
         const { weekendsList, weekdaysList } = getWeekdaysWeekends(2023, 6)
-
         // ============================================== heading row ======================== 
-
         let headingRow = { id: "", empName: "", present: 0, month: "", year: "" }
-
         for (let i = 1;i < numOfDaysCurrent + 1;i++) {
             headingRow = { ...headingRow, [i]: "" }
         }
-
         const keys = Object.keys(headingRow);
         const alphabeticalKeys = keys.filter(key => isNaN(key));
         const numericalKeys = keys.filter(key => !isNaN(key));
         const sortedKeys = alphabeticalKeys.concat(numericalKeys);
         params.api.setColumnDefs(sortedKeys.map(item => {
-            console.log(item)
             let fieldObj = {}
             if (item === "empName") {
                 fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 130, editable: false }
-
             } else if (item === "present") {
                 fieldObj = {
                     ...fieldObj,
@@ -103,29 +96,31 @@ const Attendence = () => {
                     pinned: "left",
                     maxWidth: 130,
                     editable: false,
-                    // valueGetter: present
+                    valueGetter: (params) => {
+                        let itemPresent = 0
+                        let objVal = Object.values(params.data)
+                        objVal.forEach((item) => {
+                            if (item === 'P') {
+                                itemPresent++
+                            }
+                        })
+                        return itemPresent
+                    },
                     valueFormatter: function (present, total = weekdaysList.length) {
-                        console.log(present, total)
                         return present.value + ' / ' + total
                     }
                 }
-
             } else if (item === "id" || item === "month" || item === "year") {
                 fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 70, editable: false, hide: true }
-
             } else {
                 fieldObj = { ...fieldObj, field: item, maxWidth: 80, editable: false }
             }
-
             return (fieldObj)
         }))
-
         days.push(headingRow)
         params.api.setRowData(days)
-
         //============================================ populate data in cell =====================================
         getBasicInfo().then((resBasicInfo) => {
-
             let names = resBasicInfo.data.map((item) => {
                 let fullName = item.FirstName + " " + item.LastName
                 return fullName
@@ -133,9 +128,7 @@ const Attendence = () => {
             setEmployeesNumbers(names.length)
             let namePresentInAttendance = []
             getAttendance().then((resAttendance) => {
-
                 let populatedAllData = []
-
                 names.forEach((item) => {
                     data = { ...data, empName: item }
                     // =====================================weekend data================
@@ -144,20 +137,12 @@ const Attendence = () => {
                     })
                     // =======================================week days data =============
                     resAttendance.data.forEach((itemAttendance) => {
-
                         if (item === itemAttendance.empName) {
-                            let present = 0
                             namePresentInAttendance.push(itemAttendance.empName)
                             weekdaysList.forEach((weekdaysItem) => {
-
-                                if (itemAttendance[weekdaysItem] === 'P') {
-                                    present++
-                                }
-
                                 data = {
                                     ...data,
                                     [weekdaysItem]: itemAttendance[weekdaysItem],
-                                    present: present,
                                     id: itemAttendance.id,
                                     month: itemAttendance.month,
                                     year: itemAttendance.year
@@ -184,7 +169,6 @@ const Attendence = () => {
     }
 
     const handleCellClick = (params) => {
-        console.log(params)
         if (params.value === "P" || params.value === "A" || params.value === "") {
             if (params.data[params.colDef.field] === "A") {
                 params.data[params.colDef.field] = "P"
@@ -207,12 +191,16 @@ const Attendence = () => {
     const submitAttendanceHandle = () => {
         attendanceChangeArray && attendanceChangeArray.forEach((item) => {
             updateAttendance(item).then((res) => {
-                window.location.reload(false);
+                if (res.status !== 200) {
+
+                }
             })
         })
         attendanceNewIdArray && attendanceNewIdArray.forEach((item) => {
             addAttendance(item).then((res) => {
-                window.location.reload(false);
+                if (res.status !== 200) {
+
+                }
             })
         })
         alert("Attendance submitted successfully ")
