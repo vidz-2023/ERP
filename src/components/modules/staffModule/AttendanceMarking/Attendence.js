@@ -91,7 +91,7 @@ const Attendence = () => {
         const numericalKeys = keys.filter(key => !isNaN(key));
         const sortedKeys = alphabeticalKeys.concat(numericalKeys);
         params.api.setColumnDefs(sortedKeys.map(item => {
-
+            console.log(item)
             let fieldObj = {}
             if (item === "empName") {
                 fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 130, editable: false }
@@ -103,6 +103,7 @@ const Attendence = () => {
                     pinned: "left",
                     maxWidth: 130,
                     editable: false,
+                    // valueGetter: present
                     valueFormatter: function (present, total = weekdaysList.length) {
                         console.log(present, total)
                         return present.value + ' / ' + total
@@ -113,7 +114,7 @@ const Attendence = () => {
                 fieldObj = { ...fieldObj, field: item, pinned: "left", maxWidth: 70, editable: false, hide: true }
 
             } else {
-                fieldObj = { ...fieldObj, field: item, maxWidth: 80, editable: true }
+                fieldObj = { ...fieldObj, field: item, maxWidth: 80, editable: false }
             }
 
             return (fieldObj)
@@ -183,22 +184,26 @@ const Attendence = () => {
     }
 
     const handleCellClick = (params) => {
-        console.log(params.data)
-        if (params.data[params.colDef.field] === "A") {
-            params.data[params.colDef.field] = "P"
-        } else {
-            params.data[params.colDef.field] = "A"
-        }
-
-        if (params.data.id) {
-            data = { ...data, ...params.data }
-            attendanceChangeArray.push(data)
-        } else {
-            data = { ...data, ...params.data }
-            attendanceNewIdArray.pop()
-            attendanceNewIdArray.push(data)
+        console.log(params)
+        if (params.value === "P" || params.value === "A" || params.value === "") {
+            if (params.data[params.colDef.field] === "A") {
+                params.data[params.colDef.field] = "P"
+                params.api.setRowData("P");
+            } else {
+                params.data[params.colDef.field] = "A"
+                params.api.setRowData("A");
+            }
+            if (params.data.id) {
+                data = { ...data, ...params.data }
+                attendanceChangeArray.push(data)
+            } else {
+                data = { ...data, ...params.data }
+                attendanceNewIdArray.pop()
+                attendanceNewIdArray.push(data)
+            }
         }
     }
+
     const submitAttendanceHandle = () => {
         attendanceChangeArray && attendanceChangeArray.forEach((item) => {
             updateAttendance(item).then((res) => {
@@ -209,15 +214,14 @@ const Attendence = () => {
             addAttendance(item).then((res) => {
                 window.location.reload(false);
             })
-
         })
         alert("Attendance submitted successfully ")
     }
-
     const defaultColDef = {
         sortable: true,
         filter: true,
         lockPinned: true,
+        singleClickEdit: true,
         onCellClicked: handleCellClick,
         cellStyle: (params) => {
             switch (params.value) {
