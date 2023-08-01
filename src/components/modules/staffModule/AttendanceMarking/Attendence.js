@@ -50,9 +50,7 @@ const Attendence = () => {
     let attendanceChangeArray = []
     let attendanceNewIdArray = []
 
-    const getRowDataFunction = (numOfDays) => {
 
-    }
     // ================================================= calculating weekends =========================
     const getWeekdaysWeekends = (year, month) => {
         const firstDayOfMonth = moment({ year, month, day: 1 });
@@ -74,11 +72,12 @@ const Attendence = () => {
     }
 
     // =========================================================Table================================
-    const onGridReady = (params) => {
-        const { weekendsList, weekdaysList } = getWeekdaysWeekends(2023, 6)
+    const onGridReady = (params, year, month, noOfDaysInCurrentMonth) => {
+        console.log(params)
+        const { weekendsList, weekdaysList } = getWeekdaysWeekends(year, month)
         // ============================================== heading row ======================== 
         let headingRow = { id: "", empName: "", present: 0, month: "", year: "" }
-        for (let i = 1;i < numOfDaysCurrent + 1;i++) {
+        for (let i = 1;i < noOfDaysInCurrentMonth + 1;i++) {
             headingRow = { ...headingRow, [i]: "" }
         }
         const keys = Object.keys(headingRow);
@@ -165,7 +164,12 @@ const Attendence = () => {
     const handleChangeMonth = (e) => {
         setMonthYear(e.target.value)
         const numOfDays = moment(e.target.value, "YYYY-MM").daysInMonth()
-        getRowDataFunction(numOfDays)
+        let mY = e.target.value
+        let mYArr = mY.split("-")
+        let year = mYArr[0]
+        let month = mYArr[1]
+        console.log(year, month, numOfDays)
+        // onGridReady(2023, 6, numOfDays)
     }
 
     const handleCellClick = (params) => {
@@ -258,7 +262,7 @@ const Attendence = () => {
             <div className="ag-theme-alpine" style={{ height: 500 }}>
                 <AgGridReact
                     defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
+                    onGridReady={(p) => onGridReady(p, 2023, 6, numOfDaysCurrent)}
                 />
             </div>
         </>
