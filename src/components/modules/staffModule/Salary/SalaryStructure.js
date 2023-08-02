@@ -30,6 +30,7 @@ function SalaryStructure() {
     const [isUpdate, setIsUpdate] = useState(false)
 
     let grossSal = 0, inHandSal = 0
+    const [inHandSalary, setInHandSalary] = useState(0)
     const [grossSalary, setGrossSalary] = useState(0)
     const [basicSalary, setBasicSalary] = useState(0)
     const [esiEmployeer, setEsiEmployeer] = useState(0)
@@ -59,7 +60,16 @@ function SalaryStructure() {
                             parseInt(res.data[0].PFEmployeer))
 
                         setBasicSalary(parseInt(res.data[0].Basic))
+                        setProfessionalTax(parseInt(res.data[0].ProfessionalTax))
+                        setTDS(parseInt(res.data[0].TDS))
+
+                        setEsiEmployeer(res.data[0].ESIEmployeer)
+                        setPFEmployeer(res.data[0].PFEmployeer)
+                        setLWFEmployeer(res.data[0].LWFEmployeer)
+                        setInHandSalary(res.data[0].InHand)
                         setIsUpdate(true)
+
+
                     } else {
                         setEmpSalaryData({ ...inputFields, "empName": resObj.FirstName, "empCode": empcode })
                         setIsUpdate(false)
@@ -147,7 +157,7 @@ function SalaryStructure() {
                 case "PFEmployeer":
                     grossSal = parseInt(basicSalary) + parseInt(lwfEmployeer) + parseInt(esiEmployeer) + parseInt(value)
                     inHandSal = basicSalary - (parseInt(professionalTax) + parseInt(tds))
-
+                    setInHandSalary(inHandSal)
                     setGrossSalary(grossSal)
                     setPFEmployeer(value)
                     setEmpSalaryData({
@@ -160,7 +170,13 @@ function SalaryStructure() {
 
                 case "Basic":
                     grossSal = parseInt(value) + parseInt(lwfEmployeer) + parseInt(esiEmployeer) + parseInt(pfEmployeer)
-                    inHandSal = grossSal - (parseInt(lwfEmployeer) + parseInt(esiEmployeer) + parseInt(pfEmployeer) + parseInt(professionalTax) + parseInt(tds))
+                    inHandSal = grossSal - (parseInt(lwfEmployeer) +
+                        parseInt(esiEmployeer) +
+                        parseInt(pfEmployeer) +
+                        parseInt(professionalTax) +
+                        parseInt(tds))
+
+                    setInHandSalary(inHandSal)
                     setGrossSalary(grossSal)
                     setBasicSalary(value)
                     setEmpSalaryData({
@@ -174,6 +190,7 @@ function SalaryStructure() {
                 case "ProfessionalTax":
                     setProfessionalTax(value)
                     inHandSal = basicSalary - (parseInt(value) + parseInt(tds))
+                    setInHandSalary(inHandSal)
                     setEmpSalaryData({
                         ...empSalaryData,
                         "ProfessionalTax": value,
@@ -184,6 +201,7 @@ function SalaryStructure() {
                 case "TDS":
                     setTDS(value)
                     inHandSal = basicSalary - (parseInt(professionalTax) + parseInt(value))
+                    setInHandSalary(inHandSal)
                     setEmpSalaryData({
                         ...empSalaryData,
                         "TDS": value,
@@ -434,7 +452,8 @@ function SalaryStructure() {
                                             type="number"
                                             placeholder="&#8377;0.00"
                                             name="InHand"
-                                            value={empSalaryData.InHand}
+                                            // value={empSalaryData.InHand}
+                                            value={inHandSalary}
                                             onChange={handleChange}
                                             disabled
                                         />

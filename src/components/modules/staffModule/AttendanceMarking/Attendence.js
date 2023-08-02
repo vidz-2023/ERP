@@ -45,7 +45,9 @@ const Attendence = () => {
         "28": "",
         "29": "",
         "30": "",
-        "31": ""
+        "31": "",
+        "month": "July",
+        "year": 2023
     }
     let attendanceChangeArray = []
     let attendanceNewIdArray = []
@@ -73,7 +75,6 @@ const Attendence = () => {
 
     // =========================================================Table================================
     const onGridReady = (params, year, month, noOfDaysInCurrentMonth) => {
-        console.log(params)
         const { weekendsList, weekdaysList } = getWeekdaysWeekends(year, month)
         // ============================================== heading row ======================== 
         let headingRow = { id: "", empName: "", present: 0, month: "", year: "" }
@@ -137,16 +138,22 @@ const Attendence = () => {
                     // =======================================week days data =============
                     resAttendance.data.forEach((itemAttendance) => {
                         if (item === itemAttendance.empName) {
+                            let present = 0
                             namePresentInAttendance.push(itemAttendance.empName)
                             weekdaysList.forEach((weekdaysItem) => {
+                                if (itemAttendance[weekdaysItem] === 'P') {
+                                    present++
+                                }
                                 data = {
                                     ...data,
                                     [weekdaysItem]: itemAttendance[weekdaysItem],
                                     id: itemAttendance.id,
                                     month: itemAttendance.month,
-                                    year: itemAttendance.year
+                                    year: itemAttendance.year,
+                                    present: present
                                 }
                             })
+                            console.log("item", data)
                             populatedAllData.push(data)
                         }
                     })
@@ -177,26 +184,28 @@ const Attendence = () => {
             if (params.data[params.colDef.field] === "A") {
                 params.data[params.colDef.field] = "P"
                 params.api.setRowData("P");
+                params.data = { ...params.data, present: params.data.present + 1 }
             } else {
                 params.data[params.colDef.field] = "A"
                 params.api.setRowData("A");
+                params.data = { ...params.data, present: params.data.present - 1 }
             }
             if (params.data.id) {
-                data = { ...data, ...params.data }
-                attendanceChangeArray.push(data)
+                attendanceChangeArray.push(params.data)
             } else {
-                data = { ...data, ...params.data }
                 attendanceNewIdArray.pop()
-                attendanceNewIdArray.push(data)
+                attendanceNewIdArray.push(params.data)
             }
+            console.log("hello", params.data)
         }
     }
 
     const submitAttendanceHandle = () => {
         attendanceChangeArray && attendanceChangeArray.forEach((item) => {
+
             updateAttendance(item).then((res) => {
                 if (res.status !== 200) {
-
+                    // console.log(item)
                 }
             })
         })
