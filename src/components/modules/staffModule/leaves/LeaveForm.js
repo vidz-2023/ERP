@@ -4,7 +4,7 @@ import { MdOutlineHolidayVillage } from "react-icons/md";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import LeaveFormTable from './LeaveFormTable';
-import { addLeaveForm, editLeaveForm, getLeaveFormByEmpCode, getLeaveFormByID } from '../../../../services/LeaveFormService';
+import { addLeaveForm, editLeaveForm, getLeaveFormByEmpCode, getLeaveFormByEmpData, getLeaveFormByEmployee, getLeaveFormByID } from '../../../../services/LeaveFormService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaBullseye } from 'react-icons/fa';
 import { getLeaveByNoOfLeave, getLeaveMaster } from '../../../../services/LeaveMasterService';
@@ -51,7 +51,11 @@ function LeaveForm() {
   var newDataOBjWork = []
   const [getEMPWorkData, setGetEMPWorkData] = useState([])
   const [getEMPWorkDetail, setGetEMPWorkDetail] = useState([])
-  
+  const [empCode, setEmpCode] = useState("")
+  const [Branch, setBranch] = useState("")
+  const [Department, setDepartment] = useState("")
+  const [Designation, setDesignation] = useState("")
+
 
   const validateyupSchema = Yup.object({
     employee: Yup.string().required('Employee is required'),
@@ -70,16 +74,24 @@ function LeaveForm() {
   })
 
   useEffect(() => {
-
+    console.log(id)
     if (id >= 0) {
       getLeaveFormByID(id).then(res => {
-        console.log(res)
+        console.log(res.employee)
+        setEmpCode(res.employee)
+        setBranch(res.branch)
+        setDepartment(res.department)
+        setDesignation(res.designation)
         setLeveFormValue(res)
       })
       setIsUpdate(true)
     }
-    getEMPDetailFromWorkLocation()
+    else {
+      getEMPDetailFromWorkLocation()
+    }
   }, [])
+
+
 
   const getEMPDetailFromWorkLocation = async () => {
     await getWorkLocation().then(resWorKData => {
@@ -89,7 +101,13 @@ function LeaveForm() {
   }
 
   const handleSubmit = () => {
-  
+
+    leaveFormValue.employee = empCode
+    leaveFormValue.branch = Branch
+    leaveFormValue.department = Department
+    leaveFormValue.designation = Designation
+    console.log(leaveFormValue)
+
     if (!isUpdate) {
       addLeaveForm(leaveFormValue)
       navigate('/leaveFormTable')
@@ -117,6 +135,27 @@ function LeaveForm() {
     getAvbBasedOnLeaveCode(value)
   }
 
+  const onLeaveEMPHandlerChange = (option, setFieldValue) => {
+    setFieldValue("employee", option.target.value)
+    console.log(option.target.value)
+    fetchEmp(option.target.value)
+    setEmpCode(option.target.value)
+    option.target.value && funGetBasicInfoByName(option.target.value)
+  }
+
+  const funGetBasicInfoByName = (data) => {
+    getWorkLocationByEmpCode(data).then((res) => {
+      const updateEmpCode = res.data[0].empCode
+      const updateBranch = res.data[0].Branch
+      const updateDepartment = res.data[0].Department
+      const updateDesignation = res.data[0].Designation
+      console.log("Particular" + updateEmpCode, updateBranch, updateDepartment, updateDesignation)
+      setEmpCode(updateEmpCode)
+      setBranch(updateBranch)
+      setDepartment(updateDepartment)
+      setDesignation(updateDesignation)
+    })
+  }
   //To fetch the LeaveCode and No of Leave from The LeaveMaster 
   const getAvbBasedOnLeaveCode = async (value) => {
     console.log(value)
@@ -191,6 +230,15 @@ function LeaveForm() {
     setData(newLeaCodAcqLea)
   }
 
+  //TO Clear and Delete the Function
+  const clearData = () => {
+    setLeveFormValue(inputFields)
+    setEmpCode("")
+    setBranch("")
+    setDepartment("")
+    setDesignation("")
+  }
+
   return (
     <>
 
@@ -206,7 +254,9 @@ function LeaveForm() {
               initialValues={leaveFormValue}
               validationSchema={validateyupSchema}
               onSubmit={handleSubmit}
-              enableReinitialize>
+              enableReinitialize
+              resetForm
+            >
               {({ isSubmitting, setFieldValue }) => (
                 <Form>
                   <div className='w-75 mx-auto'>
@@ -216,14 +266,13 @@ function LeaveForm() {
                         Employee
                       </div>
                       <div className='col-3 '>
-                        <div class=" mb-2 text-danger">
+                        {!isUpdate && <div class=" mb-2 text-danger">
                           <Field
                             as="select"
                             name="employee"
                             className="form-select"
-                            value={leaveFormValue.employee}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)
-
+                            value={empCode}
+                            onChange={e => onLeaveEMPHandlerChange(e, setFieldValue)
                             }>
                             <option value=" "> Select...</option>
                             {getEMPWorkData.map((item) =>
@@ -235,7 +284,20 @@ function LeaveForm() {
                               </option>)}
                           </Field>
                           <ErrorMessage name='employee' />
-                        </div>
+                        </div>}
+
+                        {isUpdate && <div class=" mb-2 text-danger">
+                          <Field
+                            as="select"
+                            name="employee"
+                            className="form-select"
+                            value={empCode}
+                            onChange={e => onLeaveEMPHandlerChange(e, setFieldValue)}
+                          >
+                            <option value={empCode}> {empCode}</option>
+                            <option value={empCode}> {empCode}</option>
+                          </Field>
+                        </div>}
                       </div>
                       <div className='col-2'></div>
                       <div className='col-2 form-label'>
@@ -243,12 +305,14 @@ function LeaveForm() {
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
-                        <Field
+                          <Field
                             className="form-control"
                             type='text'
                             name='designation'
-                            value={leaveFormValue.designation}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)}
+                            value={Designation}
+                            disabled
+                          // value={leaveFormValue.designation}
+                          // onChange={e => onLeaveHandlerChange(e, setFieldValue)}
                           />
                           <ErrorMessage name='designation' />
                         </div>
@@ -265,8 +329,11 @@ function LeaveForm() {
                             className="form-control"
                             type='text'
                             name='branch'
-                            value={leaveFormValue.branch}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)} />
+                            value={Branch}
+                            disabled
+                          // value={leaveFormValue.branch}
+                          // onChange={e => onLeaveHandlerChange(e, setFieldValue)}
+                          />
                           <ErrorMessage name='branch' />
                         </div>
                       </div>
@@ -280,8 +347,11 @@ function LeaveForm() {
                             className="form-control"
                             type='text'
                             name='department'
-                            value={leaveFormValue.department}
-                            onChange={e => onLeaveHandlerChange(e, setFieldValue)} />
+                            value={Department}
+                            disabled
+                          // value={leaveFormValue.department}
+                          // onChange={e => onLeaveHandlerChange(e, setFieldValue)} 
+                          />
                           <ErrorMessage name='department' />
                         </div>
                       </div>
@@ -498,18 +568,33 @@ function LeaveForm() {
 
                     <div className=' row mt-1'>
                       <div className='col-3'>
-                        <button type="submit" className='w-50 btn btn-info'>Apply</button></div>
+                        <button type="submit"
+                          className='w-50 btn btn-info'>
+                          Apply
+                        </button></div>
 
                       <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Clear</button>
+                        <button type="reset"
+                          className='w-50 btn btn-info'
+                          onClick={clearData} >
+                          Clear
+                        </button>
                       </div>
 
                       <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Delete</button>
+                        <button type="reset"
+                          className='w-50 btn btn-info'
+                          onClick={clearData}>
+                          Delete
+                        </button>
                       </div>
 
                       <div className='col-3'>
-                        <button type="button" className='w-50 btn btn-info'>Exit</button>
+                        <button type="button"
+                          className='w-50 btn btn-info'
+                          onClick={() => navigate(`/leaveFormTable`)}>
+                          Exit
+                        </button>
                       </div>
                     </div>
 

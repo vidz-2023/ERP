@@ -15,7 +15,7 @@ const LeaveFormEditDelete = (params) => {
 
     //This is method with ID
     const handleEdit = (p) => {
-        navigate(`/leaveForm/${p.data.id}`)
+        navigate(`/leaveForm/${p.data.id}`)        
     }
 
     return (<div>

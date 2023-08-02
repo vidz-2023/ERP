@@ -24,7 +24,7 @@ function LeaveMaster() {
     const { id } = useParams();
     console.log(id)
     const navigate = useNavigate()
-   
+
 
     const [leaveMasterValue, setLeaveMasterValue] = useState(inputFields)
     // ------------------- It is for Yup ---------------------------//
@@ -38,7 +38,7 @@ function LeaveMaster() {
         cashable: Yup.string().required('Cashable is required'),
     })
     useEffect(() => {
-    
+
         if (id >= 0) {
             getLeaveMasterByID(id).then(res => {
                 console.log(res)
@@ -60,7 +60,7 @@ function LeaveMaster() {
         }
     }
     // ------------------- On Change Function Declaration ---------------------------//
-      const onLeaveMasterHandlerChange = (e, setFieldValue) => {
+    const onLeaveMasterHandlerChange = (e, setFieldValue) => {
         const { name, value } = e.target
         setLeaveMasterValue({ ...leaveMasterValue, [name]: value })
         setFieldValue([name], value)
@@ -113,6 +113,7 @@ function LeaveMaster() {
                                                         value={leaveMasterValue.leaveCode}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
+                                                        <option value=""> Select...</option>
                                                         <option value="0001"> 0001</option>
                                                         <option value="0002"> 0002</option>
                                                         <option value="0003"> 0003</option>
@@ -133,6 +134,7 @@ function LeaveMaster() {
                                                         value={leaveMasterValue.leaveType}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
+                                                        <option value=""> Select...</option>
                                                         <option value="CL"> Casual Leave</option>
                                                         <option value="EL"> Earned Leave</option>
                                                         <option value="PL"> Paid Leave</option>
@@ -152,6 +154,7 @@ function LeaveMaster() {
                                                         value={leaveMasterValue.applicable}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
+                                                        <option value=""> Select...</option>
                                                         <option value="Yes"> Yes</option>
                                                         <option value="No"> No</option>
                                                     </Field>
@@ -241,22 +244,26 @@ function LeaveMaster() {
 
                                             <div className='col-3'>
                                                 <button
-                                                    type="button"
-                                                    className='w-50 btn btn-info'>Clear
+                                                    type="reset"
+                                                    className='w-50 btn btn-info'
+                                                    onClick={() => setLeaveMasterValue(inputFields)}>
+                                                    Clear
                                                 </button>
                                             </div>
 
                                             <div className='col-3'>
                                                 <button
-                                                    type="button"
-                                                    className='w-50 btn btn-info'>
+                                                    type="reset"
+                                                    className='w-50 btn btn-info'
+                                                    onClick={() => setLeaveMasterValue(inputFields)}>
                                                     Delete</button>
                                             </div>
 
                                             <div className='col-3'>
                                                 <button
                                                     type="button"
-                                                    className='w-50 btn btn-info'>Exit
+                                                    className='w-50 btn btn-info'
+                                                    onClick={() => navigate(`/leaveMasterTable`)}>Exit
                                                 </button>
                                             </div>
                                         </div>
