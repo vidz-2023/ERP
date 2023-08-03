@@ -31,6 +31,15 @@ export const addEsiPfInfo = (data) => {
     return axios.post(`${esiPfInfoURL}`, data)
 }
 
+export const getEsiDataByEmpCode = async (empCode) =>{
+    return await axios.get(`${esiPfInfoURL}?empCode=${empCode}`)
+}
+
+//bank
 export const addbanckInfo = (data) => {
     return axios.post(`${bankInfoURL}`, data)
+}
+
+export const getBankDataByEmpCode = async (empCode) =>{
+    return await axios.get(`${bankInfoURL}?empCode=${empCode}`)
 }

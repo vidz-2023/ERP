@@ -33,6 +33,10 @@ const ExpenseTable = () => {
       field: 'empCode'
     },
     {
+      headerName: 'Claim No',
+      field: 'ClaimNo'
+    },
+    {
       headerName: 'Expense Status',
       field: 'expenseStatus'
     },

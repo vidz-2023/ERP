@@ -16,18 +16,19 @@ import {
   updateExpenseClaim,
   updateExpenseClaimDetail,
 } from "../../../../services/ExpenseclaimService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RightMarkComponent from "../../../../share/RightMarkComponet";
 import CrossMarkComponent from "../../../../share/CrossMarkComponent";
 import PlusSignComponent from "../../../../share/PlusSignComponent";
+import { getBasicInfo } from "../../../../services/basicInfoServices";
 
 function ExpenseClaim() {
   const [isUpdate, setIsUpdate] = useState(false);
   const { ClaimNo } = useParams();
-  const [empCodeExpense, setEmpCodeExpense] = useState();
-  const [expenseClaimCode, setExpenseClaimCode] = useState();
+  const [empCodeExpense, setEmpCodeExpense] = useState([]);
   const [expenseDetail, setExpenseDetail] = useState("");
   const [isAdd, setIsAdd] = useState(false);
+  const navigate = useNavigate()
 
   const inputFields = {
     empCode: "",
@@ -48,8 +49,8 @@ function ExpenseClaim() {
   };
 
   const expenseDetailInputFields = {
-    empcode: empCodeExpense,
-    expenseclaimcode: expenseClaimCode,
+    empcode: "",
+    expenseclaimcode: "",
     billno: "",
     amountSpent: "",
     Remarks: "",
@@ -66,26 +67,42 @@ function ExpenseClaim() {
   );
 
   useEffect(() => {
+    getDataByEmpCode();
+  }, []);
+
+  const getDataByEmpCode = async () => {
     console.log(ClaimNo);
     if (ClaimNo > 0) {
-      getExpenseClaimByExpenseCode(ClaimNo).then((res) => {
+      await getExpenseClaimByExpenseCode(ClaimNo).then((res) => {
         console.log(res);
         setExpenseClaimRequest(res);
         getExpenseClaimDetails(res.ClaimNo);
         handleExpenseDetail(res.empCode);
+
+        // expenseClaimRequest.empCode = res.empCode;
+        expenseClaimApproval.empcode = res.empCode;
+        expenseClaimApproval.expenseclaimcode = res.ClaimNo;
       });
       setIsUpdate(true);
-    } 
-  }, []);
+    } else {
+      getBasicInfo().then((res) => {
+        console.log(res.data);
+        setEmpCodeExpense(res.data);
+      });
+    }
+  };
 
   const handleExpenseDetail = (empCode) => {
-    console.log(empCode);
+    //console.log(empCode);
     getExpenseClaimDetailByEmpCode(empCode).then((res) => {
-      console.log("in service");
       console.log(res.data);
       setExpenseDetail(res.data);
     });
   };
+
+  const handleTotalAmount = () =>{
+
+  }
 
   const validationSchema = Yup.object({
     empCode: Yup.string().required("Employee code is required"),
@@ -189,18 +206,24 @@ function ExpenseClaim() {
 
   const expenseClaimHandleSubmit = () => {
     console.log(expenseClaimRequest);
+    setExpenseClaimApproval({
+      ...expenseClaimApproval,
+      empcode: expenseClaimRequest.empCode,
+      expenseclaimcode: expenseClaimRequest.ClaimNo,
+    });
+
     if (!isUpdate) {
       addExpenseClaim(expenseClaimRequest);
-      setEmpCodeExpense(expenseClaimRequest.empCode);
-      setExpenseClaimCode(expenseClaimRequest.ClaimNo);
+      handleExpenseDetail(expenseClaimRequest.empCode)
       alert("Data added successfully");
     } else {
       let id = expenseClaimRequest.id;
       updateExpenseClaim(expenseClaimRequest, id);
-      setEmpCodeExpense(expenseClaimRequest.empCode);
-      setExpenseClaimCode(expenseClaimRequest.ClaimNo);
       alert("Data updated successfully");
     }
+
+    document.getElementById("expenseRequestBtn").disabled = true
+    document.getElementById("expenseClaimDetail-tab").setAttribute("data-bs-toggle", "tab")
   };
 
   const onExpenseDetailHandler = (e, setFieldValue) => {
@@ -211,31 +234,30 @@ function ExpenseClaim() {
 
   const expenseDetailhandleSubmit = () => {
     console.log(expenseClaimApproval);
-    expenseClaimApproval.empcode = empCodeExpense;
-    expenseClaimApproval.expenseclaimcode = expenseClaimCode;
+    // expenseClaimApproval.empcode = expenseClaimRequest.empCode;
+    // expenseClaimApproval.expenseclaimcode = expenseClaimRequest.ClaimNo;
     if (isAdd) {
-      console.log("edit");
       updateExpenseClaimDetail(expenseClaimApproval);
     } else {
       addExpenseClaimDetail(expenseClaimApproval);
+      handleExpenseDetail(expenseClaimApproval.empcode)
       alert("Data added successfully");
     }
   };
 
-  const getExpenseClaimDetails = async (claimcode) => {
-    console.log(expenseClaimCode);
-    await getExpenseClaimDetailByExpenseCode(claimcode).then((res) => {
+  const getExpenseClaimDetails = (claimcode) => {
+    getExpenseClaimDetailByExpenseCode(claimcode).then((res) => {
       console.log(res.data);
       if (res.data[0]) {
         setExpenseClaimApproval(res.data[0]);
-        setEmpCodeExpense(res.data[0].empCode);
-        setExpenseClaimCode(res.data[0].ClaimNo);
+        // expenseClaimApproval.empcode = res.data[0].empcode;
+        // expenseClaimApproval.expenseclaimcode = res.data[0].expenseclaimcode;
         setIsAdd(true);
       }
-      else{
-        setEmpCodeExpense(expenseClaimRequest.empCode);
-      setExpenseClaimCode(expenseClaimRequest.ClaimNo);
-      }
+      //else {
+      //   expenseClaimApproval.empcode = expenseClaimRequest.empCode;
+      //   expenseClaimApproval.expenseclaimcode = expenseClaimRequest.ClaimNo;
+      // }
     });
   };
 
@@ -268,7 +290,6 @@ function ExpenseClaim() {
             <button
               className="nav-link text-info"
               id="expenseClaimDetail-tab"
-              data-bs-toggle="tab"
               data-bs-target="#expenseclaimDetail-tab-pane"
               type="button"
               role="tab"
@@ -305,22 +326,43 @@ function ExpenseClaim() {
                         >
                           Emp Code
                         </label>
-                        <div className="col-sm-8">
-                          <Field
-                            id="ecode"
-                            name="empCode"
-                            type="text"
-                            value={expenseClaimRequest.empCode}
-                            onChange={(e) =>
-                              onExpenseClaimHandler(e, setFieldValue)
-                            }
-                            className="form-control form-control-sm"
-                          />
-                          <ErrorMessage
-                            name="empCode"
-                            className="text-danger"
-                          />
-                        </div>
+                        {!isUpdate && (
+                          <div className="col-sm-8">
+                            <Field
+                              className="form-select form-select-sm"
+                              component="select"
+                              name="empCode"
+                              value={expenseClaimRequest.empCode}
+                              onChange={(e) =>
+                                onExpenseClaimHandler(e, setFieldValue)
+                              }
+                            >
+                              <option value="">Select</option>
+                              {empCodeExpense.map((item) => {
+                                return (
+                                  <option key={item.id} value={item.empCode}>
+                                    {item.empCode}
+                                  </option>
+                                );
+                              })}
+                            </Field>
+                            <ErrorMessage
+                              name="empCode"
+                              className="text-danger"
+                            />
+                          </div>
+                        )}
+                        {isUpdate && (
+                          <div className="col-sm-8">
+                            <Field
+                              type="text"
+                              className="form-control form-control-sm"
+                              name="empCode"
+                              value={expenseClaimRequest.empCode}
+                              disabled
+                            />
+                          </div>
+                        )}
                       </div>
                       <div className="row">
                         <label
@@ -638,6 +680,7 @@ function ExpenseClaim() {
                   <div className="row justify-content-md-center">
                     <button
                       type="submit"
+                      id="expenseRequestBtn"
                       className="w-25 mt-4 mb-4 btn btn-info"
                     >
                       Submit
@@ -677,7 +720,7 @@ function ExpenseClaim() {
                             id="ecode"
                             name="empcode"
                             className="form-control form-control-sm"
-                            value={empCodeExpense}
+                            value={expenseClaimApproval.empcode}
                             onChange={(e) =>
                               onExpenseDetailHandler(e, setFieldValue)
                             }
@@ -702,7 +745,7 @@ function ExpenseClaim() {
                             id="claimCode"
                             name="expenseclaimcode"
                             className="form-control form-control-sm"
-                            value={expenseClaimCode}
+                            value={expenseClaimApproval.expenseclaimcode}
                             onChange={(e) =>
                               onExpenseDetailHandler(e, setFieldValue)
                             }
