@@ -13,8 +13,8 @@ export const bankInfoURL = `${JSONURL}/BankDetails`
 export const basicInfoURL = `${JSONURL}/emp-basic-info`
 export const expenseClaimURL = `${JSONURL}/expense-claim`
 export const expenseClaimDetailURL = `${JSONURL}/expense-claim-detail`
-export const leaveMasterURL=`${JSONURL}/LeavesMaster`
-export const leaveFormURL=`${JSONURL}/ApplyLeaves`
+export const leaveMasterURL = `${JSONURL}/LeavesMaster`
+export const leaveFormURL = `${JSONURL}/ApplyLeaves`
 
 // export const salaryprocessURL = `${JSONURL}/salaryprocess`
 export const monthlyAttendanceURL = `${JSONURL}/monthlyAttendance`
@@ -28,3 +28,5 @@ export const SalaryAdvancesInfoURL = `${JSONURL}/salary-advances`
 export const attendanceMarkingURL = `${JSONURL}/attendance-marking`
 export const attendanceMarkMasterURL = `${JSONURL}/attendance-mark-master`
 export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`
+
+export const purchaseURL = `${JSONURL}/purchase-master`

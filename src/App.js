@@ -31,8 +31,9 @@ import SalaryStructureWithSharedComponent from './components/modules/staffModule
 import Attendence from './components/modules/staffModule/AttendanceMarking/Attendence';
 import SalaryAdvances from './components/modules/staffModule/salarayAdvances/SalaryAdvances';
 import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvances/SalaryAdvancesTable';
-import PostSalary  from './components/modules/staffModule/PostSalary/PostSalary';
+import PostSalary from './components/modules/staffModule/PostSalary/PostSalary';
 import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/RePaymentLoanInfo';
+import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
 
 function App() {
   return (
@@ -59,7 +60,7 @@ function App() {
         <Route path="/salary-info-table" element={<SalaryInformationTable />} />
         <Route path='/salary-info' element={<SalaryInformation />} />
         <Route path='/salary-info/:id' element={<SalaryInformation />} />
-        <Route path="/expenseClaimTable" element={<ExpenseTable  />} />
+        <Route path="/expenseClaimTable" element={<ExpenseTable />} />
         <Route path="/staffMasterdata" element={<StaffMasterTable />} />
         <Route path="/staffMaster/:id" element={<StaffMaster />} />
         {/* <Route path="/expenseclaim" element={<ExpenseClaim />} /> */}
@@ -74,6 +75,9 @@ function App() {
         <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
         <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
         <Route path="/postsalary" element={<PostSalary />} />
+
+        <Route path="/purchase-master" element={<PurchaseMaster />} />
+
       </Routes>
 
       <Footer />

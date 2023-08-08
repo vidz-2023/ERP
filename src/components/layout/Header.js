@@ -42,6 +42,9 @@ function Header() {
                                 </ul>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link active" to="purchase-master">Purchase Master</NavLink>
+                            </li>
+                            <li className="nav-item">
                                 <NavLink className="nav-link active" href="#">Goods Module</NavLink>
                             </li>
                             <li className="nav-item">
