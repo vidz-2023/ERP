@@ -36,12 +36,14 @@ import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/
 import PersonMaster from './components/modules/master/personMaster/PersonMaster';
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
+import Stock from './components/modules/stockModule/Stock';
 
 function App() {
   return (
     <div className="App">
       {/*<EmpNameCode />*/}
       <Header />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/table" element={<Table />} />
@@ -82,6 +84,7 @@ function App() {
 
         <Route path="/purchase-master" element={<PurchaseMaster />} />
 
+        <Route path="/stock" element={<Stock/> } />
       </Routes>
 
       <Footer />
