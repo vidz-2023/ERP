@@ -33,6 +33,8 @@ import SalaryAdvances from './components/modules/staffModule/salarayAdvances/Sal
 import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvances/SalaryAdvancesTable';
 import PostSalary from './components/modules/staffModule/PostSalary/PostSalary';
 import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/RePaymentLoanInfo';
+import PersonMaster from './components/modules/master/personMaster/PersonMaster';
+import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
 
 function App() {
@@ -75,6 +77,8 @@ function App() {
         <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
         <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
         <Route path="/postsalary" element={<PostSalary />} />
+        <Route path="/personMaster" element={<PersonMaster/>}/>
+        <Route path="/companyMaster" element={<CompanyMaster/>}/>
 
         <Route path="/purchase-master" element={<PurchaseMaster />} />
 

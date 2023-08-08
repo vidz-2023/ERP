@@ -41,6 +41,16 @@ function Header() {
 
                                 </ul>
                             </li>
+                            <li className="nav-item dropdown">
+                                <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Master
+                                </NavLink>
+                                <ul className="dropdown-menu dropdown-menu-right" >
+                                    <li><NavLink className="dropdown-item" to="personMaster">Person Master </NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="companyMaster">Company Master</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="">Raw Material Master</NavLink></li>                                   
+                                </ul>
+                            </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link active" to="purchase-master">Purchase Master</NavLink>
                             </li>
