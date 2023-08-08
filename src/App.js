@@ -36,6 +36,7 @@ import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/
 import PersonMaster from './components/modules/master/personMaster/PersonMaster';
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
+import RawMaterial from './components/modules/master/RawMaterialMaster/RawMaterial';
 import Stock from './components/modules/stockModule/Stock';
 
 function App() {
@@ -81,7 +82,7 @@ function App() {
         <Route path="/postsalary" element={<PostSalary />} />
         <Route path="/personMaster" element={<PersonMaster/>}/>
         <Route path="/companyMaster" element={<CompanyMaster/>}/>
-
+        <Route path="/rawMaterialMaster" element={<RawMaterial />} />
         <Route path="/purchase-master" element={<PurchaseMaster />} />
 
         <Route path="/stock" element={<Stock/> } />

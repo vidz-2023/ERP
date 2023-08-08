@@ -48,7 +48,7 @@ function Header() {
                                 <ul className="dropdown-menu dropdown-menu-right" >
                                     <li><NavLink className="dropdown-item" to="personMaster">Person Master </NavLink></li>
                                     <li><NavLink className="dropdown-item" to="companyMaster">Company Master</NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="">Raw Material Master</NavLink></li>                                   
+                                    <li><NavLink className="dropdown-item" to="rawMaterialMaster">Raw Material Master</NavLink></li>                                   
                                 </ul>
                             </li>
                             <li className="nav-item">
