@@ -34,11 +34,12 @@ import SalaryAdvancesTable from './components/modules/staffModule/salarayAdvance
 import PostSalary from './components/modules/staffModule/PostSalary/PostSalary';
 import RePaymentLoanInfo from './components/modules/staffModule/salarayAdvances/RePaymentLoanInfo';
 import PersonMaster from './components/modules/master/personMaster/PersonMaster';
-import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
 import PurchaseMasterTable from './components/modules/purchase/PurchaseMasterTable';
 import RawMaterial from './components/modules/master/RawMaterialMaster/RawMaterial';
 import Stock from './components/modules/stockModule/Stock';
+import { CompanyMasterTable } from './components/modules/master/companyMaster/CompanyMasterTable';
+import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
 
 function App() {
@@ -82,10 +83,12 @@ function App() {
         <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
         <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
         <Route path="/postsalary" element={<PostSalary />} />
-        <Route path="/personMaster" element={<PersonMaster />} />
+        <Route path="/personMaster" element={<PersonMaster/>}/>
         <Route path="/personMaster/:id" element={<PersonMaster />} />
         <Route path="/personMasterTable" element={<PersonMasterTable  />}  />
-        <Route path="/companyMaster" element={<CompanyMaster  />}  />
+        <Route path="/companyMaster" element={<CompanyMaster/>}/>
+        <Route path='companyMaster/:id' element={<CompanyMaster />} />
+        <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
         <Route path="/rawMaterialMaster" element={<RawMaterial />} />
         <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />

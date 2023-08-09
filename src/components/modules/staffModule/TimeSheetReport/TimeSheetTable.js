@@ -73,11 +73,11 @@ export const TimeSheetTable = () => {
 
     return (
         <>
-            <div className="ag-theme-alpine my-3 mb-5 ms-3" style={{ width: 1300, height: 300 }}>
+            <div className="ag-theme-alpine my-3 ms-5" style={{ width: 1250,height: 300 }}>
                 <AgGridReact rowData={TimeSheet} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
-            <div className='row mb-5 ms-3 border border-light-secondary' style={{ width: 1300, height: 150 }}>
+            <div className='row mb-5 ms-5 border border-light-secondary' style={{ width: 1250, height: 150 }}>
                 <div className='col-2 mt-5 ms-5 form-label'>
                     Remarks
                 </div>

@@ -32,7 +32,7 @@ function Header() {
                                     <li><NavLink className="dropdown-item" to="salaryAdvancesData">Loans and Advances</NavLink></li>
                                     <li><NavLink className="dropdown-item" href="#">Salary Appraisal</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="salaryprocess">Salary Process</NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="salaryslip">Payslip</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="">Payslip</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="postsalary">Post Salary in Finance</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="monthlyattendance">Monthly attendance Process</NavLink></li>
                                     {/* <li><NavLink className="dropdown-item" href="#">Apply Leaves</NavLink></li>
@@ -47,7 +47,7 @@ function Header() {
                                 </NavLink>
                                 <ul className="dropdown-menu dropdown-menu-right" >
                                     <li><NavLink className="dropdown-item" to="personMasterTable">Person Master </NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="companyMaster">Company Master</NavLink></li>
+                                    <li><NavLink className="dropdown-item" to="CompanyMasterTable">Company Master</NavLink></li>
                                     <li><NavLink className="dropdown-item" to="rawMaterialMaster">Raw Material Master</NavLink></li>                                   
                                 </ul>
                             </li>

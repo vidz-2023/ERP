@@ -183,34 +183,27 @@ function PostSalary() {
                                             </div>
                                             <div className='col-3 mt-2'>
                                                 <div class="input-group text-danger">
-                                                    <button type="submit" className='w-5 btn btn-primary text-white m-3'>PostSalary</button>
+                                                    <button type="submit" className='w-50 btn btn-primary text-white m-3'>PostSalary</button>
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                 </div>
-
-
                             </fieldset>
-
                         </div>
                     </Form >
-
-
-
                 )
                 }
-
-
-
             </Formik >
 
-            <div className='col-1'>
-                <div class="input-group text-danger">
-                    <button type="button" className='w-5 btn btn-primary text-white m-3' onClick={handleShowForm}>GenerateSalary</button>
+            <div className='row'>
+                <div className='col-3 form-label'>
+
+                </div>
+                <div className='col-4'>
+                    <div class="input-group text-danger">
+                        <button type="button" className='w-5 btn btn-primary text-white m-3' onClick={handleShowForm}>GenerateSalary</button>
+                    </div>
                 </div>
             </div>
 
@@ -244,58 +237,58 @@ function PostSalary() {
                                                     {item.empName}
                                                 </option>)}
                                         </Field>
-                                 
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='Name' />
-                                </div>
-                                <div className='col-2'></div>
-                                <div className='col-2 form-label'>PaidDays</div>
-                                <div className='col-3 d-flex'>
-                                    <Field
-                                        className="form-select"
-                                        as="select"
-                                        name="present"
-                                        value={AttendanceDisplayData.present}
-                                    >
-                                         {AttendanceDisplayData.map((item) =>
+
+                                        <ErrorMessage className="text-danger  ms-2" component="div" name='Name' />
+                                    </div>
+                                    <div className='col-2'></div>
+                                    <div className='col-2 form-label'>PaidDays</div>
+                                    <div className='col-3 d-flex'>
+                                        <Field
+                                            className="form-select"
+                                            as="select"
+                                            name="present"
+                                            value={AttendanceDisplayData.present}
+                                        >
+                                            {AttendanceDisplayData.map((item) =>
                                                 <option
                                                     key={item.id}
                                                     value={item.present}
                                                 >
                                                     {item.present}
                                                 </option>)}
-                                    </Field>
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='present' />
+                                        </Field>
+                                        <ErrorMessage className="text-danger  ms-2" component="div" name='present' />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='row mb-1'>
-                                <div className='col-2 form-label'>Employee Code</div>
-                                <div className='col-3 d-flex'>
-                                    <Field
-                                       className="form-select"
-                                       as="select"
-                                        name="empCode"
-                                        value={AttendanceDisplayData.empCode}
-                                    >
-                                         {AttendanceDisplayData.map((item) =>
+                                <div className='row mb-1'>
+                                    <div className='col-2 form-label'>Employee Code</div>
+                                    <div className='col-3 d-flex'>
+                                        <Field
+                                            className="form-select"
+                                            as="select"
+                                            name="empCode"
+                                            value={AttendanceDisplayData.empCode}
+                                        >
+                                            {AttendanceDisplayData.map((item) =>
                                                 <option
                                                     key={item.id}
                                                     value={item.empCode}
                                                 >
                                                     {item.empCode}
                                                 </option>)}
-                                    </Field>
-                                    <ErrorMessage className="text-danger ms-2" component="div" name='empCode' />
-                                </div>
-                                <div className='col-2'></div>
-                                <div className='col-2 form-label'>LOP Days</div>
-                                <div className='col-3 d-flex'>
-                                    <Field
-                                       className="form-select"
-                                       as="select"
-                                        name="lop"
-                                    // value="HDFC"
-                                    >
-                                         {AttendanceDisplayData.map((item) =>
+                                        </Field>
+                                        <ErrorMessage className="text-danger ms-2" component="div" name='empCode' />
+                                    </div>
+                                    <div className='col-2'></div>
+                                    <div className='col-2 form-label'>LOP Days</div>
+                                    <div className='col-3 d-flex'>
+                                        <Field
+                                            className="form-select"
+                                            as="select"
+                                            name="lop"
+                                        // value="HDFC"
+                                        >
+                                            {AttendanceDisplayData.map((item) =>
                                                 <option
                                                     key={item.id}
                                                     value={item.lop}
@@ -303,50 +296,50 @@ function PostSalary() {
                                                     {item.lop}
                                                 </option>)}
                                         </Field>
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='lop' />
+                                        <ErrorMessage className="text-danger  ms-2" component="div" name='lop' />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='row mb-1'>
-                                <div className='col-2 form-label'>Pay Period</div>
-                                <div className='col-3 d-flex'>
-                                    <Field
-                                        className="form-select"
-                                        as="select"
-                                        name="month"
-                                        value={AttendanceDisplayData.month}
-                                    >
-                                         {AttendanceDisplayData.map((item) =>
+                                <div className='row mb-1'>
+                                    <div className='col-2 form-label'>Pay Period</div>
+                                    <div className='col-3 d-flex'>
+                                        <Field
+                                            className="form-select"
+                                            as="select"
+                                            name="month"
+                                            value={AttendanceDisplayData.month}
+                                        >
+                                            {AttendanceDisplayData.map((item) =>
                                                 <option
                                                     key={item.id}
                                                     value={item.month}
                                                 >
                                                     {item.month}
                                                 </option>)}
-                                    </Field>
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='month' />
+                                        </Field>
+                                        <ErrorMessage className="text-danger  ms-2" component="div" name='month' />
+                                    </div>
+                                    <div className='col-2'></div>
+                                    <div className='col-2 form-label'>Pay Date</div>
+                                    <div className='col-3  d-flex'>
+                                        <Field
+                                            className="form-control"
+                                            type="date"
+                                            name="paydate"
+                                        // value="xxxxxxx"
+                                        />
+                                        <ErrorMessage className="text-danger  ms-2" component="div" name='paydate' />
+                                    </div>
                                 </div>
-                                <div className='col-2'></div>
-                                <div className='col-2 form-label'>Pay Date</div>
-                                <div className='col-3  d-flex'>
-                                    <Field
-                                        className="form-control"
-                                        type="date"
-                                        name="paydate"
-                                    // value="xxxxxxx"
-                                    />
-                                    <ErrorMessage className="text-danger  ms-2" component="div" name='paydate' />
-                                </div>
+
+
+
                             </div>
 
-
-
                         </div>
-
                     </div>
-                </div>
                 </div>}
 
-        </Formik >
+            </Formik >
         </>
     )
 }

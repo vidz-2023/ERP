@@ -134,6 +134,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="Name"
                                                         value={DisplayData.Name}
+                                                        disabled
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Name' />
@@ -146,6 +147,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="Department"
                                                         value={DisplayData.dept}
+                                                        disabled
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Department' />
@@ -159,6 +161,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="empcode"
                                                         value={DisplayData.empcode}
+                                                        disabled
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger ms-2" component="div" name='empcode' />
@@ -171,6 +174,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="Bank"
                                                         value="HDFC"
+                                                        disabled
                                                     />
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Bank' />
                                                 </div>
@@ -183,6 +187,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="Designation"
                                                         value={DisplayData.designation}
+                                                        disabled
                                                     >
                                                     </Field>
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Designation' />
@@ -195,6 +200,7 @@ export const Salaryslip = () => {
                                                         type="text"
                                                         name="acno"
                                                         value="xxxxxxx"
+                                                        disabled
                                                     />
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='acno' />
                                                 </div>
