@@ -77,7 +77,7 @@ const ExpenseTable = () => {
       field: 'empCode',
       cellRenderer: DeleteEditExpenseClaim,
       cellRendererParams: {
-        funGetSalaryInfo: handleExpenseData
+        funGetExpenseClaim: handleExpenseData
       }
     }
   ]

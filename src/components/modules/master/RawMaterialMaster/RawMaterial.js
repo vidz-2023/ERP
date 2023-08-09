@@ -1,30 +1,80 @@
-import React from "react";
-import { FaBook } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaBook, FaRupeeSign } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {
+  addRawMaterialData,
+  getRawMaterialDataByMaterialCode,
+} from "../../../../services/rawMaterialService";
+import { useParams } from "react-router-dom";
 
 const RawMaterial = () => {
-  const rawMaterial = {
+  const [isUpdate, setIsUpdate] = useState(false);
+  const { materialCode } = useParams();
+
+  const rawInputFields = {
     materialCode: "",
-      materialName: "",
-      materialCategory: "",
-      description: "",
-      basicUnitOfMeasure: "",
-      storageArea: "",
-      minimumPurchaseQuantity: "",
-      remainderDays: "",
-      minOrderWeight: "",
-      maxOrderWeight: "",
-      standardValuePerUnit: "",
-      maxStockAllowed: "",
-      minStockAllowed: ""
+    materialName: "",
+    materialCategory: "",
+    description: "",
+    basicUnitOfMeasure: "",
+    storageArea: "",
+    minimumPurchaseQuantity: "",
+    remainderDays: "",
+    minOrderWeight: "",
+    maxOrderWeight: "",
+    standardValuePerUnit: "",
+    maxStockAllowed: "",
+    minStockAllowed: "",
   };
 
-  const rawMaterialvalidationSchema = Yup.object({});
+  const [rawMaterial, setRawMaterial] = useState(rawInputFields);
 
-  const rawMaterialHandleSubmit = () => {};
-  
-  const onRawMaterialHandler = (e, setFieldValue) => {};
+  useEffect(() => {
+    getRawDataByMaterialCode();
+  }, []);
+
+  const getRawDataByMaterialCode = () => {
+    console.log(materialCode);
+    
+      getRawMaterialDataByMaterialCode(materialCode).then((res) => {
+        console.log(res.data[0]);
+        setRawMaterial(res.data[0]);
+      });
+    
+  };
+
+  const rawMaterialvalidationSchema = Yup.object({
+    materialCode: Yup.string().required("Material code is required"),
+    materialName: Yup.string().required("Material name required"),
+    materialCategory: Yup.string().required("Material category required"),
+    description: Yup.string(),
+    basicUnitOfMeasure: Yup.string().required("Unit of measure required"),
+    storageArea: Yup.string().required("Storage area field required"),
+    minimumPurchaseQuantity: Yup.string().required(
+      "Minimum Purchase Quantity required"
+    ),
+    remainderDays: Yup.string(),
+    minOrderWeight: Yup.string().required("Min Order Weight required"),
+    maxOrderWeight: Yup.string().required("Max Order Weight required"),
+    standardValuePerUnit: Yup.string().required(
+      "Standard Value Per Unit required"
+    ),
+    maxStockAllowed: Yup.string().required("Max Stock Allowed required"),
+    minStockAllowed: Yup.string().required("Min Stock Allowed required"),
+  });
+
+  const onRawMaterialHandler = (e, setFieldValue) => {
+    const { name, value } = e.target;
+    setRawMaterial({ ...rawMaterial, [name]: value });
+    setFieldValue([name], value);
+  };
+
+  const rawMaterialHandleSubmit = () => {
+    console.log(rawMaterial);
+    addRawMaterialData(rawMaterial);
+    alert(rawMaterial.materialCode + "Data added successfully");
+  };
 
   return (
     <>
@@ -58,7 +108,7 @@ const RawMaterial = () => {
                           className="form-control form-control-sm"
                           type="text"
                           name="materialCode"
-                          value=""
+                          value={rawMaterial.materialCode}
                           onChange={(e) =>
                             onRawMaterialHandler(e, setFieldValue)
                           }
@@ -89,9 +139,13 @@ const RawMaterial = () => {
                       </label>
                       <div className="col-sm-8">
                         <Field
-                          type="number"
+                          type="text"
                           name="materialName"
                           className="form-control form-control-sm"
+                          value={rawMaterial.materialName}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
                           name="materialName"
@@ -111,8 +165,16 @@ const RawMaterial = () => {
                           as="select"
                           name="materialCategory"
                           className="form-select form-select-sm"
+                          value={rawMaterial.materialCategory}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         >
-                            <option value="">Select</option>
+                          <option value="">Select</option>
+                          <option value="Pulses">Pulses</option>
+                          <option value="Rice">Rice</option>
+                          <option value="Dairy Products">Dairy Products</option>
+                          <option value="Spices">Spices</option>
                         </Field>
                         <ErrorMessage
                           name="materialCategory"
@@ -121,21 +183,31 @@ const RawMaterial = () => {
                       </div>
                     </div>
                     <div className="row mb-2">
-                      <label htmlFor="desc" className="col-sm-4 col-form-label">
+                      <label
+                        htmlFor="description"
+                        className="col-sm-4 col-form-label"
+                      >
                         Description
                       </label>
                       <div className="col-sm-8">
                         <Field
                           as="textarea"
-                          name="desc"
+                          name="description"
                           className="form-control form-control-sm"
+                          value={rawMaterial.description}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
-                        <ErrorMessage name="desc" className="text-danger" />
+                        <ErrorMessage
+                          name="description"
+                          className="text-danger"
+                        />
                       </div>
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="unitMeasure"
+                        htmlFor="basicUnitOfMeasure"
                         className="col-sm-4 col-form-label"
                       >
                         Basic Unit of Measure
@@ -143,13 +215,22 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           as="select"
-                          name="unitMeasure"
+                          name="basicUnitOfMeasure"
                           className="form-select form-select-sm"
+                          value={rawMaterial.basicUnitOfMeasure}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         >
-                            <option value="">Select</option>
+                          <option value="">Select</option>
+                          <option value="Piece">Piece</option>
+                          <option value="gms">gms</option>
+                          <option value="Kg">Kg</option>
+                          <option value="tons">tons</option>
+                          <option value="liters">liters</option>
                         </Field>
                         <ErrorMessage
-                          name="VoucherNo"
+                          name="basicUnitOfMeasure"
                           className="text-danger"
                         />
                       </div>
@@ -166,8 +247,14 @@ const RawMaterial = () => {
                           as="select"
                           name="storageArea"
                           className="form-select form-select-sm"
+                          value={rawMaterial.storageArea}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         >
-                            <option value="">Select</option>
+                          <option value="">Select</option>
+                          <option value="Pune">Pune</option>
+                          <option value="PCMC">PCMC</option>
                         </Field>
                         <ErrorMessage
                           name="storageArea"
@@ -177,7 +264,7 @@ const RawMaterial = () => {
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="minpurquantity"
+                        htmlFor="minimumPurchaseQuantity"
                         className="col-sm-4 col-form-label"
                       >
                         Minimum Purchase Quantity
@@ -185,18 +272,22 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="minpurquantity"
+                          name="minimumPurchaseQuantity"
                           className="form-control form-control-sm"
+                          value={rawMaterial.minimumPurchaseQuantity}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="minpurquantity"
+                          name="minimumPurchaseQuantity"
                           className="text-danger"
                         />
                       </div>
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="remaindays"
+                        htmlFor="remainderDays"
                         className="col-sm-4 col-form-label"
                       >
                         Remainder days
@@ -204,33 +295,43 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="remaindays"
+                          name="remainderDays"
                           className="form-control form-control-sm mb-1"
+                          value={rawMaterial.remainderDays}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <Field
                           type="text"
-                          name="remaindays"
+                          name="remainderDays"
                           className="form-control form-control-sm mb-1"
+                          value={rawMaterial.remainderDays}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <Field
                           type="text"
-                          name="remaindays"
+                          name="remainderDays"
                           className="form-control form-control-sm"
+                          value={rawMaterial.remainderDays}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="remaindays"
+                          name="remainderDays"
                           className="text-danger"
                         />
                       </div>
                     </div>
-                    
                   </div>
 
                   <div className="col-md-6">
-                    
                     <div className="row">
                       <label
-                        htmlFor="minOrderWt"
+                        htmlFor="minOrderWeight"
                         className="col-sm-4 col-form-label"
                       >
                         Minimum Order Weight
@@ -238,18 +339,22 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="minOrderWt"
+                          name="minOrderWeight"
                           className="form-control form-control-sm"
+                          value={rawMaterial.minOrderWeight}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="minOrderWt"
+                          name="minOrderWeight"
                           className="text-danger"
                         />
                       </div>
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="maxOrderWt"
+                        htmlFor="maxOrderWeight"
                         className="col-sm-4 col-form-label"
                       >
                         Maximum Order Weight
@@ -257,38 +362,51 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="maxOrderWt"
+                          name="maxOrderWeight"
                           className="form-control form-control-sm"
+                          value={rawMaterial.maxOrderWeight}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="maxOrderWt"
+                          name="maxOrderWeight"
                           className="text-danger"
                         />
                       </div>
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="stValuepUnit"
+                        htmlFor="standardValuePerUnit"
                         className="col-sm-4 col-form-label"
                       >
                         Standard Value per Unit
                       </label>
                       <div className="col-sm-8">
-                        <Field
-                          type="text"
-                          name="stValuepUnit"
-                          className="form-control form-control-sm"
-                        />
+                        <div className="input-group mb-3">
+                          <span className="input-group-text" id="basic-addon1">
+                            <FaRupeeSign />
+                          </span>
+                          <Field
+                            type="text"
+                            name="standardValuePerUnit"
+                            className="form-control form-control-sm"
+                            value={rawMaterial.standardValuePerUnit}
+                            onChange={(e) =>
+                              onRawMaterialHandler(e, setFieldValue)
+                            }
+                          />
+                        </div>
                         <ErrorMessage
-                          name="stValuepUnit"
+                          name="standardValuePerUnit"
                           className="text-danger"
                         />
                       </div>
                     </div>
-                    
+
                     <div className="row">
                       <label
-                        htmlFor="maxstockallowed"
+                        htmlFor="maxStockAllowed"
                         className="col-sm-4 col-form-label"
                       >
                         Maximum stock allowed
@@ -296,11 +414,15 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="maxstockallowed"
+                          name="maxStockAllowed"
                           className="form-control form-control-sm"
+                          value={rawMaterial.maxStockAllowed}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="maxstockallowed"
+                          name="maxStockAllowed"
                           className="text-danger"
                         />
                       </div>
@@ -317,9 +439,13 @@ const RawMaterial = () => {
                           type="text"
                           name="minStockAllowed"
                           className="form-control form-control-sm"
+                          value={rawMaterial.minStockAllowed}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
                         />
                         <ErrorMessage
-                          name="maxStockAllowed"
+                          name="minStockAllowed"
                           className="text-danger"
                         />
                       </div>

@@ -11,7 +11,7 @@ const DeleteEditExpenseClaim = (params) => {
         deleteExpenseClaim(p.data.id)
         alert(`${p.data.empCode} get deleted`)
         getExpenseClaim().then()
-        p.funGetSalaryInfo()
+        p.funGetExpenseClaim()
     }
 
     const handleEdit = (p) => {

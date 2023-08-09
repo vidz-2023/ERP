@@ -37,6 +37,7 @@ export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 export const purchaseURL = `${JSONURL}/purchase-master`
 export const purchasedItemsDetailsURL = `${JSONURL}/purchased-items-details`
 
+export const rawMaterialURL = `${JSONURL}/raw-material`
 
 export const stockURL = `${JSONURL}/stockData`
 

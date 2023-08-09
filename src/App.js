@@ -38,6 +38,7 @@ import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
 import PurchaseMasterTable from './components/modules/purchase/PurchaseMasterTable';
 import RawMaterial from './components/modules/master/RawMaterialMaster/RawMaterial';
 import Stock from './components/modules/stockModule/Stock';
+import RawMaterialTable from './components/modules/master/RawMaterialMaster/RawMaterialTable';
 import { CompanyMasterTable } from './components/modules/master/companyMaster/CompanyMasterTable';
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
@@ -89,7 +90,8 @@ function App() {
         <Route path="/companyMaster" element={<CompanyMaster/>}/>
         <Route path='companyMaster/:id' element={<CompanyMaster />} />
         <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
-        <Route path="/rawMaterialMaster" element={<RawMaterial />} />
+        <Route path="/rawMaterialTable" element={<RawMaterialTable />} />
+        <Route path="/rawMaterial/:materialCode" element={<RawMaterial />} />
         <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
 
