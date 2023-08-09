@@ -39,6 +39,7 @@ import PurchaseMaster from './components/modules/purchase/PurchaseMaster';
 import PurchaseMasterTable from './components/modules/purchase/PurchaseMasterTable';
 import RawMaterial from './components/modules/master/RawMaterialMaster/RawMaterial';
 import Stock from './components/modules/stockModule/Stock';
+import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
 
 function App() {
   return (
@@ -82,7 +83,9 @@ function App() {
         <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
         <Route path="/postsalary" element={<PostSalary />} />
         <Route path="/personMaster" element={<PersonMaster />} />
-        <Route path="/companyMaster" element={<CompanyMaster />} />
+        <Route path="/personMaster/:id" element={<PersonMaster />} />
+        <Route path="/personMasterTable" element={<PersonMasterTable  />}  />
+        <Route path="/companyMaster" element={<CompanyMaster  />}  />
         <Route path="/rawMaterialMaster" element={<RawMaterial />} />
         <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />

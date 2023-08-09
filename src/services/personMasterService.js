@@ -16,3 +16,9 @@ export const updatePersonMaster = (data) => {
 export const deletePersonMaster = (id) => {
     return axios.delete(personMasterURL + '/' + id)
 }
+
+export const getPersonMasterByID = (id) => {
+    const fetchByIDURL = personMasterURL + "/" + id;
+    return axios.get(fetchByIDURL)
+        .then(res => res.data);
+}
