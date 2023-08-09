@@ -33,6 +33,7 @@ export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`
 export const personMasterURL = `${JSONURL}/personMaster`
 
 export const purchaseURL = `${JSONURL}/purchase-master`
+export const purchasedItemsDetailsURL = `${JSONURL}/purchased-items-details`
 
 
 export const stockURL = `${JSONURL}/stockData`

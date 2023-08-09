@@ -10,11 +10,11 @@ export const addPurchaseDetail = (data) => {
 }
 
 export const deletePurchaseDetail = (id) => {
-    return axios.delete(`${purchaseURL}/${id}`,)
+    return axios.delete(`${purchaseURL}/${id}`)
 }
 
 export const getPurchaseDetailById = (id) => {
-    return axios.get(`${purchaseURL}/${id}`)
+    return axios.get(`${purchaseURL}?pId=${id}`)
 }
 
 // export const getPurchaseDetailByEmpCode = (empid) => {
@@ -22,7 +22,6 @@ export const getPurchaseDetailById = (id) => {
 // }
 
 export const updatePurchaseDetail = (data) => {
-    console.log("service", data)
     return axios.put(`${purchaseURL}/${data.id}`, data)
 }
 

@@ -113,7 +113,6 @@ function WorkLocationInfo() {
         }
     }
 
-
     return (
         <Formik
             initialValues={workLocationData}

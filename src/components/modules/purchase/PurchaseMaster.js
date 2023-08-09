@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { FaBook } from "react-icons/fa";
 import * as Yup from 'yup';
@@ -6,9 +6,16 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import purchaseStyle from "./purchaseMasterSty.module.css"
+import { addPurchaseDetail, getPurchaseDetailById, updatePurchaseDetail } from '../../../services/purchaseMasterService';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getPurchasedItemsByPId } from '../../../services/purchasedItemsDetailsService';
+import PurchasedItemsDetailDeleteEditButton from './PurchasedItemsDetailDeleteEditButton';
+import PurchasedItemModal from './PurchasedItemModal';
 
 const PurchaseMaster = () => {
+    const { pId } = useParams()
     const inputFields = {
+        pId: "",
         gstType: "",
         gstNumber: "",
         branch: "",
@@ -38,11 +45,44 @@ const PurchaseMaster = () => {
     }
 
     const [purchaseData, setPurchaseData] = useState(inputFields)
+    const [purchasedItemsData, setPurchasedItemData] = useState([])
+    const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
 
+    const [isUpdate, setIsUpdate] = useState(false)
+    const navigate = useNavigate()
     const tempData = ["A", "B", "C"]
+
+    useEffect(() => {
+        getPurchaseDataByPId(pId)
+        getPurchasedItemsDataByPId(pId)
+    }, [])
+
+    const getPurchaseDataByPId = () => {
+
+        if (pId > 0) {
+            getPurchaseDetailById(pId).then((res) => {
+                console.log(res.data[0])
+                delete res.data[0].attachment
+                setPurchaseData(res.data[0])
+                setIsUpdate(true)
+            })
+        }
+    }
 
     const handleSubmit = (values) => {
         console.log(values)
+        if (isUpdate) {
+            // if (!isPurchaseItemUpdate) {
+            updatePurchaseDetail(values).then((res) => {
+                navigate("/purchase-master-table")
+            })
+            // }
+        } else {
+            addPurchaseDetail(values).then((res) => {
+                navigate("/purchase-master-table")
+            })
+        }
+
     }
 
     // const handleChange = (e, setFieldValue) => {
@@ -53,26 +93,48 @@ const PurchaseMaster = () => {
     //     // }
     // }
 
+    const handlingPurchasedItems = () => {
+        // console.log(pId)
+        // setIsPurchaseItemUpdate(true)
+        getPurchasedItemsDataByPId(pId)
+    }
+
     const column = [{
-        field: "S No."
+        field: "pId"
     },
     {
-        field: "Item"
+        field: "itemId"
     },
     {
-        field: "Description"
+        field: "description"
     },
     {
-        field: "Unit Price"
+        field: "unitPrice"
     },
     {
-        field: "Qty"
-    }]
+        field: "qty"
+    },
+    {
+        headerName: "Action",
+        field: "pId",
+        cellRenderer: PurchasedItemsDetailDeleteEditButton,
+        cellRendererParams: {
+            funGetPurchasedItems: handlingPurchasedItems
+        }
+    }
+    ]
+
+    const getPurchasedItemsDataByPId = (pid) => {
+        getPurchasedItemsByPId(pid).then((res) => {
+            console.log(res.data)
+            setPurchasedItemData(res.data)
+        })
+    }
 
     const defaultColDef = {
         sortable: true,
         filter: true,
-        // flex: 1
+        flex: 1
     }
 
     const validationSchema = Yup.object({
@@ -185,9 +247,9 @@ const PurchaseMaster = () => {
                                             >
                                                 <option value="">Select Branch</option>
                                                 {
-                                                    tempData.map((item) => {
+                                                    tempData.map((item, index) => {
                                                         return <option
-                                                            // key={item.id}
+                                                            key={index}
                                                             value={item}
                                                         >
                                                             {item}
@@ -517,11 +579,17 @@ const PurchaseMaster = () => {
                                     </div>
 
 
-                                    {/* ==================================== Ag Grid==================================================== */}
+                                    {/* ==================================== Ag Grid & Modal==================================================== */}
                                     <div>
-                                        <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1000, height: 300 }}>
+                                        <button type="button" className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Add Row
+                                        </button>
+
+                                        <PurchasedItemModal />
+
+                                        <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
-                                                // rowData={salaryStruc}
+                                                rowData={purchasedItemsData}
                                                 columnDefs={column}
                                                 defaultColDef={defaultColDef}
                                             />
