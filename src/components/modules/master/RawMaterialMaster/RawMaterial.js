@@ -5,12 +5,14 @@ import * as Yup from "yup";
 import {
   addRawMaterialData,
   getRawMaterialDataByMaterialCode,
+  updateRawMaterialData,
 } from "../../../../services/rawMaterialService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RawMaterial = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const { materialCode } = useParams();
+  const navigate = useNavigate();
 
   const rawInputFields = {
     materialCode: "",
@@ -36,12 +38,13 @@ const RawMaterial = () => {
 
   const getRawDataByMaterialCode = () => {
     console.log(materialCode);
-    
+    if (materialCode) {
       getRawMaterialDataByMaterialCode(materialCode).then((res) => {
         console.log(res.data[0]);
         setRawMaterial(res.data[0]);
       });
-    
+      setIsUpdate(true);
+    }
   };
 
   const rawMaterialvalidationSchema = Yup.object({
@@ -72,8 +75,15 @@ const RawMaterial = () => {
 
   const rawMaterialHandleSubmit = () => {
     console.log(rawMaterial);
-    addRawMaterialData(rawMaterial);
-    alert(rawMaterial.materialCode + "Data added successfully");
+    if (!isUpdate) {
+      addRawMaterialData(rawMaterial).then((res) => {
+        navigate("/rawMaterialTable");
+      });
+    } else {
+      updateRawMaterialData(rawMaterial).then((res) =>
+        navigate("/rawMaterialTable")
+      );
+    }
   };
 
   return (
