@@ -1,9 +1,9 @@
 import axios from "axios"
 import { purchasedItemsDetailsURL } from "../share/constant"
 
-// export const getPurchasedItemsDetail = () => {
-//     return axios.get(purchasedItemsDetailsURL)
-// }
+export const getPurchasedItemsDetail = () => {
+    return axios.get(purchasedItemsDetailsURL)
+}
 
 export const addPurchasedItemsDetail = (data) => {
     return axios.post(`${purchasedItemsDetailsURL}`, data)

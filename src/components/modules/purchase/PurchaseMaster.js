@@ -14,6 +14,9 @@ import PurchasedItemModal from './PurchasedItemModal';
 
 const PurchaseMaster = () => {
     const { pId } = useParams()
+
+
+
     const inputFields = {
         pId: "",
         gstType: "",
@@ -47,6 +50,7 @@ const PurchaseMaster = () => {
     const [purchaseData, setPurchaseData] = useState(inputFields)
     const [purchasedItemsData, setPurchasedItemData] = useState([])
     const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
+    const [modelEnabled, setModalEnabled] = useState(false)
 
     const [isUpdate, setIsUpdate] = useState(false)
     const navigate = useNavigate()
@@ -166,6 +170,13 @@ const PurchaseMaster = () => {
         frieght: Yup.string().required('*Required')
     })
 
+    const sendDataToChild = (data) => {
+        setPurchasedItemData(data);
+    };
+
+    const handleModal = () => {
+        setModalEnabled(true)
+    }
     return (
         <div>
             <Formik
@@ -194,7 +205,7 @@ const PurchaseMaster = () => {
                                     <div
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>GST Type</div>
+                                        <div className='col-2 form-label'>GST Type<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
@@ -219,7 +230,7 @@ const PurchaseMaster = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='gstType' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>GST Number</div>
+                                        <div className='col-2 form-label'>GST Number<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-control"
@@ -236,7 +247,7 @@ const PurchaseMaster = () => {
                                         //  className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Branch</div>
+                                        <div className='col-2 form-label'>Branch<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
@@ -260,7 +271,7 @@ const PurchaseMaster = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='branch' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Category</div>
+                                        <div className='col-2 form-label'>Category<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
@@ -287,7 +298,7 @@ const PurchaseMaster = () => {
                                     <div
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Vendor</div>
+                                        <div className='col-2 form-label'>Vendor<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
@@ -311,7 +322,7 @@ const PurchaseMaster = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='vendor' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Email</div>
+                                        <div className='col-2 form-label'>Email<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-control"
@@ -337,7 +348,7 @@ const PurchaseMaster = () => {
                                             // value={purchaseData.currency}
                                             // onChange={(e) => { handleChange(e, setFieldValue) }}
                                             >
-                                                <option value="">Select Currency</option>
+                                                <option value="">Select Currency<span className='text-danger'>*</span></option>
                                                 {
                                                     tempData.map((item, index) => {
                                                         return <option
@@ -368,7 +379,7 @@ const PurchaseMaster = () => {
                                     <div
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Order Date</div>
+                                        <div className='col-2 form-label'>Order Date<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-control fw-light"
@@ -380,7 +391,7 @@ const PurchaseMaster = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='orderDate' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Order Number</div>
+                                        <div className='col-2 form-label'>Order Number<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-control"
@@ -397,7 +408,7 @@ const PurchaseMaster = () => {
                                         // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Delivery Date</div>
+                                        <div className='col-2 form-label'>Delivery Date<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-control fw-light"
@@ -581,11 +592,15 @@ const PurchaseMaster = () => {
 
                                     {/* ==================================== Ag Grid & Modal==================================================== */}
                                     <div>
-                                        <button type="button" className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <button type="button"
+                                            className="btn btn-info"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"
+                                            onClick={handleModal}>
                                             Add Row
                                         </button>
 
-                                        <PurchasedItemModal />
+                                        <PurchasedItemModal sendDataToParent={sendDataToChild} />
 
                                         <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
