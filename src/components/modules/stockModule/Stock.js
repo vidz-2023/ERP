@@ -8,50 +8,130 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import PlusSignComponent from "../../../share/PlusSignComponent";
 import CrossMarkComponent from "../../../share/CrossMarkComponent";
 import LogisticsStock from "./LogisticsStock";
-import { getStockData } from "../../../services/stockService";
+import { addStockData, getStockData, getStockDataByItemId, getStockDataByStockId, updateStockData } from "../../../services/stockService";
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Stock() {
-    
+
     const initialValue = {
-        
-            "itemId":"item0001",
-            "toBranch": "",
-            "fromBranch": "",
-            "category": "",
-            "toWarehouse": "",
-            "fromWarehouse": "",
-            "requestDate": "",
-            "requestNo": 0,
-            "remark": "",
-            "instruction": "",
-            "fileName": "",
-            "destination": "",
-            "shippingMode": "",
-            "shippingCompany": "",
-            "shippingTrackingNo": "",
-            "shippingDate": "",
-            "shippingCharges": 0,
-            "vesselNo": "",
-            "chargeType": "",
-            "documentThrough": "",
-            "noOfPack": 5,
-            "weight": "",
-            "distance": "",
-            "eWayInvoiceNo": "",
-            "eWayInvoiceDate": "",
-            "irnNo": "",
-            "irnCancelDate": "",
-            "irnCancelReason": "" 
-          }
-    
+
+        "stockId": "",
+        "toBranch": "",
+        "fromBranch": "",
+        "category": "",
+        "toWarehouse": "",
+        "fromWarehouse": "",
+        "requestDate": "",
+        "requestNo": "",
+        "remark": "",
+        "instruction": "",
+        "fileName": ""
+         
+    }
+
+    var logictisObj = {
+        "destination": "",
+        "shippingMode": "",
+        "shippingCompany": "",
+        "shippingTrackingNo": "",
+        "shippingDate": "",
+        "shippingCharges": 0,
+        "vesselNo": "",
+        "chargeType": "",
+        "documentThrough": "",
+        "noOfPack": "",
+        "weight": "",
+        "distance": "",
+        "eWayInvoiceNo": "",
+        "eWayInvoiceDate": "",
+        "irnNo": "",
+        "irnCancelDate": "",
+        "irnCancelReason": ""
+    }
+
     const [formValues, setFormValue] = useState(initialValue)
+    const { stockId } = useParams()
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [isGetLogisticData, setIsLogisticData] = useState(false)
+    const navigate = useNavigate()
+   
+
 
     useEffect(() => {
-        getStockData().then((res) => {
-            console.log(res.data)
-            setFormValue(res.data[0])
-        })
+
+        if (stockId > 0) {
+            getStockDataByStockId(stockId).then(res => {
+                setFormValue(res.data[0])
+                formValues.category = res.data[0].category
+               // setLogisticValue(res.data[0])
+            })
+            setIsUpdate(true)
+        }
+
+
     }, [])
+
+    const handleChange = (e, setFieldValue) => {
+
+        const { name, value } = e.target
+        console.log(name)
+        console.log(value)
+        setFormValue({ ...formValues, [name]: value })
+
+        setFieldValue([name], value)
+    }
+    const handleChange1 = (e) => {
+
+        const { name, value } = e.target
+        console.log(name)
+        console.log(value)
+        setFormValue({ ...formValues, [name]: value })
+    }
+
+    //callback function
+    const getDataFromLogistic = (setLogisticData) => {
+
+        logictisObj = { ...setLogisticData }
+        setIsLogisticData(true)
+        console.log(logictisObj)
+       
+
+    }
+
+    const handleSubmit = () => {
+        console.log(formValues)
+        console.log(logictisObj)
+        let objData = {}
+        if(isGetLogisticData)
+        {
+            objData = { ...formValues, ...logictisObj }
+        }
+        else{
+            objData = { ...formValues }
+        }
+        console.log(objData)
+        if(isUpdate)
+        {
+              updateStockData(objData,formValues.id)
+        }
+        else
+        addStockData(objData)
+
+
+
+    }
+    const validationSchema = Yup.object({
+
+        toBranch: Yup.string().required("required"),
+        fromBranch: Yup.string().required("required"),
+        category: Yup.string().required("required"),
+        toWarehouse: Yup.string().required("required"),
+        requestDate: Yup.string().required("required"),
+        requestNo: Yup.string().required("required"),
+
+    })
+
+
 
     const columns = [
         {
@@ -102,105 +182,114 @@ function Stock() {
                     </div>
                 </h4>
 
-                <Formik>
+                <Formik initialValues={formValues} validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                    enableReinitialize
+                >
                     {({ isSubmitting, setFieldValue }) => (
                         <Form className="mt-3">
+
                             <div className="row">
 
                                 <div className="col-md-6">
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Branch
+                                            Branch <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
                                                 name="toBranch"
                                                 value={formValues.toBranch}
                                                 className="form-select form-select-sm"
+                                                onChange={e => handleChange(e, setFieldValue)}
                                             >
                                                 <option value="">Select</option>
                                                 <option value="Branch1">Branch1</option>
                                                 <option value="Branch2">Branch2</option>
                                             </Field>
-
+                                            <ErrorMessage name='toBranch' className=" ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            From Branch
+                                            From Branch  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
                                                 name="fromBranch"
                                                 value={formValues.fromBranch}
+                                                onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
                                                 <option value="">Select</option>
                                                 <option value="Branch1">Branch1</option>
                                                 <option value="Branch2">Branch2</option>
                                             </Field>
-
+                                            <ErrorMessage name='fromBranch' className="ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Category
+                                            Category  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
                                                 name="category"
                                                 value={formValues.category}
+                                                onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
                                                 <option value="">Select</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                             </Field>
-
+                                            <ErrorMessage name='category' className="ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Warehouse
+                                            Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
                                                 name="toWarehouse"
                                                 value={formValues.toWarehouse}
+                                                onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
                                                 <option value="">Select</option>
-                                                <option value="aa">aa</option>
-                                                <option value="bb">bb</option>
+                                                <option value="Warehouse1">Warehouse1</option>
+                                                <option value="Warehouse2">Warehouse2</option>
                                             </Field>
-
+                                            <ErrorMessage name='toWarehouse' className="ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            From Warehouse
+                                            From Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
                                                 name="fromWarehouse"
                                                 value={formValues.fromWarehouse}
+                                                onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
                                                 <option value="">Select</option>
-                                                <option value="b">a</option>
-                                                <option value="b">b</option>
+                                                <option value="Warehouse1">Warehouse1</option>
+                                                <option value="Warehouse2">Warehouse2</option>
                                             </Field>
-
+                                            <ErrorMessage name='fromWarehouse' className="ms-1" />
                                         </div>
                                     </div>
 
@@ -210,39 +299,122 @@ function Stock() {
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Request Date
+                                            Request Date  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
-                                            <Field
-                                                type="date"
-                                                name=""
-                                                className="form-control form-control-sm"
-                                            />
+                                        <div className="col-sm-8 text-danger fs-6">
+
+                                            <Field type="date" className="form-control form-control-sm"
+                                                name="requestDate"
+                                                value={formValues.requestDate}
+                                                onChange={e => handleChange(e, setFieldValue)}></Field>
+                                            <ErrorMessage name='requestDate' className="ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Request No.
+                                            Request No.  <span className="text-danger fw-bold">*</span>
                                         </label>
-                                        <div className="col-sm-8">
+                                        <div className="col-sm-8  text-danger fs-6">
                                             <Field
-                                                type="number"
-                                                name=""
+                                                type="text"
+                                                name="requestNo"
+                                                value={formValues.requestNo}
+                                                onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-control form-control-sm"
                                             />
+                                            <ErrorMessage name='requestNo' className=" ms-1" />
+                                        </div>
+                                    </div>
 
+
+                                </div>
+
+                            </div>
+                            <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
+                                <AgGridReact
+                                    rowData=""
+                                    columnDefs={columns}
+                                    defaultColDef={defaultColDefs}
+                                />
+                            </div>
+
+                            <div className="row">
+                                <button
+                                    type="submit"
+                                    className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
+                                >
+                                    Add Blank Row
+                                </button>
+                            </div>
+
+                            <div className="row mt-2">
+                                <hr></hr>
+                            </div>
+
+                            <div className="row mb-2">
+
+                                <div className="col-md-6">
+                                    <div className="row">
+                                        <label className="col-sm-4 col-form-label">
+                                            Remark
+                                        </label>
+                                        <div className="col-sm-8">
+                                            <input
+                                                type="text"
+                                                name="remark"
+                                                value={formValues.remark}
+                                                onChange={e => handleChange1(e)}
+                                                className="form-control form-control-sm"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <label for="formFile" className="col-sm-4 col-form-label">
+                                            Attachment
+                                        </label>
+                                        <input className="col-sm-8  form-control" type="file"
+                                            name="fileName"
+                                            value={formValues.fileName}
+                                            onChange={e => handleChange1(e)}
+                                            id="formFile" placeholder="FileName" />
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="row">
+                                        <label className="col-sm-4 col-form-label">
+                                            Instruction
+                                        </label>
+                                        <div className="col-sm-8">
+                                            <input
+                                                type="text"
+                                                name="instruction"
+                                                value={formValues.instruction}
+                                                onChange={e => handleChange1(e)}
+                                                className="form-control form-control-sm"
+                                            />
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
-                           
+                            <div className="row mt-2">
+                                <hr></hr>
+                            </div>
+                        
+                            <LogisticsStock  id = {stockId} sendDataFromLogistics={getDataFromLogistic} />
+                            <div className="row">
+                                <div className='col-sm-12 text-center'><button type="submit"
+                                    class="btn btn-info " id="">Submit</button>
+                                </div>
+                            </div>
                         </Form>)}
                 </Formik>
 
-                <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
+                {/*<div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                     <AgGridReact
                         rowData=""
                         columnDefs={columns}
@@ -273,7 +445,9 @@ function Stock() {
                             <div className="col-sm-8">
                                 <input
                                     type="text"
-                                    name=""
+                                    name="remark"
+                                    value={formValues.remark}
+                                    onChange={e => handleChange1(e)}
                                     className="form-control form-control-sm"
                                 />
                             </div>
@@ -283,7 +457,11 @@ function Stock() {
                             <label for="formFile" className="col-sm-4 col-form-label">
                                 Attachment
                             </label>
-                            <input className="col-sm-8  form-control" type="file" id="formFile" placeholder="FileName" />
+                            <input className="col-sm-8  form-control" type="file" 
+                            name="fileName"
+                            value={formValues.fileName}
+                            onChange={e => handleChange1(e)}
+                            id="formFile" placeholder="FileName" />
                         </div>
                     </div>
 
@@ -295,7 +473,9 @@ function Stock() {
                             <div className="col-sm-8">
                                 <input
                                     type="text"
-                                    name=""
+                                    name="instruction"
+                                    value={formValues.instruction}
+                                    onChange={e => handleChange1(e)}
                                     className="form-control form-control-sm"
                                 />
                             </div>
@@ -306,18 +486,19 @@ function Stock() {
 
                 <div className="row mt-2">
                     <hr></hr>
-                </div>
+                    </div>
 
-               <LogisticsStock data = {formValues} />
+                <LogisticsStock data={formValues} sendDataFromLogistics={getDataFromLogistic} />
 
                 <div className="row mt-2">
                     <hr></hr>
-                </div>
-
-                <div className="m-2 fs-5 fw-bolder text-info">
+                </div>*/}
+                {/* <div className='text-center p-3 '><button type="submit"
+                 class="btn btn-info w-25" id="addBtn" onClick={handleSubmit}>Add</button></div>
+                 <div className="m-2 fs-5 fw-bolder text-info">
                     <FaBook className="me-2" />
                     Attribute
-                </div>
+                    </div>
 
                 <div className="row ms-2">
 
@@ -346,7 +527,7 @@ function Stock() {
 
                 <div className="row mt-2">
                     <hr></hr>
-                </div>
+                    </div> */}
 
 
             </div>

@@ -42,6 +42,7 @@ import RawMaterialTable from './components/modules/master/RawMaterialMaster/RawM
 import { CompanyMasterTable } from './components/modules/master/companyMaster/CompanyMasterTable';
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
+import StockTable from './components/modules/stockModule/StockTable';
 
 function App() {
   return (
@@ -95,7 +96,8 @@ function App() {
         <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
 
-        <Route path="/stock" element={<Stock />} />
+        <Route path="/stock/:stockId" element={<Stock />} />
+        <Route path = "/stockData" element = {<StockTable />} />
       </Routes>
 
       <Footer />

@@ -58,7 +58,7 @@ function Header() {
                                 <NavLink className="nav-link active"  href="#">Goods Module</NavLink>
                             </li>
                             <li className="nav-item">
-                            <NavLink className="nav-link " to="stock">Stock Module</NavLink>
+                            <NavLink className="nav-link " to="stockData">Stock Module</NavLink>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Product Module</a>
