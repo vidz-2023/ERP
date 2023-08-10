@@ -7,7 +7,6 @@ import { addSalAdvancesInfo, getSalAdvancesByEmpCode, getSalAdvancesByLoanNo, up
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import Moment from 'react-moment';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import RightMarkComponent from '../../../../share/RightMarkComponet';

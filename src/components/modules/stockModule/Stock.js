@@ -10,9 +10,24 @@ import CrossMarkComponent from "../../../share/CrossMarkComponent";
 import LogisticsStock from "./LogisticsStock";
 import { addStockData, getStockData, getStockDataByItemId, getStockDataByStockId, updateStockData } from "../../../services/stockService";
 import { useNavigate, useParams } from 'react-router-dom';
+import { getStockItemsByStockId } from "../../../services/stockItemsDetailServices";
+import DeleteEditButtonStockItems from "./DeleteEditButtonStockItems";
+import StockItemsModal from "./StockItemsModal";
+
 
 function Stock() {
 
+    const customStyles = {
+        content: {
+          top: '35%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          width: '60%',
+          transform: 'translate(-40%, -10%)',
+        },
+      }
     const initialValue = {
 
         "stockId": "",
@@ -26,7 +41,7 @@ function Stock() {
         "remark": "",
         "instruction": "",
         "fileName": ""
-         
+
     }
 
     var logictisObj = {
@@ -50,11 +65,13 @@ function Stock() {
     }
 
     const [formValues, setFormValue] = useState(initialValue)
+    const [stockItemsData, setStockItemsData] = useState([])
     const { stockId } = useParams()
     const [isUpdate, setIsUpdate] = useState(false)
     const [isGetLogisticData, setIsLogisticData] = useState(false)
+    const [isOpenModal, setIsOpenModal] = useState(false)
     const navigate = useNavigate()
-   
+
 
 
     useEffect(() => {
@@ -62,15 +79,19 @@ function Stock() {
         if (stockId > 0) {
             getStockDataByStockId(stockId).then(res => {
                 setFormValue(res.data[0])
-                formValues.category = res.data[0].category
-               // setLogisticValue(res.data[0])
             })
             setIsUpdate(true)
         }
-
+        getStockItemsData(stockId)
 
     }, [])
 
+    const getStockItemsData = (stockId) => {
+        getStockItemsByStockId(stockId).then(res => {
+            console.log(res.data)
+            setStockItemsData(res.data)
+        })
+    }
     const handleChange = (e, setFieldValue) => {
 
         const { name, value } = e.target
@@ -80,6 +101,7 @@ function Stock() {
 
         setFieldValue([name], value)
     }
+
     const handleChange1 = (e) => {
 
         const { name, value } = e.target
@@ -94,28 +116,43 @@ function Stock() {
         logictisObj = { ...setLogisticData }
         setIsLogisticData(true)
         console.log(logictisObj)
-       
+
+
+    }
+
+    const handleStockItemsData = () => {
+        getStockItemsData(stockId)
+    }
+
+    const editStockItemData = (id) => {
+        alert("edit" + id)
+        setIsOpenModal(true)
+    }
+
+    //callback from modal from close modal
+    const closeItemModal = (close) => {
+
+        // alert(close)
+        setIsOpenModal(close)
+
 
     }
 
     const handleSubmit = () => {
-        console.log(formValues)
-        console.log(logictisObj)
+
         let objData = {}
-        if(isGetLogisticData)
-        {
+        if (isGetLogisticData) {
             objData = { ...formValues, ...logictisObj }
         }
-        else{
+        else {
             objData = { ...formValues }
         }
         console.log(objData)
-        if(isUpdate)
-        {
-              updateStockData(objData,formValues.id)
+        if (isUpdate) {
+            updateStockData(objData, formValues.id)
         }
         else
-        addStockData(objData)
+            addStockData(objData)
 
 
 
@@ -135,37 +172,39 @@ function Stock() {
 
     const columns = [
         {
-            headerName: 'S.No', field: ''
-        },
-        {
-            headerName: '', field: '',
+            headerName: 'S.No', field: '',
             cellRenderer: PlusSignComponent,
         },
 
         {
-            headerName: '', field: '',
-            cellRenderer: CrossMarkComponent,
+            headerName: 'Select Item', field: 'selectItem'
         },
         {
-            headerName: 'Select Item', field: ''
+            headerName: 'Description', field: 'description'
         },
         {
-            headerName: 'Description', field: ''
+            headerName: 'Sub Item', field: 'subItem'
         },
         {
-            headerName: 'Sub Item', field: ''
+            headerName: 'Pack Unit', field: 'packUnit'
         },
         {
-            headerName: 'Pack Unit', field: ''
+            headerName: 'Pack Quantity', field: 'packQuantity'
         },
         {
-            headerName: 'Pack Quantity', field: ''
+            headerName: 'Unit', field: 'unit'
         },
         {
-            headerName: 'Unit', field: ''
+            headerName: 'Quantity', field: 'qty'
         },
         {
-            headerName: 'Quantity', field: ''
+            headerName: "Action",
+            field: "",
+            cellRenderer: DeleteEditButtonStockItems,
+            cellRendererParams: {
+                funGetInfo: handleStockItemsData,
+                funGetInfo1: editStockItemData,
+            }
         }
 
     ]
@@ -333,7 +372,7 @@ function Stock() {
                             </div>
                             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                                 <AgGridReact
-                                    rowData=""
+                                    rowData={stockItemsData}
                                     columnDefs={columns}
                                     defaultColDef={defaultColDefs}
                                 />
@@ -341,8 +380,9 @@ function Stock() {
 
                             <div className="row">
                                 <button
-                                    type="submit"
+                                    type="button"
                                     className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 >
                                     Add Blank Row
                                 </button>
@@ -404,8 +444,8 @@ function Stock() {
                             <div className="row mt-2">
                                 <hr></hr>
                             </div>
-                        
-                            <LogisticsStock  id = {stockId} sendDataFromLogistics={getDataFromLogistic} />
+
+                            <LogisticsStock id={stockId} sendDataFromLogistics={getDataFromLogistic} />
                             <div className="row">
                                 <div className='col-sm-12 text-center'><button type="submit"
                                     class="btn btn-info " id="">Submit</button>
@@ -413,122 +453,15 @@ function Stock() {
                             </div>
                         </Form>)}
                 </Formik>
-
-                {/*<div className="ag-theme-alpine my-3" style={{ height: 300 }}>
-                    <AgGridReact
-                        rowData=""
-                        columnDefs={columns}
-                        defaultColDef={defaultColDefs}
-                    />
-                </div>
-
-                <div className="row">
-                    <button
-                        type="submit"
-                        className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
+                     <StockItemsModal sId ={stockId}/>
+              {/*  <ReactModal isOpen={isOpenModal}
+                    onRequestClose={() => setIsOpenModal(false)}
+                    style={customStyles}
                     >
-                        Add Blank Row
-                    </button>
-                </div>
+                    <StockItemsModal closeModal={closeItemModal}></StockItemsModal>
+                    </ReactModal> */}
 
-                <div className="row mt-2">
-                    <hr></hr>
-                </div>
-
-                <div className="row mb-2">
-
-                    <div className="col-md-6">
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
-                                Remark
-                            </label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    name="remark"
-                                    value={formValues.remark}
-                                    onChange={e => handleChange1(e)}
-                                    className="form-control form-control-sm"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="row mb-3">
-                            <label for="formFile" className="col-sm-4 col-form-label">
-                                Attachment
-                            </label>
-                            <input className="col-sm-8  form-control" type="file" 
-                            name="fileName"
-                            value={formValues.fileName}
-                            onChange={e => handleChange1(e)}
-                            id="formFile" placeholder="FileName" />
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
-                                Instruction
-                            </label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    name="instruction"
-                                    value={formValues.instruction}
-                                    onChange={e => handleChange1(e)}
-                                    className="form-control form-control-sm"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div className="row mt-2">
-                    <hr></hr>
-                    </div>
-
-                <LogisticsStock data={formValues} sendDataFromLogistics={getDataFromLogistic} />
-
-                <div className="row mt-2">
-                    <hr></hr>
-                </div>*/}
-                {/* <div className='text-center p-3 '><button type="submit"
-                 class="btn btn-info w-25" id="addBtn" onClick={handleSubmit}>Add</button></div>
-                 <div className="m-2 fs-5 fw-bolder text-info">
-                    <FaBook className="me-2" />
-                    Attribute
-                    </div>
-
-                <div className="row ms-2">
-
-                    <div className="col-md-6">
-
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
-                                Cost Center
-                            </label>
-                            <div className="col-sm-8">
-                                <select
-                                   
-                                    className="form-select form-select-sm"
-                                >
-                                    <option value="">Select</option>
-                                    <option value="Center1">Center1</option>
-                                    <option value="Center2">Center2</option>
-                                </select>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div className="row mt-2">
-                    <hr></hr>
-                    </div> */}
-
+               
 
             </div>
         </>
