@@ -17,11 +17,8 @@ export const getPurchaseDetailById = (id) => {
     return axios.get(`${purchaseURL}?pId=${id}`)
 }
 
-// export const getPurchaseDetailByEmpCode = (empid) => {
-//     return axios.get(`${purchaseURL}?empCode=${empid}`)
-// }
-
 export const updatePurchaseDetail = (data) => {
+    console.log(data)
     return axios.put(`${purchaseURL}/${data.id}`, data)
 }
 

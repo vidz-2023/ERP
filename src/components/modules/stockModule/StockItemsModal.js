@@ -59,7 +59,7 @@ const StockItemsModal = ({ sId, closemodal }) => {
     return (
         <div>
             <div className="modal" id="exampleModal" tabIndex="-1"
-                aria-labelledby="exampleModalLabel" 
+                aria-labelledby="exampleModalLabel"
                 data-bs-keyboard="false" style={{ display: 'block' }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
