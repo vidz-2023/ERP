@@ -15,8 +15,6 @@ import PurchasedItemModal from './PurchasedItemModal';
 const PurchaseMaster = () => {
     const { pId } = useParams()
 
-
-
     const inputFields = {
         pId: "",
         gstType: "",
@@ -49,10 +47,14 @@ const PurchaseMaster = () => {
 
     const [purchaseData, setPurchaseData] = useState(inputFields)
     const [purchasedItemsData, setPurchasedItemData] = useState([])
-    const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
-    const [modelEnabled, setModalEnabled] = useState(false)
-
     const [isUpdate, setIsUpdate] = useState(false)
+
+    const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
+
+    const [isOpenModal, setIsOpenModal] = useState(false)
+
+    const [modelData, setModalData] = useState({})
+
     const navigate = useNavigate()
     const tempData = ["A", "B", "C"]
 
@@ -65,7 +67,6 @@ const PurchaseMaster = () => {
 
         if (pId > 0) {
             getPurchaseDetailById(pId).then((res) => {
-                console.log(res.data[0])
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
                 setIsUpdate(true)
@@ -74,33 +75,37 @@ const PurchaseMaster = () => {
     }
 
     const handleSubmit = (values) => {
-        console.log(values)
+
         if (isUpdate) {
-            // if (!isPurchaseItemUpdate) {
             updatePurchaseDetail(values).then((res) => {
                 navigate("/purchase-master-table")
             })
-            // }
         } else {
             addPurchaseDetail(values).then((res) => {
                 navigate("/purchase-master-table")
             })
         }
-
     }
 
-    // const handleChange = (e, setFieldValue) => {
-    //     const { value, name } = e.target
-    //     setFieldValue(name, value)
-    //     // if (e.target.name === "empName") {
-    //     //     setFieldValue("empName", value)
-    //     // }
-    // }
-
     const handlingPurchasedItems = () => {
-        // console.log(pId)
-        // setIsPurchaseItemUpdate(true)
         getPurchasedItemsDataByPId(pId)
+    }
+
+    const openModalForEditData = (data) => {
+        setModalData(data)
+        setIsPurchaseItemUpdate(true)
+        setIsOpenModal(true)
+    }
+
+    const sendDataToChild = (data) => {
+        setPurchasedItemData(data);
+        setIsPurchaseItemUpdate(false)
+        setIsOpenModal(false)
+    };
+
+    const handleModalAdd = () => {
+        setIsPurchaseItemUpdate(false)
+        setIsOpenModal(true)
     }
 
     const column = [{
@@ -123,14 +128,14 @@ const PurchaseMaster = () => {
         field: "pId",
         cellRenderer: PurchasedItemsDetailDeleteEditButton,
         cellRendererParams: {
-            funGetPurchasedItems: handlingPurchasedItems
+            funGetPurchasedItems: handlingPurchasedItems,
+            openModalForEdit: openModalForEditData,
         }
     }
     ]
 
     const getPurchasedItemsDataByPId = (pid) => {
         getPurchasedItemsByPId(pid).then((res) => {
-            console.log(res.data)
             setPurchasedItemData(res.data)
         })
     }
@@ -170,14 +175,6 @@ const PurchaseMaster = () => {
         frieght: Yup.string().required('*Required')
     })
 
-    const sendDataToChild = (data) => {
-        setPurchasedItemData(data);
-    };
-
-    const handleModal = () => {
-        console.log("add button clicked")
-        // setModalEnabled(true)
-    }
     return (
         <div>
             <Formik
@@ -245,7 +242,6 @@ const PurchaseMaster = () => {
                                         </div>
                                     </div>
                                     <div
-                                        //  className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
                                         <div className='col-2 form-label'>Branch<span className='text-danger'>*</span></div>
@@ -337,7 +333,6 @@ const PurchaseMaster = () => {
                                         </div>
                                     </div>
                                     <div
-                                        // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
                                         <div className='col-2 form-label'>Currency<span className='text-danger'>*</span></div>
@@ -406,7 +401,6 @@ const PurchaseMaster = () => {
                                         </div>
                                     </div>
                                     <div
-                                        // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
                                         <div className='col-2 form-label'>Delivery Date<span className='text-danger'>*</span></div>
@@ -435,7 +429,6 @@ const PurchaseMaster = () => {
                                         </div>
                                     </div>
                                     <div
-                                        // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
                                         <div className='col-2 form-label'>Reference Number</div>
@@ -562,7 +555,6 @@ const PurchaseMaster = () => {
                                         </div>
                                     </div>
                                     <div
-                                        // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
                                         <div className='col-2 form-label'>Payment Type</div>
@@ -597,12 +589,16 @@ const PurchaseMaster = () => {
                                             className="btn btn-info"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exampleModal"
-                                            onClick={handleModal}
+                                            onClick={handleModalAdd}
                                         >
                                             Add Row
                                         </button>
 
-                                        <PurchasedItemModal sendDataToParent={sendDataToChild} />
+                                        {isOpenModal &&
+                                            <PurchasedItemModal
+                                                sendDataToParent={sendDataToChild}
+                                                propData={modelData}
+                                                propIsUpdate={isPurchaseItemUpdate} />}
 
                                         <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
@@ -617,7 +613,6 @@ const PurchaseMaster = () => {
 
                                     <div>
                                         <div
-                                            //  className='row mb-1'
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                         >
                                             <div className='col-2 form-label'>Remarks</div>
@@ -647,7 +642,6 @@ const PurchaseMaster = () => {
                                         </div>
 
                                         <div
-                                            //  className='row mb-1'
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                         >
                                             <div className='col-2 form-label'>Discount</div>
@@ -676,7 +670,6 @@ const PurchaseMaster = () => {
                                             </div>
                                         </div>
                                         <div
-                                            //  className='row mb-5'
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                         >
                                             <div className='col-2 form-label'>Frieght</div>
