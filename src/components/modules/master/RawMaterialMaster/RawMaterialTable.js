@@ -32,7 +32,7 @@ const RawMaterialTable = () => {
     },
     {
       headerName: "Remainder Days",
-      field: "remainderDays",
+      field: "remainderDays3",
     },
     {
       headerName: "Minimum Purchase Quantity",
@@ -60,7 +60,7 @@ const RawMaterialTable = () => {
   }
 
   const handleRawMaterialTable = () => {
-    navigate('/rawMaterial/0')
+    navigate('/rawMaterial')
   }
 
   return (

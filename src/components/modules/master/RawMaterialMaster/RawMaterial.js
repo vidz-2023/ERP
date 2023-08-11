@@ -22,7 +22,9 @@ const RawMaterial = () => {
     basicUnitOfMeasure: "",
     storageArea: "",
     minimumPurchaseQuantity: "",
-    remainderDays: "",
+    remainderDays1: "",
+    remainderDays2: "",
+    remainderDays3: "",
     minOrderWeight: "",
     maxOrderWeight: "",
     standardValuePerUnit: "",
@@ -31,6 +33,10 @@ const RawMaterial = () => {
   };
 
   const [rawMaterial, setRawMaterial] = useState(rawInputFields);
+  const [remainDays1, setRemainDays1] = useState();
+  const [remainDays2, setRemainDays2] = useState();
+  const [remainDays3, setRemainDays3] = useState();
+  const [basicUnit, setBasicUnit] = useState()
 
   useEffect(() => {
     getRawDataByMaterialCode();
@@ -57,7 +63,9 @@ const RawMaterial = () => {
     minimumPurchaseQuantity: Yup.string().required(
       "Minimum Purchase Quantity required"
     ),
-    remainderDays: Yup.string(),
+    remainderDays1: Yup.string(),
+    remainderDays2: Yup.string(),
+    remainderDays3: Yup.string(),
     minOrderWeight: Yup.string().required("Min Order Weight required"),
     maxOrderWeight: Yup.string().required("Max Order Weight required"),
     standardValuePerUnit: Yup.string().required(
@@ -70,8 +78,23 @@ const RawMaterial = () => {
   const onRawMaterialHandler = (e, setFieldValue) => {
     const { name, value } = e.target;
     setRawMaterial({ ...rawMaterial, [name]: value });
+    // setRemainDays1(rawMaterial.remainderDays1);
+    // setRemainDays2(rawMaterial.remainderDays2);
+    // setRemainDays3(rawMaterial.remainderDays3);
+    // if(name == "Piece" && rawMaterial.basicUnitOfMeasure == "Piece"){
+    //   console.log(value)
+    //   onBasicUnit(value)
+    //   setBasicUnit(val)
+    // } else if(name == "Kg" && rawMaterial.basicUnitOfMeasure == "Kg"){
+    //   onBasicUnit(value)
+    // }
+    
     setFieldValue([name], value);
   };
+
+  const onBasicUnit = (val) => {
+    setBasicUnit(val)
+  }
 
   const rawMaterialHandleSubmit = () => {
     console.log(rawMaterial);
@@ -111,7 +134,7 @@ const RawMaterial = () => {
                         htmlFor="materialCode"
                         className="col-sm-4 col-form-label"
                       >
-                        Material Code
+                        Material Code<span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -126,26 +149,16 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="materialCode"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
-                      {/* {isUpdate && (
-                          <div className="col-sm-8">
-                            <Field
-                              type="text"
-                              className="form-control form-control-sm"
-                              name="empCode"
-                              value={expenseClaimRequest.empCode}
-                              disabled
-                            />
-                          </div>
-                        )} */}
                     </div>
                     <div className="row">
                       <label
                         htmlFor="materialName"
                         className="col-sm-4 col-form-label"
                       >
-                        Material Name
+                        Material Name<span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -160,6 +173,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="materialName"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -168,7 +182,7 @@ const RawMaterial = () => {
                         htmlFor="category"
                         className="col-sm-4 col-form-label"
                       >
-                        Material Category
+                        Material Category<span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -189,6 +203,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="materialCategory"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -221,6 +236,7 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Basic Unit of Measure
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -242,6 +258,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="basicUnitOfMeasure"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -250,7 +267,7 @@ const RawMaterial = () => {
                         htmlFor="storageArea"
                         className="col-sm-4 col-form-label"
                       >
-                        Storage Area
+                        Storage Area<span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -269,6 +286,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="storageArea"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -278,26 +296,33 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Minimum Purchase Quantity
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
-                        <Field
-                          type="text"
-                          name="minimumPurchaseQuantity"
-                          className="form-control form-control-sm"
-                          value={rawMaterial.minimumPurchaseQuantity}
-                          onChange={(e) =>
-                            onRawMaterialHandler(e, setFieldValue)
-                          }
-                        />
+                        <div className="input-group">
+                          <Field
+                            type="text"
+                            name="minimumPurchaseQuantity"
+                            className="form-control form-control-sm"
+                            value={rawMaterial.minimumPurchaseQuantity}
+                            onChange={(e) =>
+                              onRawMaterialHandler(e, setFieldValue)
+                            }
+                          />
+                          <span className="input-group-text" id="basic-addon1">
+                            {basicUnit}
+                          </span>
+                        </div>
                         <ErrorMessage
                           name="minimumPurchaseQuantity"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
                     <div className="row">
                       <label
-                        htmlFor="remainderDays"
+                        htmlFor="remainderDays1"
                         className="col-sm-4 col-form-label"
                       >
                         Remainder days
@@ -305,34 +330,54 @@ const RawMaterial = () => {
                       <div className="col-sm-8">
                         <Field
                           type="text"
-                          name="remainderDays"
+                          name="remainderDays1"
                           className="form-control form-control-sm mb-1"
-                          value={rawMaterial.remainderDays}
+                          value={rawMaterial.remainderDays1}
                           onChange={(e) =>
                             onRawMaterialHandler(e, setFieldValue)
                           }
                         />
+                        {/* {remainDays1 && (
+                          <div className="text-success">Stock is low</div>
+                        )} */}
                         <Field
                           type="text"
-                          name="remainderDays"
+                          name="remainderDays2"
                           className="form-control form-control-sm mb-1"
-                          value={rawMaterial.remainderDays}
+                          value={rawMaterial.remainderDays2}
                           onChange={(e) =>
                             onRawMaterialHandler(e, setFieldValue)
                           }
                         />
+                        {/* {remainDays2 && (
+                          <div className="text-info">Stock is too low</div>
+                        )} */}
                         <Field
                           type="text"
-                          name="remainderDays"
+                          name="remainderDays3"
                           className="form-control form-control-sm"
-                          value={rawMaterial.remainderDays}
+                          value={rawMaterial.remainderDays3}
                           onChange={(e) =>
                             onRawMaterialHandler(e, setFieldValue)
                           }
+                        />
+                        {/* {remainDays3 && (
+                          <div className="text-danger">Stock is critically low</div>
+                        )} */}
+                        <ErrorMessage
+                          name="remainderDays1"
+                          className="text-danger"
+                          component="div"
                         />
                         <ErrorMessage
-                          name="remainderDays"
+                          name="remainderDays2"
                           className="text-danger"
+                          component="div"
+                        />
+                        <ErrorMessage
+                          name="remainderDays3"
+                          className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -345,6 +390,7 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Minimum Order Weight
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -359,6 +405,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="minOrderWeight"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -368,6 +415,7 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Maximum Order Weight
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -382,6 +430,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="maxOrderWeight"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -391,9 +440,10 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Standard Value per Unit
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
-                        <div className="input-group mb-3">
+                        <div className="input-group">
                           <span className="input-group-text" id="basic-addon1">
                             <FaRupeeSign />
                           </span>
@@ -410,6 +460,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="standardValuePerUnit"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -420,6 +471,7 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Maximum stock allowed
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -434,6 +486,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="maxStockAllowed"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -443,6 +496,7 @@ const RawMaterial = () => {
                         className="col-sm-4 col-form-label"
                       >
                         Minimum stock allowed
+                        <span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
@@ -457,6 +511,7 @@ const RawMaterial = () => {
                         <ErrorMessage
                           name="minStockAllowed"
                           className="text-danger"
+                          component="div"
                         />
                       </div>
                     </div>
@@ -464,11 +519,7 @@ const RawMaterial = () => {
                 </div>
 
                 <div className="row justify-content-md-center">
-                  <button
-                    type="submit"
-                    id="expenseRequestBtn"
-                    className="w-25 mt-4 mb-4 btn btn-info"
-                  >
+                  <button type="submit" className="w-25 mt-4 mb-4 btn btn-info">
                     Save
                   </button>
                 </div>
