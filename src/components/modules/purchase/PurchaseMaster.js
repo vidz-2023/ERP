@@ -175,7 +175,8 @@ const PurchaseMaster = () => {
     };
 
     const handleModal = () => {
-        setModalEnabled(true)
+        console.log("add button clicked")
+        // setModalEnabled(true)
     }
     return (
         <div>
@@ -339,7 +340,7 @@ const PurchaseMaster = () => {
                                         // className='row mb-1'
                                         className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Currency</div>
+                                        <div className='col-2 form-label'>Currency<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
@@ -348,7 +349,7 @@ const PurchaseMaster = () => {
                                             // value={purchaseData.currency}
                                             // onChange={(e) => { handleChange(e, setFieldValue) }}
                                             >
-                                                <option value="">Select Currency<span className='text-danger'>*</span></option>
+                                                <option value="">Select Currency</option>
                                                 {
                                                     tempData.map((item, index) => {
                                                         return <option
@@ -596,7 +597,8 @@ const PurchaseMaster = () => {
                                             className="btn btn-info"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exampleModal"
-                                            onClick={handleModal}>
+                                            onClick={handleModal}
+                                        >
                                             Add Row
                                         </button>
 

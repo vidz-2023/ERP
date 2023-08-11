@@ -13,12 +13,12 @@ const PurchasedItemsDetailDeleteEditButton = (params) => {
         p.funGetPurchasedItems()
     }
 
-    const [dataSendToChild, setDataSendToChild] = useState({})
+    const [data, setData] = useState({})
 
     const handleEdit = (p) => {
         // navigate(`/purchase-master/${p.data.pId}`)
-        console.log(p)
-        // setDataSendToChild(p)
+        // console.log(p.data)
+        setData(p.data)
     }
 
     const sendDataToChild = (data) => {
@@ -36,9 +36,10 @@ const PurchasedItemsDetailDeleteEditButton = (params) => {
                 data-bs-target="#exampleModal"
             >
                 <FaEdit />
-                <PurchasedItemModal sendDataToParent={sendDataToChild} dataSendToChild={dataSendToChild} />
-
             </button>
+
+            <PurchasedItemModal sendDataToParent={sendDataToChild} propData={data} />
+
             <button className='btn btn-danger'
                 type="button"
                 onClick={() => { handleDelete(params) }}
