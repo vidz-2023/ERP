@@ -81,8 +81,9 @@ function Stock() {
                 setFormValue(res.data[0])
             })
             setIsUpdate(true)
+            getStockItemsData(stockId)
         }
-        getStockItemsData(stockId)
+       
 
     }, [])
 
@@ -126,7 +127,8 @@ function Stock() {
 
     const editStockItemData = (id) => {
         alert("edit" + id)
-        setIsOpenModal(true)
+       
+        
     }
 
     //callback from modal from close modal
@@ -203,7 +205,7 @@ function Stock() {
             cellRenderer: DeleteEditButtonStockItems,
             cellRendererParams: {
                 funGetInfo: handleStockItemsData,
-                funGetInfo1: editStockItemData,
+              //  funGetInfo1: editStockItemData,
             }
         }
 
