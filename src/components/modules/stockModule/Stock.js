@@ -19,15 +19,15 @@ function Stock() {
 
     const customStyles = {
         content: {
-          top: '35%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          width: '60%',
-          transform: 'translate(-40%, -10%)',
+            top: '35%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            width: '60%',
+            transform: 'translate(-40%, -10%)',
         },
-      }
+    }
     const initialValue = {
 
         "stockId": "",
@@ -83,7 +83,7 @@ function Stock() {
             setIsUpdate(true)
             getStockItemsData(stockId)
         }
-       
+
 
     }, [])
 
@@ -125,15 +125,12 @@ function Stock() {
         getStockItemsData(stockId)
     }
 
-    const editStockItemData = (id) => {
-        alert("edit" + id)
-       
-        
+    const openModalForEditData = (id) => {
+        setIsOpenModal(true)
     }
 
     //callback from modal from close modal
     const closeItemModal = (close) => {
-
         // alert(close)
         setIsOpenModal(close)
 
@@ -205,7 +202,7 @@ function Stock() {
             cellRenderer: DeleteEditButtonStockItems,
             cellRendererParams: {
                 funGetInfo: handleStockItemsData,
-              //  funGetInfo1: editStockItemData,
+                openModalForEdit: openModalForEditData,
             }
         }
 
@@ -385,6 +382,7 @@ function Stock() {
                                     type="button"
                                     className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    onClick={() => setIsOpenModal(true)}
                                 >
                                     Add Blank Row
                                 </button>
@@ -455,15 +453,15 @@ function Stock() {
                             </div>
                         </Form>)}
                 </Formik>
-                     <StockItemsModal sId ={stockId}/>
-              {/*  <ReactModal isOpen={isOpenModal}
+                {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} />}
+                {/*  <ReactModal isOpen={isOpenModal}
                     onRequestClose={() => setIsOpenModal(false)}
                     style={customStyles}
                     >
                     <StockItemsModal closeModal={closeItemModal}></StockItemsModal>
                     </ReactModal> */}
 
-               
+
 
             </div>
         </>
