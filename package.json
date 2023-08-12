@@ -22,12 +22,16 @@
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "jsonserver": "npx json-server --watch src/apiAccess/db.json --port 4000"
+    "jsonserver": "npx json-server --watch src/apiAccess/db.json --port 4000",
+    "dev": "concurrently --kill-others \"npm run start\" \"npx json-server --watch src/apiAccess/db.json --port 4000 \" "
   },
   "eslintConfig": {
     "extends": [
