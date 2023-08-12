@@ -14,3 +14,15 @@ export const deleteStockItemsById = (data) => {
 export const addItemDetails = (data) => {
     return axios.post(`${stocktemsDetailsURL}`, data)
 }
+
+export const getStockItemsByItemId = (id) => {
+    return axios.get(`${stocktemsDetailsURL}?itemId=${id}`)
+}
+
+export const updateStockItemData = (data, id) => {
+
+    let url = `${stocktemsDetailsURL}/${id}`
+
+    return axios.put(url, data)
+
+}
