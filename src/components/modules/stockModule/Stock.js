@@ -64,6 +64,7 @@ function Stock() {
         "irnCancelReason": ""
     }
 
+    
     const [formValues, setFormValue] = useState(initialValue)
     const [stockItemsData, setStockItemsData] = useState([])
     const { stockId } = useParams()
@@ -71,6 +72,9 @@ function Stock() {
     const [isGetLogisticData, setIsLogisticData] = useState(false)
     const [isOpenModal, setIsOpenModal] = useState(false)
     const navigate = useNavigate()
+    const [editTtemId, setItemId] = useState("")
+    const [isUpdateItemData, setIsUpdateItemData] = useState(false)
+
 
 
 
@@ -78,6 +82,7 @@ function Stock() {
 
         if (stockId > 0) {
             getStockDataByStockId(stockId).then(res => {
+                 res.data[0].fileName = ""
                 setFormValue(res.data[0])
             })
             setIsUpdate(true)
@@ -127,12 +132,16 @@ function Stock() {
 
     const openModalForEditData = (id) => {
         setIsOpenModal(true)
+        setItemId(id)
+        setIsUpdateItemData(true)
     }
 
     //callback from modal from close modal
     const closeItemModal = (close) => {
         // alert(close)
         setIsOpenModal(close)
+        setIsUpdateItemData(false)
+        getStockItemsData(stockId)
 
 
     }
@@ -153,7 +162,7 @@ function Stock() {
         else
             addStockData(objData)
 
-
+       document.getElementById("submitBtn").disabled = true;
 
     }
     const validationSchema = Yup.object({
@@ -198,7 +207,7 @@ function Stock() {
         },
         {
             headerName: "Action",
-            field: "",
+            field: "stockId",
             cellRenderer: DeleteEditButtonStockItems,
             cellRendererParams: {
                 funGetInfo: handleStockItemsData,
@@ -383,8 +392,9 @@ function Stock() {
                                     className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal"
                                     onClick={() => setIsOpenModal(true)}
+                                   
                                 >
-                                    Add Blank Row
+                                    Add Row
                                 </button>
                             </div>
 
@@ -411,7 +421,7 @@ function Stock() {
                                     </div>
 
                                     <div className="row mb-3">
-                                        <label for="formFile" className="col-sm-4 col-form-label">
+                                        <label  className="col-sm-4 col-form-label">
                                             Attachment
                                         </label>
                                         <input className="col-sm-8  form-control" type="file"
@@ -448,12 +458,12 @@ function Stock() {
                             <LogisticsStock id={stockId} sendDataFromLogistics={getDataFromLogistic} />
                             <div className="row">
                                 <div className='col-sm-12 text-center'><button type="submit"
-                                    class="btn btn-info " id="">Submit</button>
+                                    class="btn btn-info " id="submitBtn">Submit</button>
                                 </div>
                             </div>
                         </Form>)}
                 </Formik>
-                {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} />}
+                {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} itemId ={editTtemId} isEdit ={isUpdateItemData} />}
                 {/*  <ReactModal isOpen={isOpenModal}
                     onRequestClose={() => setIsOpenModal(false)}
                     style={customStyles}
