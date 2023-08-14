@@ -1,5 +1,5 @@
 import axios from "axios"
-import { masterBranch, masterCategory, masterDepartment, masterDesignation, masterEmployeeShift } from "../share/constant"
+import { masterBranch, masterCategory, masterDepartment, masterDesignation, masterEmployeeShift, masterFreight } from "../share/constant"
 
 export const getDesignations = () => {
     return axios.get(masterDesignation)
@@ -15,6 +15,10 @@ export const getBranches = () => {
 
 export const getDepartments = () => {
     return axios.get(masterDepartment)
+}
+
+export const getFreight = () => {
+    return axios.get(masterFreight)
 }
 
 export const getEmployeeShifts = () => {

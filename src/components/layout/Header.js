@@ -95,7 +95,7 @@ function Header() {
                                 </li>
 
                                 <li className="nav-item">
-                                    <NavLink className="nav-link active" to="purchase-master-table">Purchase Master</NavLink>
+                                    <NavLink className="nav-link active" to="purchase-master-table">Purchase Order</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link active" href="#">Goods Module</NavLink>

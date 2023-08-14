@@ -26,3 +26,4 @@ export const searchPurchaseDetailByAnyField = (data) => {
     return axios.get(`${purchaseURL}?q=${data}`)
 }
 
+
