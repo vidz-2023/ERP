@@ -31,8 +31,8 @@ function Header() {
                                     <ul className="dropdown-menu dropdown-menu-right" >
                                         <li><NavLink className="dropdown-item" to="CompanyMasterTable">Company Master</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="CompanyMasterTable">Plant Master</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="personMasterTable">Vendor Master </NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="personMasterTable">Customer Master </NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="vendorMasterTable">Vendor Master </NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="customerMasterTable">Customer Master </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="rawMaterialTable">Raw Material Master</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Storage Location Master</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Unit of Measurement </NavLink></li>

@@ -31,6 +31,8 @@ export const attendanceMarkMasterURL = `${JSONURL}/attendance-mark-master`
 export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`
 
 export const personMasterURL = `${JSONURL}/personMaster`
+export const vendorMasterURL=`${JSONURL}/vendorMaster`
+export const customerMasterURL=`${JSONURL}/customerMaster`
 
 export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 
