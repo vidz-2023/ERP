@@ -1,119 +1,128 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addPersonMaster, getPersonMasterByID, updatePersonMaster } from '../../../../services/personMasterService';
+import { addCustomerMaster, getCustomerMasterByID, updateCustomerMaster } from '../../../../services/customerMasterServices';
+import pic from '../../../../assets/images/profilepic.png';
 
-function PersonMaster() {
+function CustomerMaster() {
+
     // Intial Value for Formik
     const inputFields = {
-        title: '',
-        firstName: '',
-        lastName: '',
-        joiningDate: '',
-        contactPerson: '',
-        inActive: '',
-        flatno: '',
-        street: '',
-        state: '',
-        city: '',
-        country: '',
-        zipcode: '',
-        phoneno: '',
-        aemail: '',
-        accHolderName: '',
-        accno: '',
-        bankName: '',
-        branch: '',
-        ifceCode: '',
-        headOffice: '',
-        location: '',
-        authorization: '',
-        payment: '',
-        paymentTerm: '',
-        priceCategory: '',
-        taxno: '',
-        taxType: '',
-        cin: '',
-        gst: '',
-        gstCategory: '',
-        gstTdsAPP: '',
-        tdsSection: '',
-        tdsAPP: '',
-        tin: '',
-        panNo: '',
-        bflatno: '',
-        bstreet: '',
-        bstate: '',
-        bcity: '',
-        bcountry: '',
-        bzipcode: '',
-        bphoneno: '',
-        bemail: '',
-        website: '',
-        faceBook: '',
-        skype: '',
-        twitter: '',
-        linkedIn: '',
-        youTube: ''
+        ctitle: '',
+        cfirstName: '',
+        clastName: '',
+        cjoiningDate: '',
+        cContactPerson: '',
+        cinActive: false,
+        cflatno: '',
+        cstreet: '',
+        cstate: '',
+        cCity: '',
+        cCountry: '',
+        czipcode: '',
+        cphoneno: '',
+        cemail: '',
+        caccHolderName: '',
+        caccno: '',
+        cbankName: '',
+        cbranch: '',
+        cifceCode: '',
+        cheadOffice: '',
+        clocation: '',
+        cauthorization: '',
+        cpayment: '',
+        cpaymentTerm: '',
+        cpriceCategory: '',
+        ctaxno: '',
+        ctaxType: '',
+        cCin: '',
+        cgst: '',
+        cgstCategory: '',
+        cgsttdsApp: false,
+        ctdsSection: '',
+        ctdsApp: false,
+        ctin: '',
+        cpanNo: '',
+        cbflatno: '',
+        cbstreet: '',
+        cbstate: '',
+        cbCity: '',
+        cbCountry: '',
+        cbzipcode: '',
+        cbphoneno: '',
+        cbemail: '',
+        cwebsite: '',
+        cfaceBook: '',
+        cskype: '',
+        ctwiter: '',
+        clinkedIn: '',
+        cyouTube: ''
     }
 
     // ------------------- It is for Yup ---------------------------//
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const urlRegExp = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+
     const validateyupSchema = Yup.object({
-        title: Yup.string().required('Required'),
-        firstName: Yup.string().required('Required'),
-        lastName: Yup.string().required('Required'),
-        joiningDate: Yup.string().required('Required'),
-        contactPerson: Yup.string().required('Required'),
-        inActive: Yup.string().required('Required'),
-        flatno: Yup.string().required('Required'),
-        street: Yup.string().required('Required'),
-        state: Yup.string().required('Required'),
-        city: Yup.string().required('Required'),
-        country: Yup.string().required('Required'),
-        zipcode: Yup.string().required('Required'),
-        phoneno: Yup.string().required('Required'),
-        aemail: Yup.string().required('Required'),
-        accHolderName: Yup.string().required('Required'),
-        accno: Yup.string().required('Required'),
-        bankName: Yup.string().required('Required'),
-        branch: Yup.string().required('Required'),
-        ifceCode: Yup.string().required('Required'),
-        headOffice: Yup.string().required('Required'),
-        location: Yup.string().required('Required'),
-        authorization: Yup.string().required('Required'),
-        payment: Yup.string().required('Required'),
-        paymentTerm: Yup.string().required('Required'),
-        priceCategory: Yup.string().required('Required'),
-        taxno: Yup.string().required('Required'),
-        taxType: Yup.string().required('Required'),
-        cin: Yup.string().required('Required'),
-        gst: Yup.string().required('Required'),
-        gstCategory: Yup.string().required('Required'),
-        gstTdsAPP: Yup.string().required('Required'),
-        tdsSection: Yup.string().required('Required'),
-        tdsAPP: Yup.string().required('Required'),
-        tin: Yup.string().required('Required'),
-        panNo: Yup.string().required('Required'),
-        bflatno: Yup.string().required('Required'),
-        bstreet: Yup.string().required('Required'),
-        bstate: Yup.string().required('Required'),
-        bcity: Yup.string().required('Required'),
-        bcountry: Yup.string().required('Required'),
-        bzipcode: Yup.string().required('Required'),
-        bphoneno: Yup.string().required('Required'),
-        bemail: Yup.string().required('Required'),
-        website: Yup.string().required('Required'),
-        faceBook: Yup.string().required('Required'),
-        skype: Yup.string().required('Required'),
-        twitter: Yup.string().required('Required'),
-        linkedIn: Yup.string().required('Required'),
-        youTube: Yup.string().required('Required'),
+        ctitle: Yup.string().required('Required'),
+        cfirstName: Yup.string().min(2, 'Too Short!')
+            .max(50, 'Too Long!').required('Required').matches(/^[A-Za-z]\w*/, "Required only strings"),
+        clastName: Yup.string().min(2, 'Too Short!')
+            .max(50, 'Too Long!').required('Required').matches(/^[A-Za-z]\w*/, "Required only strings"),
+        cjoiningDate: Yup.string().required('Required'),
+        cContactPerson: Yup.string().required('Required'),
+        cinActive: Yup.string().required('Required'),
+        cflatno: Yup.string().required('Required'),
+        cstreet: Yup.string().required('Required'),
+        cstate: Yup.string().required('Required'),
+        cCity: Yup.string().required('Required'),
+        cCountry: Yup.string().required('Required'),
+        czipcode: Yup.string().required('*Required').min(0, "Only positive value").length(6)
+            .matches(/^[0-9]{6}/).label('Zip code'),
+        cphoneno: Yup.string().required('*Required').min(0, "Only positive value").length(10)
+            .matches(/^[0-9]{10}/).label('Phone no'),
+        cemail: Yup.string().email('Invalid email').required('Required'),
+        caccHolderName: Yup.string().required('Required'),
+        caccno: Yup.number().required('*Required').min(0, "Only positive value"),
+        cbankName: Yup.string().required('Required'),
+        cbranch: Yup.string().required('Required'),
+        cifceCode: Yup.string().required('Required'),
+        cheadOffice: Yup.string().required('Required'),
+        clocation: Yup.string().required('Required'),
+        cauthorization: Yup.string().required('Required'),
+        cpayment: Yup.string().required('Required'),
+        cpaymentTerm: Yup.string().required('Required'),
+        cpriceCategory: Yup.string().required('Required'),
+        ctaxno: Yup.string().required('Required'),
+        ctaxType: Yup.string().required('Required'),
+        cCin: Yup.string().required('Required'),
+        cgst: Yup.string().required('Required'),
+        cgstCategory: Yup.string().required('Required'),
+        cgsttdsApp: Yup.string().required('Required'),
+        ctdsSection: Yup.string().required('Required'),
+        ctdsApp: Yup.string().required('Required'),
+        ctin: Yup.string().required('Required'),
+        cpanNo: Yup.string().required('Required'),
+        cbflatno: Yup.string().required('Required'),
+        cbstreet: Yup.string().required('Required'),
+        cbstate: Yup.string().required('Required'),
+        cbCity: Yup.string().required('Required'),
+        cbCountry: Yup.string().required('Required'),
+        cbzipcode: Yup.string().required('*Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
+        cbphoneno: Yup.string().required('Required'),
+        cbemail: Yup.string().required('Required'),
+        cwebsite: Yup.string().matches(urlRegExp, 'Enter correct url!').required('Please enter website'),
+        cfaceBook: Yup.string().email('Invalid email').required('Required'),
+        cskype: Yup.string().email('Invalid email').required('Required'),
+        ctwiter: Yup.string().email('Invalid email').required('Required'),
+        clinkedIn: Yup.string().email('Invalid email').required('Required'),
+        cyouTube: Yup.string().email('Invalid email').required('Required'),
     })
 
     //Declaration
-    const [personMasterValue, setPersonMasterValue] = useState(inputFields)
-    const [isPersonUpdate, setIsPersonUpdate] = useState(false);
+    const [customerMasterValue, setCustomerMasterValue] = useState(inputFields)
+    const [isCustomerUpdate, setIsCustomerUpdate] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
 
@@ -121,30 +130,36 @@ function PersonMaster() {
     useEffect(() => {
         console.log(id)
         if (id >= 0) {
-            getPersonMasterByID(id).then(res => {
+            getCustomerMasterByID(id).then(res => {
                 console.log(res)
-                setPersonMasterValue(res)
+                setCustomerMasterValue(res)
             })
-            setIsPersonUpdate(true)
+            setIsCustomerUpdate(true)
         }
     }, [])
 
     // ------------------- For Submit the Function ---------------------------//
     const handleSubmit = () => {
-        if (!isPersonUpdate) {
-            addPersonMaster(personMasterValue)
-            navigate('/personMasterTable')
+        if (!isCustomerUpdate) {
+            addCustomerMaster(customerMasterValue)
+            navigate('/customerMasterTable')
         } else {
-            updatePersonMaster(personMasterValue, id)
-            navigate('/personMasterTable')
+            updateCustomerMaster(customerMasterValue, id)
+            navigate('/customerMasterTable')
         }
     }
 
     // ------------------- On Change Function Declaration ---------------------------//
-    const onPersonMasterHandlerChange = (e, setFieldValue) => {
+    const onCustomerMasterHandlerChange = (e, setFieldValue) => {
         const { name, value } = e.target
-        setPersonMasterValue({ ...personMasterValue, [name]: value })
+        setCustomerMasterValue({ ...customerMasterValue, [name]: value })
         setFieldValue([name], value)
+    }
+
+    const onCustomerMasterHandlerChange1 = (e, setFieldValue) => {
+        const { name, checked } = e.target
+        setCustomerMasterValue({ ...customerMasterValue, [name]: checked })
+        setFieldValue([name], checked)
     }
 
     return (
@@ -154,40 +169,18 @@ function PersonMaster() {
                     <div className='m-3'>
                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
                             <div className='m-2'>
-                                Person Master
+                                Customer Master
                             </div>
                         </h4>
                         <Formik
-                            initialValues={personMasterValue}
-                            //validationSchema={validateyupSchema}
+                            initialValues={customerMasterValue}
+                            validationSchema={validateyupSchema}
                             onSubmit={handleSubmit}
                             enableReinitialize
                         >
-                            {({ isSubmitting, setFieldValue }) => (
+                            {({ isSubmitcting, setFieldValue }) => (
                                 <Form>
                                     <div className='w-75 mx-auto'>
-
-
-                                        {/* <div className='row mb-1'>
-                                            <div className='col-2 '>
-                                                Master <span className='text-danger fs-5'>*</span>
-                                            </div>
-                                            <div className='col-3'>
-                                                <div class="mb-2 ">
-                                                    <Field as="select"
-                                                        name="master"
-                                                        className="form-select"
-                                                        value={personMasterValue.master}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
-                                                    >
-                                                        <option value=""> Select...</option>
-                                                        <option value="Customer"> Customer</option>
-                                                        <option value="Vendor"> Vendor</option>
-                                                    </Field>                                                       <ErrorMessage name='master' />
-                                                </div>
-                                            </div>
-
-                                        </div> */}
 
                                         <div className='row mb-1'>
                                             <div className='col-2 form-label'>
@@ -198,11 +191,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='title'
-                                                        value={personMasterValue.title}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='ctitle'
+                                                        value={customerMasterValue.ctitle}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='title' />
+                                                    <ErrorMessage name='ctitle' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -233,11 +226,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='firstName'
-                                                        value={personMasterValue.firstName}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cfirstName'
+                                                        value={customerMasterValue.cfirstName}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='firstName' />
+                                                    <ErrorMessage name='cfirstName' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -249,11 +242,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='lastName'
-                                                        value={personMasterValue.lastName}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='clastName'
+                                                        value={customerMasterValue.clastName}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='lastName' />
+                                                    <ErrorMessage name='clastName' />
                                                 </div>
                                             </div>
                                         </div>
@@ -267,11 +260,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='date'
-                                                        name='joiningDate'
-                                                        value={personMasterValue.joiningDate}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cjoiningDate'
+                                                        value={customerMasterValue.cjoiningDate}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='joiningDate' />
+                                                    <ErrorMessage name='cjoiningDate' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -283,11 +276,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='contactPerson'
-                                                        value={personMasterValue.contactPerson}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cContactPerson'
+                                                        value={customerMasterValue.cContactPerson}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='contactPerson' />
+                                                    <ErrorMessage name='cContactPerson' />
                                                 </div>
                                             </div>
                                         </div>
@@ -295,19 +288,32 @@ function PersonMaster() {
 
                                         <div className='row mb-1'>
                                             <div className='col-2  form-check-label' for="flexCheckDefault">
-                                                Inactive
+                                                Upload
                                             </div>
                                             <div className='col-3'>
-                                                <div class="mb-2 text-danger">
-                                                    <Field
-                                                        className="form-check-input"
-                                                        type='checkbox'
-                                                        name='inActive'
-                                                        id="flexCheckDefault"
-                                                        value={personMasterValue.inActive}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
-                                                    />                                           <ErrorMessage name='inActive' />
+                                                <div className="border  mx-auto">
+                                                    <img src={pic} class="img-fluid" alt="..." />
+                                                    <div className="mt-2 ms-2 mb-4"> <button type="button" class="btn btn-info">Browse</button></div>
                                                 </div>
+                                            </div>
+                                            <div className='col-2'></div>
+                                            <div className='col-2 form-label'>
+                                                <label
+                                                    htmlFor='cinActive'
+                                                    className='col-sm-6 col-form-label'
+                                                >
+                                                    Inactive
+                                                </label>
+                                            </div>
+                                            <div className='col-3'>
+                                                <Field
+                                                    className='form-check-input mt-3'
+                                                    type='checkbox'
+                                                    name='cinActive'
+                                                    checked={customerMasterValue.cinActive}
+                                                    onChange={e => onCustomerMasterHandlerChange1(e, setFieldValue)}
+                                                />
+                                                <ErrorMessage name='cinActive' />
                                             </div>
                                         </div>
 
@@ -325,11 +331,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='number'
-                                                        name='flatno'
-                                                        value={personMasterValue.flatno}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cflatno'
+                                                        value={customerMasterValue.cflatno}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='flatno' />
+                                                    <ErrorMessage name='cflatno' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -341,11 +347,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='street'
-                                                        value={personMasterValue.street}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cstreet'
+                                                        value={customerMasterValue.cstreet}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='street' />
+                                                    <ErrorMessage name='cstreet' />
                                                 </div>
                                             </div>
                                         </div>
@@ -359,11 +365,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='state'
-                                                        value={personMasterValue.state}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cstate'
+                                                        value={customerMasterValue.cstate}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='state' />
+                                                    <ErrorMessage name='cstate' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -375,11 +381,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='city'
-                                                        value={personMasterValue.city}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cCity'
+                                                        value={customerMasterValue.cCity}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='city' />
+                                                    <ErrorMessage name='cCity' />
                                                 </div>
                                             </div>
                                         </div>
@@ -393,27 +399,27 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='country'
-                                                        value={personMasterValue.country}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cCountry'
+                                                        value={customerMasterValue.cCountry}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='country' />
+                                                    <ErrorMessage name='cCountry' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
                                             <div className='col-2 form-label'>
-                                                ZipCode
+                                                Zipcode
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
                                                         type='number'
-                                                        name='zipcode'
-                                                        value={personMasterValue.zipcode}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='czipcode'
+                                                        value={customerMasterValue.czipcode}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='zipcode' />
+                                                    <ErrorMessage name='czipcode' />
                                                 </div>
                                             </div>
                                         </div>
@@ -427,11 +433,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='number'
-                                                        name='phoneno'
-                                                        value={personMasterValue.phoneno}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cphoneno'
+                                                        value={customerMasterValue.cphoneno}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='phoneno' />
+                                                    <ErrorMessage name='cphoneno' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -443,11 +449,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='email'
-                                                        name='aemail'
-                                                        value={personMasterValue.aemail}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cemail'
+                                                        value={customerMasterValue.cemail}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='aemail' />
+                                                    <ErrorMessage name='cemail' />
                                                 </div>
                                             </div>
                                         </div>
@@ -465,11 +471,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='accHolderName'
-                                                        value={personMasterValue.accHolderName}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='caccHolderName'
+                                                        value={customerMasterValue.caccHolderName}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='accHolderName' />
+                                                    <ErrorMessage name='caccHolderName' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -481,11 +487,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='accno'
-                                                        value={personMasterValue.accno}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='caccno'
+                                                        value={customerMasterValue.caccno}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='accno' />
+                                                    <ErrorMessage name='caccno' />
                                                 </div>
                                             </div>
                                         </div>
@@ -500,11 +506,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='bankName'
-                                                        value={personMasterValue.bankName}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cbankName'
+                                                        value={customerMasterValue.cbankName}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='bankName' />
+                                                    <ErrorMessage name='cbankName' />
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
@@ -516,11 +522,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='branch'
-                                                        value={personMasterValue.branch}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cbranch'
+                                                        value={customerMasterValue.cbranch}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='branch' />
+                                                    <ErrorMessage name='cbranch' />
                                                 </div>
                                             </div>
                                         </div>
@@ -534,11 +540,11 @@ function PersonMaster() {
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='ifceCode'
-                                                        value={personMasterValue.ifceCode}
-                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                        name='cifceCode'
+                                                        value={customerMasterValue.cifceCode}
+                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='ifceCode' />
+                                                    <ErrorMessage name='cifceCode' />
                                                 </div>
                                             </div>
                                         </div>
@@ -562,11 +568,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='headOffice'
-                                                                        value={personMasterValue.headOffice}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cheadOffice'
+                                                                        value={customerMasterValue.cheadOffice}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='headOffice' />
+                                                                    <ErrorMessage name='cheadOffice' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -578,11 +584,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='location'
-                                                                        value={personMasterValue.location}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='clocation'
+                                                                        value={customerMasterValue.clocation}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='location' />
+                                                                    <ErrorMessage name='clocation' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -596,11 +602,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='authorization'
-                                                                        value={personMasterValue.authorization}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cauthorization'
+                                                                        value={customerMasterValue.cauthorization}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='authorization' />
+                                                                    <ErrorMessage name='cauthorization' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -622,16 +628,16 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="payment"
+                                                                        name="cpayment"
                                                                         className="form-select"
-                                                                        value={personMasterValue.payment}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.cpayment}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Cash</option>
                                                                         <option value="Card"> Card</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='payment' />
+                                                                    <ErrorMessage name='cpayment' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -641,16 +647,16 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="paymentTerm"
+                                                                        name="cpaymentTerm"
                                                                         className="form-select"
-                                                                        value={personMasterValue.paymentTerm}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.cpaymentTerm}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Cash</option>
                                                                         <option value="Card"> Card</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='paymentTerm' />
+                                                                    <ErrorMessage name='cpaymentTerm' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -662,16 +668,16 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="priceCategory"
+                                                                        name="cpriceCategory"
                                                                         className="form-select"
-                                                                        value={personMasterValue.priceCategory}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.cpriceCategory}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Cash</option>
                                                                         <option value="Card"> Card</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='priceCategory' />
+                                                                    <ErrorMessage name='cpriceCategory' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -689,18 +695,18 @@ function PersonMaster() {
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
                                                             <div className='col-2 form-label'>
-                                                                TaxNo<span className='text-danger fs-5'>*</span>
+                                                                Taxno<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='taxno'
-                                                                        value={personMasterValue.taxno}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='ctaxno'
+                                                                        value={customerMasterValue.ctaxno}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='taxno' />
+                                                                    <ErrorMessage name='ctaxno' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -710,34 +716,34 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="taxType"
+                                                                        name="ctaxType"
                                                                         className="form-select"
-                                                                        value={personMasterValue.taxType}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.ctaxType}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Inclusive</option>
                                                                         <option value="Card"> Exclusive</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='taxType' />
+                                                                    <ErrorMessage name='ctaxType' />
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div className='row mb-1'>
                                                             <div className='col-2 form-label'>
-                                                                CIN<span className='text-danger fs-5'>*</span>
+                                                                Cin<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='cin'
-                                                                        value={personMasterValue.cin}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cCin'
+                                                                        value={customerMasterValue.cCin}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='cin' />
+                                                                    <ErrorMessage name='cCin' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -749,11 +755,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='gst'
-                                                                        value={personMasterValue.gst}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cgst'
+                                                                        value={customerMasterValue.cgst}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='gst' />
+                                                                    <ErrorMessage name='cgst' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -765,33 +771,36 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="gstCategory"
+                                                                        name="cgstCategory"
                                                                         className="form-select"
-                                                                        value={personMasterValue.gstCategory}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.cgstCategory}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Registered</option>
                                                                         <option value="Card"> Unregistered</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='gstCategory' />
+                                                                    <ErrorMessage name='cgstCategory' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2  form-check-label' for="flexCheckDefault">
-                                                                GST TDS Applicable
+                                                            <div className='col-2 form-label'>
+                                                                <label
+                                                                    htmlFor='cgsttdsApp'
+                                                                    className='col-sm-6 col-form-label'
+                                                                >
+                                                                    GST TDS Applicable
+                                                                </label>
                                                             </div>
                                                             <div className='col-3'>
-                                                                <div class="mb-2 text-danger">
-                                                                    <Field
-                                                                        className="form-check-input"
-                                                                        type='checkbox'
-                                                                        name='gstTdsAPP'
-                                                                        id="flexCheckDefault"
-                                                                        value={personMasterValue.inActive}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
-                                                                    />                                           <ErrorMessage name='gstTdsAPP' />
-                                                                </div>
+                                                                <Field
+                                                                    className='form-check-input mt-3'
+                                                                    type='checkbox'
+                                                                    name='cgsttdsApp'
+                                                                    checked={customerMasterValue.cgsttdsApp}
+                                                                    onChange={e => onCustomerMasterHandlerChange1(e, setFieldValue)}
+                                                                />
+                                                                <ErrorMessage name='cgsttdsApp' />
                                                             </div>
                                                         </div>
 
@@ -802,33 +811,36 @@ function PersonMaster() {
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
-                                                                        name="tdsSection"
+                                                                        name="ctdsSection"
                                                                         className="form-select"
-                                                                        value={personMasterValue.tdsSection}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        value={customerMasterValue.ctdsSection}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Registered</option>
                                                                         <option value="Card"> Unregistered</option>
                                                                     </Field>
-                                                                    <ErrorMessage name='tdsSection' />
+                                                                    <ErrorMessage name='ctdsSection' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2  form-check-label' for="flexCheckDefault">
-                                                                TDS Applicable
+                                                            <div className='col-2 form-label'>
+                                                                <label
+                                                                    htmlFor='ctdsApp'
+                                                                    className='col-sm-6 col-form-label'
+                                                                >
+                                                                    TDS Applicable
+                                                                </label>
                                                             </div>
                                                             <div className='col-3'>
-                                                                <div class="mb-2 text-danger">
-                                                                    <Field
-                                                                        className="form-check-input"
-                                                                        type='checkbox'
-                                                                        name='tdsAPP'
-                                                                        id="flexCheckDefault"
-                                                                        value={personMasterValue.TdsAPP}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
-                                                                    />                                           <ErrorMessage name='TdsAPP' />
-                                                                </div>
+                                                                <Field
+                                                                    className='form-check-input mt-3'
+                                                                    type='checkbox'
+                                                                    name='ctdsApp'
+                                                                    checked={customerMasterValue.ctdsApp}
+                                                                    onChange={e => onCustomerMasterHandlerChange1(e, setFieldValue)}
+                                                                />
+                                                                <ErrorMessage name='ctdsApp' />
                                                             </div>
                                                         </div>
 
@@ -841,11 +853,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='tin'
-                                                                        value={personMasterValue.tin}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='ctin'
+                                                                        value={customerMasterValue.ctin}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='tin' />
+                                                                    <ErrorMessage name='ctin' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -857,11 +869,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='panNo'
-                                                                        value={personMasterValue.panNo}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cpanNo'
+                                                                        value={customerMasterValue.cpanNo}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='panNo' />
+                                                                    <ErrorMessage name='cpanNo' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -885,11 +897,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='number'
-                                                                        name='bflatno'
-                                                                        value={personMasterValue.bflatno}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbflatno'
+                                                                        value={customerMasterValue.cbflatno}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bflatno' />
+                                                                    <ErrorMessage name='cbflatno' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -901,11 +913,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='bstreet'
-                                                                        value={personMasterValue.bstreet}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbstreet'
+                                                                        value={customerMasterValue.cbstreet}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bstreet' />
+                                                                    <ErrorMessage name='cbstreet' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -919,11 +931,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='bstate'
-                                                                        value={personMasterValue.bstate}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbstate'
+                                                                        value={customerMasterValue.cbstate}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bstate' />
+                                                                    <ErrorMessage name='cbstate' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -935,11 +947,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='bcity'
-                                                                        value={personMasterValue.bcity}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbCity'
+                                                                        value={customerMasterValue.cbCity}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bcity' />
+                                                                    <ErrorMessage name='cbCity' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -953,27 +965,27 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='bcountry'
-                                                                        value={personMasterValue.bcountry}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbCountry'
+                                                                        value={customerMasterValue.cbCountry}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bcountry' />
+                                                                    <ErrorMessage name='cbCountry' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
                                                             <div className='col-2 form-label'>
-                                                                ZipCode
+                                                                Zipcode
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
                                                                         className="form-control"
                                                                         type='number'
-                                                                        name='bzipcode'
-                                                                        value={personMasterValue.bzipcode}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbzipcode'
+                                                                        value={customerMasterValue.cbzipcode}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bzipcode' />
+                                                                    <ErrorMessage name='cbzipcode' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -987,11 +999,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='number'
-                                                                        name='bphoneno'
-                                                                        value={personMasterValue.bphoneno}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbphoneno'
+                                                                        value={customerMasterValue.cbphoneno}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bphoneno' />
+                                                                    <ErrorMessage name='cbphoneno' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -1003,11 +1015,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='email'
-                                                                        name='bemail'
-                                                                        value={personMasterValue.bemail}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cbemail'
+                                                                        value={customerMasterValue.cbemail}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='bemail' />
+                                                                    <ErrorMessage name='cbemail' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1031,11 +1043,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='website'
-                                                                        value={personMasterValue.website}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cwebsite'
+                                                                        value={customerMasterValue.cwebsite}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='website' />
+                                                                    <ErrorMessage name='cwebsite' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -1047,11 +1059,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='faceBook'
-                                                                        value={personMasterValue.faceBook}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cfaceBook'
+                                                                        value={customerMasterValue.cfaceBook}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='faceBook' />
+                                                                    <ErrorMessage name='cfaceBook' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1065,27 +1077,27 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='skype'
-                                                                        value={personMasterValue.skype}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cskype'
+                                                                        value={customerMasterValue.cskype}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='skype' />
+                                                                    <ErrorMessage name='cskype' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
                                                             <div className='col-2 form-label'>
-                                                                Twitter
+                                                                Twiter
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='twitter'
-                                                                        value={personMasterValue.twitter}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='ctwiter'
+                                                                        value={customerMasterValue.ctwiter}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='twitter' />
+                                                                    <ErrorMessage name='ctwiter' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1099,11 +1111,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='linkedIn'
-                                                                        value={personMasterValue.linkedIn}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='clinkedIn'
+                                                                        value={customerMasterValue.clinkedIn}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='linkedIn' />
+                                                                    <ErrorMessage name='clinkedIn' />
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
@@ -1115,11 +1127,11 @@ function PersonMaster() {
                                                                     <Field
                                                                         className="form-control"
                                                                         type='text'
-                                                                        name='youTube'
-                                                                        value={personMasterValue.youTube}
-                                                                        onChange={e => onPersonMasterHandlerChange(e, setFieldValue)}
+                                                                        name='cyouTube'
+                                                                        value={customerMasterValue.cyouTube}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     />
-                                                                    <ErrorMessage name='youTube' />
+                                                                    <ErrorMessage name='cyouTube' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1143,7 +1155,7 @@ function PersonMaster() {
                                                 <button
                                                     type="reset"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => setPersonMasterValue(inputFields)}
+                                                    onClick={() => setCustomerMasterValue(inputFields)}
                                                 >
                                                     Clear
                                                 </button>
@@ -1153,7 +1165,7 @@ function PersonMaster() {
                                                 <button
                                                     type="reset"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => setPersonMasterValue(inputFields)}
+                                                    onClick={() => setCustomerMasterValue(inputFields)}
                                                 >
                                                     Delete</button>
                                             </div>
@@ -1162,7 +1174,7 @@ function PersonMaster() {
                                                 <button
                                                     type="button"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => navigate(`/personMasterTable`)}
+                                                    onClick={() => navigate(`/customerMasterTable`)}
                                                 >Exit
                                                 </button>
                                             </div>
@@ -1173,8 +1185,9 @@ function PersonMaster() {
                     </div>
                 </fieldset>
             </div>
+
         </>
     )
 }
 
-export default PersonMaster
+export default CustomerMaster

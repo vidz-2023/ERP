@@ -43,6 +43,10 @@ import { CompanyMasterTable } from './components/modules/master/companyMaster/Co
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
 import StockTable from './components/modules/stockModule/StockTable';
+import VendorMaster from './components/modules/master/vendorMaster/VendorMaster';
+import VendorMasterTable from './components/modules/master/vendorMaster/VendorMasterTable';
+import CustomerMaster from './components/modules/master/customerMaster/CustomerMaster';
+import CustomerMasterTable from './components/modules/master/customerMaster/CustomerMasterTable';
 
 function App() {
   return (
@@ -88,6 +92,12 @@ function App() {
         <Route path="/personMaster" element={<PersonMaster/>}/>
         <Route path="/personMaster/:id" element={<PersonMaster />} />
         <Route path="/personMasterTable" element={<PersonMasterTable  />}  />
+        <Route path="/customerMaster" element={<CustomerMaster/>}/>
+        <Route path="/customerMaster/:id" element={<CustomerMaster />} />
+        <Route path="/customerMasterTable" element={<CustomerMasterTable  />}  />
+        <Route path="/vendorMaster" element={<VendorMaster/>}/>
+        <Route path="/vendorMaster/:id" element={<VendorMaster />} />
+        <Route path="/vendorMasterTable" element={<VendorMasterTable  />}  />
         <Route path="/companyMaster" element={<CompanyMaster/>}/>
         <Route path='companyMaster/:id' element={<CompanyMaster />} />
         <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
@@ -99,6 +109,7 @@ function App() {
 
         <Route path="/stock/:stockId" element={<Stock />} />
         <Route path = "/stockData" element = {<StockTable />} />
+        
       </Routes>
 
       <Footer />

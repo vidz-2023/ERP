@@ -3,20 +3,21 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate } from 'react-router-dom';
-import { getPersonMaster } from '../../../../services/personMasterService';
-import PersonMasterEditDelete from './PersonMasterEditDelete';
+import { getVendorMaster } from '../../../../services/vendorMasterServices';
+import VendorMasterEditDelete from './VendorMasterEditDelete';
 
-function PersonMasterTable() {
+function VendorMasterTable() {
+
     const navigate = useNavigate();
-    const [person, setPerson] = useState([]);
+    const [vendor, setVendor] = useState([]);
     useEffect(() => {
-        getPersonMasterData()
+        getVendorMasterData()
     }, [])
 
-    const getPersonMasterData = () => {
-        getPersonMaster().then((res) => {
+    const getVendorMasterData = () => {
+        getVendorMaster().then((res) => {
             console.log(res.data)
-            setPerson(res.data)
+            setVendor(res.data)
         })
     }
 
@@ -57,9 +58,9 @@ function PersonMasterTable() {
             field: "panNo"
         },
         {
-            cellRenderer: PersonMasterEditDelete,
+            cellRenderer: VendorMasterEditDelete,
             cellRendererParams: {
-                GetMaster: getPersonMasterData
+                GetMaster: getVendorMasterData
             }
         }
     ]
@@ -71,7 +72,7 @@ function PersonMasterTable() {
     }
 
     const onAdd = () => {
-        navigate('/personMaster')
+        navigate('/vendorMaster')
     }
 
     return (
@@ -81,14 +82,14 @@ function PersonMasterTable() {
                     type="button"
                     class="btn btn-info mb-2 mt-5"
                     style={{ position: 'relative', left: '600px' }}
-                    onClick={() => onAdd()} >Add Person Master</button>
+                    onClick={() => onAdd()} >Add Vendor Master</button>
             </div>
             <div className="ag-theme-alpine  my-3 mx-auto" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={person} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+                <AgGridReact rowData={vendor} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
         </>
     )
 }
 
-export default PersonMasterTable
+export default VendorMasterTable

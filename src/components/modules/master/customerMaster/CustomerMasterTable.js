@@ -3,63 +3,65 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate } from 'react-router-dom';
-import { getPersonMaster } from '../../../../services/personMasterService';
-import PersonMasterEditDelete from './PersonMasterEditDelete';
+import { getCustomerMaster } from '../../../../services/customerMasterServices';
+import CustomerMasterEditDelete from './CustomerMasterEditDelete';
 
-function PersonMasterTable() {
-    const navigate = useNavigate();
-    const [person, setPerson] = useState([]);
+function CustomerMasterTable() {
+
+const navigate = useNavigate();
+    const [customer, setCustomer] = useState([]);
     useEffect(() => {
-        getPersonMasterData()
+        getCustomerMasterData()
     }, [])
 
-    const getPersonMasterData = () => {
-        getPersonMaster().then((res) => {
+    const getCustomerMasterData = () => {
+        getCustomerMaster().then((res) => {
             console.log(res.data)
-            setPerson(res.data)
+            setCustomer(res.data)
         })
     }
+    
 
     const column = [
         {
             headerName: "FisrtName",
-            field: "firstName"
+            field: "cfirstName"
         }, {
             headerName: "Joining Date",
-            field: "joiningDate"
+            field: "cjoiningDate"
         },
         {
             headerName: "State",
-            field: "state"
+            field: "cstate"
         },
         {
             headerName: "Country",
-            field: "country"
+            field: "cCountry"
         },
         {
             headerName: "Phone No",
-            field: "phoneno"
+            field: "cphoneno"
         },
         {
             headerName: "Payment",
-            field: "payment"
+            field: "cpayment"
         },
         {
             headerName: "Tax No",
-            field: "taxno"
+            field: "ctaxno"
         },
         {
             headerName: "GST No",
-            field: "gst"
+            field: "cgst"
         },
         {
             headerName: "Pan No",
-            field: "panNo"
+            field: "cpanNo"
         },
         {
-            cellRenderer: PersonMasterEditDelete,
+            cellRenderer: CustomerMasterEditDelete,
             cellRendererParams: {
-                GetMaster: getPersonMasterData
+                GetMaster: getCustomerMasterData
             }
         }
     ]
@@ -71,7 +73,7 @@ function PersonMasterTable() {
     }
 
     const onAdd = () => {
-        navigate('/personMaster')
+        navigate('/customerMaster')
     }
 
     return (
@@ -81,14 +83,14 @@ function PersonMasterTable() {
                     type="button"
                     class="btn btn-info mb-2 mt-5"
                     style={{ position: 'relative', left: '600px' }}
-                    onClick={() => onAdd()} >Add Person Master</button>
+                    onClick={() => onAdd()} >Add Customer Master</button>
             </div>
             <div className="ag-theme-alpine  my-3 mx-auto" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={person} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+                <AgGridReact rowData={customer} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
             </div>
 
         </>
     )
 }
 
-export default PersonMasterTable
+export default CustomerMasterTable
