@@ -11,11 +11,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const RawMaterial = () => {
   const [isUpdate, setIsUpdate] = useState(false);
-  const { materialCode } = useParams();
+  const { materialId } = useParams();
   const navigate = useNavigate();
 
   const rawInputFields = {
-    materialCode: "",
+    materialId: "",
     materialName: "",
     materialCategory: "",
     description: "",
@@ -43,9 +43,9 @@ const RawMaterial = () => {
   }, []);
 
   const getRawDataByMaterialCode = () => {
-    console.log(materialCode);
-    if (materialCode) {
-      getRawMaterialDataByMaterialCode(materialCode).then((res) => {
+    console.log(materialId);
+    if (materialId) {
+      getRawMaterialDataByMaterialCode(materialId).then((res) => {
         console.log(res.data[0]);
         setRawMaterial(res.data[0]);
       });
@@ -54,7 +54,7 @@ const RawMaterial = () => {
   };
 
   const rawMaterialvalidationSchema = Yup.object({
-    materialCode: Yup.string().required("Material code is required"),
+    materialId: Yup.string().required("Material code is required"),
     materialName: Yup.string().required("Material name required"),
     materialCategory: Yup.string().required("Material category required"),
     description: Yup.string(),
@@ -131,23 +131,23 @@ const RawMaterial = () => {
                   <div className="col-md-6">
                     <div className="row">
                       <label
-                        htmlFor="materialCode"
+                        htmlFor="materialId"
                         className="col-sm-4 col-form-label"
                       >
-                        Material Code<span className="text-danger">*</span>
+                        Material Id<span className="text-danger">*</span>
                       </label>
                       <div className="col-sm-8">
                         <Field
                           className="form-control form-control-sm"
                           type="text"
-                          name="materialCode"
-                          value={rawMaterial.materialCode}
+                          name="materialId"
+                          value={rawMaterial.materialId}
                           onChange={(e) =>
                             onRawMaterialHandler(e, setFieldValue)
                           }
                         />
                         <ErrorMessage
-                          name="materialCode"
+                          name="materialId"
                           className="text-danger"
                           component="div"
                         />

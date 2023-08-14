@@ -15,7 +15,7 @@ const DeleteEditRawMaterial = (params) => {
   }
 
   const handleEdit = (p) => {
-    navigate(`/rawMaterial/${p.data.materialCode}`)
+    navigate(`/rawMaterial/${p.data.materialId}`)
   }
 
   return (

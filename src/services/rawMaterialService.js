@@ -20,6 +20,6 @@ export const updateRawMaterialData = (data) => {
 
 export const getRawMaterialDataByMaterialCode = (mcode) => {
     console.log(mcode)
-    let url = `${rawMaterialURL}?materialCode=${mcode}`
+    let url = `${rawMaterialURL}?materialId=${mcode}`
     return axios.get(url)
 }
