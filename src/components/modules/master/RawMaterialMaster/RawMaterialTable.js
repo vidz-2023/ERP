@@ -24,7 +24,7 @@ const RawMaterialTable = () => {
   const column = [
     {
       headerName: "Material Code",
-      field: "materialCode",
+      field: "materialId",
     },
     {
       headerName: "Material Name",
@@ -44,7 +44,7 @@ const RawMaterialTable = () => {
     },
     {
       headerName: "Action",
-      field: "materialCode",
+      field: "materialId",
       cellRenderer: DeleteEditRawMaterial,
       cellRendererParams: {
         funGetRawInfo: handleRawMaterialData,

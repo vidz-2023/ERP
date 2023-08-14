@@ -93,7 +93,7 @@ function App() {
         <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
         <Route path="/rawMaterialTable" element={<RawMaterialTable />} />
         <Route path="/rawMaterial" element={<RawMaterial />} />
-        <Route path="/rawMaterial/:materialCode" element={<RawMaterial />} />
+        <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
         <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
 
