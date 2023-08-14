@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { FaBook } from "react-icons/fa";
+import { FaBook, FaLastfmSquare } from "react-icons/fa";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -13,21 +13,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getStockItemsByStockId } from "../../../services/stockItemsDetailServices";
 import DeleteEditButtonStockItems from "./DeleteEditButtonStockItems";
 import StockItemsModal from "./StockItemsModal";
+import { generareId, generateId } from "../../../share/generateRandomId";
+import { getBranches, getCategories } from "../../../services/masterServices";
 
 
 function Stock() {
 
-    const customStyles = {
-        content: {
-            top: '35%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            width: '60%',
-            transform: 'translate(-40%, -10%)',
-        },
-    }
+
     const initialValue = {
 
         "stockId": "",
@@ -40,7 +32,8 @@ function Stock() {
         "requestNo": "",
         "remark": "",
         "instruction": "",
-        "fileName": ""
+        "fileName": "",
+        
 
     }
 
@@ -64,7 +57,7 @@ function Stock() {
         "irnCancelReason": ""
     }
 
-    
+
     const [formValues, setFormValue] = useState(initialValue)
     const [stockItemsData, setStockItemsData] = useState([])
     const { stockId } = useParams()
@@ -74,28 +67,54 @@ function Stock() {
     const navigate = useNavigate()
     const [editTtemId, setItemId] = useState("")
     const [isUpdateItemData, setIsUpdateItemData] = useState(false)
+    const [totalPackQty, setTotalPackQuantity] = useState()
+    const [branchList, setBranchList] = useState([])
+    const [categoryList, setCategory] = useState([])
 
 
 
 
     useEffect(() => {
+        getData()
+        getBranches().then(res => {
+            console.log(res.data)
+            setBranchList(res.data)
+        })
 
-        if (stockId > 0) {
-            getStockDataByStockId(stockId).then(res => {
-                 res.data[0].fileName = ""
-                setFormValue(res.data[0])
-            })
-            setIsUpdate(true)
-            getStockItemsData(stockId)
-        }
-
+        getCategories().then(res => {
+            console.log(res.data)
+            setCategory(res.data)
+           
+        })
 
     }, [])
 
+ const getData = async() =>{
+  
+    console.log(stockId)
+    if (stockId != 0) {
+       await getStockDataByStockId(stockId).then(res => {
+            res.data[0].fileName = ""
+            setFormValue(res.data[0])
+            console.log(formValues)
+            document.getElementById("addBtn").disabled = false;
+        })
+        setIsUpdate(true)
+        getStockItemsData(stockId)
+    }
+
+    else {
+        formValues.stockId = generateId("St00")
+        console.log(formValues.stockId)
+        document.getElementById("addBtn").disabled = true;
+
+    }
+ }
     const getStockItemsData = (stockId) => {
         getStockItemsByStockId(stockId).then(res => {
             console.log(res.data)
             setStockItemsData(res.data)
+            calculateTotalQuantity(res.data)
         })
     }
     const handleChange = (e, setFieldValue) => {
@@ -146,8 +165,12 @@ function Stock() {
 
     }
 
-    const handleSubmit = () => {
+    const handleCancel = () => {
+        navigate("/stockData")
+    }
 
+    const handleSubmit = () => {
+        document.getElementById("addBtn").disabled = false;
         let objData = {}
         if (isGetLogisticData) {
             objData = { ...formValues, ...logictisObj }
@@ -158,11 +181,12 @@ function Stock() {
         console.log(objData)
         if (isUpdate) {
             updateStockData(objData, formValues.id)
+
         }
         else
             addStockData(objData)
 
-       document.getElementById("submitBtn").disabled = true;
+        document.getElementById("submitBtn").disabled = true;
 
     }
     const validationSchema = Yup.object({
@@ -176,6 +200,13 @@ function Stock() {
 
     })
 
+    const calculateTotalQuantity = (arr) => {
+
+        let total = arr.reduce(function (acc, item) { return Number(acc) + Number(item.packQuantity); }, 0);
+        setTotalPackQuantity(total)
+
+    }
+
 
 
     const columns = [
@@ -185,26 +216,22 @@ function Stock() {
         },
 
         {
-            headerName: 'Select Item', field: 'selectItem'
-        },
-        {
-            headerName: 'Description', field: 'description'
-        },
-        {
-            headerName: 'Sub Item', field: 'subItem'
-        },
-        {
-            headerName: 'Pack Unit', field: 'packUnit'
+            headerName: 'Material Name', field: 'materialName'
         },
         {
             headerName: 'Pack Quantity', field: 'packQuantity'
         },
         {
-            headerName: 'Unit', field: 'unit'
+            headerName: 'Pack Unit', field: 'packUnit'
+        },
+
+        {
+            headerName: 'Available Quantity', field: 'availableQty'
         },
         {
-            headerName: 'Quantity', field: 'qty'
+            headerName: 'Available Unit', field: 'availableUnit'
         },
+
         {
             headerName: "Action",
             field: "stockId",
@@ -225,7 +252,7 @@ function Stock() {
                 <h4 className="text-info w-100 mb-3 text-center border border-2 border-info-subtle">
                     <div className="m-2">
                         <FaBook className="me-2" />
-                        Stock Data
+                        Stock Transfer
                     </div>
                 </h4>
 
@@ -252,9 +279,14 @@ function Stock() {
                                                 className="form-select form-select-sm"
                                                 onChange={e => handleChange(e, setFieldValue)}
                                             >
-                                                <option value="">Select</option>
-                                                <option value="Branch1">Branch1</option>
-                                                <option value="Branch2">Branch2</option>
+                                                <option value="">Select.......</option>
+                                                {branchList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
                                             </Field>
                                             <ErrorMessage name='toBranch' className=" ms-1" />
                                         </div>
@@ -271,10 +303,15 @@ function Stock() {
                                                 value={formValues.fromBranch}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
-                                            >
-                                                <option value="">Select</option>
-                                                <option value="Branch1">Branch1</option>
-                                                <option value="Branch2">Branch2</option>
+                                            > 
+                                              <option value="">Select.......</option>
+                                              {branchList.map((item) =>
+                                                <option
+                                                    key={item.id}
+                                                    value={item.Name}
+                                                >
+                                                    {item.Name}
+                                                </option>)}
                                             </Field>
                                             <ErrorMessage name='fromBranch' className="ms-1" />
                                         </div>
@@ -292,9 +329,14 @@ function Stock() {
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
-                                                <option value="">Select</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
+                                                 <option value="">Select.......</option>
+                                                {categoryList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
                                             </Field>
                                             <ErrorMessage name='category' className="ms-1" />
                                         </div>
@@ -378,6 +420,25 @@ function Stock() {
                                 </div>
 
                             </div>
+                            <div className="row mt-2">
+                                <hr></hr>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <button
+                                        type="button"
+                                        id="addBtn"
+                                        className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        onClick={() => setIsOpenModal(true)}
+                                    >
+                                        Add Row
+                                    </button>
+                                    <span className="ms-2 ">Total Pack Quantity = {totalPackQty}</span>
+                                </div>
+
+
+                            </div>
                             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                                 <AgGridReact
                                     rowData={stockItemsData}
@@ -386,17 +447,7 @@ function Stock() {
                                 />
                             </div>
 
-                            <div className="row">
-                                <button
-                                    type="button"
-                                    className="col-sm-2 mt-2 ms-2mb-4 btn btn-info"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    onClick={() => setIsOpenModal(true)}
-                                   
-                                >
-                                    Add Row
-                                </button>
-                            </div>
+
 
                             <div className="row mt-2">
                                 <hr></hr>
@@ -421,7 +472,7 @@ function Stock() {
                                     </div>
 
                                     <div className="row mb-3">
-                                        <label  className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label">
                                             Attachment
                                         </label>
                                         <input className="col-sm-8  form-control" type="file"
@@ -457,21 +508,20 @@ function Stock() {
 
                             <LogisticsStock id={stockId} sendDataFromLogistics={getDataFromLogistic} />
                             <div className="row">
-                                <div className='col-sm-12 text-center'><button type="submit"
-                                    class="btn btn-info " id="submitBtn">Submit</button>
+
+                                <div className='col-sm-12 text-center'>
+                                    <button type="submit"
+                                        className="btn btn-info " id="submitBtn">Submit</button>
+                                    <button type="button"
+                                        className="btn btn-info ms-3"
+                                        onClick={() => handleCancel()}>Cancel</button>
                                 </div>
+
+
                             </div>
                         </Form>)}
                 </Formik>
-                {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} itemId ={editTtemId} isEdit ={isUpdateItemData} />}
-                {/*  <ReactModal isOpen={isOpenModal}
-                    onRequestClose={() => setIsOpenModal(false)}
-                    style={customStyles}
-                    >
-                    <StockItemsModal closeModal={closeItemModal}></StockItemsModal>
-                    </ReactModal> */}
-
-
+                {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} itemId={editTtemId} isEdit={isUpdateItemData} />}
 
             </div>
         </>

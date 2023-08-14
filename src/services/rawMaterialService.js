@@ -23,3 +23,9 @@ export const getRawMaterialDataByMaterialCode = (mcode) => {
     let url = `${rawMaterialURL}?materialId=${mcode}`
     return axios.get(url)
 }
+
+export const getRawMaterialDataByMaterialName = (mcode) => {
+
+  let url = `${rawMaterialURL}?materialName=${mcode}`
+  return axios.get(url)
+}
