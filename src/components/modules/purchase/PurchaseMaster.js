@@ -6,11 +6,12 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import purchaseStyle from "./purchaseMasterSty.module.css"
-import { addPurchaseDetail, getPurchaseDetailById, updatePurchaseDetail } from '../../../services/purchaseMasterService';
+import { addPurchaseDetail, getPurchaseDetail, getPurchaseDetailById, updatePurchaseDetail } from '../../../services/purchaseMasterService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPurchasedItemsByPId } from '../../../services/purchasedItemsDetailsService';
 import PurchasedItemsDetailDeleteEditButton from './PurchasedItemsDetailDeleteEditButton';
 import PurchasedItemModal from './PurchasedItemModal';
+import { getBranches, getCategories, getFreight } from '../../../services/masterServices';
 
 const PurchaseMaster = () => {
     const { pId } = useParams()
@@ -52,38 +53,78 @@ const PurchaseMaster = () => {
     const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
 
     const [isOpenModal, setIsOpenModal] = useState(false)
-
+    const [category, setCategory] = useState([])
+    const [branch, setBranch] = useState([])
+    const [freight, setFreight] = useState([])
     const [modelData, setModalData] = useState({})
+
+    const [totalQty, setTotalQty] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
+    // const [lastGeneratedPID, setLastGeneratedPID] = useState("")
 
     const navigate = useNavigate()
     const tempData = ["A", "B", "C"]
 
     useEffect(() => {
+
         getPurchaseDataByPId(pId)
         getPurchasedItemsDataByPId(pId)
+        getCategories().then((res) => setCategory(res.data))
+        getBranches().then((res) => setBranch(res.data))
+        getFreight().then((res) => setFreight(res.data))
+
     }, [])
 
     const getPurchaseDataByPId = () => {
-
-        if (pId > 0) {
+        if (pId && pId !== '0') {
             getPurchaseDetailById(pId).then((res) => {
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
                 setIsUpdate(true)
             })
+            document.getElementById("addRowBtnId").disabled = false
+        } else {
+            document.getElementById("addRowBtnId").disabled = true
         }
     }
 
-    const handleSubmit = (values) => {
+    const generatedId = async () => {
+        let lastGeneratedPID = ""
+        await getPurchaseDetail().then((res) => {
+            lastGeneratedPID = res.data[res.data.length - 1].pId
+        })
+        let numStr = lastGeneratedPID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - 2);
+            num = padding + num
+        }
+        let alphabet = lastGeneratedPID.match(/[a-z]/i)[0]
+        return alphabet + num
+    }
 
+    const handleSubmit = (values) => {
         if (isUpdate) {
             updatePurchaseDetail(values).then((res) => {
                 navigate("/purchase-master-table")
             })
         } else {
-            addPurchaseDetail(values).then((res) => {
-                navigate("/purchase-master-table")
+
+            generatedId().then(newId => {
+                values = { ...values, pId: newId }
+
+                console.log(values)
+                addPurchaseDetail(values).then((res) => {
+                    navigate("/purchase-master-table")
+                })
             })
+
+            // values = { ...values, pId: newId }
+
+            // console.log(values)
+            // addPurchaseDetail(values).then((res) => {
+            //     navigate("/purchase-master-table")
+            // })
         }
     }
 
@@ -108,35 +149,58 @@ const PurchaseMaster = () => {
         setIsOpenModal(true)
     }
 
-    const column = [{
-        field: "pId"
-    },
-    {
-        field: "itemId"
-    },
-    {
-        field: "description"
-    },
-    {
-        field: "unitPrice"
-    },
-    {
-        field: "qty"
-    },
-    {
-        headerName: "Action",
-        field: "pId",
-        cellRenderer: PurchasedItemsDetailDeleteEditButton,
-        cellRendererParams: {
-            funGetPurchasedItems: handlingPurchasedItems,
-            openModalForEdit: openModalForEditData,
+    const column = [
+        {
+            field: "sNo",
+            valueGetter: "node.rowIndex + 1"
+        },
+        {
+            field: "pId",
+            hide: true
+        },
+        {
+            field: "materialId"
+        },
+        {
+            field: "materialName"
+        },
+        {
+            field: "unitPrice"
+        },
+        {
+            field: "requestedQty"
+        },
+
+        {
+            field: "totalItemPrice",
+            valueGetter: (params) => {
+                const { requestedQty, unitPrice } = params.data
+                return requestedQty * unitPrice
+            },
+        },
+        {
+            headerName: "Action",
+            field: "pId",
+            cellRenderer: PurchasedItemsDetailDeleteEditButton,
+            cellRendererParams: {
+                funGetPurchasedItems: handlingPurchasedItems,
+                openModalForEdit: openModalForEditData,
+            }
         }
-    }
     ]
 
     const getPurchasedItemsDataByPId = (pid) => {
+        let qty = 0
+        let price = 0
         getPurchasedItemsByPId(pid).then((res) => {
-            setPurchasedItemData(res.data)
+            const data = res.data.map((item, index) => {
+                qty = qty + item.requestedQty
+                price = price + (item.requestedQty * item.unitPrice)
+                return item
+            })
+            setTotalQty(qty)
+            setTotalPrice(price)
+            setPurchasedItemData(data)
         })
     }
 
@@ -153,7 +217,7 @@ const PurchaseMaster = () => {
         category: Yup.string().required('*Required'),
         vendor: Yup.string().required('*Required'),
         email: Yup.string().required('*Required'),
-        currency: Yup.number().required('*Required').min(0, "Only positive value"),
+        // currency: Yup.number().required('*Required').min(0, "Only positive value"),
         currencyConversionRate: Yup.number().required('*Required').min(0, "Only positive value"),
         orderDate: Yup.string().required('*Required'),
         orderNumber: Yup.number().required('*Required').min(0, "Only positive value"),
@@ -161,8 +225,8 @@ const PurchaseMaster = () => {
         agent: Yup.string().required('*Required'),
         refNumber: Yup.number().required('*Required').min(0, "Only positive value"),
         refDate: Yup.string().required('*Required'),
-        taxInc: Yup.number().required('*Required').min(0, "Only positive value"),
-        taxExcl: Yup.number().required('*Required').min(0, "Only positive value"),
+        // taxInc: Yup.number().required('*Required').min(0, "Only positive value"),
+        // taxExcl: Yup.number().required('*Required').min(0, "Only positive value"),
         billingAdd: Yup.string().required('*Required'),
         shippingAdd: Yup.string().required('*Required'),
         contactPersonName: Yup.string().required('*Required'),
@@ -171,16 +235,25 @@ const PurchaseMaster = () => {
         remarks: Yup.string().required('*Required'),
         attachment: "",
         discount: Yup.number().required('*Required').min(0, "Only positive value"),
-        totalPrice: Yup.number().required('*Required').min(0, "Only positive value"),
+        // totalPrice: Yup.number().required('*Required').min(0, "Only positive value"),
         frieght: Yup.string().required('*Required')
     })
+
+    const handleCancel = () => {
+        navigate("/purchase-master-table")
+    }
+
+    const closeItemModal = () => {
+        setIsOpenModal(false)
+        setIsPurchaseItemUpdate(false)
+    }
 
     return (
         <div>
             <Formik
                 initialValues={purchaseData}
                 onSubmit={handleSubmit}
-                // validationSchema={validationSchema}
+                validationSchema={validationSchema}
                 enableReinitialize
             >
                 {({ isSubmitting, setFieldValue }) => {
@@ -255,12 +328,12 @@ const PurchaseMaster = () => {
                                             >
                                                 <option value="">Select Branch</option>
                                                 {
-                                                    tempData.map((item, index) => {
+                                                    branch.map((item, index) => {
                                                         return <option
                                                             key={index}
-                                                            value={item}
+                                                            value={item.Name}
                                                         >
-                                                            {item}
+                                                            {item.Name}
                                                         </option>
                                                     }
                                                     )}
@@ -279,12 +352,12 @@ const PurchaseMaster = () => {
                                             >
                                                 <option value="">Select Category</option>
                                                 {
-                                                    tempData.map((item, index) => {
+                                                    category.map((item, index) => {
                                                         return <option
                                                             key={index}
-                                                            value={item}
+                                                            value={item.Name}
                                                         >
-                                                            {item}
+                                                            {item.Name}
                                                         </option>
                                                     }
                                                     )}
@@ -583,22 +656,28 @@ const PurchaseMaster = () => {
                                     </div>
 
 
-                                    {/* ==================================== Ag Grid & Modal==================================================== */}
-                                    <div>
-                                        <button type="button"
-                                            className="btn btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                            onClick={handleModalAdd}
-                                        >
-                                            Add Row
-                                        </button>
+                                    {/* ==================================== Ag Grid ==================================================== */}
+                                    <div className=''>
+                                        <div className='d-flex w-100'>
+                                            <div className='w-50'>
+                                                <button type="button"
+                                                    className="btn btn-info"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    onClick={handleModalAdd}
+                                                    id="addRowBtnId"
+                                                >
+                                                    Add Row
+                                                </button>
+                                            </div>
 
-                                        {isOpenModal &&
-                                            <PurchasedItemModal
-                                                sendDataToParent={sendDataToChild}
-                                                propData={modelData}
-                                                propIsUpdate={isPurchaseItemUpdate} />}
+                                            <div className='d-flex justify-content-end w-50'>
+                                                <div className='form-label'><b>Total Qty : </b></div>
+                                                <div className='form-label me-5'>{totalQty}</div>
+                                                <div className='form-label'><b>Total Price :</b> </div>
+                                                <div className='form-label'>{totalPrice}</div>
+                                            </div>
+                                        </div>
 
                                         <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
@@ -644,8 +723,22 @@ const PurchaseMaster = () => {
                                         <div
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                         >
-                                            <div className='col-2 form-label'>Discount</div>
-                                            <div className='col-3 d-flex'>
+                                            <div className='col-2 form-label'>Total Price</div>
+                                            <div className='col-2 d-flex'>
+                                                <Field
+                                                    className="form-control"
+                                                    type="number"
+                                                    name="totalPrice"
+                                                    value={totalPrice}
+                                                    // onChange={handleChange}
+                                                    disabled
+                                                >
+                                                </Field>
+                                                <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
+                                            </div>
+                                            <div className='col-1'></div>
+                                            <div className='col-1 form-label'>Discount</div>
+                                            <div className='col-2 d-flex'>
                                                 <Field
                                                     className="form-control"
                                                     type="number"
@@ -655,19 +748,19 @@ const PurchaseMaster = () => {
                                                 />
                                                 <ErrorMessage className="text-danger  ms-2" component="div" name='discount' />
                                             </div>
-                                            <div className='col-2'></div>
-                                            <div className='col-2 form-label'>Total Price</div>
-                                            <div className='col-3 d-flex'>
+
+                                            <div className='col-2 form-label'>Price After Discount</div>
+                                            <div className='col-2 d-flex'>
                                                 <Field
                                                     className="form-control"
                                                     type="number"
-                                                    name="totalPrice"
-                                                // value={purchaseData.totalPrice}
-                                                // onChange={handleChange}
-                                                >
-                                                </Field>
-                                                <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
+                                                    name="afterDiscount"
+                                                // value={purchaseData.Description}
+                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                />
+                                                <ErrorMessage className="text-danger  ms-2" component="div" name='afterDiscount' />
                                             </div>
+
                                         </div>
                                         <div
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
@@ -675,24 +768,54 @@ const PurchaseMaster = () => {
                                             <div className='col-2 form-label'>Frieght</div>
                                             <div className='col-3 d-flex'>
                                                 <Field
-                                                    className="form-control"
-                                                    type="text"
+                                                    className="form-select fw-light"
+                                                    component="select"
                                                     name="frieght"
-                                                // value={purchaseData.frieght}
-                                                // onChange={handleChange}
+                                                // value={purchaseData.paymentType}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
                                                 >
+                                                    <option value="">Select...</option>
+                                                    {
+                                                        freight.map((item, index) => {
+                                                            return <option
+                                                                key={index}
+                                                                value={item.Name}
+                                                            >
+                                                                {item.Name}
+                                                            </option>
+                                                        }
+                                                        )}
                                                 </Field>
                                                 <ErrorMessage className="text-danger ms-2" component="div" name='frieght' />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <button className="btn btn-info mb-5 w-100 " type='submit'>Submit</button>
+                                <div className='d-flex justify-content-center'>
+                                    <button
+                                        className="btn btn-info w-25 m-5"
+                                        type='button'
+                                        onClick={handleCancel}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button className="btn btn-info w-25 m-5" type='submit'>Submit</button>
+                                </div>
                             </div>
                         </Form>
                     )
                 }}
             </Formik>
+            {/* ==================================== Modal==================================================== */}
+
+            {isOpenModal &&
+                <PurchasedItemModal
+                    sendDataToParent={sendDataToChild}
+                    propData={modelData}
+                    propIsUpdate={isPurchaseItemUpdate}
+                    closemodal={closeItemModal}
+                />}
+
         </div>
     )
 }

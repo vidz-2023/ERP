@@ -4,6 +4,8 @@ export const masterCategory = `${JSONURL}/category-master`
 export const masterBranch = `${JSONURL}/branch-master`
 export const masterDepartment = `${JSONURL}/department-master`
 export const masterEmployeeShift = `${JSONURL}/employeeShift-master`
+export const masterFreight = `${JSONURL}/freight-master`
+
 export const salaryURL = `${JSONURL}/SalaryStructure`
 export const workLocationURL = `${JSONURL}/work-locaiton-info`
 export const officialInfoURL = `${JSONURL}/official-info`

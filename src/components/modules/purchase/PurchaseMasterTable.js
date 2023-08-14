@@ -3,12 +3,12 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate } from 'react-router';
-import { getPurchaseDetail } from '../../../services/purchaseMasterService';
+import { getPurchaseDetail, searchPurchaseDetailByAnyField } from '../../../services/purchaseMasterService';
 import purchaseDeleteEditButton from './PurchaseDeleteEditButton';
 
 const PurchaseMasterTable = () => {
     const [purchaseData, setPurchaseData] = useState([])
-    // const [searchValState, setSearchValState] = useState([])
+    const [searchValState, setSearchValState] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -114,6 +114,16 @@ const PurchaseMasterTable = () => {
         navigate('/purchase-master/0')
     }
 
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+        setSearchValState(searchVal)
+        searchPurchaseDetailByAnyField(searchVal).then((res) => setPurchaseData(res.data))
+    }
+    const searchFunThroughBtn = () => {
+        searchPurchaseDetailByAnyField(searchValState).then((res) => setPurchaseData(res.data))
+    }
+
+
     return (
         <div className='container'>
             <div className='row mt-3'>
@@ -127,12 +137,12 @@ const PurchaseMasterTable = () => {
                 <div className='row col-8'>
                     <div className='col-8'>
                         <input type="text" className='form-control'
-                        // onChange={(e) => { searchFun(e) }}
+                            onChange={(e) => { searchFun(e) }}
                         />
                     </div>
                     <div className='col-4'>
                         <button type="button" className='btn btn-info'
-                        // onClick={searchFunThroughBtn}
+                            onClick={searchFunThroughBtn}
                         >
                             Search
                         </button>
