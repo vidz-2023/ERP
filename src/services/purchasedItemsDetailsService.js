@@ -22,3 +22,6 @@ export const updatePurchasedItems = (data) => {
     return axios.put(`${purchasedItemsDetailsURL}/${data.id}`, data)
 }
 
+export const getPurchasedItemsByMaterialId = (id) => {
+    return axios.get(`${purchasedItemsDetailsURL}?materialId=${id}`)
+}

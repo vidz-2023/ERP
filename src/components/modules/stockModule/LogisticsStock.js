@@ -32,7 +32,8 @@ function LogisticsStock(props) {
     useEffect(() => {
         // setFormData({...props.data})
         console.log(props.id)
-        if (props.id > 0) {
+        if (props.id != 0) {
+            console.log()
             getStockDataByStockId(props.id).then(res => {
                 delete res.data[0].toBranch
                 delete res.data[0].fromBranch

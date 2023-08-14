@@ -20,7 +20,7 @@ const DeleteEditButtonStockItems = (params) => {
         stockId = p.data.stockId
         console.log(stockId)
         // navigate(`/stock/${p.data.stockId}`)
-        p.openModalForEdit(p.data.itemId)
+        p.openModalForEdit(p.data.stockItemId)
     }
 
     return (

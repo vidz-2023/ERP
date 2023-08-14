@@ -16,7 +16,7 @@ export const addItemDetails = (data) => {
 }
 
 export const getStockItemsByItemId = (id) => {
-    return axios.get(`${stocktemsDetailsURL}?itemId=${id}`)
+    return axios.get(`${stocktemsDetailsURL}?stockItemId=${id}`)
 }
 
 export const updateStockItemData = (data, id) => {
