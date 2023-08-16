@@ -34,7 +34,7 @@ function StockTable()
 
     const columns = [
         {
-            headerName: 'Item Id', field: 'stockId'
+            headerName: 'StockItem Id', field: 'stockId'
         },
        
         {

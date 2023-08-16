@@ -30,3 +30,9 @@ export const updateStockData = (data, id) => {
     return axios.put(url, data)
 
 }
+
+export const getStockDataByToBranchName = (data) => {
+     
+    return axios.get(`${stockURL}?toBranch=${data}`)
+
+}

@@ -47,6 +47,8 @@ import VendorMaster from './components/modules/master/vendorMaster/VendorMaster'
 import VendorMasterTable from './components/modules/master/vendorMaster/VendorMasterTable';
 import CustomerMaster from './components/modules/master/customerMaster/CustomerMaster';
 import CustomerMasterTable from './components/modules/master/customerMaster/CustomerMasterTable';
+import StockConsumptionTable from './components/modules/stockModule/stockConsumptionModule/StockConsumptionTable';
+import StockConsumption from './components/modules/stockModule/stockConsumptionModule/StockConsumption';
 
 function App() {
   return (
@@ -109,6 +111,8 @@ function App() {
 
         <Route path="/stock/:stockId" element={<Stock />} />
         <Route path = "/stockData" element = {<StockTable />} />
+        <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
+        <Route path = "/stockConsumptionData" element = {<StockConsumptionTable />} />
         
       </Routes>
 
