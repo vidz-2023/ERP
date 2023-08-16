@@ -1,3 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+body {
+  font-family: 'Roboto Slab', serif;
+}
+
 .App {
   /* text-align: center; */
 }
+
+.form-heading {
+  /* background-color: #371CBF; */
+  border: 1px solid #371CBF;
+  width: 100%;
+  margin: 0px;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* left: 7%; */
+}
+
+.icons {
+  font-size: 20px;
+}
+
+.icons:hover {
+  cursor: pointer;
+  font-size: 35px;
+  border: 2px solid #371CBF;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.grid-icons {
+  font-size: 20px;
+  position: relative;
+  top: 8px
+}
+
+.grid-icons:hover {
+  cursor: pointer;
+  font-size: 25px;
+  /* padding: 5px; */
+  position: relative;
+  top: 10px;
+}
+
+
+.ag-theme-alpine {
+  --ag-header-height: 20px;
+  --ag-header-foreground-color: white;
+  --ag-header-background-color: black;
+  --ag-header-cell-hover-background-color: rgb(80, 40, 140);
+  --ag-header-cell-moving-background-color: rgb(80, 40, 140);
+}
+
+.ag-header-container {
+  background-color: #317773;
+  color: white
+}
+
+.ag-theme-alpine .ag-header-row {
+  color: white
+}
+
+/* .ag-theme-alpine .ag-header {
+  font-family: cursive;
+} */
+
+.ag-theme-alpine .ag-header-group-cell {
+  font-weight: normal;
+  font-size: 10px;
+}
+
+.ag-theme-alpine .ag-header-cell {
+  font-size: 13px;
+  color: white;
+}
+
+.ag-header-cell-label {
+  color: white;
+}
+
+.ag-header-cell-menu-button {
+  /* color: #371CBF */
+}
+
+/* ag-header-cell-comp-wrapper */
+
+/* Heading Color  : #371CBF
+Side bar Color : #47A08F
+left side bar color : #131726
+Teal Color : #317773;
+*/

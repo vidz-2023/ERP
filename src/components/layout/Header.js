@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom'
 function Header() {
     return (
         <div>
-            <nav className="navbar  bg-info-subtle">
+            <nav className="navbar" style={{ backgroundColor: '#371CBF' }}>
                 <div className="container-fluid justify-content-start">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasExample">
-                        <span className="navbar-toggler-icon"></span>
+                    <button class="btn text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasExample">
+                        <span className="navbar-toggler-icon text-white"></span>
                     </button>
-                    <NavLink className="navbar-brand" to="/">ERP</NavLink>
+                    <NavLink className="navbar-brand text-white" to="/">ERP</NavLink>
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button> */}
@@ -35,7 +35,7 @@ function Header() {
                                         <li><NavLink className="dropdown-item" to="customerMasterTable">Customer Master </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="rawMaterialTable">Raw Material Master</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Storage Location Master</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="">Unit of Measurement </NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="unitMaster">Unit of Measurement </NavLink></li>
 
                                     </ul>
                                 </li>

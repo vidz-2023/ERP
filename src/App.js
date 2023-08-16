@@ -51,6 +51,7 @@ import StockConsumptionTable from './components/modules/stockModule/stockConsump
 import StockConsumption from './components/modules/stockModule/stockConsumptionModule/StockConsumption';
 import GoodsReceiptTable from './components/modules/goodsReceipt/GoodsReceiptTable';
 import GoodsReceipt from './components/modules/goodsReceipt/GoodsReceipt';
+import UnitMaster from './components/modules/master/unitMaster/UnitMaster';
 
 function App() {
   return (
@@ -118,6 +119,7 @@ function App() {
         <Route path="/stockData" element={<StockTable />} />
         <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
         <Route path="/stockConsumptionData" element={<StockConsumptionTable />} />
+        <Route path="/unitMaster" element={<UnitMaster />} />
 
       </Routes>
 
