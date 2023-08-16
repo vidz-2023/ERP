@@ -49,6 +49,8 @@ import CustomerMaster from './components/modules/master/customerMaster/CustomerM
 import CustomerMasterTable from './components/modules/master/customerMaster/CustomerMasterTable';
 import StockConsumptionTable from './components/modules/stockModule/stockConsumptionModule/StockConsumptionTable';
 import StockConsumption from './components/modules/stockModule/stockConsumptionModule/StockConsumption';
+import GoodsReceiptTable from './components/modules/goodsReceipt/GoodsReceiptTable';
+import GoodsReceipt from './components/modules/goodsReceipt/GoodsReceipt';
 
 function App() {
   return (
@@ -91,29 +93,32 @@ function App() {
         <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
         <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
         <Route path="/postsalary" element={<PostSalary />} />
-        <Route path="/personMaster" element={<PersonMaster/>}/>
+        <Route path="/personMaster" element={<PersonMaster />} />
         <Route path="/personMaster/:id" element={<PersonMaster />} />
-        <Route path="/personMasterTable" element={<PersonMasterTable  />}  />
-        <Route path="/customerMaster" element={<CustomerMaster/>}/>
+        <Route path="/personMasterTable" element={<PersonMasterTable />} />
+        <Route path="/customerMaster" element={<CustomerMaster />} />
         <Route path="/customerMaster/:id" element={<CustomerMaster />} />
-        <Route path="/customerMasterTable" element={<CustomerMasterTable  />}  />
-        <Route path="/vendorMaster" element={<VendorMaster/>}/>
+        <Route path="/customerMasterTable" element={<CustomerMasterTable />} />
+        <Route path="/vendorMaster" element={<VendorMaster />} />
         <Route path="/vendorMaster/:id" element={<VendorMaster />} />
-        <Route path="/vendorMasterTable" element={<VendorMasterTable  />}  />
-        <Route path="/companyMaster" element={<CompanyMaster/>}/>
+        <Route path="/vendorMasterTable" element={<VendorMasterTable />} />
+        <Route path="/companyMaster" element={<CompanyMaster />} />
         <Route path='companyMaster/:id' element={<CompanyMaster />} />
         <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
         <Route path="/rawMaterialTable" element={<RawMaterialTable />} />
         <Route path="/rawMaterial" element={<RawMaterial />} />
         <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
-        <Route path="/purchase-master-table" element={<PurchaseMasterTable />} />
+        <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
 
+        <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
+        <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
+
         <Route path="/stock/:stockId" element={<Stock />} />
-        <Route path = "/stockData" element = {<StockTable />} />
+        <Route path="/stockData" element={<StockTable />} />
         <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
-        <Route path = "/stockConsumptionData" element = {<StockConsumptionTable />} />
-        
+        <Route path="/stockConsumptionData" element={<StockConsumptionTable />} />
+
       </Routes>
 
       <Footer />

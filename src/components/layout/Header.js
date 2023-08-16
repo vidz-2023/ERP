@@ -46,8 +46,8 @@ function Header() {
                                     </NavLink>
                                     <ul className="dropdown-menu dropdown-menu-right" >
                                         <li><NavLink className="dropdown-item" to="">Material Vendor Configuration</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="purchase-master-table">Purchase Order </NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="">Goods Receipt </NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="purchase-order-table">Purchase Order </NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="goods-receipt-table">Goods Receipt </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Stock Listing</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="stockData">Stock Transfer</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="stockConsumptionData">Stock Consumption</NavLink></li>
@@ -94,9 +94,6 @@ function Header() {
                                     </ul>
                                 </li>
 
-                                <li className="nav-item">
-                                    <NavLink className="nav-link active" to="purchase-master-table">Purchase Order</NavLink>
-                                </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link active" href="#">Goods Module</NavLink>
                                 </li>
