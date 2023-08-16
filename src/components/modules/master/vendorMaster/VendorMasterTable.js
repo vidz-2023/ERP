@@ -30,10 +30,6 @@ function VendorMasterTable() {
             field: "joiningDate"
         },
         {
-            headerName: "State",
-            field: "state"
-        },
-        {
             headerName: "Country",
             field: "country"
         },
@@ -44,6 +40,10 @@ function VendorMasterTable() {
         {
             headerName: "Payment",
             field: "payment"
+        },
+        {
+            headerName: "Payment",
+            field: "priceCategory"
         },
         {
             headerName: "Tax No",
@@ -58,6 +58,7 @@ function VendorMasterTable() {
             field: "panNo"
         },
         {
+            headerName: "Action",
             cellRenderer: VendorMasterEditDelete,
             cellRendererParams: {
                 GetMaster: getVendorMasterData

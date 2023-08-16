@@ -22,3 +22,7 @@ export const getCustomerMasterByID = (id) => {
     return axios.get(fetchByIDURL)
         .then(res => res.data);
 }
+
+export const searchCustomerMasterAnyField = (data) => {
+    return axios.get(`${customerMasterURL}?q=${data}`)
+}

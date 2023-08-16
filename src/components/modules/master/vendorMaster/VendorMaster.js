@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addVendorMaster, getVendorMasterByID, updateVendorMaster } from '../../../../services/vendorMasterServices';
+import { addVendorMaster, getVendorMasterByID, searchVendorMasterAnyField, updateVendorMaster } from '../../../../services/vendorMasterServices';
 import pic from '../../../../assets/images/profilepic.png';
 import { ValueService } from 'ag-grid-community';
 
@@ -40,7 +40,7 @@ function VendorMaster() {
         cin: '',
         gst: '',
         gstCategory: '',
-        gstTdsAPP:false,
+        gstTdsAPP: false,
         tdsSection: '',
         tdsAPP: false,
         tin: '',
@@ -79,13 +79,13 @@ function VendorMaster() {
         state: Yup.string().required('Required'),
         city: Yup.string().required('Required'),
         country: Yup.string().required('Required'),
-        zipcode: Yup.string().required('*Required').min(0, "Only positive value").length(6)
+        zipcode: Yup.string().required('Required').min(0, "Only positive value").length(6)
             .matches(/^[0-9]{6}/).label('Zip code'),
-        phoneno: Yup.string().required('*Required').min(0, "Only positive value").length(10)
+        phoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
             .matches(phoneRegExp, 'Phone number is not valid'),
         aemail: Yup.string().email('Invalid email').required('Required'),
         accHolderName: Yup.string().required('Required'),
-        accno: Yup.number().required('*Required').min(0, "Only positive value"),
+        accno: Yup.number().required('Required').min(0, "Only positive value"),
         bankName: Yup.string().required('Required'),
         branch: Yup.string().required('Required'),
         ifceCode: Yup.string().required('Required'),
@@ -110,8 +110,9 @@ function VendorMaster() {
         bstate: Yup.string().required('Required'),
         bcity: Yup.string().required('Required'),
         bcountry: Yup.string().required('Required'),
-        bzipcode: Yup.string().required('*Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
-        bphoneno: Yup.string().required('Required'),
+        bzipcode: Yup.string().required('Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
+        bphoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
+        .matches(phoneRegExp, 'Phone number is not valid'),
         bemail: Yup.string().required('Required'),
         website: Yup.string().matches(urlRegExp, 'Enter correct url!').required('Please enter website'),
         faceBook: Yup.string().email('Invalid email').required('Required'),
@@ -126,6 +127,8 @@ function VendorMaster() {
     const [isVendorUpdate, setIsVendorUpdate] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
+    const [vendorValState,setVendorValState]=useState([])
+    const [vendorMaster,setVendorMaster]= useState([])
 
     //Fetching The Data
     useEffect(() => {
@@ -162,9 +165,19 @@ function VendorMaster() {
         setFieldValue([name], checked)
     }
 
+    // ------------------- Search VendorMaster Any Field Function Declaration ---------------------------//
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+        setVendorValState(searchVal)
+        searchVendorMasterAnyField(searchVal).then((res) =>{
+            setVendorMaster(res.data)
+            console.log(vendorMaster)
+        } )
+    }
+
     return (
         <>
-            <div className='contianer mx-auto'>
+            <div className='contianer mx-auto mb-5'>
                 <fieldset>
                     <div className='m-3'>
                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
@@ -204,13 +217,13 @@ function VendorMaster() {
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
-                                                    <Field
+                                                    <input
                                                         type="text"
                                                         className='form-control'
-                                                        // onChange={(e) => { searchFun(e) }} 
+                                                        onChange={(e) => { searchFun(e) }}
                                                         placeholder='Search'
                                                         name="search" />
-                                                    <ErrorMessage name='search' />
+                                                    {/* <ErrorMessage name='search' /> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -1141,7 +1154,7 @@ function VendorMaster() {
 
 
 
-                                        <div className=' row mt-3'>
+                                        <div className=' row mt-5 ms-5'>
                                             <div className='col-3'>
                                                 <button
                                                     type="submit"
