@@ -9,7 +9,7 @@ function CustomerMasterEditDelete(params) {
     const handleDelete = (p) => {
         deleteCustomerMaster(p.data.id)
         getCustomerMaster().then()
-       p.GetMaster()
+        p.GetMaster()
     }
 
     const handleEdit = (p) => {
@@ -17,10 +17,11 @@ function CustomerMasterEditDelete(params) {
     }
 
     return (
-    <>
-        <button className='btn btn-info me-2 ' onClick={() => { handleEdit(params) }}><FaEdit /></button>
-        <button className='btn btn-danger' onClick={() => { handleDelete(params) }}><FaTrash /></button>
-    </>)
+        <div>
+            <button className='btn btn-info me-2 ' onClick={() => { handleEdit(params) }}><FaEdit /></button>
+            <button className='btn btn-danger' onClick={() => { handleDelete(params) }}><FaTrash /></button>
+        </div>
+    )
 }
 
 export default CustomerMasterEditDelete

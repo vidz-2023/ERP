@@ -31,10 +31,6 @@ const navigate = useNavigate();
             field: "cjoiningDate"
         },
         {
-            headerName: "State",
-            field: "cstate"
-        },
-        {
             headerName: "Country",
             field: "cCountry"
         },
@@ -45,6 +41,10 @@ const navigate = useNavigate();
         {
             headerName: "Payment",
             field: "cpayment"
+        },
+        {
+            headerName: "Payment",
+            field: "cpriceCategory"
         },
         {
             headerName: "Tax No",
@@ -59,6 +59,7 @@ const navigate = useNavigate();
             field: "cpanNo"
         },
         {
+            headerName: "Action",
             cellRenderer: CustomerMasterEditDelete,
             cellRendererParams: {
                 GetMaster: getCustomerMasterData

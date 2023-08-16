@@ -17,10 +17,10 @@ function VendorMasterEditDelete(params) {
     }
 
     return (
-    <>
-        <button className='btn btn-info me-2 ' onClick={() => { handleEdit(params) }}><FaEdit /></button>
+    <div>
+        <button className='btn btn-info me-2' onClick={() => { handleEdit(params) }}><FaEdit /></button>
         <button className='btn btn-danger' onClick={() => { handleDelete(params) }}><FaTrash /></button>
-    </>)
+    </div>)
 }
 
 export default VendorMasterEditDelete

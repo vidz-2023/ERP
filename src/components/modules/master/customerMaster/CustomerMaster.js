@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addCustomerMaster, getCustomerMasterByID, updateCustomerMaster } from '../../../../services/customerMasterServices';
+import { addCustomerMaster, getCustomerMasterByID, searchCustomerMasterAnyField, updateCustomerMaster } from '../../../../services/customerMasterServices';
 import pic from '../../../../assets/images/profilepic.png';
 
 function CustomerMaster() {
@@ -78,13 +78,13 @@ function CustomerMaster() {
         cstate: Yup.string().required('Required'),
         cCity: Yup.string().required('Required'),
         cCountry: Yup.string().required('Required'),
-        czipcode: Yup.string().required('*Required').min(0, "Only positive value").length(6)
+        czipcode: Yup.string().required('Required').min(0, "Only positive value").length(6)
             .matches(/^[0-9]{6}/).label('Zip code'),
-        cphoneno: Yup.string().required('*Required').min(0, "Only positive value").length(10)
+        cphoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
             .matches(/^[0-9]{10}/).label('Phone no'),
         cemail: Yup.string().email('Invalid email').required('Required'),
         caccHolderName: Yup.string().required('Required'),
-        caccno: Yup.number().required('*Required').min(0, "Only positive value"),
+        caccno: Yup.number().required('Required').min(0, "Only positive value"),
         cbankName: Yup.string().required('Required'),
         cbranch: Yup.string().required('Required'),
         cifceCode: Yup.string().required('Required'),
@@ -109,8 +109,9 @@ function CustomerMaster() {
         cbstate: Yup.string().required('Required'),
         cbCity: Yup.string().required('Required'),
         cbCountry: Yup.string().required('Required'),
-        cbzipcode: Yup.string().required('*Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
-        cbphoneno: Yup.string().required('Required'),
+        cbzipcode: Yup.string().required('Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
+        cbphoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
+        .matches(phoneRegExp, 'Phone number is not valid'),
         cbemail: Yup.string().required('Required'),
         cwebsite: Yup.string().matches(urlRegExp, 'Enter correct url!').required('Please enter website'),
         cfaceBook: Yup.string().email('Invalid email').required('Required'),
@@ -125,6 +126,8 @@ function CustomerMaster() {
     const [isCustomerUpdate, setIsCustomerUpdate] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
+    const [customerValState,setCustomerValState]= useState([])
+    const [customerMaster,setCustomerMaster]= useState([])
 
     //Fetching The Data
     useEffect(() => {
@@ -162,9 +165,19 @@ function CustomerMaster() {
         setFieldValue([name], checked)
     }
 
+    // ------------------- Search VendorMaster Any Field Function Declaration ---------------------------//
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+        setCustomerValState(searchVal)
+        searchCustomerMasterAnyField(searchVal).then((res) => {
+            setCustomerMaster(res.data)
+            console.log(customerMaster)
+        })
+    }
+
     return (
         <>
-            <div className='contianer mx-auto'>
+            <div className='contianer mx-auto mb-5'>
                 <fieldset>
                     <div className='m-3'>
                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
@@ -204,13 +217,13 @@ function CustomerMaster() {
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
-                                                    <Field
+                                                    <input
                                                         type="text"
                                                         className='form-control'
-                                                        // onChange={(e) => { searchFun(e) }} 
+                                                        onChange={(e) => { searchFun(e) }}
                                                         placeholder='Search'
                                                         name="search" />
-                                                    <ErrorMessage name='search' />
+                                                    {/* <ErrorMessage name='search' /> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -1142,7 +1155,7 @@ function CustomerMaster() {
 
 
 
-                                        <div className=' row mt-3'>
+                                        <div className=' row mt-5 ms-5'>
                                             <div className='col-3'>
                                                 <button
                                                     type="submit"
