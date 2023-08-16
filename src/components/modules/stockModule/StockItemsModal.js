@@ -120,6 +120,7 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
         <div>
             <div className="modal" id="exampleModal" tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
+                aria-hidden = "true"
                 data-bs-keyboard="false" style={{ display: 'block' }}>
                 <div className="modal-dialog">
                     <Formik initialValues={formValues} validationSchema={validationSchema}

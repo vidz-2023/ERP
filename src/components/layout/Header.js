@@ -50,7 +50,7 @@ function Header() {
                                         <li><NavLink className="dropdown-item" to="">Goods Receipt </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Stock Listing</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="stockData">Stock Transfer</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="">Stock Consumption</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="stockConsumptionData">Stock Consumption</NavLink></li>
                                     </ul>
                                 </li>
 

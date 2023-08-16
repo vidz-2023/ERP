@@ -33,7 +33,7 @@ function Stock() {
         "remark": "",
         "instruction": "",
         "fileName": "",
-        
+
 
     }
 
@@ -84,32 +84,32 @@ function Stock() {
         getCategories().then(res => {
             console.log(res.data)
             setCategory(res.data)
-           
+
         })
 
     }, [])
 
- const getData = async() =>{
-  
-    console.log(stockId)
-    if (stockId != 0) {
-       await getStockDataByStockId(stockId).then(res => {
-            res.data[0].fileName = ""
-            setFormValue(res.data[0])
-            console.log(formValues)
-            document.getElementById("addBtn").disabled = false;
-        })
-        setIsUpdate(true)
-        getStockItemsData(stockId)
-    }
+    const getData = async () => {
 
-    else {
-        formValues.stockId = generateId("St00")
-        console.log(formValues.stockId)
-        document.getElementById("addBtn").disabled = true;
+        console.log(stockId)
+        if (stockId != 0) {
+            await getStockDataByStockId(stockId).then(res => {
+                res.data[0].fileName = ""
+                setFormValue(res.data[0])
+                console.log(formValues)
+                document.getElementById("addBtn").disabled = false;
+            })
+            setIsUpdate(true)
+            getStockItemsData(stockId)
+        }
 
+        else {
+            formValues.stockId = generateId("St00")
+            console.log(formValues.stockId)
+            document.getElementById("addBtn").disabled = true;
+
+        }
     }
- }
     const getStockItemsData = (stockId) => {
         getStockItemsByStockId(stockId).then(res => {
             console.log(res.data)
@@ -269,7 +269,7 @@ function Stock() {
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Branch <span className="text-danger fw-bold">*</span>
+                                            To Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
@@ -292,28 +292,24 @@ function Stock() {
                                         </div>
                                     </div>
 
+
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            From Branch  <span className="text-danger fw-bold">*</span>
+                                            To Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="fromBranch"
-                                                value={formValues.fromBranch}
+                                                name="toWarehouse"
+                                                value={formValues.toWarehouse}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
-                                            > 
-                                              <option value="">Select.......</option>
-                                              {branchList.map((item) =>
-                                                <option
-                                                    key={item.id}
-                                                    value={item.Name}
-                                                >
-                                                    {item.Name}
-                                                </option>)}
+                                            >
+                                                <option value="">Select</option>
+                                                <option value="Warehouse1">Warehouse1</option>
+                                                <option value="Warehouse2">Warehouse2</option>
                                             </Field>
-                                            <ErrorMessage name='fromBranch' className="ms-1" />
+                                            <ErrorMessage name='toWarehouse' className="ms-1" />
                                         </div>
                                     </div>
 
@@ -329,7 +325,7 @@ function Stock() {
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
-                                                 <option value="">Select.......</option>
+                                                <option value="">Select.......</option>
                                                 {categoryList.map((item) =>
                                                     <option
                                                         key={item.id}
@@ -344,21 +340,46 @@ function Stock() {
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Warehouse  <span className="text-danger fw-bold">*</span>
+                                            Request No.  <span className="text-danger fw-bold">*</span>
+                                        </label>
+                                        <div className="col-sm-8  text-danger fs-6">
+                                            <Field
+                                                type="text"
+                                                name="requestNo"
+                                                value={formValues.requestNo}
+                                                onChange={e => handleChange(e, setFieldValue)}
+                                                className="form-control form-control-sm"
+                                            />
+                                            <ErrorMessage name='requestNo' className=" ms-1" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div className="col-md-6">
+
+                                    <div className="row">
+                                        <label className="col-sm-4 col-form-label">
+                                            From Branch  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="toWarehouse"
-                                                value={formValues.toWarehouse}
+                                                name="fromBranch"
+                                                value={formValues.fromBranch}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
-                                                <option value="">Select</option>
-                                                <option value="Warehouse1">Warehouse1</option>
-                                                <option value="Warehouse2">Warehouse2</option>
+                                                <option value="">Select.......</option>
+                                                {branchList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
                                             </Field>
-                                            <ErrorMessage name='toWarehouse' className="ms-1" />
+                                            <ErrorMessage name='fromBranch' className="ms-1" />
                                         </div>
                                     </div>
 
@@ -382,9 +403,6 @@ function Stock() {
                                         </div>
                                     </div>
 
-                                </div>
-
-                                <div className="col-md-6">
 
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
@@ -400,21 +418,7 @@ function Stock() {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
-                                            Request No.  <span className="text-danger fw-bold">*</span>
-                                        </label>
-                                        <div className="col-sm-8  text-danger fs-6">
-                                            <Field
-                                                type="text"
-                                                name="requestNo"
-                                                value={formValues.requestNo}
-                                                onChange={e => handleChange(e, setFieldValue)}
-                                                className="form-control form-control-sm"
-                                            />
-                                            <ErrorMessage name='requestNo' className=" ms-1" />
-                                        </div>
-                                    </div>
+
 
 
                                 </div>
