@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import purchaseStyle from "../purchase/purchaseMasterSty.module.css"
 import { FaBook } from "react-icons/fa";
 import * as Yup from 'yup';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import purchaseStyle from "./purchaseMasterSty.module.css"
-import { addPurchaseDetail, getPurchaseDetail, getPurchaseDetailById, updatePurchaseDetail } from '../../../services/purchaseMasterService';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPurchasedItemsByPId } from '../../../services/purchasedItemsDetailsService';
-import PurchasedItemsDetailDeleteEditButton from './PurchasedItemsDetailDeleteEditButton';
-import PurchasedItemModal from './PurchasedItemModal';
-import { getBranches, getCategories, getFreight } from '../../../services/masterServices';
+import { getPurchaseDetailById } from '../../../services/purchaseMasterService';
+import LogisticsStock from '../stockModule/LogisticsStock';
 
-const PurchaseMaster = () => {
+const GoodsReceipt = () => {
     const { pId } = useParams()
+
+    const navigate = useNavigate()
 
     const inputFields = {
         pId: "",
@@ -42,220 +41,40 @@ const PurchaseMaster = () => {
         remarks: "",
         attachment: "",
         discount: "",
-        totalPrice: "",
-        frieght: ""
+        totalPrice: ""
     }
-
     const [purchaseData, setPurchaseData] = useState(inputFields)
-    const [purchasedItemsData, setPurchasedItemData] = useState([])
-    const [isUpdate, setIsUpdate] = useState(false)
-
-    const [isPurchaseItemUpdate, setIsPurchaseItemUpdate] = useState(false)
-
-    const [isOpenModal, setIsOpenModal] = useState(false)
-    const [category, setCategory] = useState([])
-    const [branch, setBranch] = useState([])
-    const [freight, setFreight] = useState([])
-    const [modelData, setModalData] = useState({})
-
-    const [totalQty, setTotalQty] = useState(0)
-    const [totalPrice, setTotalPrice] = useState(0)
-    const [vendorName, setVendorName] = useState("")
-    // const [lastGeneratedPID, setLastGeneratedPID] = useState("")
-
-    const navigate = useNavigate()
-    const tempData = ["A", "B", "C"]
 
     useEffect(() => {
 
         getPurchaseDataByPId(pId)
-        getPurchasedItemsDataByPId(pId)
-        getCategories().then((res) => setCategory(res.data))
-        getBranches().then((res) => setBranch(res.data))
-        getFreight().then((res) => setFreight(res.data))
 
     }, [])
 
+
+    const handleCancel = () => {
+        navigate("/goods-receipt-table")
+    }
+
     const getPurchaseDataByPId = () => {
-        if (pId && pId !== '0') {
+        if (pId) {
             getPurchaseDetailById(pId).then((res) => {
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
-                setVendorName(res.data[0].vendor)
-                setIsUpdate(true)
+                // setIsUpdate(true)
             })
-            document.getElementById("addRowBtnId").disabled = false
-        } else {
-            document.getElementById("addRowBtnId").disabled = true
-        }
-    }
-
-    const generatedId = async () => {
-        let lastGeneratedPID = ""
-        await getPurchaseDetail().then((res) => {
-            lastGeneratedPID = res.data[res.data.length - 1].pId
-        })
-        let numStr = lastGeneratedPID.match(/\d+/)[0]
-        let num = Number(numStr) + 1
-        if (numStr.length) {
-            const padding = '0'.repeat(numStr.length - 2);
-            num = padding + num
-        }
-        let alphabet = lastGeneratedPID.match(/[a-z]/i)[0]
-        return alphabet + num
-    }
-
-    const handleSubmit = (values) => {
-        if (isUpdate) {
-            updatePurchaseDetail(values).then((res) => {
-                navigate("/purchase-order-table")
-            })
-        } else {
-
-            generatedId().then(newId => {
-                values = { ...values, pId: newId }
-                addPurchaseDetail(values).then((res) => {
-                    navigate("/purchase-oreder-table")
-                })
-            })
-        }
-    }
-
-    const handlingPurchasedItems = () => {
-        getPurchasedItemsDataByPId(pId)
-    }
-
-    const openModalForEditData = (data) => {
-        setModalData(data)
-        setIsPurchaseItemUpdate(true)
-        setIsOpenModal(true)
-    }
-
-    const sendDataToChild = (data) => {
-        setPurchasedItemData(data);
-        setIsPurchaseItemUpdate(false)
-        setIsOpenModal(false)
-    };
-
-    const handleModalAdd = () => {
-        setIsPurchaseItemUpdate(false)
-        setIsOpenModal(true)
-    }
-
-    const column = [
-        {
-            field: "sNo",
-            valueGetter: "node.rowIndex + 1"
-        },
-        {
-            field: "pId",
-            hide: true
-        },
-        {
-            field: "materialId"
-        },
-        {
-            field: "materialName"
-        },
-        {
-            field: "unitPrice"
-        },
-        {
-            field: "requestedQty"
-        },
-
-        {
-            field: "totalItemPrice",
-            valueGetter: (params) => {
-                const { requestedQty, unitPrice } = params.data
-                return requestedQty * unitPrice
-            },
-        },
-        {
-            headerName: "Action",
-            field: "pId",
-            cellRenderer: PurchasedItemsDetailDeleteEditButton,
-            cellRendererParams: {
-                funGetPurchasedItems: handlingPurchasedItems,
-                openModalForEdit: openModalForEditData,
-            }
-        }
-    ]
-
-    const getPurchasedItemsDataByPId = (pid) => {
-        let qty = 0
-        let price = 0
-        getPurchasedItemsByPId(pid).then((res) => {
-            const data = res.data.map((item, index) => {
-                qty = qty + item.requestedQty
-                price = price + (item.requestedQty * item.unitPrice)
-                return item
-            })
-            setTotalQty(qty)
-            setTotalPrice(price)
-            setPurchasedItemData(data)
-        })
-    }
-
-    const defaultColDef = {
-        sortable: true,
-        filter: true,
-        flex: 1
-    }
-
-    const validationSchema = Yup.object({
-        gstType: Yup.string().required('*Required'),
-        gstNumber: Yup.number().required('*Required').min(0, "Only positive value"),
-        branch: Yup.string().required('*Required'),
-        category: Yup.string().required('*Required'),
-        vendor: Yup.string().required('*Required'),
-        email: Yup.string().required('*Required'),
-        // currency: Yup.number().required('*Required').min(0, "Only positive value"),
-        currencyConversionRate: Yup.number().required('*Required').min(0, "Only positive value"),
-        orderDate: Yup.string().required('*Required'),
-        orderNumber: Yup.number().required('*Required').min(0, "Only positive value"),
-        deliveryDate: Yup.string().required('*Required'),
-        agent: Yup.string().required('*Required'),
-        refNumber: Yup.number().required('*Required').min(0, "Only positive value"),
-        refDate: Yup.string().required('*Required'),
-        // taxInc: Yup.number().required('*Required').min(0, "Only positive value"),
-        // taxExcl: Yup.number().required('*Required').min(0, "Only positive value"),
-        billingAdd: Yup.string().required('*Required'),
-        shippingAdd: Yup.string().required('*Required'),
-        contactPersonName: Yup.string().required('*Required'),
-        contactPersonPhone: Yup.string().required('*Required'),
-        paymentType: Yup.string().required('*Required'),
-        remarks: Yup.string().required('*Required'),
-        attachment: "",
-        discount: Yup.number().required('*Required').min(0, "Only positive value"),
-        // totalPrice: Yup.number().required('*Required').min(0, "Only positive value"),
-        frieght: Yup.string().required('*Required')
-    })
-
-    const handleCancel = () => {
-        navigate("/purchase-order-table")
-    }
-
-    const closeItemModal = () => {
-        setIsOpenModal(false)
-        setIsPurchaseItemUpdate(false)
-    }
-
-    const handleChange = (e, setFieldValue) => {
-        const { value, name } = e.target
-        if (name === "vendor") {
-            setFieldValue("vendor", value)
-
-            setVendorName(value)
+            // document.getElementById("addRowBtnId").disabled = false
         }
     }
 
     return (
+
+
         <div>
             <Formik
                 initialValues={purchaseData}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}
+                // onSubmit={handleSubmit}
+                // validationSchema={validationSchema}
                 enableReinitialize
             >
                 {({ isSubmitting, setFieldValue }) => {
@@ -266,7 +85,7 @@ const PurchaseMaster = () => {
                                     <div className='col-12'>
                                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
                                             <div className='m-2'>
-                                                <FaBook className='me-2' />Purchase Order
+                                                <FaBook className='me-2' />Good Receipt
                                             </div>
                                         </h4>
                                     </div>
@@ -282,13 +101,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                type="text"
+                                                // component="select"
                                                 name="gstType"
-                                            // value={purchaseData.gstType}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.gstType}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select GST Type...</option>
-                                                {
+                                                {/* <option value="">Select GST Type...</option>
+                                               
                                                     tempData.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -298,7 +119,8 @@ const PurchaseMaster = () => {
                                                             {item}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='gstType' />
                                         </div>
@@ -309,8 +131,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="number"
                                                 name="gstNumber"
-                                            // value={purchaseData.gstNumber}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.gstNumber}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='gstNumber' />
@@ -323,13 +146,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="branch"
-                                            // value={purchaseData.branch}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.branch}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Branch</option>
-                                                {
+                                                {/* <option value="">Select Branch</option>
+                                               
                                                     branch.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -338,7 +163,8 @@ const PurchaseMaster = () => {
                                                             {item.Name}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='branch' />
                                         </div>
@@ -347,22 +173,25 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="category"
-                                            // value={purchaseData.category}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.category}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Category</option>
-                                                {
+                                                {/*<option value="">Select Category</option>
+                                                
                                                     category.map((item, index) => {
                                                         return <option
-                                                            key={index}
-                                                            value={item.Name}
-                                                        >
-                                                            {item.Name}
-                                                        </option>
+                                                    key={index}
+                                                    value={item.Name}
+                                                >
+                                                    {item.Name}
+                                                </option>
                                                     }
-                                                    )}
+                                                )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='category' />
                                         </div>
@@ -374,22 +203,24 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="vendor"
                                                 // value={purchaseData.vendor}
-                                                onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Vendor</option>
-                                                {
-                                                    tempData.map((item, index) => {
+                                                {/*<option value="">Select Vendor</option>
+                                                tempData.map((item, index) => {
                                                         return <option
-                                                            key={index}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='vendor' />
                                         </div>
@@ -400,8 +231,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="email"
                                                 name="email"
-                                            // value={purchaseData.email}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.email}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='email' />
@@ -414,13 +246,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="currency"
-                                            // value={purchaseData.currency}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.currency}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Currency</option>
-                                                {
+                                                {/*<option value="">Select Currency</option>
+                                                
                                                     tempData.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -429,7 +263,8 @@ const PurchaseMaster = () => {
                                                             {item}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='currency' />
                                         </div>
@@ -440,8 +275,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="number"
                                                 name="currencyConversionRate"
-                                            // value={purchaseData.currencyConversionRate}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.currencyConversionRate}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='currencyConversionRate' />
@@ -456,8 +292,9 @@ const PurchaseMaster = () => {
                                                 className="form-control fw-light"
                                                 type='date'
                                                 name="orderDate"
-                                            // value={purchaseData.orderDate}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.orderDate}
+                                                // onChange={handleChange}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='orderDate' />
                                         </div>
@@ -468,8 +305,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="number"
                                                 name="orderNumber"
-                                            // value={purchaseData.orderNumber}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.orderNumber}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='orderNumber' />
@@ -484,8 +322,9 @@ const PurchaseMaster = () => {
                                                 className="form-control fw-light"
                                                 type='date'
                                                 name="deliveryDate"
-                                            // value={purchaseData.deliveryDate}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.deliveryDate}
+                                                // onChange={handleChange}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='deliveryDate' />
                                         </div>
@@ -496,8 +335,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="text"
                                                 name="agent"
-                                            // value={purchaseData.agent}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.agent}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='agent' />
@@ -512,8 +352,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="text"
                                                 name="refNumber"
-                                            // value={purchaseData.refNumber}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.refNumber}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='refNumber' />
@@ -525,8 +366,9 @@ const PurchaseMaster = () => {
                                                 className="form-control fw-light"
                                                 type='date'
                                                 name="refDate"
-                                            // value={purchaseData.refDate}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.refDate}
+                                                // onChange={handleChange}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='refDate' />
                                         </div>
@@ -536,13 +378,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="taxInc"
-                                            // value={purchaseData.taxInc}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.taxInc}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Inclusive Tax...</option>
-                                                {
+                                                {/*<option value="">Select Inclusive Tax...</option>
+                                                
                                                     tempData.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -551,7 +395,8 @@ const PurchaseMaster = () => {
                                                             {item}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='taxInc' />
                                         </div>
@@ -560,13 +405,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="taxExcl"
-                                            // value={purchaseData.taxExcl}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.taxExcl}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select Exclusive Tax...</option>
-                                                {
+                                                {/*<option value="">Select Exclusive Tax...</option>
+                                                
                                                     tempData.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -575,7 +422,8 @@ const PurchaseMaster = () => {
                                                             {item}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='taxExcl' />
                                         </div>
@@ -587,8 +435,9 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field as="textarea" className="form-control"
                                                 name="billingAdd"
-                                            // value={purchaseData.billingAdd}
-                                            // onChange={e => handleChange(e, setFieldValue)}
+                                                // value={purchaseData.billingAdd}
+                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='billingAdd' />
                                         </div>
@@ -597,8 +446,9 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field as="textarea" className="form-control"
                                                 name="shippingAdd"
-                                            // value={purchaseData.shippingAdd}
-                                            // onChange={e => handleChange(e, setFieldValue)}
+                                                // value={purchaseData.shippingAdd}
+                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='shippingAdd' />
                                         </div>
@@ -610,8 +460,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="text"
                                                 name="contactPersonName"
-                                            // value={purchaseData.contactPersonName}
-                                            // onChange={e => handleChange(e, setFieldValue)}
+                                                // value={purchaseData.contactPersonName}
+                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                disabled
                                             />
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='contactPersonName' />
                                         </div>
@@ -622,8 +473,9 @@ const PurchaseMaster = () => {
                                                 className="form-control"
                                                 type="number"
                                                 name="contactPersonPhone"
-                                            // value={purchaseData.contactPersonPhone}
-                                            // onChange={handleChange}
+                                                // value={purchaseData.contactPersonPhone}
+                                                // onChange={handleChange}
+                                                disabled
                                             >
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='contactPersonPhone' />
@@ -636,13 +488,15 @@ const PurchaseMaster = () => {
                                         <div className='col-3 d-flex'>
                                             <Field
                                                 className="form-select fw-light"
-                                                component="select"
+                                                // component="select"
+                                                type="text"
                                                 name="paymentType"
-                                            // value={purchaseData.paymentType}
-                                            // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                // value={purchaseData.paymentType}
+                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                disabled
                                             >
-                                                <option value="">Select...</option>
-                                                {
+                                                {/*<option value="">Select...</option>
+                                                
                                                     tempData.map((item, index) => {
                                                         return <option
                                                             key={index}
@@ -651,7 +505,8 @@ const PurchaseMaster = () => {
                                                             {item}
                                                         </option>
                                                     }
-                                                    )}
+                                                    )
+                                                */}
                                             </Field>
                                             <ErrorMessage className="text-danger ms-2" component="div" name='paymentType' />
                                         </div>
@@ -660,6 +515,7 @@ const PurchaseMaster = () => {
 
                                     {/* ==================================== Ag Grid ==================================================== */}
                                     <div className=''>
+                                        {/*
                                         <div className='d-flex w-100'>
                                             <div className='d-flex w-50'>
                                                 <button type="button"
@@ -682,17 +538,27 @@ const PurchaseMaster = () => {
                                                 <div className='form-label'>{totalPrice}</div>
                                             </div>
                                         </div>
-
+                                    */}
                                         <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
-                                                rowData={purchasedItemsData}
-                                                columnDefs={column}
-                                                defaultColDef={defaultColDef}
+                                            // rowData={purchasedItemsData}
+                                            // columnDefs={column}
+                                            // defaultColDef={defaultColDef}
                                             />
                                         </div>
                                     </div>
+                                    {/* ==================================== Logistics ==================================================== */}
+                                    <div className="row mt-2">
+                                        <hr></hr>
+                                    </div>
 
+                                    {/*<LogisticsStock />*/}
+
+                                    <div className="row mt-2">
+                                        <hr></hr>
+                                    </div>
                                     {/* ==================================== summary ==================================================== */}
+
 
                                     <div>
                                         <div
@@ -733,7 +599,7 @@ const PurchaseMaster = () => {
                                                     className="form-control"
                                                     type="number"
                                                     name="totalPrice"
-                                                    value={totalPrice}
+                                                    // value={totalPrice}
                                                     // onChange={handleChange}
                                                     disabled
                                                 >
@@ -766,6 +632,7 @@ const PurchaseMaster = () => {
                                             </div>
 
                                         </div>
+                                        {/*
                                         <div
                                             className={`row mb-3 ${purchaseStyle.myInputfield}`}
                                         >
@@ -779,7 +646,7 @@ const PurchaseMaster = () => {
                                                 // onChange={(e) => { handleChange(e, setFieldValue) }}
                                                 >
                                                     <option value="">Select...</option>
-                                                    {
+                                                    
                                                         freight.map((item, index) => {
                                                             return <option
                                                                 key={index}
@@ -788,11 +655,15 @@ const PurchaseMaster = () => {
                                                                 {item.Name}
                                                             </option>
                                                         }
-                                                        )}
+                                                        )
+                                                    
                                                 </Field>
                                                 <ErrorMessage className="text-danger ms-2" component="div" name='frieght' />
                                             </div>
-                                        </div>
+                                           
+                                    </div>
+                                     */}
+
                                     </div>
                                 </div>
                                 <div className='d-flex justify-content-center'>
@@ -810,18 +681,8 @@ const PurchaseMaster = () => {
                     )
                 }}
             </Formik>
-            {/* ==================================== Modal==================================================== */}
-
-            {isOpenModal &&
-                <PurchasedItemModal
-                    sendDataToParent={sendDataToChild}
-                    propData={modelData}
-                    propIsUpdate={isPurchaseItemUpdate}
-                    closemodal={closeItemModal}
-                />}
-
-        </div>
+        </div >
     )
 }
 
-export default PurchaseMaster
+export default GoodsReceipt

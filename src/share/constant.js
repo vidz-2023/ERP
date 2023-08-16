@@ -5,6 +5,7 @@ export const masterBranch = `${JSONURL}/branch-master`
 export const masterDepartment = `${JSONURL}/department-master`
 export const masterEmployeeShift = `${JSONURL}/employeeShift-master`
 export const masterFreight = `${JSONURL}/freight-master`
+export const masterStorageLocation = `${JSONURL}/storage-location-master`
 
 export const salaryURL = `${JSONURL}/SalaryStructure`
 export const workLocationURL = `${JSONURL}/work-locaiton-info`
@@ -33,12 +34,12 @@ export const attendanceMarkMasterURL = `${JSONURL}/attendance-mark-master`
 export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`
 
 export const personMasterURL = `${JSONURL}/personMaster`
-export const vendorMasterURL=`${JSONURL}/vendorMaster`
-export const customerMasterURL=`${JSONURL}/customerMaster`
+export const vendorMasterURL = `${JSONURL}/vendorMaster`
+export const customerMasterURL = `${JSONURL}/customerMaster`
 
 export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 
-export const purchaseURL = `${JSONURL}/purchase-master`
+export const purchaseURL = `${JSONURL}/purchase-order`
 export const purchasedItemsDetailsURL = `${JSONURL}/purchased-items-details`
 
 export const rawMaterialURL = `${JSONURL}/raw-material`

@@ -38,17 +38,18 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
     }, [propData])
 
     const funGetMaterialName = (mId) => {
-        const d = avaMaterial.find((item) => {
+        const matchData = avaMaterial.find((item) => {
             return mId === item.materialId
         })
-        setPurchasedItemData({ ...purchasedItemData, materialName: d.materialName, unitPrice: Number(d.standardValuePerUnit) })
+        setPurchasedItemData({ ...purchasedItemData, materialId: matchData.materialId, materialName: matchData.materialName, unitPrice: Number(matchData.standardValuePerUnit) })
     }
 
     const handleChange = (e, setFieldValue) => {
         const { name, value } = e.target
         if (name === "materialId") {
             setFieldValue("materialId", value)
-            funGetMaterialName(value)
+
+            value && funGetMaterialName(value)
         }
 
         // if (e.target.name === "requestedQty" || e.target.name === "unitPrice") {
@@ -128,7 +129,9 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                 id="exampleModal"
                                 tabIndex="-1"
                                 aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
+                                aria-hidden="true"
+                                data-bs-backdrop="static"
+                            >
 
                                 <div className="modal-dialog">
                                     <div className="modal-content">
@@ -161,7 +164,6 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                             className="form-select fw-light"
                                                             component="select"
                                                             name="materialId"
-                                                            // value={purchaseData.gstType}
                                                             onChange={(e) => { handleChange(e, setFieldValue) }}
                                                         >
                                                             <option value="">Select...</option>
@@ -170,7 +172,6 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                                     return <option
                                                                         key={index}
                                                                         value={item.materialId}
-                                                                    // onChange={handleChange}
                                                                     >
                                                                         {item.materialId}
                                                                     </option>
