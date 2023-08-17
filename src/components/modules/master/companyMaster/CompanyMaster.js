@@ -134,13 +134,13 @@ function CompanyMaster() {
                 <Form>
                   <div className='w-75 mx-auto'>
                     <div className='row mb-1 '>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         CompanyName
                       </div>
                       <div className='col-3 '>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='companyname'
                             value={companyMasterValue.companyname}
@@ -150,13 +150,13 @@ function CompanyMaster() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Company Category
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-select fw-light"
+                            className="form-select form-select-sm fw-light"
                             component="select"
                             name="companycategory"
                             value={companyMasterValue.companycategory}
@@ -172,13 +172,13 @@ function CompanyMaster() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         GST no
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='gstno'
                             value={companyMasterValue.gstno}
@@ -188,14 +188,14 @@ function CompanyMaster() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         ISO No
                       </div>
                       <div className='col-3'>
 
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='isono'
                             value={companyMasterValue.isono}
@@ -207,13 +207,13 @@ function CompanyMaster() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Pan No
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='panno'
                             value={companyMasterValue.panno}
@@ -224,13 +224,13 @@ function CompanyMaster() {
                       </div>
 
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         CIN No
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='cinno'
                             value={companyMasterValue.cinno}
@@ -242,13 +242,13 @@ function CompanyMaster() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Class Company
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-select fw-light"
+                            className="form-select form-select-sm fw-light"
                             component="select"
                             name="classcompany"
                             value={companyMasterValue.classcompany}
@@ -263,14 +263,14 @@ function CompanyMaster() {
                       </div>
 
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         No of employees
                       </div>
 
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='noofemp'
                             value={companyMasterValue.noofemp}
@@ -282,14 +282,14 @@ function CompanyMaster() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Date of Begin
                       </div>
 
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='begindate'
                             value={companyMasterValue.begindate}
@@ -301,14 +301,14 @@ function CompanyMaster() {
 
                       <div className='col-2'></div>
 
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Active status
                       </div>
 
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-select fw-light"
+                            className="form-select form-select-sm fw-light"
                             component="select"
                             name="active"
                             value={companyMasterValue.active}
@@ -335,13 +335,13 @@ function CompanyMaster() {
                           <div className="accordion-body">
                             <div className='row mb-1'>
                               <div className='row mb-1'>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   Flat No:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='flatno'
                                       value={companyMasterValue.flatno}
@@ -351,13 +351,13 @@ function CompanyMaster() {
                                   </div>
                                 </div>
                                 <div className='col-2'></div>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   Street:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='street'
                                       value={companyMasterValue.street}
@@ -369,13 +369,13 @@ function CompanyMaster() {
                               </div>
 
                               <div className='row mb-1'>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   Place:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='place'
                                       value={companyMasterValue.place}
@@ -385,13 +385,13 @@ function CompanyMaster() {
                                   </div>
                                 </div>
                                 <div className='col-2'></div>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   State:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='state'
                                       value={companyMasterValue.state}
@@ -403,13 +403,13 @@ function CompanyMaster() {
                               </div>
 
                               <div className='row mb-1'>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   Country:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='country'
                                       value={companyMasterValue.country}
@@ -419,13 +419,13 @@ function CompanyMaster() {
                                   </div>
                                 </div>
                                 <div className='col-2'></div>
-                                <div className='col-2 form-label'>
+                                <div className='col-2 col-form-label col-form-label-sm'>
                                   Zipcode:
                                 </div>
                                 <div className='col-3'>
                                   <div class="mb-2 text-danger">
                                     <Field
-                                      className="form-control"
+                                      className="form-control form-control-sm"
                                       type='text'
                                       name='zipcode'
                                       value={companyMasterValue.zipcode}
@@ -449,14 +449,14 @@ function CompanyMaster() {
                         <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                           <div className="accordion-body">
                             <div className='row mb-1'>
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Email Id
                               </div>
 
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='email'
                                     value={companyMasterValue.email}
@@ -467,13 +467,13 @@ function CompanyMaster() {
                               </div>
                               <div className='col-2'></div>
 
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Website
                               </div>
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='website'
                                     value={companyMasterValue.website}
@@ -486,13 +486,13 @@ function CompanyMaster() {
                             </div>
 
                             <div className='row mb-1'>
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Mobile No
                               </div>
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='mobileno'
                                     value={companyMasterValue.mobileno}
@@ -504,13 +504,13 @@ function CompanyMaster() {
 
                               <div className='col-2'></div>
 
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Fax No
                               </div>
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='fax'
                                     value={companyMasterValue.fax}
@@ -534,14 +534,14 @@ function CompanyMaster() {
                         <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                           <div className="accordion-body">
                             <div className='row mb-1'>
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Industry Type
                               </div>
 
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-select fw-light"
+                                    className="form-select form-select-sm fw-light"
                                     component="select"
                                     name="industrytype"
                                     value={companyMasterValue.industrytype}
@@ -558,14 +558,14 @@ function CompanyMaster() {
 
                               <div className='col-2'></div>
 
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Account Balance
                               </div>
 
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='actbalance'
                                     value={companyMasterValue.actbalance}
@@ -577,14 +577,14 @@ function CompanyMaster() {
                             </div>
 
                             <div className='row mb-1'>
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Date Of BalanceSheet
                               </div>
 
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-control"
+                                    className="form-control form-control-sm"
                                     type='text'
                                     name='dateofbalancesheet'
                                     value={companyMasterValue.dateofbalancesheet}
@@ -596,14 +596,14 @@ function CompanyMaster() {
 
                               <div className='col-2'></div>
 
-                              <div className='col-2 form-label'>
+                              <div className='col-2 col-form-label col-form-label-sm'>
                                 Financial Year
                               </div>
 
                               <div className='col-3'>
                                 <div class="mb-2 text-danger">
                                   <Field
-                                    className="form-select fw-light"
+                                    className="form-select form-select-sm fw-light"
                                     component="select"
                                     name="financialyear"
                                     value={companyMasterValue.financialyear}

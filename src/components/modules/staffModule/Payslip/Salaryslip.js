@@ -127,10 +127,10 @@ export const Salaryslip = () => {
                                         <div class="row">
 
                                             <div className='row mb-1'>
-                                                <div className='col-2 form-label'>Employee Name</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Employee Name</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="Name"
                                                         value={DisplayData.Name}
@@ -140,10 +140,10 @@ export const Salaryslip = () => {
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Name' />
                                                 </div>
                                                 <div className='col-2'></div>
-                                                <div className='col-2 form-label'>Department</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Department</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="Department"
                                                         value={DisplayData.dept}
@@ -154,10 +154,10 @@ export const Salaryslip = () => {
                                                 </div>
                                             </div>
                                             <div className='row mb-1'>
-                                                <div className='col-2 form-label'>Employee Code</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Employee Code</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="empcode"
                                                         value={DisplayData.empcode}
@@ -167,10 +167,10 @@ export const Salaryslip = () => {
                                                     <ErrorMessage className="text-danger ms-2" component="div" name='empcode' />
                                                 </div>
                                                 <div className='col-2'></div>
-                                                <div className='col-2 form-label'>Bank Name</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Bank Name</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="Bank"
                                                         value="HDFC"
@@ -180,10 +180,10 @@ export const Salaryslip = () => {
                                                 </div>
                                             </div>
                                             <div className='row mb-1'>
-                                                <div className='col-2 form-label'>Designation</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Designation</div>
                                                 <div className='col-3 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="Designation"
                                                         value={DisplayData.designation}
@@ -193,10 +193,10 @@ export const Salaryslip = () => {
                                                     <ErrorMessage className="text-danger  ms-2" component="div" name='Designation' />
                                                 </div>
                                                 <div className='col-2'></div>
-                                                <div className='col-2 form-label'>A/c No</div>
+                                                <div className='col-2 col-form-label col-form-label-sm'>A/c No</div>
                                                 <div className='col-3  d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="acno"
                                                         value="xxxxxxx"

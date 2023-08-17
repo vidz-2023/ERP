@@ -88,12 +88,12 @@ function PostSalary() {
                                     <div className='w-75 mx-auto'>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Month
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field as="select" name="month" class="form-select">
+                                                    <Field as="select" name="month" class="form-select form-select-sm">
                                                         {Month.map((item) => <option>{item}</option>)}
                                                     </Field>
                                                     <ErrorMessage name='month' />
@@ -104,12 +104,12 @@ function PostSalary() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Year
                                             </div>
                                             <div className='col-3 mt-2'>
                                                 <div class="input-group text-danger">
-                                                    <Field as="select" name="year" class="form-select">
+                                                    <Field as="select" name="year" class="form-select form-select-sm">
                                                         {Year.map((item) => <option>{item}</option>)}
                                                     </Field>
                                                     <ErrorMessage name='year' />
@@ -118,12 +118,12 @@ function PostSalary() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Branch
                                             </div>
                                             <div className='col-3 mt-2'>
                                                 <div class="input-group text-danger">
-                                                    <Field as="select" name="branch" class="form-select">
+                                                    <Field as="select" name="branch" class="form-select form-selects-sm">
                                                         {Branch.map((item) => <option>{item}</option>)}
                                                     </Field>
                                                     <ErrorMessage name='branch' />
@@ -132,12 +132,12 @@ function PostSalary() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Date
                                             </div>
                                             <div className='col-3 mt-2'>
                                                 <div class="input-group text-danger">
-                                                    <Field className="form-control" type='date' name='date' />
+                                                    <Field className="form-control form-control-sm" type='date' name='date' />
                                                     <ErrorMessage name='year' />
                                                 </div>
                                             </div>
@@ -146,7 +146,7 @@ function PostSalary() {
 
                                         <div className='row mb-1'>
 
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Employee Code
                                             </div>
                                             <div className='col-3 '>
@@ -157,7 +157,7 @@ function PostSalary() {
 
                                                         name="empCode"
 
-                                                        className="form-select"
+                                                        className="form-select form-selects-sm"
 
                                                         value={PostSalaryValue.empCode}
 
@@ -178,7 +178,7 @@ function PostSalary() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
 
                                             </div>
                                             <div className='col-3 mt-2'>

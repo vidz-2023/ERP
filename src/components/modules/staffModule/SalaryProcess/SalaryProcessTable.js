@@ -168,19 +168,19 @@ const DummyValue =[];
 
             <div className='container'>
                 <div className='row mt-3'>
-                    <div className='col-1 form-label'>
+                    <div className='col-1 col-form-label col-form-label-sm'>
                         Month
                     </div>
                     <div className='col-2'>
-                        <input type="month" className='form-control' name='month' />
+                        <input type="month" className='form-control form-control-sm' name='month' />
                     </div>
 
 
-                    <div className='col-1 form-label'>
+                    <div className='col-1 col-form-label col-form-label-sm'>
                         Year
                     </div>
                     <div className='col-2'>
-                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} name='year' />
+                        <input type="text" className='form-control form-control-sm' onChange={(e) => { searchFun(e) }} name='year' />
                     </div>
                     <div className='col-2'>
                         <button type="button" className='btn btn-info' onClick={searchFunThroughBtn}>

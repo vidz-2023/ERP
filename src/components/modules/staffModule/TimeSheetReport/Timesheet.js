@@ -55,12 +55,12 @@ function TimeSheet() {
                                     <div className='w-75 mx-auto'>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Branch
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field as="select" name="branch" class="form-select">
+                                                    <Field as="select" name="branch" class="form-select form-select-sm">
                                                         {Branch.map((item) => <option>{item}</option>)}
                                                     </Field>
                                                     <ErrorMessage name='branch' />
@@ -69,43 +69,43 @@ function TimeSheet() {
 
                                             <div className='col-2'></div>
 
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Voucher No
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field className="form-control" type='text' name='voucherno' />
+                                                    <Field className="form-control form-control-sm" type='text' name='voucherno' />
                                                     <ErrorMessage name='voucherno' />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Employee Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                <Field className="form-control" type='text' name='empname' />
+                                                <Field className="form-control form-control-sm" type='text' name='empname' />
                                                     <ErrorMessage name='empname' />
                                                 </div>
                                             </div>
 
                                             <div className='col-2'></div>
 
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Date
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field className="form-control" type='date' name='date' />
+                                                    <Field className="form-control form-control-sm" type='date' name='date' />
                                                     <ErrorMessage name='date' />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>                                          
+                                            <div className='col-2 col-form-label col-form-label-sm'>                                          
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">                                              
@@ -114,19 +114,19 @@ function TimeSheet() {
 
                                             <div className='col-2'></div>
 
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                Ts For Date
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field className="form-control" type='date' name='tsfordate' />
+                                                    <Field className="form-control form-control-sm" type='date' name='tsfordate' />
                                                     <ErrorMessage name='tsfordate' />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>                                          
+                                            <div className='col-2 col-form-label col-form-label-sm'>                                          
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">                                              
@@ -135,12 +135,12 @@ function TimeSheet() {
 
                                             <div className='col-2'></div>
 
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                Search
                                             </div>
                                             <div className='col-3'>
                                                 <div class="input-group text-danger">
-                                                    <Field className="form-control" type='text' name='search'/>
+                                                    <Field className="form-control form-control-sm" type='text' name='search'/>
                                                     <ErrorMessage name='search' />
                                                 </div>
                                             </div>
