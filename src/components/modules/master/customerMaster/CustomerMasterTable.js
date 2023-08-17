@@ -8,8 +8,9 @@ import CustomerMasterEditDelete from './CustomerMasterEditDelete';
 
 function CustomerMasterTable() {
 
-const navigate = useNavigate();
+    const navigate = useNavigate();
     const [customer, setCustomer] = useState([]);
+    
     useEffect(() => {
         getCustomerMasterData()
     }, [])
@@ -20,7 +21,7 @@ const navigate = useNavigate();
             setCustomer(res.data)
         })
     }
-    
+
 
     const column = [
         {
@@ -43,7 +44,7 @@ const navigate = useNavigate();
             field: "cpayment"
         },
         {
-            headerName: "Payment",
+            headerName: "Price Category",
             field: "cpriceCategory"
         },
         {

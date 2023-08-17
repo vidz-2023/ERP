@@ -54,6 +54,7 @@ import GoodsReceipt from './components/modules/goodsReceipt/GoodsReceipt';
 import UnitMaster from './components/modules/master/unitMaster/UnitMaster';
 import PlantMaster from './components/modules/master/PlantMaster/PlantMaster'; 
 import { PlantMasterTable } from './components/modules/master/PlantMaster/PlantMasterTable'; 
+import UnitMasterTable from './components/modules/master/unitMaster/UnitMasterTable';
 
 function App() {
   return (
@@ -127,7 +128,8 @@ function App() {
         <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
         <Route path="/stockConsumptionData" element={<StockConsumptionTable />} />
         <Route path="/unitMaster" element={<UnitMaster />} />
-
+        <Route path="/unitMaster/:id" element={<UnitMaster />} />
+        <Route path="/unitMasterTable" element={<UnitMasterTable />} />
         <Route path="/PlantMaster" element={<PlantMaster />} />
         <Route path='PlantMaster/:id' element={<PlantMaster />} />
         <Route path="PlantMasterTable" element={<PlantMasterTable />} />

@@ -42,7 +42,7 @@ function VendorMasterTable() {
             field: "payment"
         },
         {
-            headerName: "Payment",
+            headerName: "Price Category",
             field: "priceCategory"
         },
         {
