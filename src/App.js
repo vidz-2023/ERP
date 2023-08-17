@@ -110,7 +110,12 @@ function App() {
         <Route path="/rawMaterial" element={<RawMaterial />} />
         <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
         <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
+        <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
+        <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
+
+        <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
+        <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
 
         <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
         <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
