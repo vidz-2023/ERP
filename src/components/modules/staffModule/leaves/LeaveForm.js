@@ -262,7 +262,7 @@ function LeaveForm() {
                   <div className='w-75 mx-auto'>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Employee
                       </div>
                       <div className='col-3 '>
@@ -270,7 +270,7 @@ function LeaveForm() {
                           <Field
                             as="select"
                             name="employee"
-                            className="form-select"
+                            className="form-select form-select-sm fw-light"
                             value={empCode}
                             onChange={e => onLeaveEMPHandlerChange(e, setFieldValue)
                             }>
@@ -290,7 +290,7 @@ function LeaveForm() {
                           <Field
                             as="select"
                             name="employee"
-                            className="form-select"
+                            className="form-select form-select-sm fw-light"
                             value={empCode}
                             onChange={e => onLeaveEMPHandlerChange(e, setFieldValue)}
                           >
@@ -300,13 +300,13 @@ function LeaveForm() {
                         </div>}
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Designation
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='designation'
                             value={Designation}
@@ -320,13 +320,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Branch
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='branch'
                             value={Branch}
@@ -338,13 +338,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Department
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='department'
                             value={Department}
@@ -360,7 +360,7 @@ function LeaveForm() {
 
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Leave Code
                       </div>
                       <div className='col-3'>
@@ -368,7 +368,7 @@ function LeaveForm() {
                           <Field
                             as="select"
                             name="leavecode"
-                            className="form-select"
+                            className="form-select form-select-sm fw-light"
                             value={leaveFormValue.leavecode}
                             onChange={e => onLeavecodeChange(e, setFieldValue)}
                           >
@@ -380,7 +380,7 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Leave In
                       </div>
                       <div className='col-3'>
@@ -388,7 +388,7 @@ function LeaveForm() {
                           <Field
                             as="select"
                             name="leaveIn"
-                            className="form-select"
+                            className="form-select form-select-sm fw-light"
                             value={leaveFormValue.leaveIn}
                             onChange={e => onLeaveHandlerChange(e, setFieldValue)}>
                             <option value="FullDay"> FullDay</option>
@@ -401,13 +401,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         From Date
                       </div>
                       <div className='col-3'>
                         <div class="mb-2  text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='date'
                             name='fromDate'
                             value={leaveFormValue.fromDate}
@@ -416,13 +416,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         To Date
                       </div>
                       <div className='col-3'>
                         <div class="mb-2  text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='date'
                             name='toDate'
                             value={leaveFormValue.toDate}
@@ -433,13 +433,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Days
                       </div>
                       <div className='col-3'>
                         <div class="mb-2  text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='days'
                             value={leaveFormValue.days}
@@ -448,13 +448,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Rate
                       </div>
                       <div className='col-3'>
                         <div class="mb-2  text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='rate'
                             value={leaveFormValue.rate}
@@ -466,13 +466,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Amount
                       </div>
                       <div className='col-3'>
                         <div class="mb-2  text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='amount'
                             value={leaveFormValue.amount}
@@ -481,13 +481,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Reason
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='reason'
                             value={leaveFormValue.reason}
@@ -499,13 +499,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Remark
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='remark'
                             value={leaveFormValue.remark}
@@ -514,13 +514,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Remark By Finance
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='remarkByFinance'
                             value={leaveFormValue.remarkByFinance}
@@ -532,13 +532,13 @@ function LeaveForm() {
                     </div>
 
                     <div className='row mb-1'>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         Voucher No
                       </div>
                       <div className='col-3'>
                         <div class="text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='voucherno'
                             value={leaveFormValue.voucherno}
@@ -548,13 +548,13 @@ function LeaveForm() {
                         </div>
                       </div>
                       <div className='col-2'></div>
-                      <div className='col-2 form-label'>
+                      <div className='col-2 col-form-label col-form-label-sm'>
                         AvailableLeaves
                       </div>
                       <div className='col-3'>
                         <div class="mb-2 text-danger">
                           <Field
-                            className="form-control"
+                            className="form-control form-control-sm"
                             type='text'
                             name='availableLeaves'
                             //value={avbLeaves}

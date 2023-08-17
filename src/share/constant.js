@@ -36,7 +36,7 @@ export const repayLaonInfoURL = `${JSONURL}/repayment-loan-detail`
 export const personMasterURL = `${JSONURL}/personMaster`
 export const vendorMasterURL = `${JSONURL}/vendorMaster`
 export const customerMasterURL = `${JSONURL}/customerMaster`
-export const unitMasterURL=`${JSONURL}/unitMaster`
+export const unitMasterURL = `${JSONURL}/unitOfMeasurement`
 
 export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 
@@ -52,5 +52,5 @@ export const materialVendorConfigDetailURL = `${JSONURL}/material-vendor-config-
 export const stockURL = `${JSONURL}/stockData`
 export const stocktemsDetailsURL = `${JSONURL}/stock-items-details`
 export const stockConsumURL = `${JSONURL}/stockConsumption`
-export const PlantMasterURL = `${JSONURL}/PlantMaster` 
+export const PlantMasterURL = `${JSONURL}/PlantMaster`
 

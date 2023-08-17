@@ -118,6 +118,7 @@ function LeaveFormTable() {
             width: 70
         },
         {
+            headerName: "Action",
             cellRenderer: LeaveFormEditDelete,
             cellRendererParams: {
                 GetLeave: gettingTableData
@@ -128,10 +129,9 @@ function LeaveFormTable() {
         sortable: true,
         filter: true,
         editable: true,
-        //  flex: 1,
+        flex: 1,
     }
     const onAdd = () => {
-        alert('DO you want to open the form');
         navigate('/leaveForm')
     }
 

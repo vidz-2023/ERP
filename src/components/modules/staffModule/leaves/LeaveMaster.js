@@ -86,13 +86,13 @@ function LeaveMaster() {
                                     <div className='w-75 mx-auto'>
 
                                         <div className='row mb-1 '>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Description
                                             </div>
                                             <div className='col-3 '>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='description'
                                                         value={leaveMasterValue.description}
@@ -102,14 +102,14 @@ function LeaveMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Leave Code
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field as="select"
                                                         name="leaveCode"
-                                                        className="form-select"
+                                                        className="form-select form-select-sm fw-light"
                                                         value={leaveMasterValue.leaveCode}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
@@ -123,14 +123,14 @@ function LeaveMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Leave Type
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field as="select"
                                                         name="leaveType"
-                                                        className="form-select"
+                                                        className="form-select form-select-sm fw-light"
                                                         value={leaveMasterValue.leaveType}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
@@ -143,14 +143,14 @@ function LeaveMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Applicable
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field as="select"
                                                         name="applicable"
-                                                        className="form-select"
+                                                        className="form-select form-select-sm fw-light"
                                                         value={leaveMasterValue.applicable}
                                                         onChange={e => onLeaveMasterHandlerChange(e, setFieldValue)}
                                                     >
@@ -164,13 +164,13 @@ function LeaveMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 No of Leave
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='noOfLeave'
                                                         value={leaveMasterValue.noOfLeave}
@@ -180,13 +180,13 @@ function LeaveMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Transferable
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='transferable'
                                                         value={leaveMasterValue.transferable}
@@ -198,13 +198,13 @@ function LeaveMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2  col-form-label col-form-label-sm'>
                                                 Cashable
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cashable'
                                                         value={leaveMasterValue.cashable}
@@ -214,13 +214,13 @@ function LeaveMaster() {
                                                 </div>
                                             </div>
                                             {/* <div className='col-2'></div>
-                                             <div className='col-2 form-label'>
+                                             <div className='col-2  col-form-label col-form-label-sm'>
                                                 Leave Balance
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='leaveBalance'
                                                         value={leaveMasterValue.leaveBalance}

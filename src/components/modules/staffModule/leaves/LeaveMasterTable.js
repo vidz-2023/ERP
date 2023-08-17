@@ -63,6 +63,7 @@ function LeaveMasterTable() {
             field: "cashable"
         },
         {
+            headerName: "Action",
             cellRenderer: LeaveEditDelete,
             cellRendererParams: {
                 GetMaster: gettingTableMasterData
@@ -77,11 +78,10 @@ function LeaveMasterTable() {
     }
 
     const onAdd = () => {
-        alert('Hi');
         navigate('/leaveMaster')
     }
 
-       return (
+    return (
         <>
             <div className='input-group'>
                 <button
