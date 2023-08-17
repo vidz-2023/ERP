@@ -45,7 +45,7 @@ function Header() {
                                         Transactions
                                     </NavLink>
                                     <ul className="dropdown-menu dropdown-menu-right" >
-                                        <li><NavLink className="dropdown-item" to="">Material Vendor Configuration</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="materialVendorConfigTable">Material Vendor Configuration</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="purchase-order-table">Purchase Order </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="goods-receipt-table">Goods Receipt </NavLink></li>
                                         <li><NavLink className="dropdown-item" to="">Stock Listing</NavLink></li>

@@ -46,6 +46,8 @@ export const purchasedItemsDetailsURL = `${JSONURL}/purchased-items-details`
 export const goodsReceiptURL = `${JSONURL}/goodsReceipt`
 
 export const rawMaterialURL = `${JSONURL}/raw-material`
+export const materialVendorConfigURL = `${JSONURL}/material-vendor-config`
+export const materialVendorConfigDetailURL = `${JSONURL}/material-vendor-config-detail`
 
 export const stockURL = `${JSONURL}/stockData`
 export const stocktemsDetailsURL = `${JSONURL}/stock-items-details`

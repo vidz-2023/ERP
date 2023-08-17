@@ -23,7 +23,7 @@ const RawMaterialTable = () => {
 
   const column = [
     {
-      headerName: "Material Code",
+      headerName: "Material Id",
       field: "materialId",
     },
     {

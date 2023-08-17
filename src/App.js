@@ -43,10 +43,12 @@ import { CompanyMasterTable } from './components/modules/master/companyMaster/Co
 import CompanyMaster from './components/modules/master/companyMaster/CompanyMaster';
 import PersonMasterTable from './components/modules/master/personMaster/PersonMasterTable';
 import StockTable from './components/modules/stockModule/StockTable';
+import MaterialVendorConfiguration from './components/modules/transactions/materialVendorConfig/MaterialVendorConfiguration';
 import VendorMaster from './components/modules/master/vendorMaster/VendorMaster';
 import VendorMasterTable from './components/modules/master/vendorMaster/VendorMasterTable';
 import CustomerMaster from './components/modules/master/customerMaster/CustomerMaster';
 import CustomerMasterTable from './components/modules/master/customerMaster/CustomerMasterTable';
+import MaterialVendorConfigTable from './components/modules/transactions/materialVendorConfig/MaterialVendorConfigTable';
 import StockConsumptionTable from './components/modules/stockModule/stockConsumptionModule/StockConsumptionTable';
 import StockConsumption from './components/modules/stockModule/stockConsumptionModule/StockConsumption';
 import GoodsReceiptTable from './components/modules/goodsReceipt/GoodsReceiptTable';
@@ -116,13 +118,11 @@ function App() {
         <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
         <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
         <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
-
+        <Route path="/materialVendorConfigTable" element={<MaterialVendorConfigTable />} />
+        <Route path="/materialVendorConfig" element={<MaterialVendorConfiguration />} />
+        <Route path="/materialVendorConfig/:materialId" element={<MaterialVendorConfiguration />} />
         <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
         <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
-
-        <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
-        <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
-
         <Route path="/stock/:stockId" element={<Stock />} />
         <Route path="/stockData" element={<StockTable />} />
         <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />

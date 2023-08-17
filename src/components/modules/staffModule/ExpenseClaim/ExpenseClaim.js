@@ -319,10 +319,10 @@ function ExpenseClaim() {
                 <Form className="mt-3">
                   <div className="row">
                     <div className="col-md-6">
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="empCode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Emp Code
                         </label>
@@ -364,10 +364,10 @@ function ExpenseClaim() {
                           </div>
                         )}
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="claimno"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           ClaimNo
                         </label>
@@ -387,10 +387,10 @@ function ExpenseClaim() {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="Branch"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Branch
                         </label>
@@ -407,10 +407,10 @@ function ExpenseClaim() {
                           <ErrorMessage name="Branch" className="text-danger" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="Date"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Date
                         </label>
@@ -427,10 +427,10 @@ function ExpenseClaim() {
                           <ErrorMessage name="Date" className="text-danger" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="VoucherNo"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Voucher No
                         </label>
@@ -453,10 +453,10 @@ function ExpenseClaim() {
                     </div>
 
                     <div className="col-md-6">
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="Narration"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Narration
                         </label>
@@ -476,10 +476,10 @@ function ExpenseClaim() {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="expenseStatus"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Expense Status
                         </label>
@@ -499,10 +499,10 @@ function ExpenseClaim() {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="claimdate"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Claim Date
                         </label>
@@ -522,10 +522,10 @@ function ExpenseClaim() {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="processdate"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Process Date
                         </label>
@@ -545,10 +545,10 @@ function ExpenseClaim() {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="ApprovedBy"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Approved By
                         </label>
@@ -571,7 +571,7 @@ function ExpenseClaim() {
                       {/* <div className='row'>
                       <label
                         htmlFor='creditGL'
-                        className='col-sm-4 col-form-label'
+                        className='col-sm-4 col-form-label col-form-label-sm'
                       >
                         Credit GL
                       </label>
@@ -591,7 +591,7 @@ function ExpenseClaim() {
                       {/* <div className='row'>
                       <label
                         htmlFor='TotalAmount'
-                        className='col-sm-4 col-form-label'
+                        className='col-sm-4 col-form-label col-form-label-sm'
                       >
                         Total Amount
                       </label>
@@ -614,7 +614,7 @@ function ExpenseClaim() {
                       {/* <div className='row'>
                       <label
                         htmlFor='ChequeNo'
-                        className='col-sm-4 col-form-label'
+                        className='col-sm-4 col-form-label col-form-label-sm'
                       >
                         Cheque No
                       </label>
@@ -634,7 +634,7 @@ function ExpenseClaim() {
                       {/* <div className='row'>
                       <label
                         htmlFor='NEFTNo'
-                        className='col-sm-4 col-form-label'
+                        className='col-sm-4 col-form-label col-form-label-sm'
                       >
                         NEFT No
                       </label>
@@ -654,7 +654,7 @@ function ExpenseClaim() {
                       {/* <div className='row'>
                       <label
                         htmlFor='CostCenter'
-                        className='col-sm-4 col-form-label'
+                        className='col-sm-4 col-form-label col-form-label-sm'
                       >
                         Cost Center
                       </label>
@@ -710,7 +710,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="empCode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Emp Code
                         </label>
@@ -735,7 +735,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="expenseclaimcode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Expense Claim Code
                         </label>
@@ -760,7 +760,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="billno"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Bill No
                         </label>
@@ -780,7 +780,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="bilimage"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Bill Image
                         </label>
@@ -800,7 +800,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="amountSpent"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Amount Spent
                         </label>
@@ -826,7 +826,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="ApprovedAmount"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Approved Amount
                         </label>
@@ -849,7 +849,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="ApproveRemark"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Approve Remark
                         </label>
@@ -872,7 +872,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="CostCenter"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Cost Center
                         </label>
@@ -895,7 +895,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="Remarks"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Remarks
                         </label>
@@ -918,7 +918,7 @@ function ExpenseClaim() {
                       <div className="row">
                         <label
                           htmlFor="status"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Status
                         </label>

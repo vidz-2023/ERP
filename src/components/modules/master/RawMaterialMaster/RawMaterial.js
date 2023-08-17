@@ -77,24 +77,9 @@ const RawMaterial = () => {
 
   const onRawMaterialHandler = (e, setFieldValue) => {
     const { name, value } = e.target;
-    setRawMaterial({ ...rawMaterial, [name]: value });
-    // setRemainDays1(rawMaterial.remainderDays1);
-    // setRemainDays2(rawMaterial.remainderDays2);
-    // setRemainDays3(rawMaterial.remainderDays3);
-    // if(name == "Piece" && rawMaterial.basicUnitOfMeasure == "Piece"){
-    //   console.log(value)
-    //   onBasicUnit(value)
-    //   setBasicUnit(val)
-    // } else if(name == "Kg" && rawMaterial.basicUnitOfMeasure == "Kg"){
-    //   onBasicUnit(value)
-    // }
-    
+    setRawMaterial({ ...rawMaterial, [name]: value });    
     setFieldValue([name], value);
   };
-
-  const onBasicUnit = (val) => {
-    setBasicUnit(val)
-  }
 
   const rawMaterialHandleSubmit = () => {
     console.log(rawMaterial);
@@ -129,10 +114,10 @@ const RawMaterial = () => {
               <Form className="mt-3">
                 <div className="row">
                   <div className="col-md-6">
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="materialId"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Material Id<span className="text-danger">*</span>
                       </label>
@@ -153,10 +138,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="materialName"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Material Name<span className="text-danger">*</span>
                       </label>
@@ -177,10 +162,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="category"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Material Category<span className="text-danger">*</span>
                       </label>
@@ -210,7 +195,7 @@ const RawMaterial = () => {
                     <div className="row mb-2">
                       <label
                         htmlFor="description"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Description
                       </label>
@@ -230,10 +215,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="basicUnitOfMeasure"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Basic Unit of Measure
                         <span className="text-danger">*</span>
@@ -262,10 +247,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="storageArea"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Storage Area<span className="text-danger">*</span>
                       </label>
@@ -290,10 +275,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="minimumPurchaseQuantity"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Minimum Purchase Quantity
                         <span className="text-danger">*</span>
@@ -320,10 +305,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="remainderDays1"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Remainder days
                       </label>
@@ -384,10 +369,10 @@ const RawMaterial = () => {
                   </div>
 
                   <div className="col-md-6">
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="minOrderWeight"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Minimum Order Weight
                         <span className="text-danger">*</span>
@@ -409,10 +394,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="maxOrderWeight"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Maximum Order Weight
                         <span className="text-danger">*</span>
@@ -434,10 +419,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="standardValuePerUnit"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Standard Value per Unit
                         <span className="text-danger">*</span>
@@ -465,10 +450,10 @@ const RawMaterial = () => {
                       </div>
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="maxStockAllowed"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Maximum stock allowed
                         <span className="text-danger">*</span>
@@ -490,10 +475,10 @@ const RawMaterial = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
+                    <div className="row mb-2">
                       <label
                         htmlFor="minStockAllowed"
-                        className="col-sm-4 col-form-label"
+                        className="col-sm-4 col-form-label col-form-label-sm"
                       >
                         Minimum stock allowed
                         <span className="text-danger">*</span>

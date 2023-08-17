@@ -277,10 +277,10 @@ const SalaryInformation = () => {
                 <Form className="mt-3">
                   <div className="row">
                     <div className="col-md-6">
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="empCode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Emp Code
                         </label>
@@ -321,10 +321,10 @@ const SalaryInformation = () => {
                           </div>
                         )}
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="CityType"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           City Type
                         </label>
@@ -348,10 +348,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Joining Date
                         </label>
@@ -371,10 +371,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Confirmation Date
                         </label>
@@ -394,10 +394,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Probation Months
                         </label>
@@ -417,10 +417,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Notice Days
                         </label>
@@ -440,10 +440,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Salary/Wages
                         </label>
@@ -468,10 +468,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Sourcing
                         </label>
@@ -491,10 +491,10 @@ const SalaryInformation = () => {
                           />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Skill Set
                         </label>
@@ -517,10 +517,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="SkillSet" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           PAN
                         </label>
@@ -540,10 +540,10 @@ const SalaryInformation = () => {
                     </div>
 
                     <div className="col-md-6">
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           UAN No
                         </label>
@@ -560,10 +560,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="UANNo" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           VoterID No
                         </label>
@@ -580,10 +580,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="VoterIDNo" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Adhar Card No
                         </label>
@@ -600,10 +600,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="AadharCardNo" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Passport No
                         </label>
@@ -620,10 +620,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="PassportNo" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Passport Valid Upto
                         </label>
@@ -640,10 +640,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="PassportValidUpto" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           DL No
                         </label>
@@ -660,10 +660,10 @@ const SalaryInformation = () => {
                           <ErrorMessage name="DLNo" />
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row mb-2">
                         <label
                           htmlFor="staticEmail"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           DL Valid Upto
                         </label>
@@ -721,7 +721,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="empCode"
-                          className="col-sm-6 col-form-label"
+                          className="col-sm-6 col-form-label col-form-label-sm"
                         >
                           Emp Code
                         </label>
@@ -745,7 +745,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="ESIApplication"
-                          className="col-sm-6 col-form-label"
+                          className="col-sm-6 col-form-label col-form-label-sm"
                         >
                           ESI Application
                         </label>
@@ -765,7 +765,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="PFApplication"
-                          className="col-sm-6 col-form-label"
+                          className="col-sm-6 col-form-label col-form-label-sm"
                         >
                           PF Application
                         </label>
@@ -785,7 +785,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="ProfTaxApplicableapplicable"
-                          className="col-sm-6 col-form-label"
+                          className="col-sm-6 col-form-label col-form-label-sm"
                         >
                           Prof. Tax Applicable
                         </label>
@@ -805,7 +805,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="LWFApplicable"
-                          className="col-sm-6 col-form-label"
+                          className="col-sm-6 col-form-label col-form-label-sm"
                         >
                           LWF Applicable
                         </label>
@@ -828,7 +828,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="ESINo"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           ESI No
                         </label>
@@ -848,7 +848,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="ESIStartDate"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           ESI Start Date
                         </label>
@@ -868,7 +868,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="PFNo"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           PF No
                         </label>
@@ -888,7 +888,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="PFStartDate"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           PF Start Date
                         </label>
@@ -942,7 +942,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="empCode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Emp Code
                         </label>
@@ -966,7 +966,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="Bank"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Bank
                         </label>
@@ -991,7 +991,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="Branch"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Branch
                         </label>
@@ -1011,7 +1011,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="BankAccountNo"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           Bank Account No
                         </label>
@@ -1034,7 +1034,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="Swiftcode"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           IFSC Code
                         </label>
@@ -1054,7 +1054,7 @@ const SalaryInformation = () => {
                       <div className="row">
                         <label
                           htmlFor="ACHolderName"
-                          className="col-sm-4 col-form-label"
+                          className="col-sm-4 col-form-label col-form-label-sm"
                         >
                           A/c holder Name
                         </label>
