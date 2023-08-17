@@ -7,11 +7,12 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getBranches } from "../../../../services/masterServices";
 import { getStockDataByToBranchName } from "../../../../services/stockService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { generateId } from "../../../../share/generateRandomId";
 import PlusSignComponent from "../../../../share/PlusSignComponent";
 import { getStockItemsByStockId } from "../../../../services/stockItemsDetailServices";
 import moment from 'moment';
+import { addStockConsumData } from "../../../../services/stockConsumptionService";
 
 function StockConsumption() {
 
@@ -31,6 +32,7 @@ function StockConsumption() {
     const [isUpdate, setIsUpdate] = useState(false)
     const [stockData, setStockData] = useState([])
     const [conDate, setDate] = useState("")
+    const navigate = useNavigate()
     useEffect(() => {
 
         getData()
@@ -58,6 +60,12 @@ function StockConsumption() {
         }
     }
 
+    const validationSchema = Yup.object({
+
+        branch: Yup.string().required("required"),
+        remark: Yup.string().required("required"),
+
+    })
     const handleChange = (e, setFieldValue) => {
 
         const { name, value } = e.target
@@ -78,7 +86,7 @@ function StockConsumption() {
             if (res.data != 0) {
                 getStockItemsData(res.data)
             }
-            else{
+            else {
                 setStockData([])
             }
 
@@ -93,30 +101,49 @@ function StockConsumption() {
         const obj = {}
         const arr1 = []
 
-            while (index < arr.length) {
-                console.log(arr[index].stockId)
-    
-               await getStockItemsByStockId(arr[index].stockId).then(res => {
-                    console.log(res.data)
-                    arr1.push(...res.data)
-                })
-                index++
-            }
-    
-            console.log(arr1)
-            if(index == arr.length)
+        while (index < arr.length) {
+            console.log(arr[index].stockId)
+
+            await getStockItemsByStockId(arr[index].stockId).then(res => {
+                console.log(res.data)
+                arr1.push(...res.data)
+            })
+            index++
+        }
+
+        console.log(arr1)
+        if (index == arr.length)
             setStockData(arr1)
-        
-       
+
+
     }
 
-    const getTodatDate = () =>{
+    const getTodatDate = () => {
 
         var currentDate = moment().format("yyyy-MM-DD");
         console.log(currentDate)
         setDate(currentDate)
     }
 
+    const handleCancel = () => {
+        navigate("/stockConsumptionData")
+    }
+
+    const handleSubmit = () => {
+
+       console.log(formValues)
+       formValues.consumDate = conDate
+       formValues.fileName =""
+       if(isUpdate)
+       {
+
+       }
+       else{
+        addStockConsumData(formValues)
+       }
+       document.getElementById("submitBtn").disabled = true;
+
+    }
 
     const columns = [
 
@@ -132,7 +159,7 @@ function StockConsumption() {
         },
 
         {
-            headerName: 'Consumption Quantity', field: 'availableQty'
+            headerName: 'Consumption Quantity', field: ''
         }
 
 
@@ -151,6 +178,9 @@ function StockConsumption() {
                 </h4>
 
                 <Formik initialValues={formValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                    enableReinitialize
                 >
                     {({ isSubmitting, setFieldValue }) => (
                         <Form className="mt-3">
@@ -178,7 +208,7 @@ function StockConsumption() {
                                                         {item.Name}
                                                     </option>)}
                                             </Field>
-
+                                            <ErrorMessage name='branch' className=" ms-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -186,18 +216,18 @@ function StockConsumption() {
                                 <div className="col-md-6">
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
-                                            Consumption Date  
+                                            Consumption Date
                                         </label>
                                         <div className="col-sm-8 text-danger fs-6">
 
                                             <Field type="date" className="form-control form-control-sm"
                                                 name="consumDate"
                                                 value={conDate}
-                                                id = "consumeDate"
+                                                id="consumeDate"
                                                 disabled
 
                                             ></Field>
-                                            <ErrorMessage name='consumDate' className="ms-1" />
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -205,19 +235,21 @@ function StockConsumption() {
 
                             <div className="row">
 
-                                <div className="col-md-6">
+                                <div className="col-md-6  ">
                                     <div className="row">
                                         <label className="col-sm-4 col-form-label">
                                             Remark
                                         </label>
-                                        <div className="col-sm-8">
-                                            <input
+                                        <div className="col-sm-8 text-danger fs-6">
+                                            <Field
                                                 type="text"
                                                 name="remark"
                                                 value={formValues.remark}
                                                 className="form-control form-control-sm"
                                                 onChange={e => handleChange(e, setFieldValue)}
-                                            />
+                                            >
+                                            </Field>
+                                            <ErrorMessage name='remark' className=" ms-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -228,27 +260,46 @@ function StockConsumption() {
                                             Attachment
                                         </label>
                                         <div className="col-sm-8">
-                                            <input
+                                            <Field
                                                 type="file"
                                                 name="fileName"
                                                 value={formValues.fileName}
                                                 className="form-control form-control-sm"
                                                 onChange={e => handleChange(e, setFieldValue)}
-                                            />
+                                                >
+                                                </Field>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
+                                <AgGridReact
+                                    rowData={stockData}
+                                    columnDefs={columns}
+                                    defaultColDef={defaultColDefs}
+                                />
+                            </div>
+
+                            <div className="row mb-5">
+
+                                <div className='col-sm-12 text-center'>
+                                    <button type="submit"
+                                        className="btn btn-info " id="submitBtn">Submit</button>
+                                    <button type="button"
+                                        className="btn btn-info ms-3"
+                                        onClick={() => handleCancel()}>Cancel</button>
+                                </div>
+
+
+                            </div>
+
+
+
                         </Form>)}
                 </Formik>
 
-                <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
-                    <AgGridReact
-                        rowData={stockData}
-                        columnDefs={columns}
-                        defaultColDef={defaultColDefs}
-                    />
-                </div>
+
             </div>
         </>
     )

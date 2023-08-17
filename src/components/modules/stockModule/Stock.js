@@ -247,8 +247,8 @@ function Stock() {
     const defaultColDefs = { flex: 1 }
 
     return (
-        <>
-            <div className="container mt-3 mb-5">
+        <div className="container mb-5">
+            <div className=" mt-3 mb-5">
                 <h4 className="text-info w-100 mb-3 text-center border border-2 border-info-subtle">
                     <div className="m-2">
                         <FaBook className="me-2" />
@@ -528,7 +528,7 @@ function Stock() {
                 {isOpenModal && <StockItemsModal sId={stockId} closemodal={closeItemModal} itemId={editTtemId} isEdit={isUpdateItemData} />}
 
             </div>
-        </>
+        </div>
     )
 }
 

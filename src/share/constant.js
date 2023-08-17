@@ -46,4 +46,6 @@ export const rawMaterialURL = `${JSONURL}/raw-material`
 
 export const stockURL = `${JSONURL}/stockData`
 export const stocktemsDetailsURL = `${JSONURL}/stock-items-details`
+export const stockConsumURL = `${JSONURL}/stockConsumption`
+export const PlantMasterURL = `${JSONURL}/PlantMaster` 
 
