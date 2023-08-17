@@ -47,9 +47,7 @@ function LogisticsStock(props) {
                 delete res.data[0].category
                 setFormData(res.data[0])
                 console.log(res.data[0])
-
             })
-
         }
     }, [])
 
@@ -66,8 +64,6 @@ function LogisticsStock(props) {
         // console.log(data)
     }
     return (
-
-
         <>
             <div className="container  mb-2">
 
@@ -354,7 +350,7 @@ function LogisticsStock(props) {
                                 />
                             </div>
                         </div>
-                        
+
                     </div>
 
                 </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import purchaseStyle from "../purchase/purchaseMasterSty.module.css"
+import goodReceiptStyle from "./goodsReceiptStyle.module.css"
 import { FaBook } from "react-icons/fa";
 import * as Yup from 'yup';
 import { AgGridReact } from 'ag-grid-react';
@@ -9,6 +9,8 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPurchaseDetailById } from '../../../services/purchaseMasterService';
 import LogisticsStock from '../stockModule/LogisticsStock';
+import { getGoodsReceiptDetail } from '../../../services/goodsReceiptService';
+import { getStorageLocation } from '../../../services/masterServices';
 
 const GoodsReceipt = () => {
     const { pId } = useParams()
@@ -43,33 +45,107 @@ const GoodsReceipt = () => {
         discount: "",
         totalPrice: ""
     }
+    const paymentStatus = ["Paid", "Pending to be paid", "Transaction in place"]
     const [purchaseData, setPurchaseData] = useState(inputFields)
+    const [goodsReceiptData, setGoodsReceiptData] = useState([])
+    const [storageLocation, setStorageLocation] = useState([])
+    const [priceAfterDiscount, setPriceAfterDiscount] = useState(0)
+
+    const column = [
+        {
+            field: "sNo",
+            valueGetter: "node.rowIndex + 1",
+            editable: false
+        },
+        {
+            field: "receivedQty",
+            editable: false
+        },
+        {
+            field: "pendingQty",
+            editable: false
+        },
+        {
+            field: "quotedUnitPrice"
+        },
+        {
+            field: "billedUnitPrice",
+        },
+        {
+            field: "billedTotalPrice",
+        },
+        {
+            field: "differenceAmount",
+            editable: false
+            // headerName: "Billed Amount - Amount (in raw material vendor master)"
+        }
+    ]
 
     useEffect(() => {
 
         getPurchaseDataByPId(pId)
+        getgoodsReceiptData()
+        getStorageLoc()
 
     }, [])
 
+    const getStorageLoc = () => {
+        getStorageLocation().then((res) => {
+            // console.log(res.data)
+            setStorageLocation(res.data)
+        })
+    }
+    const getgoodsReceiptData = () => {
+        getGoodsReceiptDetail().then((res) => {
 
+            setGoodsReceiptData(res.data)
+        })
+    }
     const handleCancel = () => {
         navigate("/goods-receipt-table")
     }
 
+    const calPriceAfterDiscount = (sp, dis) => {
+
+        let afterDis = sp * ((100 - dis) / 100)
+        setPriceAfterDiscount(afterDis)
+    }
     const getPurchaseDataByPId = () => {
         if (pId) {
             getPurchaseDetailById(pId).then((res) => {
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
+                calPriceAfterDiscount(res.data[0].totalPrice, res.data[0].discount)
+
                 // setIsUpdate(true)
             })
             // document.getElementById("addRowBtnId").disabled = false
         }
     }
 
+    const handleCellClick = (params) => {
+        console.log(params)
+    }
+
+    const defaultColDef = {
+        sortable: true,
+        filter: true,
+        flex: 1,
+        editable: true,
+        onCellClicked: handleCellClick,
+    }
+
+    const handleChange = (e, setFieldValue) => {
+        const { name, value } = e.target
+        if (name === "discount") {
+            setFieldValue("discount", value)
+            console.log(value)
+            calPriceAfterDiscount(purchaseData.totalPrice, value)
+
+        }
+    }
+
     return (
-
-
         <div>
             <Formik
                 initialValues={purchaseData}
@@ -95,12 +171,12 @@ const GoodsReceipt = () => {
                                     className='rounded form-group'
                                 >
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>GST Type<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>GST Type<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 type="text"
                                                 // component="select"
                                                 name="gstType"
@@ -125,10 +201,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='gstType' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>GST Number<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>GST Number<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="number"
                                                 name="gstNumber"
                                                 // value={purchaseData.gstNumber}
@@ -140,12 +216,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Branch<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Branch<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="branch"
@@ -169,10 +245,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='branch' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Category<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Category<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="category"
@@ -197,12 +273,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Vendor<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Vendor<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="vendor"
@@ -225,10 +301,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='vendor' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Email<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Email<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="email"
                                                 name="email"
                                                 // value={purchaseData.email}
@@ -240,12 +316,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Currency<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Currency<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="currency"
@@ -269,10 +345,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='currency' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Conversion Rate</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Conversion Rate</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="number"
                                                 name="currencyConversionRate"
                                                 // value={purchaseData.currencyConversionRate}
@@ -284,12 +360,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Order Date<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Order Date<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control fw-light"
+                                                className="form-control form-control-sm fw-light"
                                                 type='date'
                                                 name="orderDate"
                                                 // value={purchaseData.orderDate}
@@ -299,10 +375,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='orderDate' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Order Number<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Order Number<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="number"
                                                 name="orderNumber"
                                                 // value={purchaseData.orderNumber}
@@ -314,12 +390,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Delivery Date<span className='text-danger'>*</span></div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Delivery Date<span className='text-danger'>*</span></div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control fw-light"
+                                                className="form-control form-control-sm fw-light"
                                                 type='date'
                                                 name="deliveryDate"
                                                 // value={purchaseData.deliveryDate}
@@ -329,10 +405,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='deliveryDate' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Agent</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Agent</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="text"
                                                 name="agent"
                                                 // value={purchaseData.agent}
@@ -344,12 +420,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Reference Number</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Reference Number</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="text"
                                                 name="refNumber"
                                                 // value={purchaseData.refNumber}
@@ -360,10 +436,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger ms-2" component="div" name='refNumber' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Reference Date</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Reference Date</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control fw-light"
+                                                className="form-control form-control-sm fw-light"
                                                 type='date'
                                                 name="refDate"
                                                 // value={purchaseData.refDate}
@@ -374,10 +450,10 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
-                                        <div className='col-2 form-label'>Tax Inclusive</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Tax Inclusive</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="taxInc"
@@ -401,10 +477,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger ms-2" component="div" name='taxInc' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Tax Exclusive</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Tax Exclusive</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="taxExcl"
@@ -431,9 +507,9 @@ const GoodsReceipt = () => {
                                     <div
                                         className='row mb-1 d-flex align-items-center'
                                     >
-                                        <div className='col-2 form-label'>Billing Address</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Billing Address</div>
                                         <div className='col-3 d-flex'>
-                                            <Field as="textarea" className="form-control"
+                                            <Field as="textarea" className="form-control form-control-sm"
                                                 name="billingAdd"
                                                 // value={purchaseData.billingAdd}
                                                 // onChange={e => handleChange(e, setFieldValue)}
@@ -442,9 +518,9 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='billingAdd' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Shipping Address</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Shipping Address</div>
                                         <div className='col-3 d-flex'>
-                                            <Field as="textarea" className="form-control"
+                                            <Field as="textarea" className="form-control form-control-sm"
                                                 name="shippingAdd"
                                                 // value={purchaseData.shippingAdd}
                                                 // onChange={e => handleChange(e, setFieldValue)}
@@ -454,10 +530,10 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div className='row mb-1'>
-                                        <div className='col-2 form-label'>Contact Person Name</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Contact Person Name</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="text"
                                                 name="contactPersonName"
                                                 // value={purchaseData.contactPersonName}
@@ -467,10 +543,10 @@ const GoodsReceipt = () => {
                                             <ErrorMessage className="text-danger  ms-2" component="div" name='contactPersonName' />
                                         </div>
                                         <div className='col-2'></div>
-                                        <div className='col-2 form-label'>Contact Person Phone</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Contact Person Phone</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-control"
+                                                className="form-control form-control-sm"
                                                 type="number"
                                                 name="contactPersonPhone"
                                                 // value={purchaseData.contactPersonPhone}
@@ -482,12 +558,12 @@ const GoodsReceipt = () => {
                                         </div>
                                     </div>
                                     <div
-                                        className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                     >
-                                        <div className='col-2 form-label'>Payment Type</div>
+                                        <div className='col-2 col-form-label col-form-label-sm'>Payment Type</div>
                                         <div className='col-3 d-flex'>
                                             <Field
-                                                className="form-select fw-light"
+                                                className="form-select form-select-sm fw-light"
                                                 // component="select"
                                                 type="text"
                                                 name="paymentType"
@@ -514,36 +590,84 @@ const GoodsReceipt = () => {
 
 
                                     {/* ==================================== Ag Grid ==================================================== */}
-                                    <div className=''>
-                                        {/*
-                                        <div className='d-flex w-100'>
-                                            <div className='d-flex w-50'>
-                                                <button type="button"
-                                                    className="btn btn-info"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
-                                                    onClick={handleModalAdd}
-                                                    id="addRowBtnId"
-                                                >
-                                                    Add Row
-                                                </button>
-                                                <div className='form-label m-2'><b>Vendor : </b></div>
-                                                <div className='form-label m-2'>{vendorName}</div>
-                                            </div>
+                                    <div className="row mt-2">
+                                        <hr></hr>
+                                    </div>
 
-                                            <div className='d-flex justify-content-end w-50'>
-                                                <div className='form-label'><b>Total Qty : </b></div>
-                                                <div className='form-label me-5'>{totalQty}</div>
-                                                <div className='form-label'><b>Total Price :</b> </div>
-                                                <div className='form-label'>{totalPrice}</div>
+                                    <div className='row'>
+                                        <div className='col-4'>
+                                            <div className='row'>
+                                                <div className='col-4 col-form-label col-form-label-sm'>Received Date</div>
+                                                <div className='col-7 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm fw-light"
+                                                        type='date'
+                                                        name="receivedDate"
+                                                    // value={purchaseData.refDate}
+                                                    // onChange={handleChange}
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='receivedDate' />
+                                                </div>
                                             </div>
                                         </div>
-                                    */}
+
+                                        <div className='col-4'>
+                                            <div className='row'>
+                                                <div className='col-4 col-form-label col-form-label-sm'>Payment Status</div>
+                                                <div className='col-7 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        component="select"
+                                                        name="paymentStatus"
+                                                    >
+                                                        <option value="">Select...</option>
+                                                        {
+                                                            paymentStatus.map((item, index) => {
+                                                                return <option
+                                                                    key={index}
+                                                                    value={item}
+                                                                >
+                                                                    {item}
+                                                                </option>
+                                                            })
+                                                        }
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='paymentStatus' />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='col-4'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Storage Location</div>
+                                                <div className='col-7 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        component="select"
+                                                        name="storageLocation"
+                                                    >
+                                                        <option value="">Select...</option>
+                                                        {
+                                                            storageLocation.map((item, index) => {
+                                                                return <option
+                                                                    key={index}
+                                                                    value={item.Name}
+                                                                >
+                                                                    {item.Name}
+                                                                </option>
+                                                            })
+                                                        }
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='storageLocation' />
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
                                             <AgGridReact
-                                            // rowData={purchasedItemsData}
-                                            // columnDefs={column}
-                                            // defaultColDef={defaultColDef}
+                                                rowData={goodsReceiptData}
+                                                columnDefs={column}
+                                                defaultColDef={defaultColDef}
                                             />
                                         </div>
                                     </div>
@@ -562,12 +686,12 @@ const GoodsReceipt = () => {
 
                                     <div>
                                         <div
-                                            className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                         >
-                                            <div className='col-2 form-label'>Remarks</div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>Remarks</div>
                                             <div className='col-3 d-flex'>
                                                 <Field
-                                                    className="form-control"
+                                                    className="form-control form-control-sm"
                                                     type="text"
                                                     name="remarks"
                                                 // value={purchaseData.remarks}
@@ -576,10 +700,10 @@ const GoodsReceipt = () => {
                                                 <ErrorMessage className="text-danger  ms-2" component="div" name='remarks' />
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>Attachment</div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>Attachment</div>
                                             <div className='col-3 d-flex'>
                                                 <Field
-                                                    className="form-control fw-light"
+                                                    className="form-control form-control-sm fw-light"
                                                     type="file"
                                                     name="attachment"
                                                 // value={purchaseData.attachment}
@@ -591,12 +715,12 @@ const GoodsReceipt = () => {
                                         </div>
 
                                         <div
-                                            className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                         >
-                                            <div className='col-2 form-label'>Total Price</div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>Total Price</div>
                                             <div className='col-2 d-flex'>
                                                 <Field
-                                                    className="form-control"
+                                                    className="form-control form-control-sm"
                                                     type="number"
                                                     name="totalPrice"
                                                     // value={totalPrice}
@@ -607,26 +731,28 @@ const GoodsReceipt = () => {
                                                 <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
                                             </div>
                                             <div className='col-1'></div>
-                                            <div className='col-1 form-label'>Discount</div>
+                                            <div className='col-1 col-form-label col-form-label-sm'>Discount(%)</div>
                                             <div className='col-2 d-flex'>
                                                 <Field
-                                                    className="form-control"
+                                                    className="form-control form-control-sm"
                                                     type="number"
                                                     name="discount"
-                                                // value={purchaseData.Description}
-                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                    // value={purchaseData.Description}
+                                                    onChange={e => handleChange(e, setFieldValue)}
+
                                                 />
                                                 <ErrorMessage className="text-danger  ms-2" component="div" name='discount' />
                                             </div>
 
-                                            <div className='col-2 form-label'>Price After Discount</div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>Price After Discount</div>
                                             <div className='col-2 d-flex'>
                                                 <Field
-                                                    className="form-control"
+                                                    className="form-control form-control-sm"
                                                     type="number"
                                                     name="afterDiscount"
-                                                // value={purchaseData.Description}
-                                                // onChange={e => handleChange(e, setFieldValue)}
+                                                    value={priceAfterDiscount.toFixed(2)}
+                                                    // onChange={e => handleChange(e, setFieldValue)}
+                                                    disabled
                                                 />
                                                 <ErrorMessage className="text-danger  ms-2" component="div" name='afterDiscount' />
                                             </div>
@@ -634,12 +760,12 @@ const GoodsReceipt = () => {
                                         </div>
                                         {/*
                                         <div
-                                            className={`row mb-3 ${purchaseStyle.myInputfield}`}
+                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
                                         >
-                                            <div className='col-2 form-label'>Frieght</div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>Frieght</div>
                                             <div className='col-3 d-flex'>
                                                 <Field
-                                                    className="form-select fw-light"
+                                                    className="form-select form-select-sm fw-light"
                                                     component="select"
                                                     name="frieght"
                                                 // value={purchaseData.paymentType}
