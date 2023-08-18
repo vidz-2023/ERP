@@ -196,13 +196,13 @@ function CustomerMaster() {
                                     <div className='w-75 mx-auto'>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Title
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='ctitle'
                                                         value={customerMasterValue.ctitle}
@@ -212,14 +212,14 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Search
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <input
                                                         type="text"
-                                                        className='form-control'
+                                                        className='form-control form-control-sm'
                                                         onChange={(e) => { searchFun(e) }}
                                                         placeholder='Search'
                                                         name="search" />
@@ -227,17 +227,17 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Basic:
                                         </div>
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 First Name <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cfirstName'
                                                         value={customerMasterValue.cfirstName}
@@ -247,13 +247,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Last Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='clastName'
                                                         value={customerMasterValue.clastName}
@@ -265,13 +265,13 @@ function CustomerMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Joining Date <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='date'
                                                         name='cjoiningDate'
                                                         value={customerMasterValue.cjoiningDate}
@@ -281,13 +281,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Contact Person <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cContactPerson'
                                                         value={customerMasterValue.cContactPerson}
@@ -310,10 +310,10 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 <label
                                                     htmlFor='cinActive'
-                                                    className='col-sm-6 col-form-label'
+                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                 >
                                                     Inactive
                                                 </label>
@@ -331,18 +331,18 @@ function CustomerMaster() {
                                         </div>
 
 
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Address:
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Flat No
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='cflatno'
                                                         value={customerMasterValue.cflatno}
@@ -352,13 +352,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Street
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cstreet'
                                                         value={customerMasterValue.cstreet}
@@ -370,13 +370,13 @@ function CustomerMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 State <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cstate'
                                                         value={customerMasterValue.cstate}
@@ -386,13 +386,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 City
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cCity'
                                                         value={customerMasterValue.cCity}
@@ -404,13 +404,13 @@ function CustomerMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Country <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cCountry'
                                                         value={customerMasterValue.cCountry}
@@ -420,13 +420,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Zipcode
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='czipcode'
                                                         value={customerMasterValue.czipcode}
@@ -438,13 +438,13 @@ function CustomerMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Phoneno<span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='cphoneno'
                                                         value={customerMasterValue.cphoneno}
@@ -454,13 +454,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Email
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='email'
                                                         name='cemail'
                                                         value={customerMasterValue.cemail}
@@ -471,18 +471,18 @@ function CustomerMaster() {
                                             </div>
                                         </div>
 
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Account Information:
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Acc Holder Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='caccHolderName'
                                                         value={customerMasterValue.caccHolderName}
@@ -492,13 +492,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Acc Number
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='caccno'
                                                         value={customerMasterValue.caccno}
@@ -511,13 +511,13 @@ function CustomerMaster() {
 
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Bank Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cbankName'
                                                         value={customerMasterValue.cbankName}
@@ -527,13 +527,13 @@ function CustomerMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Branch
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cbranch'
                                                         value={customerMasterValue.cbranch}
@@ -545,13 +545,13 @@ function CustomerMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 RTGS/IFSC Code
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='cifceCode'
                                                         value={customerMasterValue.cifceCode}
@@ -573,13 +573,13 @@ function CustomerMaster() {
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
 
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Head Office
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cheadOffice'
                                                                         value={customerMasterValue.cheadOffice}
@@ -589,13 +589,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Location
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='clocation'
                                                                         value={customerMasterValue.clocation}
@@ -607,13 +607,13 @@ function CustomerMaster() {
                                                         </div>
                                                         <div className='row mb-1'>
 
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Authorization
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cauthorization'
                                                                         value={customerMasterValue.cauthorization}
@@ -635,14 +635,14 @@ function CustomerMaster() {
                                                 <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Payment<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="cpayment"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.cpayment}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -654,14 +654,14 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Payment Term
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="cpaymentTerm"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.cpaymentTerm}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -675,14 +675,14 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Price Catergory<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="cpriceCategory"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.cpriceCategory}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -707,13 +707,13 @@ function CustomerMaster() {
                                                 <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Taxno<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='ctaxno'
                                                                         value={customerMasterValue.ctaxno}
@@ -723,14 +723,14 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Tax Type
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="ctaxType"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.ctaxType}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -744,13 +744,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Cin<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cCin'
                                                                         value={customerMasterValue.cCin}
@@ -760,13 +760,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 GST<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cgst'
                                                                         value={customerMasterValue.cgst}
@@ -778,14 +778,14 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 GST Catergory
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="cgstCategory"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.cgstCategory}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -797,10 +797,10 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 <label
                                                                     htmlFor='cgsttdsApp'
-                                                                    className='col-sm-6 col-form-label'
+                                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                                 >
                                                                     GST TDS Applicable
                                                                 </label>
@@ -818,14 +818,14 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 TDS Section
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="ctdsSection"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={customerMasterValue.ctdsSection}
                                                                         onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -837,10 +837,10 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 <label
                                                                     htmlFor='ctdsApp'
-                                                                    className='col-sm-6 col-form-label'
+                                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                                 >
                                                                     TDS Applicable
                                                                 </label>
@@ -858,13 +858,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Tin<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='ctin'
                                                                         value={customerMasterValue.ctin}
@@ -874,13 +874,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Pan No<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cpanNo'
                                                                         value={customerMasterValue.cpanNo}
@@ -902,13 +902,13 @@ function CustomerMaster() {
                                                 <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Flat No
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='cbflatno'
                                                                         value={customerMasterValue.cbflatno}
@@ -918,13 +918,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Street
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cbstreet'
                                                                         value={customerMasterValue.cbstreet}
@@ -936,13 +936,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 State <span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cbstate'
                                                                         value={customerMasterValue.cbstate}
@@ -952,13 +952,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 City
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cbCity'
                                                                         value={customerMasterValue.cbCity}
@@ -970,13 +970,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Country <span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cbCountry'
                                                                         value={customerMasterValue.cbCountry}
@@ -986,13 +986,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Zipcode
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='cbzipcode'
                                                                         value={customerMasterValue.cbzipcode}
@@ -1004,13 +1004,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Phoneno<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='cbphoneno'
                                                                         value={customerMasterValue.cbphoneno}
@@ -1020,13 +1020,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Email
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='email'
                                                                         name='cbemail'
                                                                         value={customerMasterValue.cbemail}
@@ -1048,13 +1048,13 @@ function CustomerMaster() {
                                                 <div id="collapseFive" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Website
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cwebsite'
                                                                         value={customerMasterValue.cwebsite}
@@ -1064,13 +1064,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 FaceBook
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cfaceBook'
                                                                         value={customerMasterValue.cfaceBook}
@@ -1082,13 +1082,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Skype
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cskype'
                                                                         value={customerMasterValue.cskype}
@@ -1098,13 +1098,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Twiter
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='ctwiter'
                                                                         value={customerMasterValue.ctwiter}
@@ -1116,13 +1116,13 @@ function CustomerMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Linked In
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='clinkedIn'
                                                                         value={customerMasterValue.clinkedIn}
@@ -1132,13 +1132,13 @@ function CustomerMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 YouTube
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cyouTube'
                                                                         value={customerMasterValue.cyouTube}

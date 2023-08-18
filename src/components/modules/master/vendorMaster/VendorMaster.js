@@ -196,13 +196,13 @@ function VendorMaster() {
                                     <div className='w-75 mx-auto'>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Title
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='title'
                                                         value={vendorMasterValue.title}
@@ -212,14 +212,14 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Search
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <input
                                                         type="text"
-                                                        className='form-control'
+                                                        className='form-control form-control-sm'
                                                         onChange={(e) => { searchFun(e) }}
                                                         placeholder='Search'
                                                         name="search" />
@@ -227,18 +227,18 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Basic:
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 First Name <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='firstName'
                                                         value={vendorMasterValue.firstName}
@@ -248,13 +248,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Last Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='lastName'
                                                         value={vendorMasterValue.lastName}
@@ -266,13 +266,13 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Joining Date <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='date'
                                                         name='joiningDate'
                                                         value={vendorMasterValue.joiningDate}
@@ -282,13 +282,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Contact Person <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='contactPerson'
                                                         value={vendorMasterValue.contactPerson}
@@ -300,7 +300,7 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Upload
                                             </div>
                                             <div className='col-3'>
@@ -310,10 +310,10 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 <label
                                                     htmlFor='inActive'
-                                                    className='col-sm-6 col-form-label'
+                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                 >
                                                     Inactive
                                                 </label>
@@ -330,18 +330,18 @@ function VendorMaster() {
                                             </div>
                                         </div>
 
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Address:
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Flat No
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='flatno'
                                                         value={vendorMasterValue.flatno}
@@ -351,13 +351,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Street
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='street'
                                                         value={vendorMasterValue.street}
@@ -369,13 +369,13 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 State <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='state'
                                                         value={vendorMasterValue.state}
@@ -385,13 +385,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 City
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='city'
                                                         value={vendorMasterValue.city}
@@ -403,13 +403,13 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Country <span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='country'
                                                         value={vendorMasterValue.country}
@@ -419,13 +419,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 ZipCode
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='zipcode'
                                                         value={vendorMasterValue.zipcode}
@@ -437,13 +437,13 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Phoneno<span className='text-danger fs-5'>*</span>
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='number'
                                                         name='phoneno'
                                                         value={vendorMasterValue.phoneno}
@@ -453,13 +453,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Email
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='email'
                                                         name='aemail'
                                                         value={vendorMasterValue.aemail}
@@ -470,18 +470,18 @@ function VendorMaster() {
                                             </div>
                                         </div>
 
-                                        <div className='col-2 form-label fw-bold'>
+                                        <div className='col-2 col-form-label col-form-label-sm fw-bold'>
                                             Account Information:
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Acc Holder Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='accHolderName'
                                                         value={vendorMasterValue.accHolderName}
@@ -491,13 +491,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Acc Number
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='accno'
                                                         value={vendorMasterValue.accno}
@@ -510,13 +510,13 @@ function VendorMaster() {
 
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Bank Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='bankName'
                                                         value={vendorMasterValue.bankName}
@@ -526,13 +526,13 @@ function VendorMaster() {
                                                 </div>
                                             </div>
                                             <div className='col-2'></div>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 Branch
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='branch'
                                                         value={vendorMasterValue.branch}
@@ -544,13 +544,13 @@ function VendorMaster() {
                                         </div>
 
                                         <div className='row mb-1'>
-                                            <div className='col-2 form-label'>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                 RTGS/IFSC Code
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type='text'
                                                         name='ifceCode'
                                                         value={vendorMasterValue.ifceCode}
@@ -572,13 +572,13 @@ function VendorMaster() {
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
 
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Head Office
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='headOffice'
                                                                         value={vendorMasterValue.headOffice}
@@ -588,13 +588,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Location
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='location'
                                                                         value={vendorMasterValue.location}
@@ -606,13 +606,13 @@ function VendorMaster() {
                                                         </div>
                                                         <div className='row mb-1'>
 
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Authorization
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='authorization'
                                                                         value={vendorMasterValue.authorization}
@@ -634,14 +634,14 @@ function VendorMaster() {
                                                 <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Payment<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="payment"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.payment}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -653,14 +653,14 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Payment Term
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="paymentTerm"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.paymentTerm}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -674,14 +674,14 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Price Catergory<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="priceCategory"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.priceCategory}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -706,13 +706,13 @@ function VendorMaster() {
                                                 <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 TaxNo<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='taxno'
                                                                         value={vendorMasterValue.taxno}
@@ -722,14 +722,14 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Tax Type
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="taxType"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.taxType}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -743,13 +743,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 CIN<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='cin'
                                                                         value={vendorMasterValue.cin}
@@ -759,13 +759,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 GST<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='gst'
                                                                         value={vendorMasterValue.gst}
@@ -777,14 +777,14 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 GST Catergory
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="gstCategory"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.gstCategory}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -796,10 +796,10 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 <label
                                                                     htmlFor='gstTdsAPP'
-                                                                    className='col-sm-6 col-form-label'
+                                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                                 >
                                                                     GST TDS Applicable
                                                                 </label>
@@ -817,14 +817,14 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 TDS Section
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field as="select"
                                                                         name="tdsSection"
-                                                                        className="form-select"
+                                                                        className="form-select form-select-sm fw-light"
                                                                         value={vendorMasterValue.tdsSection}
                                                                         onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
                                                                     >
@@ -836,10 +836,10 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 <label
                                                                     htmlFor='tdsAPP'
-                                                                    className='col-sm-6 col-form-label'
+                                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
                                                                 >
                                                                     TDS Applicable
                                                                 </label>
@@ -857,13 +857,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Tin<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='tin'
                                                                         value={vendorMasterValue.tin}
@@ -873,13 +873,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Pan No<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='panNo'
                                                                         value={vendorMasterValue.panNo}
@@ -901,13 +901,13 @@ function VendorMaster() {
                                                 <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Flat No
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='bflatno'
                                                                         value={vendorMasterValue.bflatno}
@@ -917,13 +917,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Street
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='bstreet'
                                                                         value={vendorMasterValue.bstreet}
@@ -935,13 +935,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 State <span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='bstate'
                                                                         value={vendorMasterValue.bstate}
@@ -951,13 +951,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 City
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='bcity'
                                                                         value={vendorMasterValue.bcity}
@@ -969,13 +969,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Country <span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='bcountry'
                                                                         value={vendorMasterValue.bcountry}
@@ -985,13 +985,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 ZipCode
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='bzipcode'
                                                                         value={vendorMasterValue.bzipcode}
@@ -1003,13 +1003,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Phoneno<span className='text-danger fs-5'>*</span>
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='number'
                                                                         name='bphoneno'
                                                                         value={vendorMasterValue.bphoneno}
@@ -1019,13 +1019,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Email
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='email'
                                                                         name='bemail'
                                                                         value={vendorMasterValue.bemail}
@@ -1047,13 +1047,13 @@ function VendorMaster() {
                                                 <div id="collapseFive" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                                     <div className="accordion-body">
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Website
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='website'
                                                                         value={vendorMasterValue.website}
@@ -1063,13 +1063,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 FaceBook
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='faceBook'
                                                                         value={vendorMasterValue.faceBook}
@@ -1081,13 +1081,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Skype
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='skype'
                                                                         value={vendorMasterValue.skype}
@@ -1097,13 +1097,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Twitter
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='twitter'
                                                                         value={vendorMasterValue.twitter}
@@ -1115,13 +1115,13 @@ function VendorMaster() {
                                                         </div>
 
                                                         <div className='row mb-1'>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Linked In
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='linkedIn'
                                                                         value={vendorMasterValue.linkedIn}
@@ -1131,13 +1131,13 @@ function VendorMaster() {
                                                                 </div>
                                                             </div>
                                                             <div className='col-2'></div>
-                                                            <div className='col-2 form-label'>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
                                                                 YouTube
                                                             </div>
                                                             <div className='col-3'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
-                                                                        className="form-control"
+                                                                        className="form-control form-control-sm"
                                                                         type='text'
                                                                         name='youTube'
                                                                         value={vendorMasterValue.youTube}
