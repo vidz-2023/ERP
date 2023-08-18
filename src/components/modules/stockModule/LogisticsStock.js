@@ -77,8 +77,8 @@ function LogisticsStock(props) {
 
                     <div className="col-md-6">
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm ">
                                 Destination
                             </label>
                             <div className="col-sm-8">
@@ -93,8 +93,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Shipping Mode
                             </label>
                             <div className="col-sm-8">
@@ -112,8 +112,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Shipping Company
                             </label>
                             <div className="col-sm-8">
@@ -131,8 +131,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Shipping Tracking No
                             </label>
                             <div className="col-sm-8">
@@ -147,8 +147,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Shipping Date
                             </label>
                             <div className="col-sm-8">
@@ -162,8 +162,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Shipping Charges
                             </label>
                             <div className="col-sm-8">
@@ -177,8 +177,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Vehicle/Vessel No.
                             </label>
                             <div className="col-sm-8">
@@ -192,8 +192,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Charge Type
                             </label>
                             <div className="col-sm-8">
@@ -211,8 +211,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Document Through
                             </label>
                             <div className="col-sm-8">
@@ -230,8 +230,8 @@ function LogisticsStock(props) {
 
                     <div className="col-md-6">
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 No of Packs
                             </label>
                             <div className="col-sm-8">
@@ -245,8 +245,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Weight
                             </label>
                             <div className="col-sm-8">
@@ -260,8 +260,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 Distance
                             </label>
                             <div className="col-sm-8">
@@ -275,8 +275,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 eWay Invoice No
                             </label>
                             <div className="col-sm-8">
@@ -290,8 +290,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 eWay Invoice Date
                             </label>
                             <div className="col-sm-8">
@@ -306,8 +306,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 IRN No
                             </label>
                             <div className="col-sm-8">
@@ -321,8 +321,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 IRN Cancel Date
                             </label>
                             <div className="col-sm-8">
@@ -336,8 +336,8 @@ function LogisticsStock(props) {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-sm-4 col-form-label">
+                        <div className="row mb-2">
+                            <label className="col-sm-4 col-form-label col-form-label-sm">
                                 IRN Cancel Reason
                             </label>
                             <div className="col-sm-8">

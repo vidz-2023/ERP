@@ -75,7 +75,7 @@ function StockTable()
                 </div>
                 <div className='row col-8'>
                 <div className='col-8'>
-                        <input type="text" className='form-control' onChange={(e) => { searchFun(e) }} placeholder='Search'/>
+                        <input type="text" className='form-control form-control-sm' onChange={(e) => { searchFun(e) }} placeholder='Search'/>
                     </div>
                    
                 </div>

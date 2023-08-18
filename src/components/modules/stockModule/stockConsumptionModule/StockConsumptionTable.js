@@ -4,28 +4,61 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import { useNavigate } from 'react-router-dom';
+import { getStockConsumeData, searchStockConsumeDataAnyField } from '../../../../services/stockConsumptionService';
+import DeleteEditButtonStock from './DeleteEditButtonStockConsum';
+import DeleteEditButtonStockConsum from './DeleteEditButtonStockConsum';
 
 function StockConsumptionTable() 
 { 
-   
+    const [stockConsumData, setStockConsumData] = useState([])
     const navigate = useNavigate()
+
     useEffect(() => {
         handleGettingTableData()
     }, [])
 
     const handleGettingTableData = () => {
-       
+       getStockConsumeData().then(res=>setStockConsumData(res.data))
     }
+
+    const searchFun = (e) => {
+        const searchVal = e.target.value
+         searchStockConsumeDataAnyField(searchVal).then((res) => setStockConsumData(res.data))
+     }
 
     const add = () =>{
         navigate('/stockConsumption/0')
     }
     
   
-
-    const columns = [
-       
-       
+        const columns = [
+            {
+                headerName: 'stockConsumId', field: 'stockConsumId'
+            },
+           
+            {
+                headerName: 'Branch', field: 'branch'
+            },
+            {
+                headerName: 'Consumption Date', field: 'consumDate'
+            },
+            {
+                headerName: 'Remark', field: 'remark'
+            },
+            {
+                headerName: 'Consumption Quantity', field: ''
+                
+            },
+            {
+                headerName: "Action",
+                field: "",
+                cellRenderer: DeleteEditButtonStockConsum,
+                cellRendererParams: {
+                    funGetInfo: handleGettingTableData
+                }
+            }
+           
+            
     ]
     const defaultColDefs = { sortable: true, filter: true, flex:1}
     return(
@@ -39,15 +72,17 @@ function StockConsumptionTable()
                 </div>
                 <div className='row col-8'>
                 <div className='col-8'>
-                        <input type="text" className='form-control'  placeholder='Search'/>
+                        <input type="text" className='form-control form-control-sm'  onChange={(e) => { searchFun(e) }} placeholder='Search'/>
                     </div>
                    
                 </div>
             </div>
             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                 <AgGridReact
+                 rowData={stockConsumData}
+                   columnDefs={columns}
+                   defaultColDef={defaultColDefs}
                    
-                    defaultColDef={defaultColDefs}
                       
                 />
             </div>

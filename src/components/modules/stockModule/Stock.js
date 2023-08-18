@@ -267,8 +267,8 @@ function Stock() {
 
                                 <div className="col-md-6">
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             To Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -293,8 +293,8 @@ function Stock() {
                                     </div>
 
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             To Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -313,8 +313,8 @@ function Stock() {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Category  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -338,8 +338,8 @@ function Stock() {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Request No.  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -358,8 +358,8 @@ function Stock() {
 
                                 <div className="col-md-6">
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             From Branch  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -383,8 +383,8 @@ function Stock() {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             From Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
@@ -404,8 +404,8 @@ function Stock() {
                                     </div>
 
 
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                    <div className="row mb-2">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Request Date  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8 text-danger fs-6">
@@ -461,7 +461,7 @@ function Stock() {
 
                                 <div className="col-md-6">
                                     <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Remark
                                         </label>
                                         <div className="col-sm-8">
@@ -476,10 +476,10 @@ function Stock() {
                                     </div>
 
                                     <div className="row mb-3">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Attachment
                                         </label>
-                                        <input className="col-sm-8  form-control" type="file"
+                                        <input className="col-sm-8  form-control form-control-sm" type="file"
                                             name="fileName"
                                             value={formValues.fileName}
                                             onChange={e => handleChange1(e)}
@@ -489,7 +489,7 @@ function Stock() {
 
                                 <div className="col-md-6">
                                     <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Instruction
                                         </label>
                                         <div className="col-sm-8">

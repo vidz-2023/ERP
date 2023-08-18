@@ -12,7 +12,7 @@ import { generateId } from "../../../../share/generateRandomId";
 import PlusSignComponent from "../../../../share/PlusSignComponent";
 import { getStockItemsByStockId } from "../../../../services/stockItemsDetailServices";
 import moment from 'moment';
-import { addStockConsumData } from "../../../../services/stockConsumptionService";
+import { addStockConsumData, getStockConsumeDataById, updateStockConsumeData } from "../../../../services/stockConsumptionService";
 
 function StockConsumption() {
 
@@ -49,8 +49,13 @@ function StockConsumption() {
 
         console.log(stockConsumId)
         if (stockConsumId != 0) {
-
+             
+            getStockConsumeDataById(stockConsumId).then(res=>{
+                setFormValue(res.data[0])
+                populatedDataOnGrid(res.data[0].branch)
+            })
             setIsUpdate(true)
+            
         }
 
         else {
@@ -107,6 +112,7 @@ function StockConsumption() {
             await getStockItemsByStockId(arr[index].stockId).then(res => {
                 console.log(res.data)
                 arr1.push(...res.data)
+               
             })
             index++
         }
@@ -136,7 +142,7 @@ function StockConsumption() {
        formValues.fileName =""
        if(isUpdate)
        {
-
+          updateStockConsumeData(formValues, formValues.id)
        }
        else{
         addStockConsumData(formValues)
@@ -155,11 +161,16 @@ function StockConsumption() {
             headerName: 'Stock Id', field: 'stockId'
         },
         {
+            headerName: 'Stock Item Id', field: 'stockItemId'
+        },
+        {
             headerName: 'Material Name', field: 'materialName'
         },
 
         {
-            headerName: 'Consumption Quantity', field: ''
+            headerName: 'Consumption Quantity', field: 'conQty',
+            editable: true,
+          
         }
 
 
@@ -167,9 +178,18 @@ function StockConsumption() {
 
     const defaultColDefs = { flex: 1 }
 
+    const onEditCell = (e) =>{
+        alert("click")
+        console.log(e)
+        console.log(e.rowIndex)
+        console.log(stockData[e.rowIndex])
+        stockData[e.rowIndex].conQty = e.newValue
+    }
+   
+
     return (
         <>
-            <div className="container mt-3 mb-5">
+            <div className="container mt-3 mb-5 pb-3">
                 <h4 className="text-info w-100 mb-3 text-center border border-2 border-info-subtle">
                     <div className="m-2">
                         <FaBook className="me-2" />
@@ -187,9 +207,9 @@ function StockConsumption() {
                             <div className="row">
 
                                 <div className="col-md-6">
-                                    <div className="row">
-                                        <label className="col-sm-4 col-form-label">
-                                            To Branch <span className="text-danger fw-bold">*</span>
+                                   {!isUpdate && <div className="row">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
+                                             Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
@@ -210,12 +230,29 @@ function StockConsumption() {
                                             </Field>
                                             <ErrorMessage name='branch' className=" ms-1" />
                                         </div>
-                                    </div>
+                                    </div>} 
+
+                                    {isUpdate && <div className="row">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
+                                             Branch <span className="text-danger fw-bold">*</span>
+                                        </label>
+                                        <div className="col-sm-8  text-danger fs-6">
+                                        <Field
+                                                type="text"
+                                                name="branch"
+                                                value={formValues.branch}
+                                                className="form-control form-control-sm"
+                                               disabled
+                                            >
+                                            </Field>
+                                        </div>
+                                    </div>} 
+                                    
                                 </div>
 
                                 <div className="col-md-6">
                                     <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Consumption Date
                                         </label>
                                         <div className="col-sm-8 text-danger fs-6">
@@ -233,11 +270,11 @@ function StockConsumption() {
                                 </div>
                             </div>
 
-                            <div className="row">
+                            <div className="row mt-2">
 
                                 <div className="col-md-6  ">
                                     <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Remark
                                         </label>
                                         <div className="col-sm-8 text-danger fs-6">
@@ -256,7 +293,7 @@ function StockConsumption() {
 
                                 <div className="col-md-6">
                                     <div className="row">
-                                        <label className="col-sm-4 col-form-label">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
                                             Attachment
                                         </label>
                                         <div className="col-sm-8">
@@ -278,6 +315,9 @@ function StockConsumption() {
                                     rowData={stockData}
                                     columnDefs={columns}
                                     defaultColDef={defaultColDefs}
+                                    onCellEditingStopped={e => onEditCell(e)}
+                                
+                                      
                                 />
                             </div>
 
