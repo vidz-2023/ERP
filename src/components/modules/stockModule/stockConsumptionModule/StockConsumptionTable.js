@@ -45,10 +45,7 @@ function StockConsumptionTable()
             {
                 headerName: 'Remark', field: 'remark'
             },
-            {
-                headerName: 'Consumption Quantity', field: ''
-                
-            },
+           
             {
                 headerName: "Action",
                 field: "",

@@ -21,7 +21,8 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
         "packUnit": "",
         "packQuantity": "",
         "availableUnit": "",
-        "availableQty": ""
+        "availableQty": "",
+        "minStockAllowed":""
     }
     const [formValues, setFormValue] = useState(initialValue)
     const [materialNameList, setMaterialNameList] = useState([])
@@ -100,6 +101,7 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
             const updateMaterialId = res.data[0].materialId
             setMaterialId(updateMaterialId)
             formValues.materialId = updateMaterialId
+            formValues.minStockAllowed = res.data[0].minStockAllowed
             getPurchaseItemsDetailsByMaterialId(updateMaterialId)
             getPurchasedItemsByMaterialId(updateMaterialId)
 

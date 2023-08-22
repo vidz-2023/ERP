@@ -10,7 +10,7 @@ import { getStockDataByToBranchName } from "../../../../services/stockService";
 import { useNavigate, useParams } from "react-router-dom";
 import { generateId } from "../../../../share/generateRandomId";
 import PlusSignComponent from "../../../../share/PlusSignComponent";
-import { getStockItemsByStockId } from "../../../../services/stockItemsDetailServices";
+import { getStockItemsByStockId, updateStockItemData } from "../../../../services/stockItemsDetailServices";
 import moment from 'moment';
 import { addStockConsumData, getStockConsumeDataById, updateStockConsumeData } from "../../../../services/stockConsumptionService";
 
@@ -113,6 +113,7 @@ function StockConsumption() {
                 console.log(res.data)
                 arr1.push(...res.data)
 
+
             })
             index++
         }
@@ -133,6 +134,7 @@ function StockConsumption() {
 
     const handleCancel = () => {
         navigate("/stockConsumptionData")
+        deleteStockConsumptionQuantity()
     }
 
     const handleSubmit = () => {
@@ -146,10 +148,45 @@ function StockConsumption() {
         else {
             addStockConsumData(formValues)
         }
-        document.getElementById("submitBtn").disabled = true;
+
+        updateStockItemsDataQty()
+        navigate("/stockConsumptionData")
+        // document.getElementById("submitBtn").disabled = true;
 
     }
 
+    const updateStockItemsDataQty = () => {
+        console.log(stockData)
+        let index = 0
+        console.log(stockData[index].leftQty)
+        while (index < stockData.length) {
+            if (stockData[index].leftQty >=0) {
+                stockData[index].availableQty = stockData[index].leftQty
+                delete stockData[index].leftQty
+                delete stockData[index].conQty
+
+
+                updateStockItemData(stockData[index], stockData[index].id)
+                console.log(stockData)
+            }
+            index++
+        }
+    }
+
+    const deleteStockConsumptionQuantity = () => {
+        let index = 0
+        while (index < stockData.length) {
+            if (stockData[index].leftQty) {
+
+                delete stockData[index].leftQty
+                delete stockData[index].conQty
+
+                updateStockItemData(stockData[index], stockData[index].id)
+                console.log(stockData)
+            }
+            index++
+        }
+    }
     const columns = [
 
         {
@@ -167,19 +204,32 @@ function StockConsumption() {
         },
 
         {
-            headerName: 'Available Quantity', field: 'availableQty'
+            headerName: 'Available Quantity', field: 'availableQty',
+
+            cellStyle: (params) => {
+                
+                 if(params.value ===0)
+                return { color: "red", fontWeight:'bold' }
+                if(params.value <=  params.data.minStockAllowed)
+                return {color: "yellow" ,fontWeight:'bold'}
+               
+            }
+           
+         
         },
+
 
         {
             headerName: 'Consumption Quantity', field: 'conQty',
             editable: true,
 
         },
-
         {
             headerName: 'Remaining Quantity', field: 'leftQty'
-        
-        }
+
+        },
+
+
 
 
     ]
@@ -187,12 +237,26 @@ function StockConsumption() {
     const defaultColDefs = { flex: 1 }
 
     const onEditCell = (e) => {
-        alert("click")
-        console.log(e)
-        console.log(e.rowIndex)
+         
+        console.log(e.rowData)
         console.log(stockData[e.rowIndex])
-        stockData[e.rowIndex].conQty = e.newValue
-        stockData[e.rowIndex].leftQty = 9
+        if (e.newValue <= e.data.availableQty && e.newValue > 0) {
+            stockData[e.rowIndex].conQty = e.newValue
+            stockData[e.rowIndex].leftQty = e.data.availableQty - e.newValue
+            updateStockItemData(stockData[e.rowIndex], stockData[e.rowIndex].id)
+            populatedDataOnGrid(formValues.branch)
+        }
+
+        else{
+            alert("please give valid value")
+           
+            delete stockData[e.rowIndex].conQty
+            updateStockItemData(stockData[e.rowIndex], stockData[e.rowIndex].id)
+            populatedDataOnGrid(formValues.branch)
+        }
+
+
+
     }
 
 
@@ -319,7 +383,7 @@ function StockConsumption() {
                                 </div>
                             </div>
 
-                           
+
 
                             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                                 <AgGridReact
