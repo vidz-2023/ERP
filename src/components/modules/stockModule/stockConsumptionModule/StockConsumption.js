@@ -49,13 +49,13 @@ function StockConsumption() {
 
         console.log(stockConsumId)
         if (stockConsumId != 0) {
-             
-            getStockConsumeDataById(stockConsumId).then(res=>{
+
+            getStockConsumeDataById(stockConsumId).then(res => {
                 setFormValue(res.data[0])
                 populatedDataOnGrid(res.data[0].branch)
             })
             setIsUpdate(true)
-            
+
         }
 
         else {
@@ -112,7 +112,7 @@ function StockConsumption() {
             await getStockItemsByStockId(arr[index].stockId).then(res => {
                 console.log(res.data)
                 arr1.push(...res.data)
-               
+
             })
             index++
         }
@@ -137,17 +137,16 @@ function StockConsumption() {
 
     const handleSubmit = () => {
 
-       console.log(formValues)
-       formValues.consumDate = conDate
-       formValues.fileName =""
-       if(isUpdate)
-       {
-          updateStockConsumeData(formValues, formValues.id)
-       }
-       else{
-        addStockConsumData(formValues)
-       }
-       document.getElementById("submitBtn").disabled = true;
+        console.log(formValues)
+        formValues.consumDate = conDate
+        formValues.fileName = ""
+        if (isUpdate) {
+            updateStockConsumeData(formValues, formValues.id)
+        }
+        else {
+            addStockConsumData(formValues)
+        }
+        document.getElementById("submitBtn").disabled = true;
 
     }
 
@@ -168,9 +167,18 @@ function StockConsumption() {
         },
 
         {
+            headerName: 'Available Quantity', field: 'availableQty'
+        },
+
+        {
             headerName: 'Consumption Quantity', field: 'conQty',
             editable: true,
-          
+
+        },
+
+        {
+            headerName: 'Remaining Quantity', field: 'leftQty'
+        
         }
 
 
@@ -178,14 +186,15 @@ function StockConsumption() {
 
     const defaultColDefs = { flex: 1 }
 
-    const onEditCell = (e) =>{
+    const onEditCell = (e) => {
         alert("click")
         console.log(e)
         console.log(e.rowIndex)
         console.log(stockData[e.rowIndex])
         stockData[e.rowIndex].conQty = e.newValue
+        stockData[e.rowIndex].leftQty = 9
     }
-   
+
 
     return (
         <>
@@ -207,9 +216,9 @@ function StockConsumption() {
                             <div className="row">
 
                                 <div className="col-md-6">
-                                   {!isUpdate && <div className="row">
+                                    {!isUpdate && <div className="row">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                             Branch <span className="text-danger fw-bold">*</span>
+                                            Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
@@ -230,24 +239,24 @@ function StockConsumption() {
                                             </Field>
                                             <ErrorMessage name='branch' className=" ms-1" />
                                         </div>
-                                    </div>} 
+                                    </div>}
 
                                     {isUpdate && <div className="row">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                             Branch <span className="text-danger fw-bold">*</span>
+                                            Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
-                                        <Field
+                                            <Field
                                                 type="text"
                                                 name="branch"
                                                 value={formValues.branch}
                                                 className="form-control form-control-sm"
-                                               disabled
+                                                disabled
                                             >
                                             </Field>
                                         </div>
-                                    </div>} 
-                                    
+                                    </div>}
+
                                 </div>
 
                                 <div className="col-md-6">
@@ -264,7 +273,7 @@ function StockConsumption() {
                                                 disabled
 
                                             ></Field>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -303,12 +312,14 @@ function StockConsumption() {
                                                 value={formValues.fileName}
                                                 className="form-control form-control-sm"
                                                 onChange={e => handleChange(e, setFieldValue)}
-                                                >
-                                                </Field>
+                                            >
+                                            </Field>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                           
 
                             <div className="ag-theme-alpine my-3" style={{ height: 300 }}>
                                 <AgGridReact
@@ -316,8 +327,8 @@ function StockConsumption() {
                                     columnDefs={columns}
                                     defaultColDef={defaultColDefs}
                                     onCellEditingStopped={e => onEditCell(e)}
-                                
-                                      
+
+
                                 />
                             </div>
 
