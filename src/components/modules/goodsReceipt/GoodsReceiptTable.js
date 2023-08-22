@@ -104,11 +104,7 @@ const GoodsReceiptTable = () => {
         <div className='container'>
             <div className='row mt-3 d-flex justify-content-center'>
                 <div className='col-4 ms-3'>
-                    <button type="button" className='btn btn-info me-2'
-                    // onClick={() => { handleAddPurchase() }}
-                    >
-                        Add Row
-                    </button>
+
                     <button type="button" className='btn btn-info me-2'
                         onClick={() => { showListPO() }}
                     >

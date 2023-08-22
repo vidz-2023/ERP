@@ -22,33 +22,6 @@ const PurchaseMasterTable = () => {
         })
 
     }
-
-    // gstType: "",
-    //     gstNumber: "",
-    //         branch: "",
-    //             category: "",
-    //                 vendor: "",
-    //                     email: "",
-    //                         currency: "",
-    //                             currencyConversionRate: "",
-    //                                 orderDate: "",
-    //                                     orderNumber: "",
-    //                                         deliveryDate: "",
-    //                                             agent: "",
-    //                                                 refNumber: "",
-    //                                                     refDate: "",
-    //                                                         taxInc: "",
-    //                                                             taxExcl: "",
-    //                                                                 billingAdd: "",
-    //                                                                     shippingAdd: "",
-    //                                                                         contactPersonName: "",
-    //                                                                             contactPersonPhone: "",
-    //                                                                                 paymentType: "",
-    //                                                                                     remarks: "",
-    //                                                                                         attachment: "",
-    //                                                                                             discount: "",
-    //                                                                                                 totalPrice: "",
-    //                                                                                                     frieght: ""
     const column = [
         {
             field: "pId"

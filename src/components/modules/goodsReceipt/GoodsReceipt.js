@@ -8,7 +8,6 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPurchaseDetailById } from '../../../services/purchaseMasterService';
-import LogisticsStock from '../stockModule/LogisticsStock';
 import { getGoodsReceiptDetail } from '../../../services/goodsReceiptService';
 import { getStorageLocation } from '../../../services/masterServices';
 
@@ -50,12 +49,16 @@ const GoodsReceipt = () => {
     const [goodsReceiptData, setGoodsReceiptData] = useState([])
     const [storageLocation, setStorageLocation] = useState([])
     const [priceAfterDiscount, setPriceAfterDiscount] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const column = [
         {
             field: "sNo",
             valueGetter: "node.rowIndex + 1",
             editable: false
+        },
+        {
+            field: "orderedQty",
         },
         {
             field: "receivedQty",
@@ -65,17 +68,22 @@ const GoodsReceipt = () => {
             field: "pendingQty",
             editable: false
         },
+
         {
-            field: "quotedUnitPrice"
+            field: "quotedUnitPrice",
+
         },
         {
             field: "billedUnitPrice",
+            headerName: "Billed(P.U)"
         },
         {
             field: "billedTotalPrice",
+            headerName: "Amt. Billed"
         },
         {
             field: "differenceAmount",
+            headerName: "Diff Amt",
             editable: false
             // headerName: "Billed Amount - Amount (in raw material vendor master)"
         }
@@ -166,435 +174,413 @@ const GoodsReceipt = () => {
                                         </h4>
                                     </div>
                                 </div>
-                                {/* ==================================== form details ==================================================== */}
-                                <div
-                                    className='rounded form-group'
-                                >
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>GST Type<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                type="text"
-                                                // component="select"
-                                                name="gstType"
-                                                // value={purchaseData.gstType}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/* <option value="">Select GST Type...</option>
-                                               
-                                                    tempData.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            // value={item.FirstName}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='gstType' />
+                                {/* ====================================form details ==================================================== */}
+                                <div className='rounded form-group'>
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Order No<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="orderNumber"
+                                                        // value={purchaseData.orderNumber}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='orderNumber' />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>GST Number<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="number"
-                                                name="gstNumber"
-                                                // value={purchaseData.gstNumber}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='gstNumber' />
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Order Date<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm fw-light"
+                                                        type='date'
+                                                        name="orderDate"
+                                                        // value={purchaseData.orderDate}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='orderDate' />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Branch<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="branch"
-                                                // value={purchaseData.branch}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/* <option value="">Select Branch</option>
-                                               
-                                                    branch.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            value={item.Name}
-                                                        >
-                                                            {item.Name}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='branch' />
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>GST Type<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        type="text"
+                                                        // component="select"
+                                                        name="gstType"
+                                                        // value={purchaseData.gstType}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='gstType' />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Category<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="category"
-                                                // value={purchaseData.category}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select Category</option>
-                                                
-                                                    category.map((item, index) => {
-                                                        return <option
-                                                    key={index}
-                                                    value={item.Name}
-                                                >
-                                                    {item.Name}
-                                                </option>
-                                                    }
-                                                )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='category' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Vendor<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="vendor"
-                                                // value={purchaseData.vendor}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select Vendor</option>
-                                                tempData.map((item, index) => {
-                                                        return <option
-                                                    key={index}
-                                                    value={item}
-                                                >
-                                                    {item}
-                                                </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='vendor' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Email<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="email"
-                                                name="email"
-                                                // value={purchaseData.email}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='email' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Currency<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="currency"
-                                                // value={purchaseData.currency}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select Currency</option>
-                                                
-                                                    tempData.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='currency' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Conversion Rate</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="number"
-                                                name="currencyConversionRate"
-                                                // value={purchaseData.currencyConversionRate}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='currencyConversionRate' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Order Date<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm fw-light"
-                                                type='date'
-                                                name="orderDate"
-                                                // value={purchaseData.orderDate}
-                                                // onChange={handleChange}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='orderDate' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Order Number<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="number"
-                                                name="orderNumber"
-                                                // value={purchaseData.orderNumber}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='orderNumber' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Delivery Date<span className='text-danger'>*</span></div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm fw-light"
-                                                type='date'
-                                                name="deliveryDate"
-                                                // value={purchaseData.deliveryDate}
-                                                // onChange={handleChange}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='deliveryDate' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Agent</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="text"
-                                                name="agent"
-                                                // value={purchaseData.agent}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='agent' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Reference Number</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="text"
-                                                name="refNumber"
-                                                // value={purchaseData.refNumber}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='refNumber' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Reference Date</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm fw-light"
-                                                type='date'
-                                                name="refDate"
-                                                // value={purchaseData.refDate}
-                                                // onChange={handleChange}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='refDate' />
-                                        </div>
-                                    </div>
-                                    <div className='row mb-1'>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Tax Inclusive</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="taxInc"
-                                                // value={purchaseData.taxInc}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select Inclusive Tax...</option>
-                                                
-                                                    tempData.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='taxInc' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Tax Exclusive</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="taxExcl"
-                                                // value={purchaseData.taxExcl}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select Exclusive Tax...</option>
-                                                
-                                                    tempData.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='taxExcl' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className='row mb-1 d-flex align-items-center'
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Billing Address</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field as="textarea" className="form-control form-control-sm"
-                                                name="billingAdd"
-                                                // value={purchaseData.billingAdd}
-                                                // onChange={e => handleChange(e, setFieldValue)}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='billingAdd' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Shipping Address</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field as="textarea" className="form-control form-control-sm"
-                                                name="shippingAdd"
-                                                // value={purchaseData.shippingAdd}
-                                                // onChange={e => handleChange(e, setFieldValue)}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='shippingAdd' />
-                                        </div>
-                                    </div>
-                                    <div className='row mb-1'>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Contact Person Name</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="text"
-                                                name="contactPersonName"
-                                                // value={purchaseData.contactPersonName}
-                                                // onChange={e => handleChange(e, setFieldValue)}
-                                                disabled
-                                            />
-                                            <ErrorMessage className="text-danger  ms-2" component="div" name='contactPersonName' />
-                                        </div>
-                                        <div className='col-2'></div>
-                                        <div className='col-2 col-form-label col-form-label-sm'>Contact Person Phone</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-control form-control-sm"
-                                                type="number"
-                                                name="contactPersonPhone"
-                                                // value={purchaseData.contactPersonPhone}
-                                                // onChange={handleChange}
-                                                disabled
-                                            >
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='contactPersonPhone' />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                    >
-                                        <div className='col-2 col-form-label col-form-label-sm'>Payment Type</div>
-                                        <div className='col-3 d-flex'>
-                                            <Field
-                                                className="form-select form-select-sm fw-light"
-                                                // component="select"
-                                                type="text"
-                                                name="paymentType"
-                                                // value={purchaseData.paymentType}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                disabled
-                                            >
-                                                {/*<option value="">Select...</option>
-                                                
-                                                    tempData.map((item, index) => {
-                                                        return <option
-                                                            key={index}
-                                                            value={item}
-                                                        >
-                                                            {item}
-                                                        </option>
-                                                    }
-                                                    )
-                                                */}
-                                            </Field>
-                                            <ErrorMessage className="text-danger ms-2" component="div" name='paymentType' />
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>GST Number<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="gstNumber"
+                                                        // value={purchaseData.gstNumber}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='gstNumber' />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
 
-                                    {/* ==================================== Ag Grid ==================================================== */}
-                                    <div className="row mt-2">
-                                        <hr></hr>
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Branch<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="branch"
+                                                        // value={purchaseData.branch}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='branch' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Category<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="category"
+                                                        // value={purchaseData.category}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='category' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Vendor<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="vendor"
+                                                        // value={purchaseData.vendor}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='vendor' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Email<span className='text-danger'>*</span></div>
+                                                <div className='col-7 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="email"
+                                                        name="email"
+                                                        // value={purchaseData.email}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='email' />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div className='row'>
+
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Currency<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="currency"
+                                                        // value={purchaseData.currency}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='currency' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Conversion Rate</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="currencyConversionRate"
+                                                        // value={purchaseData.currencyConversionRate}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='currencyConversionRate' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Delivery Date<span className='text-danger'>*</span></div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm fw-light"
+                                                        type='date'
+                                                        name="deliveryDate"
+                                                        // value={purchaseData.deliveryDate}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='deliveryDate' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Agent</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="text"
+                                                        name="agent"
+                                                        // value={purchaseData.agent}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='agent' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Ref Number</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="text"
+                                                        name="refNumber"
+                                                        // value={purchaseData.refNumber}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='refNumber' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Reference Date</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm fw-light"
+                                                        type='date'
+                                                        name="refDate"
+                                                        // value={purchaseData.refDate}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='refDate' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Tax Inclusive</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="taxInc"
+                                                        // value={purchaseData.taxInc}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='taxInc' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Tax Exclusive</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="taxExcl"
+                                                        // value={purchaseData.taxExcl}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='taxExcl' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={`row mb-5 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-6'>
+                                            <div className='row mb-1 d-flex align-items-center'>
+                                                <div className='col-3 col-form-label col-form-label-sm'>Billing Address</div>
+                                                <div className='col-9 d-flex'>
+                                                    <Field as="textarea" className={`form-control form-control-sm ${goodReceiptStyle.myAddressPosition}`}
+                                                        name="billingAdd"
+                                                        // value={purchaseData.billingAdd}
+                                                        // onChange={e => handleChange(e, setFieldValue)}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='billingAdd' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-6'>
+                                            <div className='row mb-1 d-flex align-items-center'>
+                                                <div className='col-3 col-form-label col-form-label-sm'>Shipping Address</div>
+                                                <div className='col-9 d-flex'>
+                                                    <Field as="textarea" className={`form-control form-control-sm ${goodReceiptStyle.myAddressPosition}`}
+                                                        name="shippingAdd"
+                                                        // value={purchaseData.shippingAdd}
+                                                        // onChange={e => handleChange(e, setFieldValue)}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='shippingAdd' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Contact Person</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="text"
+                                                        name="contactPersonName"
+                                                        // value={purchaseData.contactPersonName}
+                                                        // onChange={e => handleChange(e, setFieldValue)}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='contactPersonName' />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Person Phone</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="contactPersonPhone"
+                                                        // value={purchaseData.contactPersonPhone}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='contactPersonPhone' />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-5 col-form-label col-form-label-sm'>Payment Type</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-select form-select-sm fw-light"
+                                                        // component="select"
+                                                        type="text"
+                                                        name="paymentType"
+                                                        // value={purchaseData.paymentType}
+                                                        // onChange={(e) => { handleChange(e, setFieldValue) }}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='paymentType' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* ==================================== AgGRid ==================================================== */}
+                                <div className="row mt-2">
+                                    <hr></hr>
+                                </div>
+
+                                <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
+                                    <AgGridReact
+                                        rowData={goodsReceiptData}
+                                        columnDefs={column}
+                                        defaultColDef={defaultColDef}
+                                    />
+                                </div>
+
+
+
+                                <div className='d-flex justify-content-end w-75'>
+                                    <div className='form-label'><b>Total Price :</b> </div>
+                                    <div className='form-label'>{totalPrice}</div>
+                                </div>
+
+
+                                <div className="row mt-2">
+                                    <hr></hr>
+                                </div>
+                                {/* ==================================== summary ==================================================== */}
+                                <div className='rounded form-group'>
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
                                         <div className='col-4'>
                                             <div className='row'>
                                                 <div className='col-4 col-form-label col-form-label-sm'>Received Date</div>
@@ -610,7 +596,6 @@ const GoodsReceipt = () => {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className='col-4'>
                                             <div className='row'>
                                                 <div className='col-4 col-form-label col-form-label-sm'>Payment Status</div>
@@ -636,7 +621,6 @@ const GoodsReceipt = () => {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className='col-4'>
                                             <div className='row'>
                                                 <div className='col-5 col-form-label col-form-label-sm'>Storage Location</div>
@@ -662,136 +646,110 @@ const GoodsReceipt = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1110, height: 300 }}>
-                                            <AgGridReact
-                                                rowData={goodsReceiptData}
-                                                columnDefs={column}
-                                                defaultColDef={defaultColDef}
-                                            />
-                                        </div>
-                                    </div>
-                                    {/* ==================================== Logistics ==================================================== */}
-                                    <div className="row mt-2">
-                                        <hr></hr>
                                     </div>
 
-                                    {/*<LogisticsStock />*/}
 
-                                    <div className="row mt-2">
-                                        <hr></hr>
-                                    </div>
-                                    {/* ==================================== summary ==================================================== */}
-
-
-                                    <div>
-                                        <div
-                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                        >
-                                            <div className='col-2 col-form-label col-form-label-sm'>Remarks</div>
-                                            <div className='col-3 d-flex'>
-                                                <Field
-                                                    className="form-control form-control-sm"
-                                                    type="text"
-                                                    name="remarks"
-                                                // value={purchaseData.remarks}
-                                                // onChange={e => handleChange(e, setFieldValue)}
-                                                />
-                                                <ErrorMessage className="text-danger  ms-2" component="div" name='remarks' />
-                                            </div>
-                                            <div className='col-2'></div>
-                                            <div className='col-2 col-form-label col-form-label-sm'>Attachment</div>
-                                            <div className='col-3 d-flex'>
-                                                <Field
-                                                    className="form-control form-control-sm fw-light"
-                                                    type="file"
-                                                    name="attachment"
-                                                // value={purchaseData.attachment}
-                                                // onChange={handleChange}
-                                                >
-                                                </Field>
-                                                <ErrorMessage className="text-danger ms-2" component="div" name='attachment' />
+                                    <div className={`row mb-5 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-8'>
+                                            <div className='row'>
+                                                <div className='col-2 col-form-label col-form-label-sm'>Received Information</div>
+                                                <div className='col-9 d-flex'>
+                                                    <Field as="textarea"
+                                                        className="form-control form-control-sm"
+                                                        name="receivedInfo"
+                                                    // value={purchaseData.shippingAdd}
+                                                    // onChange={e => handleChange(e, setFieldValue)}
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='receivedInfo' />
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className='col-4'>
+                                            <div className='row'>
+                                                <div className='col-3 col-form-label col-form-label-sm'>Attachment</div>
+                                                <div className='col-9 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm fw-light"
+                                                        type="file"
+                                                        name="attachment"
+                                                    // value={purchaseData.attachment}
+                                                    // onChange={handleChange}
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='attachment' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        <div
-                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                        >
-                                            <div className='col-2 col-form-label col-form-label-sm'>Total Price</div>
-                                            <div className='col-2 d-flex'>
-                                                <Field
-                                                    className="form-control form-control-sm"
-                                                    type="number"
-                                                    name="totalPrice"
+                                    <div className={`row mb-3 ${goodReceiptStyle.myInputfield}`}>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-4 col-form-label col-form-label-sm'>Total Price</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="totalPrice"
+                                                        // value={totalPrice}
+                                                        // onChange={handleChange}
+                                                        disabled
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-2 col-form-label col-form-label-sm'>GST</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="gst"
                                                     // value={totalPrice}
                                                     // onChange={handleChange}
-                                                    disabled
-                                                >
-                                                </Field>
-                                                <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
+                                                    >
+                                                    </Field>
+                                                    <ErrorMessage className="text-danger ms-2" component="div" name='gst' />
+                                                </div>
                                             </div>
-                                            <div className='col-1'></div>
-                                            <div className='col-1 col-form-label col-form-label-sm'>Discount(%)</div>
-                                            <div className='col-2 d-flex'>
-                                                <Field
-                                                    className="form-control form-control-sm"
-                                                    type="number"
-                                                    name="discount"
-                                                    // value={purchaseData.Description}
-                                                    onChange={e => handleChange(e, setFieldValue)}
-
-                                                />
-                                                <ErrorMessage className="text-danger  ms-2" component="div" name='discount' />
-                                            </div>
-
-                                            <div className='col-2 col-form-label col-form-label-sm'>Price After Discount</div>
-                                            <div className='col-2 d-flex'>
-                                                <Field
-                                                    className="form-control form-control-sm"
-                                                    type="number"
-                                                    name="afterDiscount"
-                                                    value={priceAfterDiscount.toFixed(2)}
-                                                    // onChange={e => handleChange(e, setFieldValue)}
-                                                    disabled
-                                                />
-                                                <ErrorMessage className="text-danger  ms-2" component="div" name='afterDiscount' />
-                                            </div>
-
                                         </div>
-                                        {/*
-                                        <div
-                                            className={`row mb-3 ${goodReceiptStyle.myInputfield}`}
-                                        >
-                                            <div className='col-2 col-form-label col-form-label-sm'>Frieght</div>
-                                            <div className='col-3 d-flex'>
-                                                <Field
-                                                    className="form-select form-select-sm fw-light"
-                                                    component="select"
-                                                    name="frieght"
-                                                // value={purchaseData.paymentType}
-                                                // onChange={(e) => { handleChange(e, setFieldValue) }}
-                                                >
-                                                    <option value="">Select...</option>
-                                                    
-                                                        freight.map((item, index) => {
-                                                            return <option
-                                                                key={index}
-                                                                value={item.Name}
-                                                            >
-                                                                {item.Name}
-                                                            </option>
-                                                        }
-                                                        )
-                                                    
-                                                </Field>
-                                                <ErrorMessage className="text-danger ms-2" component="div" name='frieght' />
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-3 col-form-label col-form-label-sm'>Discount(%)</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="discount"
+                                                        // value={purchaseData.Description}
+                                                        onChange={e => handleChange(e, setFieldValue)}
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='discount' />
+                                                </div>
                                             </div>
-                                           
-                                    </div>
-                                     */}
-
+                                        </div>
+                                        <div className='col-3'>
+                                            <div className='row'>
+                                                <div className='col-6 col-form-label col-form-label-sm'>Price After Discount</div>
+                                                <div className='col-6 d-flex'>
+                                                    <Field
+                                                        className="form-control form-control-sm"
+                                                        type="number"
+                                                        name="afterDiscount"
+                                                        value={priceAfterDiscount.toFixed(2)}
+                                                        // onChange={e => handleChange(e, setFieldValue)}
+                                                        disabled
+                                                    />
+                                                    <ErrorMessage className="text-danger  ms-2" component="div" name='afterDiscount' />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div className='d-flex justify-content-center'>
                                     <button
                                         className="btn btn-info w-25 m-5"

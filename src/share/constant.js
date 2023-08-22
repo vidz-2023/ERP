@@ -43,7 +43,7 @@ export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 export const purchaseURL = `${JSONURL}/purchase-order`
 export const purchasedItemsDetailsURL = `${JSONURL}/purchased-items-details`
 
-export const goodsReceiptURL = `${JSONURL}/goodsReceipt`
+export const goodsReceiptURL = `${JSONURL}/goodsReceipt-purchaseOrder`
 
 export const rawMaterialURL = `${JSONURL}/raw-material`
 export const materialVendorConfigURL = `${JSONURL}/material-vendor-config`

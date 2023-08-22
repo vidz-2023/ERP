@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaRegEye } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 const PurchaseView = (params) => {
     const navigate = useNavigate()
@@ -11,7 +11,7 @@ const PurchaseView = (params) => {
 
     return (
         <div>
-            <button className='btn btn-info mb-1' onClick={() => { handleView(params) }}><FaRegEye /></button>
+            <button className='btn btn-info mb-1' onClick={() => { handleView(params) }}><FaEdit /></button>
         </div>
     )
 }

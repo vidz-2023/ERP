@@ -111,7 +111,6 @@ const PurchaseMaster = () => {
                 navigate("/purchase-order-table")
             })
         } else {
-
             generatedId().then(newId => {
                 values = { ...values, pId: newId }
                 addPurchaseDetail(values).then((res) => {
@@ -152,7 +151,8 @@ const PurchaseMaster = () => {
             hide: true
         },
         {
-            field: "materialId"
+            field: "materialId",
+            headerName: "Material Code"
         },
         {
             field: "materialName"
@@ -161,14 +161,15 @@ const PurchaseMaster = () => {
             field: "unitPrice"
         },
         {
-            field: "requestedQty"
+            field: "orderedQty"
+
         },
 
         {
-            field: "totalItemPrice",
+            field: "totalPrice",
             valueGetter: (params) => {
-                const { requestedQty, unitPrice } = params.data
-                return requestedQty * unitPrice
+                const { orderedQty, unitPrice } = params.data
+                return orderedQty * unitPrice
             },
         },
         {
@@ -187,8 +188,8 @@ const PurchaseMaster = () => {
         let price = 0
         getPurchasedItemsByPId(pid).then((res) => {
             const data = res.data.map((item, index) => {
-                qty = qty + item.requestedQty
-                price = price + (item.requestedQty * item.unitPrice)
+                qty = qty + item.orderedQty
+                price = price + (item.orderedQty * item.unitPrice)
                 return item
             })
             setTotalQty(qty)

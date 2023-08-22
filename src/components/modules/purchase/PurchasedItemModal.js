@@ -18,9 +18,11 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
         materialId: "",
         materialName: "",
         unitPrice: 0,
-        requestedQty: 0
+        unit: "",
+        minimumPurchaseQuantity: 0,
+        orderedQty: 0
     }
-    // const tempData = ["A", "B", "C"]
+
     const [purchasedItemData, setPurchasedItemData] = useState(initialData)
     const [avaMaterial, setAvaMaterial] = useState([])
 
@@ -52,7 +54,7 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
             value && funGetMaterialName(value)
         }
 
-        // if (e.target.name === "requestedQty" || e.target.name === "unitPrice") {
+        // if (e.target.name === "orderedQty" || e.target.name === "unitPrice") {
         //     setPurchasedItemData({ ...purchasedItemData, [name]: Number(value) })
         // } else if (e.target.name === "materialId") {
 
@@ -110,7 +112,7 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
 
     const validationSchema = Yup.object({
         materialId: Yup.string().required('*Required'),
-        requestedQty: Yup.number().required('*Required').min(0, "Only positive value")
+        orderedQty: Yup.number().required('*Required').min(0, "Only positive value")
     })
 
     return (
@@ -213,16 +215,41 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                 </div>
 
                                                 <div className="row mb-1">
-                                                    <div className='col-4 form-label'>Requested Quantity</div>
+                                                    <div className='col-4 form-label'>Min Purchase Qty</div>
                                                     <div className='col-8 d-flex'>
                                                         <Field
                                                             className="form-control"
                                                             type="number"
-                                                            name="requestedQty"
-                                                        // value={purchasedItemData.requestedQty}
+                                                            name="minimumPurchaseQuantity"
+                                                            // value={purchasedItemData.unitPrice}
+                                                            // onChange={handleChange}
+                                                            disabled
+                                                        />
+                                                        <ErrorMessage className="text-danger ms-2" component="div" name='minimumPurchaseQuantity' />
+                                                    </div>
+                                                </div>
+
+                                                <div className="row mb-1">
+                                                    <div className='col-4 form-label'>Requested Quantity</div>
+                                                    <div className='col-4 d-flex'>
+                                                        <Field
+                                                            className="form-control"
+                                                            type="number"
+                                                            name="orderedQty"
+                                                        // value={purchasedItemData.orderedQty}
                                                         // onChange={handleChange}
                                                         />
-                                                        <ErrorMessage className="text-danger ms-2" component="div" name='requestedQty' />
+                                                        <ErrorMessage className="text-danger ms-2" component="div" name='orderedQty' />
+                                                    </div>
+                                                    <div className='col-4 d-flex'>
+                                                        <Field
+                                                            className="form-control"
+                                                            type="text"
+                                                            name="unit"
+                                                        // value={purchasedItemData.orderedQty}
+                                                        // onChange={handleChange}
+                                                        />
+                                                        <ErrorMessage className="text-danger ms-2" component="div" name='unit' />
                                                     </div>
                                                 </div>
                                             </div>
