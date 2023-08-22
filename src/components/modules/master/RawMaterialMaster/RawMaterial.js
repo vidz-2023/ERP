@@ -8,6 +8,7 @@ import {
   updateRawMaterialData,
 } from "../../../../services/rawMaterialService";
 import { useNavigate, useParams } from "react-router-dom";
+import { getVendorMaster, getVendorMasterDataByName } from "../../../../services/vendorMasterServices";
 
 const RawMaterial = () => {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -17,6 +18,8 @@ const RawMaterial = () => {
   const rawInputFields = {
     materialId: "",
     materialName: "",
+    vendorId: "",
+    vendorName: "",
     materialCategory: "",
     description: "",
     basicUnitOfMeasure: "",
@@ -33,6 +36,9 @@ const RawMaterial = () => {
   };
 
   const [rawMaterial, setRawMaterial] = useState(rawInputFields);
+  const [vendorNameList, setVendorNameList] = useState([]);
+  const [vendorName, setVendorName] = useState("");
+  const [vendorId, setVendorId] = useState(0);
   const [remainDays1, setRemainDays1] = useState();
   const [remainDays2, setRemainDays2] = useState();
   const [remainDays3, setRemainDays3] = useState();
@@ -48,14 +54,22 @@ const RawMaterial = () => {
       getRawMaterialDataByMaterialCode(materialId).then((res) => {
         console.log(res.data[0]);
         setRawMaterial(res.data[0]);
+        setVendorId(res.data[0].vendorId)
+        setVendorName(res.data[0].vendorName)
       });
       setIsUpdate(true);
     }
+    getVendorMaster().then((vendorRes) => {
+      console.log(vendorRes.data);
+      setVendorNameList(vendorRes.data);
+    });
   };
 
   const rawMaterialvalidationSchema = Yup.object({
     materialId: Yup.string().required("Material code is required"),
     materialName: Yup.string().required("Material name required"),
+    vendorId: Yup.string(),
+    vendorName: Yup.string(),
     materialCategory: Yup.string().required("Material category required"),
     description: Yup.string(),
     basicUnitOfMeasure: Yup.string().required("Unit of measure required"),
@@ -75,14 +89,30 @@ const RawMaterial = () => {
     minStockAllowed: Yup.string().required("Min Stock Allowed required"),
   });
 
+  const funGetVendorByName = (data) => {
+    getVendorMasterDataByName(data).then((res) => {
+      console.log(res.data[0])
+      const updateVendorId = res.data[0].vendorId;
+      setVendorId(updateVendorId);
+    });
+  };
+
   const onRawMaterialHandler = (e, setFieldValue) => {
     const { name, value } = e.target;
+    if (e.target.name === "vendorName") {
+      setFieldValue("vendorName", value);
+      console.log(e.target.value);
+      setVendorName(e.target.value);
+      value && funGetVendorByName(value);
+    }
     setRawMaterial({ ...rawMaterial, [name]: value });    
     setFieldValue([name], value);
   };
 
   const rawMaterialHandleSubmit = () => {
     console.log(rawMaterial);
+    rawMaterial.vendorId = vendorId;
+    rawMaterial.vendorName = vendorName;
     if (!isUpdate) {
       addRawMaterialData(rawMaterial).then((res) => {
         navigate("/rawMaterialTable");
@@ -164,6 +194,65 @@ const RawMaterial = () => {
                     </div>
                     <div className="row mb-2">
                       <label
+                        htmlFor="vendorId"
+                        className="col-sm-4 col-form-label col-form-label-sm"
+                      >
+                        Vendor Id<span className="text-danger">*</span>
+                      </label>
+                      <div className="col-sm-8">
+                        <Field
+                          className="form-control form-control-sm"
+                          type="text"
+                          name="vendorId"
+                          value={vendorId}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
+                          disabled
+                        />
+                        <ErrorMessage
+                          name="vendorId"
+                          className="text-danger"
+                          component="div"
+                        />
+                      </div>
+                    </div>
+                    <div className="row mb-2">
+                      <label
+                        htmlFor="vendorName"
+                        className="col-sm-4 col-form-label col-form-label-sm"
+                      >
+                        Vendor Name<span className="text-danger">*</span>
+                      </label>
+                      <div className="col-sm-8">
+                        <Field
+                          component="select"
+                          name="vendorName"
+                          className="form-select form-select-sm"
+                          value={vendorName}
+                          onChange={(e) =>
+                            onRawMaterialHandler(e, setFieldValue)
+                          }
+                        >
+                          <option value="">Select</option>
+                          {vendorNameList &&
+                            vendorNameList.map((item) => {
+                              return (
+                                <option key={item.id} value={item.firstName}>
+                                  {item.firstName} {item.lastName}
+                                </option>
+                              );
+                            })}
+                        </Field>
+                        <ErrorMessage
+                          name="materialName"
+                          className="text-danger"
+                          component="div"
+                        />
+                      </div>
+                    </div>
+                    <div className="row mb-2">
+                      <label
                         htmlFor="category"
                         className="col-sm-4 col-form-label col-form-label-sm"
                       >
@@ -183,7 +272,9 @@ const RawMaterial = () => {
                           <option value="Pulses">Pulses</option>
                           <option value="Rice">Rice</option>
                           <option value="Dairy Products">Dairy Products</option>
+                          <option value="Oils">Oils</option>
                           <option value="Spices">Spices</option>
+                          <option value="Beverages">Beverages</option>
                         </Field>
                         <ErrorMessage
                           name="materialCategory"
