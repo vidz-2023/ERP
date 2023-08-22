@@ -110,7 +110,7 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
 
     const getPurchaseItemsDetailsByMaterialId = (data) => {
         getPurchasedItemsByMaterialId(data).then((res) => {
-            const availQty = res.data[0].requestedQty
+            const availQty = res.data[0].orderedQty
             setAvailableQty(availQty)
              formValues.availableQty = availQty
 
