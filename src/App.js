@@ -54,8 +54,8 @@ import StockConsumption from './components/modules/stockModule/stockConsumptionM
 import GoodsReceiptTable from './components/modules/goodsReceipt/GoodsReceiptTable';
 import GoodsReceipt from './components/modules/goodsReceipt/GoodsReceipt';
 import UnitMaster from './components/modules/master/unitMaster/UnitMaster';
-import PlantMaster from './components/modules/master/PlantMaster/PlantMaster'; 
-import { PlantMasterTable } from './components/modules/master/PlantMaster/PlantMasterTable'; 
+import PlantMaster from './components/modules/master/PlantMaster/PlantMaster';
+import { PlantMasterTable } from './components/modules/master/PlantMaster/PlantMasterTable';
 import UnitMasterTable from './components/modules/master/unitMaster/UnitMasterTable';
 
 function App() {
