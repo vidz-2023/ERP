@@ -113,22 +113,26 @@
     {
       "id": 1,
       "Name": "L1-Noida",
-      "isActive": true
+      "isActive": true,
+      "Branch": "Noida"
     },
     {
       "id": 2,
       "Name": "L2-Bengaluru",
-      "isActive": true
+      "isActive": true,
+      "Branch": "Bangalore"
     },
     {
       "id": 3,
       "Name": "L3-Chennai",
-      "isActive": true
+      "isActive": true,
+      "Branch": "Chennai"
     },
     {
       "id": 4,
       "Name": "L4-Hyderabad",
-      "isActive": true
+      "isActive": true,
+      "Branch": "Hyderabad"
     }
   ],
   "freight-master": [
@@ -282,7 +286,7 @@
   ],
   "LeavesMaster": [
     {
-      "description": "Required for emergency",
+      "description": "Casual Leave Details",
       "leaveCode": "0001",
       "email": "sravani079@gmail.com",
       "leaveType": "CL",
@@ -293,7 +297,7 @@
       "id": 1
     },
     {
-      "description": "Required for Personal",
+      "description": "Earned Leave Details",
       "leaveCode": "0002",
       "email": "cressampath@gmail.com",
       "leaveType": "EL",
@@ -304,7 +308,7 @@
       "id": 2
     },
     {
-      "description": "AA",
+      "description": "Paid Leave Details",
       "leaveCode": "0003",
       "email": "sravani079@gmail.com",
       "leaveType": "PL",
@@ -317,22 +321,23 @@
   ],
   "ApplyLeaves": [
     {
-      "employee": "00003",
-      "voucherno": "123456",
-      "leavecode": "0003",
-      "fromDate": "2023-07-19",
-      "toDate": "2023-07-21",
-      "leaveIn": "SecondHalf",
-      "days": "2",
-      "rate": "13",
-      "amount": "13",
+      "employee": "00001",
+      "voucherno": "123",
+      "leavecode": "0002",
+      "fromDate": "2023-08-23",
+      "toDate": "2023-08-24",
+      "leaveIn": "FullDay",
+      "days": "1",
+      "rate": "10",
+      "amount": "10",
       "reason": "Personal",
-      "remark": "Personal 1",
+      "remark": "Personal ",
       "remarkByFinance": "OK",
-      "id": 1,
-      "branch": "HCL-Bangalore",
-      "designation": "Software",
-      "department": "IT"
+      "branch": "Noida",
+      "department": "IT",
+      "designation": "Software Engineer",
+      "availableLeaves": 9,
+      "id": 1
     }
   ],
   "work-locaiton-info": [
@@ -864,7 +869,9 @@
       "materialId": "M00101",
       "materialName": "Moogdal",
       "unitPrice": 90,
-      "requestedQty": 10,
+      "orderedQty": 10,
+      "unit": "Kg",
+      "minimumPurchaseQuantity": "5",
       "id": 2
     },
     {
@@ -873,9 +880,10 @@
       "materialId": "M00101",
       "materialName": "Moogdal",
       "unitPrice": 90,
-      "requestedQty": 10,
-      "id": 4,
-      "sNo": 1
+      "orderedQty": 10,
+      "unit": "Kg",
+      "minimumPurchaseQuantity": "5",
+      "id": 4
     },
     {
       "pId": "P0009",
@@ -883,7 +891,9 @@
       "materialId": "M00102",
       "materialName": "Milk",
       "unitPrice": 74,
-      "requestedQty": 20,
+      "orderedQty": 20,
+      "unit": "liters",
+      "minimumPurchaseQuantity": "5",
       "id": 5
     },
     {
@@ -892,7 +902,9 @@
       "materialId": "M00101",
       "materialName": "Moogdal",
       "unitPrice": 90,
-      "requestedQty": 10,
+      "orderedQty": 10,
+      "unit": "Kg",
+      "minimumPurchaseQuantity": "5",
       "id": 7
     },
     {
@@ -901,7 +913,9 @@
       "materialId": "M00101",
       "materialName": "Moogdal",
       "unitPrice": 90,
-      "requestedQty": 10,
+      "orderedQty": 100,
+      "unit": "Kg",
+      "minimumPurchaseQuantity": "5",
       "id": 8
     },
     {
@@ -910,20 +924,39 @@
       "materialId": "M00102",
       "materialName": "Milk",
       "unitPrice": 74,
-      "requestedQty": 0,
+      "orderedQty": 100,
+      "unit": "liters",
+      "minimumPurchaseQuantity": "5",
       "id": 9
     }
   ],
-  "goodsReceipt": [
+  "goodsReceipt-purchaseOrder": [
     {
       "id": 1,
       "gId": "G0001",
+      "pId": "P0009",
+      "materialId": "M00102",
+      "materialName": "Milk",
+      "orderedQty": 20,
       "receivedQty": 2,
-      "pendingQty": 1,
-      "quotedUnitPrice": 1000,
-      "billedUnitPrice": 2000,
-      "billedTotalPrice": 3000,
-      "differenceAmount": 1000
+      "pendingQty": 18,
+      "unit": "liters",
+      "minimumPurchaseQuantity": "5",
+      "unitPrice": 74,
+      "quotedUnitPrice": 74,
+      "billedUnitPrice": 70,
+      "billedTotalPrice": 700,
+      "differenceAmount": 630,
+      "receivedDate": "2023-10-10",
+      "paymentStatus": "Paid",
+      "stroagelocation": "L1-Noida",
+      "receivedInformation": "",
+      "attachments": "",
+      "totalMRP": 0,
+      "discount": 20,
+      "priceAfterDiscount": 0,
+      "gst": 0,
+      "billedPrice": 0
     }
   ],
   "stockData": [
@@ -1060,7 +1093,8 @@
       "packUnit": "2",
       "packQuantity": "7",
       "availableUnit": "",
-      "availableQty": 10,
+      "availableQty": 3,
+      "minStockAllowed": "4",
       "id": 1
     },
     {
@@ -1071,7 +1105,8 @@
       "packUnit": "7",
       "packQuantity": "5",
       "availableUnit": "",
-      "availableQty": 20,
+      "availableQty": 10,
+      "minStockAllowed": "2",
       "id": 2
     },
     {
@@ -1082,7 +1117,8 @@
       "packUnit": "2",
       "packQuantity": "6",
       "availableUnit": "",
-      "availableQty": 10,
+      "availableQty": 8,
+      "minStockAllowed": "4",
       "id": 3
     },
     {
@@ -1094,55 +1130,20 @@
       "packQuantity": "10",
       "availableUnit": "",
       "availableQty": 20,
+      "minStockAllowed": "2",
       "id": 4
-    }
-  ],
-  "raw-material": [
-    {
-      "id": 1,
-      "materialId": "M00101",
-      "materialName": "Moogdal",
-      "materialCategory": "Pulses",
-      "description": "for making dal tadka",
-      "basicUnitOfMeasure": "Kg",
-      "storageArea": "Pune",
-      "minimumPurchaseQuantity": "5",
-      "remainderDays1": "6",
-      "remainderDays2": "3",
-      "remainderDays3": "1",
-      "minOrderWeight": "4",
-      "maxOrderWeight": "5",
-      "standardValuePerUnit": "90",
-      "maxStockAllowed": "4",
-      "minStockAllowed": "3"
     },
     {
+      "stockId": "St0060",
+      "stockItemId": "StItem0020",
       "materialId": "M00102",
       "materialName": "Milk",
-      "materialCategory": "Dairy Products",
-      "description": "tea",
-      "basicUnitOfMeasure": "liters",
-      "storageArea": "PCMC",
-      "minimumPurchaseQuantity": "5ltr",
-      "remainderDays1": "6",
-      "remainderDays2": "4",
-      "remainderDays3": "2",
-      "minOrderWeight": "3ltr",
-      "maxOrderWeight": "5ltr",
-      "standardValuePerUnit": "74",
-      "maxStockAllowed": "2ltr",
-      "minStockAllowed": "2ltr",
-      "id": 2
-    }
-  ],
-  "stockConsumption": [
-    {
-      "stockConsumId": "StComsum0034",
-      "branch": "Noida",
-      "consumDate": "2023-08-17",
-      "remark": "good",
-      "fileName": "",
-      "id": 1
+      "packUnit": "7",
+      "packQuantity": "5",
+      "availableUnit": "",
+      "availableQty": 0,
+      "minStockAllowed": "2",
+      "id": 5
     }
   ],
   "vendorMaster": [
@@ -1169,9 +1170,10 @@
       "headOffice": "Bangalore",
       "location": "Hosur",
       "authorization": "BM",
-      "payment": "Cash",
+      "payment": "Credit",
       "paymentTerm": "Cash",
       "priceCategory": "Cash",
+      "creditDuration": "60",
       "taxno": "1",
       "taxType": "Cash",
       "cin": "254",
@@ -1226,6 +1228,7 @@
       "cpayment": "Card",
       "cpaymentTerm": "Card",
       "cpriceCategory": "Card",
+      "cpaymentDuration": "90",
       "ctaxno": "1",
       "ctaxType": "Cash",
       "cCin": "896",
@@ -1282,6 +1285,117 @@
       "actbalance": "100000",
       "dateofbalancesheet": "31/4/2024",
       "financialyear": "23-24"
+    }
+  ],
+  "unitOfMeasurement": [
+    {
+      "unitName": "Test",
+      "measure": "Kg",
+      "id": 1
+    },
+    {
+      "unitName": "Test2",
+      "measure": "Piece",
+      "id": 2
+    },
+    {
+      "unitName": "Grams",
+      "measure": "gms",
+      "id": 3
+    }
+  ],
+  "raw-material": [
+    {
+      "id": 1,
+      "materialId": "M00101",
+      "materialName": "Moongdal",
+      "vendorId": "V0001",
+      "vendorName": "SraS",
+      "materialCategory": "Pulses",
+      "description": "for making dal tadka",
+      "basicUnitOfMeasure": "Kg",
+      "storageArea": "Pune",
+      "minimumPurchaseQuantity": "5",
+      "remainderDays1": "6",
+      "remainderDays2": "3",
+      "remainderDays3": "1",
+      "minOrderWeight": "4",
+      "maxOrderWeight": "5",
+      "standardValuePerUnit": "90",
+      "maxStockAllowed": "4",
+      "minStockAllowed": "3"
+    },
+    {
+      "materialId": "M00102",
+      "materialName": "Milk",
+      "vendorId": "V0002",
+      "vendorName": "ABC Store",
+      "materialCategory": "Dairy Products",
+      "description": "tea",
+      "basicUnitOfMeasure": "liters",
+      "storageArea": "PCMC",
+      "minimumPurchaseQuantity": "5",
+      "remainderDays1": "6",
+      "remainderDays2": "4",
+      "remainderDays3": "2",
+      "minOrderWeight": "3",
+      "maxOrderWeight": "5",
+      "standardValuePerUnit": "74",
+      "maxStockAllowed": "2",
+      "minStockAllowed": "2",
+      "id": 2
+    }
+  ],
+  "material-vendor-config": [
+    {
+      "id": 1,
+      "vendorName": "SraS",
+      "materialId": "M00101",
+      "materialName": "Moongdal",
+      "price": "90",
+      "minimumDaysRemain": "10",
+      "minimumQuantity": "50",
+      "invoiceDate": "2023-08-16",
+      "paymentMethod": "Cash",
+      "discount": "5%"
+    },
+    {
+      "id": 2,
+      "vendorName": "SraS",
+      "materialId": "M00102",
+      "materialName": "Milk",
+      "price": "80",
+      "minimumDaysRemain": "5",
+      "minimumQuantity": "10",
+      "invoiceDate": "2023-08-16",
+      "paymentMethod": "Credit",
+      "discount": "2%"
+    }
+  ],
+  "stockConsumption": [
+    {
+      "stockConsumId": "StComsum0047",
+      "branch": "Chennai",
+      "consumDate": "2023-08-22",
+      "remark": "g",
+      "fileName": "",
+      "id": 3
+    },
+    {
+      "stockConsumId": "StComsum0034",
+      "branch": "Bengaluru",
+      "consumDate": "2023-08-22",
+      "remark": "fgh",
+      "fileName": "",
+      "id": 4
+    },
+    {
+      "stockConsumId": "StComsum0060",
+      "branch": "Noida",
+      "consumDate": "2023-08-22",
+      "remark": "xvv",
+      "fileName": "",
+      "id": 5
     }
   ]
 }

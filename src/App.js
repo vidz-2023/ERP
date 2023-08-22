@@ -57,6 +57,8 @@ import UnitMaster from './components/modules/master/unitMaster/UnitMaster';
 import PlantMaster from './components/modules/master/PlantMaster/PlantMaster';
 import { PlantMasterTable } from './components/modules/master/PlantMaster/PlantMasterTable';
 import UnitMasterTable from './components/modules/master/unitMaster/UnitMasterTable';
+import StorageLocationMaster from './components/modules/master/storageLocationMaster/StorageLocationMaster';
+import StorageLocationMasterTable from './components/modules/master/storageLocationMaster/StorageLocationMasterTable';
 
 function App() {
   return (
@@ -130,6 +132,9 @@ function App() {
         <Route path="/unitMaster" element={<UnitMaster />} />
         <Route path="/unitMaster/:id" element={<UnitMaster />} />
         <Route path="/unitMasterTable" element={<UnitMasterTable />} />
+        <Route path="/storageLocMaster" element={<StorageLocationMaster />} />
+        <Route path="/storageLocMaster/:id" element={<StorageLocationMaster />} />
+        <Route path="/storageLocMasterTable" element={<StorageLocationMasterTable />} />
         <Route path="/PlantMaster" element={<PlantMaster />} />
         <Route path='PlantMaster/:id' element={<PlantMaster />} />
         <Route path="PlantMasterTable" element={<PlantMasterTable />} />

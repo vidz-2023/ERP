@@ -88,10 +88,16 @@ function LeaveMasterTable() {
                     type="button"
                     class="btn btn-info mb-2 mt-5"
                     style={{ position: 'relative', left: '600px' }}
-                    onClick={() => onAdd()} >Add Leave Master</button>
+                    onClick={() => onAdd()} >
+                    Add Leave Master
+                </button>
             </div>
-            <div className="ag-theme-alpine my-3 mb-5 ms-5" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={leave} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+            <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1200, height: 300 }}>
+                <AgGridReact
+                    rowData={leave}
+                    columnDefs={column}
+                    defaultColDef={defaultColDef}
+                    animateRows={true} />
             </div>
 
         </>

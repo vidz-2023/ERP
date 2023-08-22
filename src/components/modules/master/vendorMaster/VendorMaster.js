@@ -35,6 +35,7 @@ function VendorMaster() {
         payment: '',
         paymentTerm: '',
         priceCategory: '',
+        creditDuration: '',
         taxno: '',
         taxType: '',
         cin: '',
@@ -95,6 +96,7 @@ function VendorMaster() {
         payment: Yup.string().required('Required'),
         paymentTerm: Yup.string().required('Required'),
         priceCategory: Yup.string().required('Required'),
+        creditDuration: Yup.string().required('*Required'),
         taxno: Yup.string().required('Required'),
         taxType: Yup.string().required('Required'),
         cin: Yup.string().required('Required'),
@@ -112,7 +114,7 @@ function VendorMaster() {
         bcountry: Yup.string().required('Required'),
         bzipcode: Yup.string().required('Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
         bphoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
-        .matches(phoneRegExp, 'Phone number is not valid'),
+            .matches(phoneRegExp, 'Phone number is not valid'),
         bemail: Yup.string().required('Required'),
         website: Yup.string().matches(urlRegExp, 'Enter correct url!').required('Please enter website'),
         faceBook: Yup.string().email('Invalid email').required('Required'),
@@ -127,8 +129,8 @@ function VendorMaster() {
     const [isVendorUpdate, setIsVendorUpdate] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
-    const [vendorValState,setVendorValState]=useState([])
-    const [vendorMaster,setVendorMaster]= useState([])
+    const [vendorValState, setVendorValState] = useState([])
+    const [vendorMaster, setVendorMaster] = useState([])
 
     //Fetching The Data
     useEffect(() => {
@@ -169,10 +171,10 @@ function VendorMaster() {
     const searchFun = (e) => {
         const searchVal = e.target.value
         setVendorValState(searchVal)
-        searchVendorMasterAnyField(searchVal).then((res) =>{
+        searchVendorMasterAnyField(searchVal).then((res) => {
             setVendorMaster(res.data)
             console.log(vendorMaster)
-        } )
+        })
     }
 
     return (
@@ -609,7 +611,7 @@ function VendorMaster() {
                                                             <div className='col-2 col-form-label col-form-label-sm'>
                                                                 Authorization
                                                             </div>
-                                                            <div className='col-3'>
+                                                            <div className='col-2'>
                                                                 <div class="mb-2 text-danger">
                                                                     <Field
                                                                         className="form-control form-control-sm"
@@ -648,6 +650,7 @@ function VendorMaster() {
                                                                         <option value=""> Select...</option>
                                                                         <option value="Cash"> Cash</option>
                                                                         <option value="Card"> Card</option>
+                                                                        <option value="Credit"> Credit</option>
                                                                     </Field>
                                                                     <ErrorMessage name='payment' />
                                                                 </div>
@@ -692,8 +695,26 @@ function VendorMaster() {
                                                                     <ErrorMessage name='priceCategory' />
                                                                 </div>
                                                             </div>
+                                                            <div className='col-2'></div>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
+                                                                Credit Duration
+                                                            </div>
+                                                            <div className='col-1'>
+                                                                <div class="mb-2 text-danger">
+                                                                    <Field
+                                                                        className="form-control form-control-sm"
+                                                                        type='number'
+                                                                        name='creditDuration'
+                                                                        value={vendorMasterValue.creditDuration}
+                                                                        onChange={e => onVendorMasterHandlerChange(e, setFieldValue)}
+                                                                    />
+                                                                    <ErrorMessage name='creditDuration' />
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-2 col-form-label col-form-label-sm text-black'>
+                                                                Days
+                                                            </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>

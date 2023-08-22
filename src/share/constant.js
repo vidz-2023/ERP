@@ -37,6 +37,7 @@ export const personMasterURL = `${JSONURL}/personMaster`
 export const vendorMasterURL = `${JSONURL}/vendorMaster`
 export const customerMasterURL = `${JSONURL}/customerMaster`
 export const unitMasterURL = `${JSONURL}/unitOfMeasurement`
+export const storageLocMasterURL=`${JSONURL}/storage-location-master`
 
 export const CompanyMasterURL = `${JSONURL}/CompanyMaster`
 

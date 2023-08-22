@@ -34,6 +34,7 @@ function CustomerMaster() {
         cpayment: '',
         cpaymentTerm: '',
         cpriceCategory: '',
+        cpaymentDuration:'',
         ctaxno: '',
         ctaxType: '',
         cCin: '',
@@ -94,6 +95,7 @@ function CustomerMaster() {
         cpayment: Yup.string().required('Required'),
         cpaymentTerm: Yup.string().required('Required'),
         cpriceCategory: Yup.string().required('Required'),
+        cpaymentDuration:Yup.string().required('Required'),
         ctaxno: Yup.string().required('Required'),
         ctaxType: Yup.string().required('Required'),
         cCin: Yup.string().required('Required'),
@@ -692,6 +694,25 @@ function CustomerMaster() {
                                                                     </Field>
                                                                     <ErrorMessage name='cpriceCategory' />
                                                                 </div>
+                                                            </div>
+                                                            <div className='col-2'></div>
+                                                            <div className='col-2 col-form-label col-form-label-sm'>
+                                                                Payment Duration
+                                                            </div>
+                                                            <div className='col-1'>
+                                                                <div class="mb-2 text-danger">
+                                                                    <Field
+                                                                        className="form-control form-control-sm"
+                                                                        type='number'
+                                                                        name='cpaymentDuration'
+                                                                        value={customerMasterValue.cpaymentDuration}
+                                                                        onChange={e => onCustomerMasterHandlerChange(e, setFieldValue)}
+                                                                    />
+                                                                    <ErrorMessage name='cpaymentDuration' />
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-2 col-form-label col-form-label-sm text-black'>
+                                                                Days
                                                             </div>
                                                         </div>
 

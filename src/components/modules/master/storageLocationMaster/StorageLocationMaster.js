@@ -2,66 +2,69 @@ import React, { useState, useEffect } from 'react'
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate, useParams } from 'react-router';
-// Import React Icons
-import { MdOutlineHolidayVillage } from "react-icons/md";
 //Import Formik and Yup
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
-import { addUnitMaster, getUnitMasterByID, updateUnitMaster } from '../../../../services/unitMasterServices';
+import { addStorageLocMaster, getStorageLocMasterById, updateStorageLocMaster } from '../../../../services/storageLocationMasterServices';
 
-function UnitMaster() {
+function StorageLocationMaster() {
 
-    // Intial Value for Formik
+    // ------------------- Initial Value for Formik------------------//
     const inputFields = {
-        unitName: '',
-        measure: '',
+        Name: '',
+        Branch: '',
+        isActive:''
     }
 
     // ------------------- It is for Yup ---------------------------//
     const validateyupSchema = Yup.object({
-        unitName: Yup.string().required('*Required'),
-        measure: Yup.string().required('*Required')
+        Name: Yup.string().required('*Required'),
+        Branch: Yup.string().required('*Required'),
+        isActive:Yup.string().required('*Required')
     })
 
-    //Declaration
-    const [unitMasterValue, setUnitMasterValue] = useState(inputFields)
-    const [isUnitUpdate, setIsUnitUpdate] = useState(false);
-    const { id } = useParams();
+    // ------------------- Declarations ----------------------------//
+    const [storageLocMasterValue, setStorageLocMasterValue] = useState([])
+    const [isStorageUpdate, setIsStorageUpdate] = useState(false)
+    const { id } = useParams()
     const navigate = useNavigate()
 
-    //Fetching The Data
+    // ------------------- Fetching the data ------------------------//
     useEffect(() => {
-
         if (id >= 0) {
-            getUnitMasterByID(id).then(res => {
-                console.log(res)
-                setUnitMasterValue(res)
+            getStorageLocMasterById(id).then(res => {
+                setStorageLocMasterValue(res)
             })
-            setIsUnitUpdate(true)
+            setIsStorageUpdate(true)
         }
     }, [])
 
     // ------------------- For Submit the Function ---------------------------//
     const handleSubmit = () => {
-        if (!isUnitUpdate) {
-            addUnitMaster(unitMasterValue)
-            navigate('/unitMasterTable')
+        if (!isStorageUpdate) {
+            addStorageLocMaster(storageLocMasterValue)
+            navigate('/storageLocMasterTable')
         } else {
-            updateUnitMaster(unitMasterValue, id)
-            navigate('/unitMasterTable')
+            updateStorageLocMaster(storageLocMasterValue, id)
+            navigate('/storageLocMasterTable')
         }
     }
 
     // ------------------- On Change Function Declaration ---------------------------//
-    const onUnitMasterHandlerChange = (e, setFieldValue) => {
+    const onStorageLocMasterHandlerChange = (e, setFieldValue) => {
         const { name, value } = e.target
-        setUnitMasterValue({ ...unitMasterValue, [name]: value })
+        setStorageLocMasterValue({ ...storageLocMasterValue, [name]: value })
         setFieldValue([name], value)
+    }
+
+    const onStorageLocMasterHandlerChange1 = (e, setFieldValue) => {
+        const { name, checked } = e.target
+        setStorageLocMasterValue({ ...storageLocMasterValue, [name]: checked })
+        setFieldValue([name], checked)
     }
 
     return (
         <>
-
             <div className='contianer mx-auto mb-5'>
                 <fieldset>
                     <div className='m-3'>
@@ -71,7 +74,7 @@ function UnitMaster() {
                             </div>
                         </h4>
                         <Formik
-                            initialValues={unitMasterValue}
+                            initialValues={storageLocMasterValue}
                             validationSchema={validateyupSchema}
                             onSubmit={handleSubmit}
                             enableReinitialize
@@ -82,35 +85,54 @@ function UnitMaster() {
 
                                         <div className='row mb-1'>
                                             <div className='col-2  col-form-label col-form-label-sm '>
-                                                Unit Name
+                                                Name
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='unitName'
-                                                        value={unitMasterValue.unitName}
-                                                        onChange={e => onUnitMasterHandlerChange(e, setFieldValue)}
+                                                        name='Name'
+                                                        value={storageLocMasterValue.Name}
+                                                        onChange={e => onStorageLocMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='unitName' />
+                                                    <ErrorMessage name='Name' />
                                                 </div>
                                             </div>
-                                            <div className='col-2'></div>
-                                            <div className='col-2 col-form-label col-form-label-sm '>
-                                                Measure
+                                            <div className='col-1'></div>
+                                            <div className='col-2  col-form-label col-form-label-sm '>
+                                                Branch
                                             </div>
                                             <div className='col-3'>
                                                 <div class="mb-2 text-danger">
                                                     <Field
                                                         className="form-control"
                                                         type='text'
-                                                        name='measure'
-                                                        value={unitMasterValue.measure}
-                                                        onChange={e => onUnitMasterHandlerChange(e, setFieldValue)}
+                                                        name='Branch'
+                                                        value={storageLocMasterValue.Branch}
+                                                        onChange={e => onStorageLocMasterHandlerChange(e, setFieldValue)}
                                                     />
-                                                    <ErrorMessage name='measure' />
+                                                    <ErrorMessage name='Branch' />
                                                 </div>
+                                            </div>
+                                            <div className='col-1'></div>
+                                            <div className='col-2 col-form-label col-form-label-sm'>
+                                                <label
+                                                    htmlFor='isActive'
+                                                    className='col-sm-6 col-col-form-label col-form-label-sm'
+                                                >
+                                                    Is Active
+                                                </label>
+                                            </div>
+                                            <div className='col-3'>
+                                                <Field
+                                                    className='form-check-input mt-3'
+                                                    type='checkbox'
+                                                    name='isActive'
+                                                    checked={storageLocMasterValue.isActive}
+                                                    onChange={e => onStorageLocMasterHandlerChange1(e, setFieldValue)}
+                                                />
+                                                <ErrorMessage name='isActive' />
                                             </div>
                                         </div>
 
@@ -127,7 +149,7 @@ function UnitMaster() {
                                                 <button
                                                     type="reset"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => setUnitMasterValue(inputFields)}
+                                                    onClick={() => setStorageLocMasterValue(inputFields)}
                                                 >
                                                     Clear
                                                 </button>
@@ -137,7 +159,7 @@ function UnitMaster() {
                                                 <button
                                                     type="reset"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => setUnitMasterValue(inputFields)}
+                                                    onClick={() => setStorageLocMasterValue(inputFields)}
                                                 >
                                                     Delete</button>
                                             </div>
@@ -146,7 +168,7 @@ function UnitMaster() {
                                                 <button
                                                     type="button"
                                                     className='w-50 btn btn-info'
-                                                    onClick={() => navigate(`/unitMasterTable`)}
+                                                    onClick={() => navigate(`/storageLocMasterTable`)}
                                                 >Exit
                                                 </button>
                                             </div>
@@ -162,4 +184,4 @@ function UnitMaster() {
     )
 }
 
-export default UnitMaster
+export default StorageLocationMaster

@@ -43,18 +43,8 @@ function LeaveFormTable() {
             width: 85
         },
         {
-            headerName: "Designation",
-            field: "designation",
-            width: 85
-        },
-        {
             headerName: "Branch",
             field: "branch",
-            width: 85
-        },
-        {
-            headerName: "Department",
-            field: "department",
             width: 85
         },
         {
@@ -93,28 +83,8 @@ function LeaveFormTable() {
             width: 70
         },
         {
-            headerName: "Rate",
-            field: "rate",
-            width: 70
-        },
-        {
-            headerName: "Amount",
-            field: "amount",
-            width: 70
-        },
-        {
             headerName: "Reason",
             field: "reason",
-            width: 70
-        },
-        {
-            headerName: "Remark",
-            field: "remark",
-            width: 70
-        },
-        {
-            headerName: "RemarkByFinance",
-            field: "remarkByFinance",
             width: 70
         },
         {
@@ -135,16 +105,21 @@ function LeaveFormTable() {
         navigate('/leaveForm')
     }
 
- 
+
     return (
         <>
             <button
                 type="button"
                 class="btn btn-info mb-2 mt-5"
                 style={{ position: 'relative', left: '600px' }}
-                onClick={() => onAdd()} >Apply Leave</button>
-            <div className="ag-theme-alpine  mb-5 ms-5" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={applyLeave} columnDefs={column} defaultColDef={defaultColDef} />
+                onClick={() => onAdd()} >
+                Apply Leave
+            </button>
+            <div className="ag-theme-alpine my-3 mx-auto" style={{ width: 1200, height: 300 }}>
+                <AgGridReact
+                    rowData={applyLeave}
+                    columnDefs={column}
+                    defaultColDef={defaultColDef} />
             </div>
         </>
     )
