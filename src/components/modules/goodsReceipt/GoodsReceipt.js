@@ -161,7 +161,7 @@ const GoodsReceipt = () => {
                                     <div className='col-12'>
                                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
                                             <div className='m-2'>
-                                                <FaBook className='me-2' />Good Receipt
+                                                <FaBook className='me-2' />Goods Receipt
                                             </div>
                                         </h4>
                                     </div>

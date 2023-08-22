@@ -54,7 +54,7 @@ const MaterialVendorConfiguration = () => {
     getRawMaterialData().then((resName) => {
       console.log(resName.data);
       setMaterialNameList(resName.data);
-      if(materialId){
+      if(materialId !== "0"){
         getMaterialVendorDataByMaterialCode(materialId).then(resById =>{
           console.log(resById.data[0])
           setMaterialVendorConfig(resById.data[0])

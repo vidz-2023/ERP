@@ -31,23 +31,23 @@ const MaterialVendorConfigTable = () => {
         field: "vendorName",
       },
       {
-        headerName: "material Id",
+        headerName: "Material Id",
         field: "materialId",
       },
       {
-        headerName: "material Name",
+        headerName: "Material Name",
         field: "materialName",
       },
       {
-        headerName: "invoiceDate",
+        headerName: "Invoice Date",
         field: "invoiceDate",
       },
       {
-        headerName: "paymentMethod",
+        headerName: "Payment Method",
         field: "paymentMethod",
       },
       {
-        headerName: "amount",
+        headerName: "Amount",
         field: "amount",
       },
       {
