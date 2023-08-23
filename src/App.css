@@ -1,16 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
-body {
-  font-family: 'Roboto Slab', serif;
-}
-
 .App {
   /* text-align: center; */
 }
 
+/* 
+Color Combo 
+1. Teal Green - #15998E For grid Header
+2. SpearMint - #45B08C - For Header border
+3. Teal - #48BCD1 - Icon Hover
+5. Baby Blue - #CODCEC -
+ */
+
+.page-bg-color {
+  background-color: #f0f1f5;
+}
+
+.layout-color {
+  background-color: #3678A3;
+  /* #48BCD1 */
+  /* #3678A3 - this looks good */
+}
+
 .form-heading {
   /* background-color: #371CBF; */
-  border: 1px solid #371CBF;
+  /* border: 1px solid #371CBF; */
+  border: 1px solid #45B08C;
+  /* #757541; */
+
   width: 100%;
   margin: 0px;
   color: black;
@@ -22,6 +39,19 @@ body {
   /* left: 7%; */
 }
 
+.form-heading-alt {
+
+  background-color: white;
+  width: 100%;
+  margin: 0px;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
 .icons {
   font-size: 20px;
 }
@@ -29,7 +59,7 @@ body {
 .icons:hover {
   cursor: pointer;
   font-size: 35px;
-  border: 2px solid #371CBF;
+  border: 2px solid #ace1af;
   padding: 5px;
   border-radius: 10px;
 }
@@ -58,7 +88,9 @@ body {
 }
 
 .ag-header-container {
-  background-color: #317773;
+  background-color: #9e6de0;
+  /* #15998E; */
+  /* #317773; */
   color: white
 }
 

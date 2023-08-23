@@ -928,6 +928,24 @@
       "unit": "liters",
       "minimumPurchaseQuantity": "5",
       "id": 9
+    },
+    {
+      "pId": "P0008",
+      "uniqueId": "",
+      "materialId": "M00101",
+      "materialName": "Moogdal",
+      "unitPrice": 90,
+      "requestedQty": 30,
+      "id": 10
+    },
+    {
+      "pId": "P0008",
+      "uniqueId": "",
+      "materialId": "M00102",
+      "materialName": "Milk",
+      "unitPrice": 74,
+      "requestedQty": 40,
+      "id": 11
     }
   ],
   "goodsReceipt-purchaseOrder": [

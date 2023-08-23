@@ -59,91 +59,101 @@ import { PlantMasterTable } from './components/modules/master/PlantMaster/PlantM
 import UnitMasterTable from './components/modules/master/unitMaster/UnitMasterTable';
 import StorageLocationMaster from './components/modules/master/storageLocationMaster/StorageLocationMaster';
 import StorageLocationMasterTable from './components/modules/master/storageLocationMaster/StorageLocationMasterTable';
+import Sidebar from './components/layout/Sidebar';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App wrapper">
       {/*<EmpNameCode />*/}
-      <Header />
+      <Sidebar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/table" element={<Table />} />
-        <Route path="/salary-data" element={<SalaryTable />} />
-        <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
-        {/* <Route path="/salary-structure/:empcode" element={<SalaryStructureWithSharedComponent />} />*/}
-        <Route path="/worklocation-data" element={<WorkLocationTable />} />
-        {/* <Route path="/worklocation" element={<WorkLocationInfo />} /> */}
-        <Route path="/attendance" element={<Attendence />} />
-        <Route path="leaveMaster" element={<LeaveMaster />} />
-        <Route path='leaveMaster/:id' element={<LeaveMaster />} />
-        <Route path="leaveMasterTable" element={<LeaveMasterTable />} />
-        <Route path='leaveForm' element={<LeaveForm />} />
-        <Route path="leaveForm/:id" element={<LeaveForm />} />
-        <Route path="leaveForm/:employee" element={<LeaveForm />} />
-        <Route path="leaveFormTable" element={<LeaveFormTable />} />
-        <Route path="/worklocation/:empcode" element={<WorkLocationInfo />} />
-        <Route path="/salary-info-table" element={<SalaryInformationTable />} />
-        <Route path='/salary-info' element={<SalaryInformation />} />
-        <Route path='/salary-info/:id' element={<SalaryInformation />} />
-        <Route path="/expenseClaimTable" element={<ExpenseTable />} />
-        <Route path="/staffMasterdata" element={<StaffMasterTable />} />
-        <Route path="/staffMaster/:id" element={<StaffMaster />} />
-        {/* <Route path="/expenseclaim" element={<ExpenseClaim />} /> */}
-        <Route path="/expenseclaim/:ClaimNo" element={<ExpenseClaim />} />
-        <Route path="/salaryprocess" element={<SalaryProcess />} />
-        {/* <Route path="/payslip" element={<Payslip />} /> */}
-        <Route path="/salaryslip" element={<Salaryslip />} />
-        <Route path="/salaryslip/:data" element={<Salaryslip />} />
-        <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
-        <Route path="/timesheet" element={<TimeSheet />} />
-        <Route path="/salaryAdvances/:LoanNo" element={<SalaryAdvances />} />
-        <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
-        <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
-        <Route path="/postsalary" element={<PostSalary />} />
-        <Route path="/personMaster" element={<PersonMaster />} />
-        <Route path="/personMaster/:id" element={<PersonMaster />} />
-        <Route path="/personMasterTable" element={<PersonMasterTable />} />
-        <Route path="/customerMaster" element={<CustomerMaster />} />
-        <Route path="/customerMaster/:id" element={<CustomerMaster />} />
-        <Route path="/customerMasterTable" element={<CustomerMasterTable />} />
-        <Route path="/vendorMaster" element={<VendorMaster />} />
-        <Route path="/vendorMaster/:id" element={<VendorMaster />} />
-        <Route path="/vendorMasterTable" element={<VendorMasterTable />} />
-        <Route path="/companyMaster" element={<CompanyMaster />} />
-        <Route path='companyMaster/:id' element={<CompanyMaster />} />
-        <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
-        <Route path="/rawMaterialTable" element={<RawMaterialTable />} />
-        <Route path="/rawMaterial" element={<RawMaterial />} />
-        <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
-        <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
-        <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
-        <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
-        <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
-        <Route path="/materialVendorConfigTable" element={<MaterialVendorConfigTable />} />
-        <Route path="/materialVendorConfig" element={<MaterialVendorConfiguration />} />
-        <Route path="/materialVendorConfig/:materialId" element={<MaterialVendorConfiguration />} />
-        <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
-        <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
-        <Route path="/stock/:stockId" element={<Stock />} />
-        <Route path="/stockData" element={<StockTable />} />
-        <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
-        <Route path="/stockConsumptionData" element={<StockConsumptionTable />} />
-        <Route path="/unitMaster" element={<UnitMaster />} />
-        <Route path="/unitMaster/:id" element={<UnitMaster />} />
-        <Route path="/unitMasterTable" element={<UnitMasterTable />} />
-        <Route path="/storageLocMaster" element={<StorageLocationMaster />} />
-        <Route path="/storageLocMaster/:id" element={<StorageLocationMaster />} />
-        <Route path="/storageLocMasterTable" element={<StorageLocationMasterTable />} />
-        <Route path="/PlantMaster" element={<PlantMaster />} />
-        <Route path='PlantMaster/:id' element={<PlantMaster />} />
-        <Route path="PlantMasterTable" element={<PlantMasterTable />} />
+      {/* <!-- ====================================
+            ——— PAGE WRAPPER
+      ===================================== --> */}
+      <div class="page-wrapper">
+        <Header />
+        <div class="content-wrapper page-bg-color">
+          <div class="content">
+            <Routes>
+              {/* <Route path="/" element={<Home />} /> */}
+              <Route path="/table" element={<Table />} />
+              <Route path="/salary-data" element={<SalaryTable />} />
+              <Route path="/salary-structure/:empcode" element={<SalaryStructure />} />
+              {/* <Route path="/salary-structure/:empcode" element={<SalaryStructureWithSharedComponent />} />*/}
+              <Route path="/worklocation-data" element={<WorkLocationTable />} />
+              {/* <Route path="/worklocation" element={<WorkLocationInfo />} /> */}
+              <Route path="/attendance" element={<Attendence />} />
+              <Route path="leaveMaster" element={<LeaveMaster />} />
+              <Route path='leaveMaster/:id' element={<LeaveMaster />} />
+              <Route path="leaveMasterTable" element={<LeaveMasterTable />} />
+              <Route path='leaveForm' element={<LeaveForm />} />
+              <Route path="leaveForm/:id" element={<LeaveForm />} />
+              <Route path="leaveForm/:employee" element={<LeaveForm />} />
+              <Route path="leaveFormTable" element={<LeaveFormTable />} />
+              <Route path="/worklocation/:empcode" element={<WorkLocationInfo />} />
+              <Route path="/salary-info-table" element={<SalaryInformationTable />} />
+              <Route path='/salary-info' element={<SalaryInformation />} />
+              <Route path='/salary-info/:id' element={<SalaryInformation />} />
+              <Route path="/expenseClaimTable" element={<ExpenseTable />} />
+              <Route path="/staffMasterdata" element={<StaffMasterTable />} />
+              <Route path="/staffMaster/:id" element={<StaffMaster />} />
+              {/* <Route path="/expenseclaim" element={<ExpenseClaim />} /> */}
+              <Route path="/expenseclaim/:ClaimNo" element={<ExpenseClaim />} />
+              <Route path="/salaryprocess" element={<SalaryProcess />} />
+              {/* <Route path="/payslip" element={<Payslip />} /> */}
+              <Route path="/salaryslip" element={<Salaryslip />} />
+              <Route path="/salaryslip/:data" element={<Salaryslip />} />
+              <Route path="/monthlyattendance" element={<MonthlyAttendance />} />
+              <Route path="/timesheet" element={<TimeSheet />} />
+              <Route path="/salaryAdvances/:LoanNo" element={<SalaryAdvances />} />
+              <Route path="/salaryAdvancesData" element={<SalaryAdvancesTable />} />
+              <Route path="/rePayLoanInfo/:LoanNo" element={<RePaymentLoanInfo />} />
+              <Route path="/postsalary" element={<PostSalary />} />
+              <Route path="/personMaster" element={<PersonMaster />} />
+              <Route path="/personMaster/:id" element={<PersonMaster />} />
+              <Route path="/personMasterTable" element={<PersonMasterTable />} />
+              <Route path="/customerMaster" element={<CustomerMaster />} />
+              <Route path="/customerMaster/:id" element={<CustomerMaster />} />
+              <Route path="/customerMasterTable" element={<CustomerMasterTable />} />
+              <Route path="/vendorMaster" element={<VendorMaster />} />
+              <Route path="/vendorMaster/:id" element={<VendorMaster />} />
+              <Route path="/vendorMasterTable" element={<VendorMasterTable />} />
+              <Route path="/companyMaster" element={<CompanyMaster />} />
+              <Route path='companyMaster/:id' element={<CompanyMaster />} />
+              <Route path="CompanyMasterTable" element={<CompanyMasterTable />} />
+              <Route path="/rawMaterialTable" element={<RawMaterialTable />} />
+              <Route path="/rawMaterial" element={<RawMaterial />} />
+              <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
+              <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
+              <Route path="/rawMaterial/:materialId" element={<RawMaterial />} />
+              <Route path="/purchase-order-table" element={<PurchaseMasterTable />} />
+              <Route path="/purchase-master/:pId" element={<PurchaseMaster />} />
+              <Route path="/materialVendorConfigTable" element={<MaterialVendorConfigTable />} />
+              <Route path="/materialVendorConfig" element={<MaterialVendorConfiguration />} />
+              <Route path="/materialVendorConfig/:materialId" element={<MaterialVendorConfiguration />} />
+              <Route path="/goods-receipt-table" element={<GoodsReceiptTable />} />
+              <Route path="/goods-receipt/:pId" element={<GoodsReceipt />} />
+              <Route path="/stock/:stockId" element={<Stock />} />
+              <Route path="/stockData" element={<StockTable />} />
+              <Route path="/stockConsumption/:stockConsumId" element={<StockConsumption />} />
+              <Route path="/stockConsumptionData" element={<StockConsumptionTable />} />
+              <Route path="/unitMaster" element={<UnitMaster />} />
+              <Route path="/unitMaster/:id" element={<UnitMaster />} />
+              <Route path="/unitMasterTable" element={<UnitMasterTable />} />
+              <Route path="/PlantMaster" element={<PlantMaster />} />
+              <Route path='PlantMaster/:id' element={<PlantMaster />} />
+              <Route path="PlantMasterTable" element={<PlantMasterTable />} />
 
+              <Route path="/storageLocMaster" element={<StorageLocationMaster />} />
+              <Route path="/storageLocMaster/:id" element={<StorageLocationMaster />} />
+              <Route path="/storageLocMasterTable" element={<StorageLocationMasterTable />} />
 
+            </Routes>
+          </div>
+        </div>
+        <Footer />
 
-      </Routes>
-
-      <Footer />
+      </div>
     </div>
   );
 }

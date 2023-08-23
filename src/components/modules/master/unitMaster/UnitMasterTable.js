@@ -60,12 +60,12 @@ function UnitMasterTable() {
 
     return (
         <>
-            <div className="container mt-3 d-flex form-heading">
-                <span className='fs-6 font-italic w-25' >
+            <div className="container mt-1 d-flex form-heading-alt">
+                <span className='fs-6 font-weight-normal w-25' >
                     <MdFolder
                         className='me-2'
-                        fill='#317773'
-                        color='#317773'
+                        fill='#fd5190'
+                        color='#fd5190'
                         style={{ color: 'white', position: 'relative', top: '-3px' }}
                         size="25px"
                     />
@@ -76,7 +76,7 @@ function UnitMasterTable() {
 
                 <MdManageSearch
                     className='icons ms-2'
-                    fill='#371CBF'
+                    fill='#6E3562'
                     onClick={() => console.log('testing')}
                 />
 
@@ -93,39 +93,8 @@ function UnitMasterTable() {
                 />
             </div>
 
-            <div className='mt-3' style={{ width: '100%' }} >
-
-                <nav aria-label="Page navigation example" style={{ width: "90%", display: "flex", justifyContent: 'start' }}>
-                    <div class="form-group row align-items-center ">
-                        <label for="inputEmail3" class="col-lg-3 col-form-label col-form-label-sm">Show</label>
-                        <div class="col-lg-3">
-                            <select class="form-control form-control-sm " id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                        <label for="inputEmail3" class="col-lg-3 col-form-label col-form-label-sm">Entries</label>
-                    </div>
-                    {/* <div class="form-group">
-                        <label for="exampleFormControlSelect2" className='col-sm-2 form-label'>Example multiple select</label>
-                        <select class="form-control col-sm-2" id="exampleFormControlSelect2">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div> */}
-
-                </nav>
-
-            </div >
-
-            <div className='' style={{ width: '100%' }} >
-                <div className="ag-theme-alpine mx-auto" style={{ width: "85%", height: 300 }}>
+            <div className='mt-5' style={{ width: '100%' }} >
+                <div className="ag-theme-alpine mx-auto mt-3" style={{ width: "85%", height: 300 }}>
                     <AgGridReact
                         rowData={unit}
                         columnDefs={column}
@@ -134,12 +103,30 @@ function UnitMasterTable() {
                     />
                 </div>
 
-                <nav aria-label="Page navigation example" style={{ width: "90%", display: "flex", justifyContent: 'space-around' }}>
+                <nav aria-label="Page navigation example" className='mt-3'
+                    style={{ width: "100%", display: "flex", justifyContent: 'space-around', alignItems: 'center' }}>
+
+                    {/* <nav aria-label="Page navigation example m-auto" style={{  display: "flex", justifyContent: 'start' }}> */}
+                    <div class="form-group row align-items-center ms-1 ">
+                        <label for="inputEmail3" class="col-lg-3 col-form-label col-form-label-sm">Show</label>
+                        <div class="col-lg-5">
+                            <select class="form-control form-control-sm " id="exampleFormControlSelect2">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <label for="inputEmail3" class="col-lg-3 col-form-label col-form-label-sm ps-0">Entries</label>
+                    </div>
+
+                    {/* </nav> */}
                     <p className='justify-content-start d-inline float-left'>
                         <em>Showing 1 to 10 of 50 entries</em>
                     </p>
 
-                    <ul class="pagination justify-content-end">
+                    {/* <ul class="pagination pagination-sm justify-content-end pe-4">
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1">Previous</a>
                         </li>
@@ -149,7 +136,26 @@ function UnitMasterTable() {
                         <li class="page-item">
                             <a class="page-link" href="#">Next</a>
                         </li>
-                    </ul>
+                    </ul> */}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pe-2">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </nav>
 
             </div >
