@@ -8,7 +8,10 @@ import {
   updateRawMaterialData,
 } from "../../../../services/rawMaterialService";
 import { useNavigate, useParams } from "react-router-dom";
-import { getVendorMaster, getVendorMasterDataByName } from "../../../../services/vendorMasterServices";
+import {
+  getVendorMaster,
+  getVendorMasterDataByName,
+} from "../../../../services/vendorMasterServices";
 
 const RawMaterial = () => {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -42,7 +45,7 @@ const RawMaterial = () => {
   const [remainDays1, setRemainDays1] = useState();
   const [remainDays2, setRemainDays2] = useState();
   const [remainDays3, setRemainDays3] = useState();
-  const [basicUnit, setBasicUnit] = useState()
+  const [basicUnit, setBasicUnit] = useState();
 
   useEffect(() => {
     getRawDataByMaterialCode();
@@ -54,8 +57,8 @@ const RawMaterial = () => {
       getRawMaterialDataByMaterialCode(materialId).then((res) => {
         console.log(res.data[0]);
         setRawMaterial(res.data[0]);
-        setVendorId(res.data[0].vendorId)
-        setVendorName(res.data[0].vendorName)
+        setVendorId(res.data[0].vendorId);
+        setVendorName(res.data[0].vendorName);
       });
       setIsUpdate(true);
     }
@@ -91,7 +94,7 @@ const RawMaterial = () => {
 
   const funGetVendorByName = (data) => {
     getVendorMasterDataByName(data).then((res) => {
-      console.log(res.data[0])
+      console.log(res.data[0]);
       const updateVendorId = res.data[0].vendorId;
       setVendorId(updateVendorId);
     });
@@ -105,7 +108,7 @@ const RawMaterial = () => {
       setVendorName(e.target.value);
       value && funGetVendorByName(value);
     }
-    setRawMaterial({ ...rawMaterial, [name]: value });    
+    setRawMaterial({ ...rawMaterial, [name]: value });
     setFieldValue([name], value);
   };
 
@@ -123,6 +126,10 @@ const RawMaterial = () => {
       );
     }
   };
+
+  const handleBack = () => {
+    navigate('/rawMaterialTable')
+  }
 
   return (
     <>
@@ -594,10 +601,20 @@ const RawMaterial = () => {
                   </div>
                 </div>
 
-                <div className="row justify-content-md-center">
-                  <button type="submit" className="w-25 mt-4 mb-4 btn btn-info">
-                    Save
-                  </button>
+                <div className='d-flex justify-content-center'>
+                    <button
+                      type="button"
+                      className="mt-4 mb-4 me-2 btn btn-info"
+                      onClick={handleBack}
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="mt-4 mb-4 btn btn-info"
+                    >
+                      Save
+                    </button>
                 </div>
               </Form>
             )}

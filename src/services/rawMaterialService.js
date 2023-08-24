@@ -25,7 +25,12 @@ export const getRawMaterialDataByMaterialCode = (mcode) => {
 }
 
 export const getRawMaterialDataByMaterialName = (mcode) => {
-
   let url = `${rawMaterialURL}?materialName=${mcode}`
+  return axios.get(url)
+}
+
+export const getRawMaterialDataByVendorName = (vendorname) => {
+  console.log(vendorname)
+  let url = `${rawMaterialURL}?vendorName=${vendorname}`
   return axios.get(url)
 }

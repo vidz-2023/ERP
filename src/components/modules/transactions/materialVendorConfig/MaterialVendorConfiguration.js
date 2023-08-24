@@ -14,25 +14,28 @@ import {
   getMaterialVendorDetailsData,
   updateMaterialVendorConfigData,
 } from "../../../../services/materialVendorConfigService";
-import { getRawMaterialData } from "../../../../services/rawMaterialService";
+import { getRawMaterialData, getRawMaterialDataByVendorName } from "../../../../services/rawMaterialService";
 import { useNavigate, useParams } from "react-router-dom";
-import { getVendorMaster } from "../../../../services/vendorMasterServices";
+import {
+  getVendorMaster,
+  getVendorMasterDataByName,
+} from "../../../../services/vendorMasterServices";
 
 const MaterialVendorConfiguration = () => {
   const { materialId } = useParams();
   const navigate = useNavigate();
 
   const inputFields = {
+    vendorId: "",
     vendorName: "",
     materialId: "",
     materialName: "",
-    standardPrice: "",
+    price: "",
     minimumDaysRemain: "",
     minimumQuantity: "",
     invoiceDate: "",
     paymentMethod: "",
     discount: "",
-    amount: "",
   };
 
   const [materialVendorConfig, setMaterialVendorConfig] = useState(inputFields);
@@ -42,28 +45,29 @@ const MaterialVendorConfiguration = () => {
   const [vendorData, setVendorData] = useState();
   const [vendorNameList, setVendorNameList] = useState([]);
   const [vendorName, setVendorName] = useState("");
-  const [isUpdate, setIsUpdate] = useState(false)
+  const [vendorId, setVendorId] = useState(0);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     getMaterialVendorData(materialId);
-    handleMaterialVendorData();
   }, []);
 
   const getMaterialVendorData = (materialId) => {
-    console.log(materialId)
+    console.log(materialId);
     getRawMaterialData().then((resName) => {
       console.log(resName.data);
       setMaterialNameList(resName.data);
-      if(materialId !== "0"){
-        getMaterialVendorDataByMaterialCode(materialId).then(resById =>{
-          console.log(resById.data[0])
-          setMaterialVendorConfig(resById.data[0])
-          setMaterialCode(resById.data[0].materialId)
-          setMaterialName(resById.data[0].materialName)
-          setVendorName(resById.data[0].vendorName)
-          materialVendorConfig.paymentMethod = resById.data[0].paymentMethod
-        })
-        setIsUpdate(true)
+      if (materialId !== "0") {
+        getMaterialVendorDataByMaterialCode(materialId).then((resById) => {
+          console.log(resById.data[0]);
+          setMaterialVendorConfig(resById.data[0]);
+          setMaterialCode(resById.data[0].materialId);
+          setMaterialName(resById.data[0].materialName);
+          setVendorId(resById.data[0].vendorId);
+          setVendorName(resById.data[0].vendorName);
+          materialVendorConfig.paymentMethod = resById.data[0].paymentMethod;
+        });
+        setIsUpdate(true);
       }
       setMaterialVendorConfig({
         ...materialVendorConfig,
@@ -76,50 +80,50 @@ const MaterialVendorConfiguration = () => {
     });
   };
 
-  const handleMaterialVendorData = () => {
-    // getMaterialVendorDetailsData().then((res) => {
-    //   console.log(res.data);
-    //   setVendorData(res.data);
-    // });
-  };
+  const onClickGetData = (vendorName) => {
+    console.log(vendorName)
+    getRawMaterialDataByVendorName(vendorName).then(res => {
+      console.log(res.data)
+      setVendorData(res.data)
+    })
+  }
+
+  const onClickGetRowData = (e) =>{
+    console.log(e.data)
+    setMaterialCode(e.data.materialId)
+    setMaterialName(e.data.materialName)
+    materialVendorConfig.price = e.data.standardValuePerUnit
+  }
 
   const column = [
-    {
-      headerName: "Vendor Id",
-      field: "vendorId",
-    },
     {
       headerName: "Vendor Name",
       field: "vendorName",
     },
     {
-      headerName: "material Id",
-      field: "materialId",
-    },
-    {
-      headerName: "material Name",
+      headerName: "Material Name",
       field: "materialName",
     },
     {
-      headerName: "invoiceDate",
-      field: "invoiceDate",
+      headerName: "Material Category",
+      field: "materialCategory",
     },
     {
-      headerName: "paymentMethod",
-      field: "paymentMethod",
+      headerName: "BasicUnitOfMeasure",
+      field: "basicUnitOfMeasure",
     },
     {
-      headerName: "amount",
-      field: "amount",
+      headerName: "StandardValuePerUnit",
+      field: "standardValuePerUnit",
     },
-    {
-      headerName: "Action",
-      field: "vendorId",
-      cellRenderer: MaterialVendorDeleteEdit,
-      cellRendererParams: {
-        funGetmaterialVendor: handleMaterialVendorData,
-      },
-    },
+    // {
+    //   headerName: "Action",
+    //   field: "vendorId",
+    //   cellRenderer: MaterialVendorDeleteEdit,
+    //   cellRendererParams: {
+    //     funGetmaterialVendor: onClickGetData,
+    //   },
+    // },
   ];
 
   // this way not to repeatedly write with all column
@@ -133,7 +137,7 @@ const MaterialVendorConfiguration = () => {
     vendorName: Yup.string(),
     materialId: Yup.string(),
     materialName: Yup.string(),
-    standardPrice: Yup.string().required("Standard price is required"),
+    price: Yup.string().required("Standard price is required"),
     minimumDaysRemain: Yup.string().required("Minimum Days Remain is required"),
     minimumQuantity: Yup.string().required("Minimum Quantity is required"),
     invoiceDate: Yup.string().required("Invoice date is required"),
@@ -144,9 +148,16 @@ const MaterialVendorConfiguration = () => {
 
   const funGetMaterialByName = (data) => {
     getMaterialVendorDataByName(data).then((res) => {
-      const updateMaterialName = res.data[0].materialId;
-      getMaterialVendorData(updateMaterialName);
-      setMaterialCode(updateMaterialName);
+      const updateMaterialId = res.data[0].materialId;
+      getMaterialVendorData(updateMaterialId);
+      setMaterialCode(updateMaterialId);
+    });
+  };
+
+  const funGetVendorByName = (data) => {
+    getVendorMasterDataByName(data).then((res) => {
+      const updateVendorId = res.data[0].vendorId;
+      setVendorId(updateVendorId);
     });
   };
 
@@ -162,6 +173,7 @@ const MaterialVendorConfiguration = () => {
       setFieldValue("vendorName", value);
       console.log(e.target.value);
       setVendorName(e.target.value);
+      value && funGetVendorByName(value);
     }
     setMaterialVendorConfig({ ...materialVendorConfig, [name]: value });
     setFieldValue([name], value);
@@ -170,18 +182,23 @@ const MaterialVendorConfiguration = () => {
   const materialVendorConfigHandleSubmit = () => {
     materialVendorConfig.materialId = materialCode;
     materialVendorConfig.materialName = materialName;
+    materialVendorConfig.vendorId = vendorId;
     materialVendorConfig.vendorName = vendorName;
     console.log(materialVendorConfig);
     if (!isUpdate) {
       addMaterialVendorConfigData(materialVendorConfig).then((res) => {
-        console.log(res.data)
-        navigate("/materialVendorConfig")
-      })
+        console.log(res.data);
+        navigate("/materialVendorConfig");
+      });
     } else {
-      updateMaterialVendorConfigData(materialVendorConfig).then(res => {
-        console.log(res.data)
-      })
+      updateMaterialVendorConfigData(materialVendorConfig).then((res) => {
+        console.log(res.data);
+      });
     }
+  };
+
+  const handleBack = () => {
+    navigate("/materialVendorConfigTables");
   };
 
   return (
@@ -202,16 +219,84 @@ const MaterialVendorConfiguration = () => {
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form className="mt-3">
-                <div className="row">
-                  <div className="col-md-6">
+                <div className="row d-flex justify-content-center mb-4">
+                  <div className="col-3">
+                    <div className="row mb-2">
+                      <label
+                        htmlFor="vendorId"
+                        className="col-sm-4 col-form-label col-form-label-sm"
+                      >
+                        Vendor Id<span className="text-danger">*</span>
+                      </label>
+                      <div className="col-sm-5">
+                        <Field
+                          className="form-control form-control-sm"
+                          type="text"
+                          name="vendorId"
+                          value={vendorId}
+                          onChange={(e) =>
+                            onMatVendorConfigHandler(e, setFieldValue)
+                          }
+                          disabled
+                        />
+                        <ErrorMessage
+                          name="vendorId"
+                          className="text-danger"
+                          component="div"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <div className="row mb-2">
+                      <label
+                        htmlFor="vendorName"
+                        className="col-sm-5 col-form-label col-form-label-sm"
+                      >
+                        Vendor Name<span className="text-danger">*</span>
+                      </label>
+                      <div className="col-sm-6">
+                        <Field
+                          component="select"
+                          name="vendorName"
+                          className="form-select form-select-sm"
+                          value={vendorName}
+                          onChange={(e) =>
+                            onMatVendorConfigHandler(e, setFieldValue)
+                          }
+                        >
+                          <option value="">Select</option>
+                          {vendorNameList &&
+                            vendorNameList.map((item) => {
+                              return (
+                                <option key={item.id} value={item.firstName}>
+                                  {item.firstName} {item.lastName}
+                                </option>
+                              );
+                            })}
+                        </Field>
+                        <ErrorMessage
+                          name="materialName"
+                          className="text-danger"
+                          component="div"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <button type="button" className="row btn btn-info btn-sm" onClick={() => onClickGetData(vendorName)}>Get Data</button>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="materialId"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-5 col-form-label col-form-label-sm"
                       >
                         Material Id<span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-5">
                         <Field
                           type="text"
                           name="materialId"
@@ -229,14 +314,16 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
+                  </div>
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="materialName"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-6 col-form-label col-form-label-sm"
                       >
                         Material Name<span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-6">
                         <Field
                           component="select"
                           name="materialName"
@@ -271,99 +358,42 @@ const MaterialVendorConfiguration = () => {
                       Get Vendor
                     </button> */}
                   </div>
-
-                  <div className="col-md-6">
-                    {/* <div className="row">
+                  <div className="col-3">
+                    <div className="row mb-2">
                       <label
-                        htmlFor="vendorId"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        htmlFor="price"
+                        className="col-sm-6 col-form-label col-form-label-sm"
                       >
-                        Vendor Id<span className="text-danger">*</span>
+                        Price<span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-5">
                         <Field
                           className="form-control form-control-sm"
                           type="text"
-                          name="vendorId"
-                          value={materialVendorConfig.vendorId}
+                          name="price"
+                          value={materialVendorConfig.price}
                           onChange={(e) =>
                             onMatVendorConfigHandler(e, setFieldValue)
                           }
                         />
                         <ErrorMessage
-                          name="vendorId"
-                          className="text-danger"
-                          component="div"
-                        />
-                      </div>
-                    </div> */}
-                    <div className="row mb-2">
-                      <label
-                        htmlFor="vendorName"
-                        className="col-sm-4 col-form-label col-form-label-sm"
-                      >
-                        Vendor Name<span className="text-danger">*</span>
-                      </label>
-                      <div className="col-sm-8">
-                        <Field
-                          component="select"
-                          name="vendorName"
-                          className="form-select form-select-sm"
-                          value={vendorName}
-                          onChange={(e) =>
-                            onMatVendorConfigHandler(e, setFieldValue)
-                          }
-                        >
-                          <option value="">Select</option>
-                          {vendorNameList &&
-                            vendorNameList.map((item) => {
-                              return (
-                                <option key={item.id} value={item.firstName}>
-                                  {item.firstName} {item.lastName}
-                                </option>
-                              );
-                            })}
-                        </Field>
-                        <ErrorMessage
-                          name="materialName"
+                          name="price"
                           className="text-danger"
                           component="div"
                         />
                       </div>
                     </div>
-                    <div className="row mb-2">
-                      <label
-                        htmlFor="standardPrice"
-                        className="col-sm-4 col-form-label col-form-label-sm"
-                      >
-                        Standard Price<span className="text-danger">*</span>
-                      </label>
-                      <div className="col-sm-8">
-                        <Field
-                          className="form-control form-control-sm"
-                          type="text"
-                          name="standardPrice"
-                          value={materialVendorConfig.standardPrice}
-                          onChange={(e) =>
-                            onMatVendorConfigHandler(e, setFieldValue)
-                          }
-                        />
-                        <ErrorMessage
-                          name="standardPrice"
-                          className="text-danger"
-                          component="div"
-                        />
-                      </div>
-                    </div>
+                  </div>
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="minimumDaysRemain"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-8 col-form-label col-form-label-sm"
                       >
                         Minimum Days Remain
                         <span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-4">
                         <Field
                           className="form-control form-control-sm"
                           type="text"
@@ -380,14 +410,18 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="minimumQuantity"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-7 col-form-label col-form-label-sm"
                       >
                         Minimum Quantity<span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-4">
                         <Field
                           className="form-control form-control-sm"
                           type="text"
@@ -404,16 +438,17 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
-
+                  </div>
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="invoiceDate"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-5 col-form-label col-form-label-sm"
                       >
                         Invoice Date
                         <span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-6">
                         <div className="input-group">
                           <Field
                             type="date"
@@ -432,14 +467,16 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
+                  </div>
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="paymentMethod"
-                        className="col-sm-4 col-form-label col-form-label-sm"
+                        className="col-sm-6 col-form-label col-form-label-sm"
                       >
                         Payment Method
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-5">
                         <Field
                           as="select"
                           name="paymentMethod"
@@ -460,6 +497,8 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
+                  </div>
+                  <div className="col-3">
                     <div className="row mb-2">
                       <label
                         htmlFor="discount"
@@ -467,7 +506,7 @@ const MaterialVendorConfiguration = () => {
                       >
                         Discount<span className="text-danger">*</span>
                       </label>
-                      <div className="col-sm-8">
+                      <div className="col-sm-4">
                         <Field
                           type="text"
                           name="discount"
@@ -484,7 +523,8 @@ const MaterialVendorConfiguration = () => {
                         />
                       </div>
                     </div>
-                    <div className="row mb-2">
+                  </div>
+                  {/* <div className="row mb-2">
                       <label
                         htmlFor="amount"
                         className="col-sm-4 col-form-label col-form-label-sm"
@@ -512,12 +552,18 @@ const MaterialVendorConfiguration = () => {
                           component="div"
                         />
                       </div>
-                    </div>
-                  </div>
+                    </div> */}
                 </div>
 
-                <div className="row justify-content-md-center">
-                  <button type="submit" className="w-25 mt-4 mb-4 btn btn-info">
+                <div className="d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="me-2 mt-4 mb-4 btn btn-info"
+                    onClick={handleBack}
+                  >
+                    Back
+                  </button>
+                  <button type="submit" className="mt-4 mb-4 btn btn-info">
                     Save
                   </button>
                 </div>
@@ -531,6 +577,7 @@ const MaterialVendorConfiguration = () => {
             rowData={vendorData}
             columnDefs={column}
             defaultColDef={defaultColDef}
+            onRowClicked={e => onClickGetRowData(e)}
           />
         </div>
       </div>

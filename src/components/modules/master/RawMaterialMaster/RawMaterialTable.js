@@ -66,10 +66,10 @@ const RawMaterialTable = () => {
   return (
     <>
       <div className="container-fluid mt-4 mb-5">
-        <div className="row justify-content-md-center mb-3">
+        <div className="d-flex justify-content-center mb-3">
           <button
             type="button"
-            className="w-25 btn btn-info"
+            className="btn btn-info"
             onClick={() => {
               handleRawMaterialTable();
             }}

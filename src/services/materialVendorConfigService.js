@@ -28,8 +28,3 @@ export const getMaterialVendorDataByMaterialCode = (mcode) => {
     return axios.get(url)
 }
 
-
-
-export const getMaterialVendorDetailsData = () => {
-  return axios.get(materialVendorConfigDetailURL);
-};
