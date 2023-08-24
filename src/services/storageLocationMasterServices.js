@@ -22,3 +22,8 @@ export const getStorageLocMasterById = (id) => {
     return axios.get(fetchByIDURL)
         .then(res => res.data)
 }
+
+
+export const getStorageLocMasterByBranch = (data) => {
+    return axios.get(`${storageLocMasterURL}?Branch=${data}`)
+}

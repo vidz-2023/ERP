@@ -15,6 +15,7 @@ import DeleteEditButtonStockItems from "./DeleteEditButtonStockItems";
 import StockItemsModal from "./StockItemsModal";
 import { generareId, generateId } from "../../../share/generateRandomId";
 import { getBranches, getCategories } from "../../../services/masterServices";
+import { getStorageLocMasterByBranch } from "../../../services/storageLocationMasterServices";
 
 
 function Stock() {
@@ -70,6 +71,8 @@ function Stock() {
     const [totalPackQty, setTotalPackQuantity] = useState()
     const [branchList, setBranchList] = useState([])
     const [categoryList, setCategory] = useState([])
+    const [fromWareHouseList, setFromWareHouseList] =  useState([])
+    const [toWareHouseList, setToWareHouseList] =  useState([])
 
 
 
@@ -96,7 +99,15 @@ function Stock() {
             await getStockDataByStockId(stockId).then(res => {
                 res.data[0].fileName = ""
                 setFormValue(res.data[0])
-                console.log(formValues)
+                console.log(res.data[0])
+                getStorageLocMasterByBranch(res.data[0].fromBranch).then(res =>{
+                    console.log(res.data)
+                    setFromWareHouseList(res.data)
+                })
+                getStorageLocMasterByBranch(res.data[0].toBranch).then(res =>{
+                    console.log(res.data)
+                    setToWareHouseList(res.data)
+                })
                 document.getElementById("addBtn").disabled = false;
             })
             setIsUpdate(true)
@@ -122,6 +133,21 @@ function Stock() {
         const { name, value } = e.target
         console.log(name)
         console.log(value)
+        if(name === "fromBranch")
+        {
+            getStorageLocMasterByBranch(value).then(res =>{
+                console.log(res.data)
+                setFromWareHouseList(res.data)
+            })
+        }
+        if(name === "toBranch")
+        {
+            getStorageLocMasterByBranch(value).then(res =>{
+                console.log(res.data)
+                setToWareHouseList(res.data)
+            })
+        }
+        
         setFormValue({ ...formValues, [name]: value })
 
         setFieldValue([name], value)
@@ -221,10 +247,7 @@ function Stock() {
         {
             headerName: 'Pack Quantity', field: 'packQuantity'
         },
-        {
-            headerName: 'Pack Unit', field: 'packUnit'
-        },
-
+        
         {
             headerName: 'Available Quantity', field: 'availableQty'
         },
@@ -266,16 +289,16 @@ function Stock() {
                             <div className="row">
 
                                 <div className="col-md-6">
-
+                                   
                                     <div className="row mb-2">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                            To Branch <span className="text-danger fw-bold">*</span>
+                                           From Branch <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="toBranch"
-                                                value={formValues.toBranch}
+                                                name="fromBranch"
+                                                value={formValues.fromBranch}
                                                 className="form-select form-select-sm"
                                                 onChange={e => handleChange(e, setFieldValue)}
                                             >
@@ -288,28 +311,33 @@ function Stock() {
                                                         {item.Name}
                                                     </option>)}
                                             </Field>
-                                            <ErrorMessage name='toBranch' className=" ms-1" />
+                                            <ErrorMessage name='fromBranch' className=" ms-1" />
                                         </div>
                                     </div>
 
 
                                     <div className="row mb-2">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                            To Warehouse  <span className="text-danger fw-bold">*</span>
+                                            From Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="toWarehouse"
-                                                value={formValues.toWarehouse}
+                                                name="fromWarehouse"
+                                                value={formValues.fromWarehouse}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
-                                                <option value="">Select</option>
-                                                <option value="Warehouse1">Warehouse1</option>
-                                                <option value="Warehouse2">Warehouse2</option>
+                                                <option value="">Select.......</option>
+                                                {fromWareHouseList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
                                             </Field>
-                                            <ErrorMessage name='toWarehouse' className="ms-1" />
+                                            <ErrorMessage name='fromWarehouse' className="ms-1" />
                                         </div>
                                     </div>
 
@@ -360,13 +388,13 @@ function Stock() {
 
                                     <div className="row mb-2">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                            From Branch  <span className="text-danger fw-bold">*</span>
+                                            To Branch  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="fromBranch"
-                                                value={formValues.fromBranch}
+                                                name="toBranch"
+                                                value={formValues.toBranch}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
@@ -379,27 +407,32 @@ function Stock() {
                                                         {item.Name}
                                                     </option>)}
                                             </Field>
-                                            <ErrorMessage name='fromBranch' className="ms-1" />
+                                            <ErrorMessage name='toBranch' className="ms-1" />
                                         </div>
                                     </div>
 
                                     <div className="row mb-2">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                            From Warehouse  <span className="text-danger fw-bold">*</span>
+                                            To Warehouse  <span className="text-danger fw-bold">*</span>
                                         </label>
                                         <div className="col-sm-8  text-danger fs-6">
                                             <Field
                                                 as="select"
-                                                name="fromWarehouse"
-                                                value={formValues.fromWarehouse}
+                                                name="toWarehouse"
+                                                value={formValues.toWarehouse}
                                                 onChange={e => handleChange(e, setFieldValue)}
                                                 className="form-select form-select-sm"
                                             >
-                                                <option value="">Select</option>
-                                                <option value="Warehouse1">Warehouse1</option>
-                                                <option value="Warehouse2">Warehouse2</option>
+                                                 <option value="">Select.......</option>
+                                                {toWareHouseList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
                                             </Field>
-                                            <ErrorMessage name='fromWarehouse' className="ms-1" />
+                                            <ErrorMessage name='toWarehouse' className="ms-1" />
                                         </div>
                                     </div>
 

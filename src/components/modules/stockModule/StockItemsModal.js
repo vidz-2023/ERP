@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { FaBook } from "react-icons/fa";
 import * as Yup from 'yup';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { addItemDetails, getStockItemsByItemId, updateStockItemData } from '../../../services/stockItemsDetailServices';
 import { getRawMaterialData, getRawMaterialDataByMaterialName } from '../../../services/rawMaterialService';
 import { generateId } from '../../../share/generateRandomId';
@@ -18,7 +14,6 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
         "stockItemId": "",
         "materialId": "",
         "materialName": "",
-        "packUnit": "",
         "packQuantity": "",
         "availableUnit": "",
         "availableQty": "",
@@ -40,6 +35,7 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                 setMaterialName(res.data[0].materialName)
                 setMaterialId(res.data[0].materialId)
                 setAvailableQty(res.data[0].availableQty)
+                setAvailableUnit(res.data[0].availableUnit)
             })
         }
 
@@ -58,7 +54,7 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
     const validationSchema = Yup.object({
 
         materialName: Yup.string().required("required"),
-        packUnit: Yup.number().required("required"),
+        
         packQuantity: Yup.number().required("required").min(1,"enter valid quantity").max(availableQty,"This is not available"),
        
       
@@ -113,6 +109,9 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
             const availQty = res.data[0].orderedQty
             setAvailableQty(availQty)
              formValues.availableQty = availQty
+           const availUnit =  res.data[0].unit
+           setAvailableUnit(availUnit)
+           formValues.availableUnit = availUnit
 
         })
     }
@@ -142,10 +141,10 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                                         <div className='container'>
 
                                             <div className="row mb-1">
-                                                <div className='col-3 form-label'>Material ID</div>
-                                                <div className='col-9 d-flex'>
+                                                <div className='col-4 form-label form-label-sm'>Material ID</div>
+                                                <div className='col-8 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="text"
                                                         name="materialId"
                                                         value={materialId}
@@ -158,8 +157,8 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                                             </div>
 
                                             {!isEdit && <div className="row mb-1">
-                                                <div className='col-3 form-label'>Material Name</div>
-                                                <div className='col-9 d-flex'>
+                                                <div className='col-4 form-label form-label-sm'>Material Name</div>
+                                                <div className='col-8 d-flex'>
                                                     <Field
                                                         as="select"
                                                         name="materialName"
@@ -182,8 +181,8 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                                             </div> }
 
                                            {isEdit && <div className="row mb-1">
-                                                <div className='col-3 form-label'>Material Name</div>
-                                                <div className='col-9 d-flex'>
+                                                <div className='col-4 form-label form-label-sm'>Material Name</div>
+                                                <div className='col-8 d-flex'>
                                                     <Field
                                                         type="text"
                                                         name="materialName"
@@ -197,10 +196,10 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                                             </div> }
 
                                             <div className="row mb-1">
-                                                <div className='col-3 form-label'>Pack Quantity</div>
-                                                <div className='col-9 d-flex'>
+                                                <div className='col-4 form-label form-label-sm'>Pack Quantity</div>
+                                                <div className='col-8 d-flex'>
                                                     <Field
-                                                        className="form-control"
+                                                        className="form-control form-control-sm"
                                                         type="number"
                                                         name="packQuantity"
                                                         value={formValues.packQuantity}
@@ -210,57 +209,25 @@ const StockItemsModal = ({ sId, closemodal, itemId, isEdit }) => {
                                                     <ErrorMessage className="text-danger ms-2" component="div" name='packQuantity' />
                                                 </div>
                                             </div>
-                                            <div className="row mb-1">
-                                                <div className='col-3 form-label'>Pack Unit</div>
-                                                <div className='col-9 d-flex'>
-                                                    <Field
-                                                        className="form-control"
-                                                        type="number"
-                                                        name="packUnit"
-                                                        value={formValues.packUnit}
-                                                        onChange={e => handleChange(e, setFieldValue)}
-                                                    >
-                                                    </Field>
-                                                    <ErrorMessage className="text-danger ms-2" component="div" name='packUnit' />
-                                                </div>
-                                            </div>
-
-                                            
-
+                                           
                                             <div className="row mb-1 mt-3">
-                                                <div className='col-6 form-label'>
-                                                    <div className="row mb-1">
-                                                        <div className='col-4 form-label'>Available Quantity</div>
-                                                        <div className='col-8 d-flex'>
+                                               
+                                                        <div className='col-4 form-label form-label-sm'>Available Quantity</div>
+                                                        <div className='col-7 d-flex'>
                                                             <Field
-                                                                className="form-control"
+                                                                className="form-control form-control-sm"
                                                                 type="number"
                                                                 name="availableQty"
                                                                 value={availableQty}
                                                                 disabled
                                                             >
                                                             </Field>
-                                                            <ErrorMessage className="text-danger ms-2" component="div" name='availableQty' />
+                                                            <div className=' form-label form-label-sm'>{availableUnit}</div>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                       
+                                                
 
-                                                <div className='col-6 form-label'>
-                                                    <div className="row mb-1">
-                                                        <div className='col-4 form-label'>Available Unit</div>
-                                                        <div className='col-8 d-flex'>
-                                                            <Field
-                                                                className="form-control"
-                                                                type="number"
-                                                                name="availableUnit"
-                                                                value={availableUnit}
-                                                                disabled
-                                                            >
-                                                            </Field>
-                                                            <ErrorMessage className="text-danger ms-2" component="div" name='availableUnit' />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        
                                             </div>
 
                                         </div>

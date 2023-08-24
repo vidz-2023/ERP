@@ -13,6 +13,7 @@ import PlusSignComponent from "../../../../share/PlusSignComponent";
 import { getStockItemsByStockId, updateStockItemData } from "../../../../services/stockItemsDetailServices";
 import moment from 'moment';
 import { addStockConsumData, getStockConsumeDataById, updateStockConsumeData } from "../../../../services/stockConsumptionService";
+import { getStorageLocMasterByBranch } from "../../../../services/storageLocationMasterServices";
 
 function StockConsumption() {
 
@@ -20,6 +21,7 @@ function StockConsumption() {
 
         "stockConsumId": "",
         "branch": "",
+        "warehouse": "",
         "consumDate": "",
         "remark": "",
         "fileName": "",
@@ -33,6 +35,8 @@ function StockConsumption() {
     const [stockData, setStockData] = useState([])
     const [conDate, setDate] = useState("")
     const navigate = useNavigate()
+    const [wareHouseList, setWareHouseList] = useState([])
+    const [bName, setBname] = useState("")
     useEffect(() => {
 
         getData()
@@ -52,7 +56,8 @@ function StockConsumption() {
 
             getStockConsumeDataById(stockConsumId).then(res => {
                 setFormValue(res.data[0])
-                populatedDataOnGrid(res.data[0].branch)
+
+                populatedDataOnGrid(res.data[0].branch, res.data[0].warehouse)
             })
             setIsUpdate(true)
 
@@ -68,15 +73,27 @@ function StockConsumption() {
     const validationSchema = Yup.object({
 
         branch: Yup.string().required("required"),
+        warehouse: Yup.string().required("required"),
         remark: Yup.string().required("required"),
 
     })
     const handleChange = (e, setFieldValue) => {
 
         const { name, value } = e.target
-        if (name == "branch") {
+        if (name === "branch") {
 
-            populatedDataOnGrid(value)
+
+            getStorageLocMasterByBranch(value).then(res => {
+                console.log(res.data)
+                setWareHouseList(res.data)
+            })
+
+            setBname(value)
+
+        }
+
+        if (name === "warehouse") {
+            populatedDataOnGrid(bName, value)
 
         }
         setFormValue({ ...formValues, [name]: value })
@@ -84,12 +101,17 @@ function StockConsumption() {
         setFieldValue([name], value)
     }
 
-    const populatedDataOnGrid = value => {
+    const populatedDataOnGrid = (bName, warehousename) => {
 
-        getStockDataByToBranchName(value).then(res => {
+        console.log(warehousename, bName)
+        getStockDataByToBranchName(bName).then(res => {
             console.log(res.data)
-            if (res.data != 0) {
-                getStockItemsData(res.data)
+            const arr = [...res.data]
+            console.log(arr)
+            const dataByWareHouse = arr.filter(item => item.toWarehouse === warehousename)
+            console.log(dataByWareHouse)
+            if (dataByWareHouse.length != 0) {
+                getStockItemsData(dataByWareHouse)
             }
             else {
                 setStockData([])
@@ -160,7 +182,7 @@ function StockConsumption() {
         let index = 0
         console.log(stockData[index].leftQty)
         while (index < stockData.length) {
-            if (stockData[index].leftQty >=0) {
+            if (stockData[index].leftQty >= 0) {
                 stockData[index].availableQty = stockData[index].leftQty
                 delete stockData[index].leftQty
                 delete stockData[index].conQty
@@ -204,28 +226,28 @@ function StockConsumption() {
         },
 
         {
-            headerName: 'Available Quantity', field: 'availableQty',
+            headerName: 'Avl.Qty', field: 'availableQty',
 
             cellStyle: (params) => {
-                
-                 if(params.value ===0)
-                return { color: "red", fontWeight:'bold' }
-                if(params.value <=  params.data.minStockAllowed)
-                return {color: "yellow" ,fontWeight:'bold'}
-               
+
+                if (params.value === 0)
+                    return { backgroundColor: "red" }
+                if (params.value <= params.data.minStockAllowed)
+                    return { backgroundColor: "yellow" }
+
             }
-           
-         
+
+
         },
 
 
         {
-            headerName: 'Consumption Quantity', field: 'conQty',
+            headerName: 'Consume.Qty', field: 'conQty',
             editable: true,
 
         },
         {
-            headerName: 'Remaining Quantity', field: 'leftQty'
+            headerName: 'Rem.Qty', field: 'leftQty'
 
         },
 
@@ -237,19 +259,19 @@ function StockConsumption() {
     const defaultColDefs = { flex: 1 }
 
     const onEditCell = (e) => {
-         
+
         console.log(e.rowData)
         console.log(stockData[e.rowIndex])
         if (e.newValue <= e.data.availableQty && e.newValue > 0) {
             stockData[e.rowIndex].conQty = e.newValue
             stockData[e.rowIndex].leftQty = e.data.availableQty - e.newValue
             updateStockItemData(stockData[e.rowIndex], stockData[e.rowIndex].id)
-            populatedDataOnGrid(formValues.branch)
+            populatedDataOnGrid(formValues.branch, formValues.warehouse)
         }
 
-        else{
+        else {
             alert("please give valid value")
-           
+
             delete stockData[e.rowIndex].conQty
             updateStockItemData(stockData[e.rowIndex], stockData[e.rowIndex].id)
             populatedDataOnGrid(formValues.branch)
@@ -324,22 +346,53 @@ function StockConsumption() {
                                 </div>
 
                                 <div className="col-md-6">
-                                    <div className="row">
+                                    {!isUpdate && <div className="row">
                                         <label className="col-sm-4 col-form-label col-form-label-sm">
-                                            Consumption Date
+                                            Warehouse
                                         </label>
                                         <div className="col-sm-8 text-danger fs-6">
 
-                                            <Field type="date" className="form-control form-control-sm"
-                                                name="consumDate"
-                                                value={conDate}
-                                                id="consumeDate"
-                                                disabled
-
-                                            ></Field>
+                                            <Field
+                                                as="select"
+                                                name="warehouse"
+                                                value={formValues.warehouse}
+                                                onChange={e => handleChange(e, setFieldValue)}
+                                                className="form-select form-select-sm"
+                                            >
+                                                <option value="">Select.......</option>
+                                                {wareHouseList.map((item) =>
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.Name}
+                                                    >
+                                                        {item.Name}
+                                                    </option>)}
+                                            </Field>
+                                            <ErrorMessage name='warehouse' className="ms-1" />
 
                                         </div>
                                     </div>
+                                    }
+                                     {isUpdate && <div className="row">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
+                                            Warehouse
+                                        </label>
+                                        <div className="col-sm-8 text-danger fs-6">
+
+                                            <Field
+                                                type="text"
+                                                name="warehouse"
+                                                value={formValues.warehouse}
+                                                disabled
+                                                className="form-select form-select-sm"
+                                            >
+                                               
+                                            </Field>
+                                            <ErrorMessage name='warehouse' className="ms-1" />
+
+                                        </div>
+                                    </div>
+                                    }
                                 </div>
                             </div>
 
@@ -378,6 +431,27 @@ function StockConsumption() {
                                                 onChange={e => handleChange(e, setFieldValue)}
                                             >
                                             </Field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <div className="row">
+                                        <label className="col-sm-4 col-form-label col-form-label-sm">
+                                            Consumption Date
+                                        </label>
+                                        <div className="col-sm-8 text-danger fs-6">
+
+                                            <Field type="date" className="form-control form-control-sm"
+                                                name="consumDate"
+                                                value={conDate}
+                                                id="consumeDate"
+                                                disabled
+
+                                            ></Field>
+
                                         </div>
                                     </div>
                                 </div>
