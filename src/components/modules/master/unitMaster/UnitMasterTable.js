@@ -26,8 +26,8 @@ function UnitMasterTable() {
     let iconStyles = { color: "white", fontSize: "1.5em" };
     const column = [
         {
-            headerName: "ID",
-            field: "id"
+            headerName: "Unit Id",
+            field: "unitId"
         },
         {
             headerName: "Unit Name",

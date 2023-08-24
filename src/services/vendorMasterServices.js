@@ -23,6 +23,10 @@ export const getVendorMasterByID = (id) => {
         .then(res => res.data);
 }
 
+export const getVendorMasterByID1 = (vendorId) => {
+    return axios.get(`${vendorMasterURL}?vendorId=${vendorId}`)
+}
+
 export const getVendorMasterDataByName = (data) => {
     return axios.get(`${vendorMasterURL}?firstName=${data}`)
 }

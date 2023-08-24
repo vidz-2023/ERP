@@ -7,12 +7,13 @@ import { MdOutlineHolidayVillage } from "react-icons/md";
 //Import Formik and Yup
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
-import { addUnitMaster, getUnitMasterByID, updateUnitMaster } from '../../../../services/unitMasterServices';
+import { addUnitMaster, getUnitMaster, getUnitMasterByID, updateUnitMaster } from '../../../../services/unitMasterServices';
 
 function UnitMaster() {
 
     // Intial Value for Formik
     const inputFields = {
+        unitId:'',
         unitName: '',
         measure: '',
     }
@@ -31,21 +32,42 @@ function UnitMaster() {
 
     //Fetching The Data
     useEffect(() => {
-
         if (id >= 0) {
             getUnitMasterByID(id).then(res => {
-                console.log(res)
                 setUnitMasterValue(res)
             })
             setIsUnitUpdate(true)
         }
     }, [])
 
+     // ------------------- Generating Unique ID  ---------------------------//
+     const generateUnitID = async (lastID) => {
+
+        let lastGeneratedUnitID = lastID
+        await getUnitMaster().then((res) => {
+            lastGeneratedUnitID = res.data[res.data.length - 1].unitId
+        })
+        let numStr = lastGeneratedUnitID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - num.toString().length);
+            num = padding + num
+        }
+
+        let alphabet = lastGeneratedUnitID.match(/[a-z]/i)[0]
+        return alphabet + num
+    }
+
     // ------------------- For Submit the Function ---------------------------//
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         if (!isUnitUpdate) {
-            addUnitMaster(unitMasterValue)
-            navigate('/unitMasterTable')
+            generateUnitID().then(newId => {
+                values = { ...values, unitId: newId }
+                addUnitMaster(values).then((res) => {
+                    navigate("/unitMasterTable")
+                })
+            })
         } else {
             updateUnitMaster(unitMasterValue, id)
             navigate('/unitMasterTable')

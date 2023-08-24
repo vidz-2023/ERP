@@ -24,8 +24,8 @@ function StorageLocationMasterTable() {
 
     const column = [
         {
-            headerName: "Id",
-            field: "id"
+            headerName: "Storage Location ID",
+            field: "storageId"
         },
          {
             headerName: "Name",

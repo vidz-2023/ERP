@@ -17,13 +17,16 @@ function CustomerMasterTable() {
 
     const getCustomerMasterData = () => {
         getCustomerMaster().then((res) => {
-            console.log(res.data)
             setCustomer(res.data)
         })
     }
 
 
     const column = [
+        {
+            headerName:"Customer ID",
+            field:"customerId"
+        },
         {
             headerName: "FisrtName",
             field: "cfirstName"

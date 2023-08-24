@@ -16,12 +16,15 @@ function VendorMasterTable() {
 
     const getVendorMasterData = () => {
         getVendorMaster().then((res) => {
-            console.log(res.data)
             setVendor(res.data)
         })
     }
 
     const column = [
+        {
+            headerName:'Vendor ID',
+            field:'vendorId'
+        },
         {
             headerName: "FisrtName",
             field: "firstName"
@@ -86,7 +89,11 @@ function VendorMasterTable() {
                     onClick={() => onAdd()} >Add Vendor Master</button>
             </div>
             <div className="ag-theme-alpine  my-3 mx-auto" style={{ width: 1200, height: 300 }}>
-                <AgGridReact rowData={vendor} columnDefs={column} defaultColDef={defaultColDef} animateRows={true} />
+                <AgGridReact
+                 rowData={vendor} 
+                 columnDefs={column} 
+                 defaultColDef={defaultColDef} 
+                 animateRows={true} />
             </div>
 
         </>

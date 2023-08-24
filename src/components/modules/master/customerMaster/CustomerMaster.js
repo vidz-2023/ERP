@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addCustomerMaster, getCustomerMasterByID, searchCustomerMasterAnyField, updateCustomerMaster } from '../../../../services/customerMasterServices';
+import { addCustomerMaster, getCustomerMaster, getCustomerMasterByID, searchCustomerMasterAnyField, updateCustomerMaster } from '../../../../services/customerMasterServices';
 import pic from '../../../../assets/images/profilepic.png';
 
 function CustomerMaster() {
 
     // Intial Value for Formik
     const inputFields = {
+        customerId: '',
         ctitle: '',
         cfirstName: '',
         clastName: '',
@@ -34,7 +35,7 @@ function CustomerMaster() {
         cpayment: '',
         cpaymentTerm: '',
         cpriceCategory: '',
-        cpaymentDuration:'',
+        cpaymentDuration: '',
         ctaxno: '',
         ctaxType: '',
         cCin: '',
@@ -95,7 +96,7 @@ function CustomerMaster() {
         cpayment: Yup.string().required('Required'),
         cpaymentTerm: Yup.string().required('Required'),
         cpriceCategory: Yup.string().required('Required'),
-        cpaymentDuration:Yup.string().required('Required'),
+        cpaymentDuration: Yup.string().required('Required'),
         ctaxno: Yup.string().required('Required'),
         ctaxType: Yup.string().required('Required'),
         cCin: Yup.string().required('Required'),
@@ -113,7 +114,7 @@ function CustomerMaster() {
         cbCountry: Yup.string().required('Required'),
         cbzipcode: Yup.string().required('Required').min(0, "Only positive value").min(6, 'The number must be 6 digits').matches(/^([0-9]{6})*$/, 'Invalid postal code'),
         cbphoneno: Yup.string().required('Required').min(0, "Only positive value").length(10)
-        .matches(phoneRegExp, 'Phone number is not valid'),
+            .matches(phoneRegExp, 'Phone number is not valid'),
         cbemail: Yup.string().required('Required'),
         cwebsite: Yup.string().matches(urlRegExp, 'Enter correct url!').required('Please enter website'),
         cfaceBook: Yup.string().email('Invalid email').required('Required'),
@@ -128,26 +129,46 @@ function CustomerMaster() {
     const [isCustomerUpdate, setIsCustomerUpdate] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate()
-    const [customerValState,setCustomerValState]= useState([])
-    const [customerMaster,setCustomerMaster]= useState([])
+    const [customerValState, setCustomerValState] = useState([])
+    const [customerMaster, setCustomerMaster] = useState([])
 
     //Fetching The Data
     useEffect(() => {
-        console.log(id)
         if (id >= 0) {
             getCustomerMasterByID(id).then(res => {
-                console.log(res)
                 setCustomerMasterValue(res)
             })
             setIsCustomerUpdate(true)
         }
     }, [])
 
+    // ------------------- Generating Unique ID  ---------------------------//
+    const generateCustomerID = async (lastID) => {
+
+        let lastGeneratedCustomerID = lastID
+        await getCustomerMaster().then((res) => {
+            lastGeneratedCustomerID = res.data[res.data.length - 1].customerId
+        })
+        let numStr = lastGeneratedCustomerID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - num.toString().length);
+            num = padding + num
+        }
+
+        let alphabet = lastGeneratedCustomerID.match(/[a-z]/i)[0]
+        return alphabet + num
+    }
     // ------------------- For Submit the Function ---------------------------//
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         if (!isCustomerUpdate) {
-            addCustomerMaster(customerMasterValue)
-            navigate('/customerMasterTable')
+            generateCustomerID().then(newId => {
+                values = { ...values, customerId: newId }
+                addCustomerMaster(values).then((res) => {
+                    navigate("/customerMasterTable")
+                })
+            })
         } else {
             updateCustomerMaster(customerMasterValue, id)
             navigate('/customerMasterTable')

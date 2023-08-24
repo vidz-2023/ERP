@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addVendorMaster, getVendorMasterByID, searchVendorMasterAnyField, updateVendorMaster } from '../../../../services/vendorMasterServices';
+import { addVendorMaster, getVendorMaster, getVendorMasterByID, getVendorMasterByID1, searchVendorMasterAnyField, updateVendorMaster } from '../../../../services/vendorMasterServices';
 import pic from '../../../../assets/images/profilepic.png';
 import { ValueService } from 'ag-grid-community';
 
@@ -10,6 +10,7 @@ function VendorMaster() {
 
     // Intial Value for Formik
     const inputFields = {
+        vendorId: '',
         title: '',
         firstName: '',
         lastName: '',
@@ -127,28 +128,55 @@ function VendorMaster() {
     //Declaration
     const [vendorMasterValue, setVendorMasterValue] = useState(inputFields)
     const [isVendorUpdate, setIsVendorUpdate] = useState(false);
-    const { id } = useParams();
+    const { id } = useParams()
+    const { vendorId } = useParams()
     const navigate = useNavigate()
     const [vendorValState, setVendorValState] = useState([])
     const [vendorMaster, setVendorMaster] = useState([])
 
     //Fetching The Data
     useEffect(() => {
-        console.log(id)
+        getVendorMasterDataByID(id)
+    }, [])
+
+    // ------------------- Getting the data by ID ---------------------------//
+    const getVendorMasterDataByID = async () => {
         if (id >= 0) {
-            getVendorMasterByID(id).then(res => {
-                console.log(res)
+            await getVendorMasterByID(id).then(res => {
                 setVendorMasterValue(res)
             })
             setIsVendorUpdate(true)
         }
-    }, [])
+    }
+
+    // ------------------- Generating Unique ID  ---------------------------//
+    const generateVendorID = async (lastID) => {
+
+        let lastGeneratedVendorID = lastID
+        await getVendorMaster().then((res) => {
+            lastGeneratedVendorID = res.data[res.data.length - 1].vendorId
+        })
+        let numStr = lastGeneratedVendorID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - num.toString().length);
+            num = padding + num
+        }
+
+        let alphabet = lastGeneratedVendorID.match(/[a-z]/i)[0]
+        return alphabet + num
+    }
 
     // ------------------- For Submit the Function ---------------------------//
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         if (!isVendorUpdate) {
-            addVendorMaster(vendorMasterValue)
-            navigate('/vendorMasterTable')
+            generateVendorID().then(newId => {
+                values = { ...values, vendorId: newId }
+                addVendorMaster(values).then((res) => {
+                    navigate("/vendorMasterTable")
+                })
+            })
         } else {
             updateVendorMaster(vendorMasterValue, id)
             navigate('/vendorMasterTable')

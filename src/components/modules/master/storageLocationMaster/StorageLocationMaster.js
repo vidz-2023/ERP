@@ -5,22 +5,23 @@ import { useNavigate, useParams } from 'react-router';
 //Import Formik and Yup
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
-import { addStorageLocMaster, getStorageLocMasterById, updateStorageLocMaster } from '../../../../services/storageLocationMasterServices';
+import { addStorageLocMaster, getStorageLocMaster, getStorageLocMasterById, updateStorageLocMaster } from '../../../../services/storageLocationMasterServices';
 
 function StorageLocationMaster() {
 
     // ------------------- Initial Value for Formik------------------//
     const inputFields = {
+        storageId: '',
         Name: '',
         Branch: '',
-        isActive:''
+        isActive: ''
     }
 
     // ------------------- It is for Yup ---------------------------//
     const validateyupSchema = Yup.object({
         Name: Yup.string().required('*Required'),
         Branch: Yup.string().required('*Required'),
-        isActive:Yup.string().required('*Required')
+        isActive: Yup.string().required('*Required')
     })
 
     // ------------------- Declarations ----------------------------//
@@ -39,11 +40,34 @@ function StorageLocationMaster() {
         }
     }, [])
 
+    // ------------------- Generating Unique ID  ---------------------------//
+    const generateStorageID = async (lastID) => {
+
+        let lastGeneratedStorageID = lastID
+        await getStorageLocMaster().then((res) => {
+            lastGeneratedStorageID = res.data[res.data.length - 1].storageId
+        })
+        let numStr = lastGeneratedStorageID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - num.toString().length);
+            num = padding + num
+        }
+
+        let alphabet = lastGeneratedStorageID.match(/[a-z]{2}/i)
+        return alphabet + num
+    }
+
     // ------------------- For Submit the Function ---------------------------//
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         if (!isStorageUpdate) {
-            addStorageLocMaster(storageLocMasterValue)
-            navigate('/storageLocMasterTable')
+            generateStorageID().then(newId => {
+                values = { ...values, storageId: newId }
+                addStorageLocMaster(values).then((res) => {
+                    navigate("/storageLocMasterTable")
+                })
+            })
         } else {
             updateStorageLocMaster(storageLocMasterValue, id)
             navigate('/storageLocMasterTable')
@@ -70,7 +94,7 @@ function StorageLocationMaster() {
                     <div className='m-3'>
                         <h4 className='text-info w-100 mb-3 text-center border border-info-subtle'>
                             <div className='m-2'>
-                                Unit of Measurement
+                                Storage Location Master
                             </div>
                         </h4>
                         <Formik
