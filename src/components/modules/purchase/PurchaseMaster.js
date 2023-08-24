@@ -41,7 +41,7 @@ const PurchaseMaster = () => {
         paymentType: "",
         remarks: "",
         attachment: "",
-        discount: "",
+        discount: 0,
         totalPrice: "",
         frieght: ""
     }
@@ -57,24 +57,30 @@ const PurchaseMaster = () => {
     const [branch, setBranch] = useState([])
     const [freight, setFreight] = useState([])
     const [modelData, setModalData] = useState({})
-
+    const [priceAfterDiscount, setPriceAfterDiscount] = useState(0)
     const [totalQty, setTotalQty] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
     const [vendorName, setVendorName] = useState("")
+    const [discount, setDiscount] = useState(0)
     // const [lastGeneratedPID, setLastGeneratedPID] = useState("")
 
     const navigate = useNavigate()
     const tempData = ["A", "B", "C"]
 
     useEffect(() => {
-
         getPurchaseDataByPId(pId)
         getPurchasedItemsDataByPId(pId)
         getCategories().then((res) => setCategory(res.data))
         getBranches().then((res) => setBranch(res.data))
         getFreight().then((res) => setFreight(res.data))
-
     }, [])
+
+
+    const calPriceAfterDiscount = (sp, dis) => {
+        console.log(sp, dis);
+        let afterDis = sp * ((100 - dis) / 100)
+        setPriceAfterDiscount(afterDis)
+    }
 
     const getPurchaseDataByPId = () => {
         if (pId && pId !== '0') {
@@ -82,6 +88,7 @@ const PurchaseMaster = () => {
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
                 setVendorName(res.data[0].vendor)
+                setDiscount(res.data[0].discount)
                 setIsUpdate(true)
             })
             document.getElementById("addRowBtnId").disabled = false
@@ -90,15 +97,20 @@ const PurchaseMaster = () => {
         }
     }
 
-    const generatedId = async () => {
+    const generatedId = async (firstId) => {
         let lastGeneratedPID = ""
         await getPurchaseDetail().then((res) => {
-            lastGeneratedPID = res.data[res.data.length - 1].pId
+            if (res.data.length) {
+                lastGeneratedPID = res.data[res.data.length - 1].pId
+            } else {
+                lastGeneratedPID = firstId
+            }
+
         })
         let numStr = lastGeneratedPID.match(/\d+/)[0]
         let num = Number(numStr) + 1
         if (numStr.length) {
-            const padding = '0'.repeat(numStr.length - 2);
+            const padding = '0'.repeat(numStr.length - num.toString().length);
             num = padding + num
         }
         let alphabet = lastGeneratedPID.match(/[a-z]/i)[0]
@@ -111,10 +123,10 @@ const PurchaseMaster = () => {
                 navigate("/purchase-order-table")
             })
         } else {
-            generatedId().then(newId => {
+            generatedId("P0000").then(newId => {
                 values = { ...values, pId: newId }
                 addPurchaseDetail(values).then((res) => {
-                    navigate("/purchase-oreder-table")
+                    navigate("/purchase-order-table")
                 })
             })
         }
@@ -162,9 +174,7 @@ const PurchaseMaster = () => {
         },
         {
             field: "orderedQty"
-
         },
-
         {
             field: "totalPrice",
             valueGetter: (params) => {
@@ -194,9 +204,11 @@ const PurchaseMaster = () => {
             })
             setTotalQty(qty)
             setTotalPrice(price)
+            calPriceAfterDiscount(price, discount)
             setPurchasedItemData(data)
         })
     }
+
 
     const defaultColDef = {
         sortable: true,
@@ -742,7 +754,7 @@ const PurchaseMaster = () => {
                                                 <ErrorMessage className="text-danger ms-2" component="div" name='totalPrice' />
                                             </div>
                                             <div className='col-1'></div>
-                                            <div className='col-1 form-label'>Discount</div>
+                                            <div className='col-1 form-label'>Discount(%)</div>
                                             <div className='col-2 d-flex'>
                                                 <Field
                                                     className="form-control"
@@ -760,7 +772,7 @@ const PurchaseMaster = () => {
                                                     className="form-control"
                                                     type="number"
                                                     name="afterDiscount"
-                                                // value={purchaseData.Description}
+                                                    value={priceAfterDiscount.toFixed(2)}
                                                 // onChange={e => handleChange(e, setFieldValue)}
                                                 />
                                                 <ErrorMessage className="text-danger  ms-2" component="div" name='afterDiscount' />

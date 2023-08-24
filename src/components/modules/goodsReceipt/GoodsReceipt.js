@@ -8,7 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPurchaseDetailById } from '../../../services/purchaseMasterService';
-import { getGoodsReceiptDetail } from '../../../services/goodsReceiptService';
+import { getGoodsReceiptById, getGoodsReceiptDetail, updateGoodsReceiptDetail } from '../../../services/goodsReceiptService';
 import { getStorageLocation } from '../../../services/masterServices';
 
 const GoodsReceipt = () => {
@@ -44,53 +44,61 @@ const GoodsReceipt = () => {
         discount: "",
         totalPrice: ""
     }
+
     const paymentStatus = ["Paid", "Pending to be paid", "Transaction in place"]
     const [purchaseData, setPurchaseData] = useState(inputFields)
     const [goodsReceiptData, setGoodsReceiptData] = useState([])
     const [storageLocation, setStorageLocation] = useState([])
     const [priceAfterDiscount, setPriceAfterDiscount] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
-
+    const POUpdateArr = []
     const column = [
         {
             field: "sNo",
             valueGetter: "node.rowIndex + 1",
-            editable: false
         },
         {
             field: "orderedQty",
         },
         {
             field: "receivedQty",
-            editable: false
+            editable: true
         },
         {
             field: "pendingQty",
-            editable: false
+            valueGetter: ({ data }) => {
+                return data.orderedQty - data.receivedQty
+            }
         },
 
         {
             field: "quotedUnitPrice",
+            headerName: "Quoted(P.U)",
 
         },
         {
             field: "billedUnitPrice",
-            headerName: "Billed(P.U)"
+            headerName: "Billed(P.U)",
+            editable: true
         },
         {
             field: "billedTotalPrice",
-            headerName: "Amt. Billed"
+            headerName: "Amt. Billed",
+            valueGetter: ({ data }) => {
+                return data.billedUnitPrice * data.receivedQty
+            }
         },
         {
             field: "differenceAmount",
             headerName: "Diff Amt",
-            editable: false
             // headerName: "Billed Amount - Amount (in raw material vendor master)"
+            valueGetter: ({ data }) => {
+                return (data.quotedUnitPrice * data.receivedQty) - (data.billedUnitPrice * data.receivedQty)
+            }
         }
     ]
 
     useEffect(() => {
-
         getPurchaseDataByPId(pId)
         getgoodsReceiptData()
         getStorageLoc()
@@ -104,9 +112,17 @@ const GoodsReceipt = () => {
         })
     }
     const getgoodsReceiptData = () => {
-        getGoodsReceiptDetail().then((res) => {
-
+        getGoodsReceiptById(pId).then((res) => {
             setGoodsReceiptData(res.data)
+            console.log(res.data)
+            let totalPriceTemp = 0
+            res.data.forEach((item) => {
+
+                totalPriceTemp = totalPriceTemp + item.billedTotalPrice
+                console.log(totalPriceTemp)
+                setTotalPrice(totalPriceTemp)
+
+            })
         })
     }
     const handleCancel = () => {
@@ -114,32 +130,50 @@ const GoodsReceipt = () => {
     }
 
     const calPriceAfterDiscount = (sp, dis) => {
-
         let afterDis = sp * ((100 - dis) / 100)
         setPriceAfterDiscount(afterDis)
     }
+
     const getPurchaseDataByPId = () => {
         if (pId) {
             getPurchaseDetailById(pId).then((res) => {
                 delete res.data[0].attachment
                 setPurchaseData(res.data[0])
                 calPriceAfterDiscount(res.data[0].totalPrice, res.data[0].discount)
-
+                // console.log(res.data)
                 // setIsUpdate(true)
             })
             // document.getElementById("addRowBtnId").disabled = false
         }
     }
 
+    const handlePurchaseOrderDetail = () => {
+        // console.log(initialPurchaseOrder)
+        POUpdateArr.forEach((item) => {
+            updateGoodsReceiptDetail(item).then((res) => {
+                // console.log(res.data)
+            })
+        })
+        alert("data updated")
+
+    }
+
     const handleCellClick = (params) => {
-        console.log(params)
+        // console.log(params.data)
+        POUpdateArr.push(params.data)
+        // setTotalPrice(params.totalPrice)
+        // let totalPriceTemp = 0
+        // POUpdateArr.forEach((item) => {
+        //     totalPriceTemp = totalPriceTemp + item.billedTotalPrice
+        //     console.log(totalPriceTemp)
+        // })
     }
 
     const defaultColDef = {
         sortable: true,
         filter: true,
         flex: 1,
-        editable: true,
+        editable: false,
         onCellClicked: handleCellClick,
     }
 
@@ -568,12 +602,21 @@ const GoodsReceipt = () => {
                                 </div>
 
 
-
-                                <div className='d-flex justify-content-end w-75'>
-                                    <div className='form-label'><b>Total Price :</b> </div>
-                                    <div className='form-label'>{totalPrice}</div>
+                                <div className="row mt-2">
+                                    <div className='col-6 d-flex justify-content-end w-75'>
+                                        <div className='form-label'><b>Total Price :</b> </div>
+                                        <div className='form-label'>{totalPrice}</div>
+                                    </div>
+                                    <div className='col-3  d-flex justify-content-center'>
+                                        <button
+                                            className="btn btn-info"
+                                            type='button'
+                                            onClick={handlePurchaseOrderDetail}
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
                                 </div>
-
 
                                 <div className="row mt-2">
                                     <hr></hr>
@@ -691,7 +734,7 @@ const GoodsReceipt = () => {
                                                         className="form-control form-control-sm"
                                                         type="number"
                                                         name="totalPrice"
-                                                        // value={totalPrice}
+                                                        value={totalPrice}
                                                         // onChange={handleChange}
                                                         disabled
                                                     >

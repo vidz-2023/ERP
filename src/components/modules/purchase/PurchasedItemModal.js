@@ -9,6 +9,7 @@ import purchaseStyle from "./purchaseMasterSty.module.css"
 import { addPurchasedItemsDetail, getPurchasedItemsByPId, updatePurchasedItems } from '../../../services/purchasedItemsDetailsService';
 import { useParams } from 'react-router-dom';
 import { getRawMaterialData } from '../../../services/rawMaterialService';
+import { addGoodsReceiptDetail, getGoodsReceiptDetail, updateGoodsReceiptDetail } from '../../../services/goodsReceiptService';
 
 const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemodal }) => {
     const { pId } = useParams()
@@ -21,6 +22,33 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
         unit: "",
         minimumPurchaseQuantity: 0,
         orderedQty: 0
+    }
+
+    let initialPurchaseOrder = {
+        gId: "",
+        pId: "",
+        materialId: "",
+        materialName: "",
+        orderedQty: 0,
+        receivedQty: 0,
+        pendingQty: 0,
+        unit: "",
+        minimumPurchaseQuantity: 0,
+        unitPrice: 0,
+        quotedUnitPrice: 0,
+        billedUnitPrice: 0,
+        billedTotalPrice: 0,
+        differenceAmount: 0,
+        receivedDate: "",
+        paymentStatus: "",
+        stroagelocation: "",
+        receivedInformation: "",
+        attachments: "",
+        totalMRP: 0,
+        discount: 0,
+        priceAfterDiscount: 0,
+        gst: 0,
+        billedPrice: 0
     }
 
     const [purchasedItemData, setPurchasedItemData] = useState(initialData)
@@ -43,7 +71,14 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
         const matchData = avaMaterial.find((item) => {
             return mId === item.materialId
         })
-        setPurchasedItemData({ ...purchasedItemData, materialId: matchData.materialId, materialName: matchData.materialName, unitPrice: Number(matchData.standardValuePerUnit) })
+        setPurchasedItemData({
+            ...purchasedItemData,
+            materialId: matchData.materialId,
+            materialName: matchData.materialName,
+            unitPrice: Number(matchData.standardValuePerUnit),
+            minimumPurchaseQuantity: Number(matchData.minimumPurchaseQuantity),
+            unit: matchData.basicUnitOfMeasure
+        })
     }
 
     const handleChange = (e, setFieldValue) => {
@@ -63,23 +98,25 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
         // }
     }
 
-    // const submitPurchsedItemsDetail = () => {
-    //     if (isUpdate) {
-    //         updatePurchasedItems(purchasedItemData).then((res) => {
-    //             getPurchasedItemsByPId(pId).then((res1) => {
-    //                 sendDataToParent(res1.data);
-    //             })
-    //         })
-    //         // setIsUpdate(false)
-    //     } else {
-    //         addPurchasedItemsDetail(purchasedItemData).then((res) => {
-    //             getPurchasedItemsByPId(pId).then((res1) => {
-    //                 sendDataToParent(res1.data);
-    //             })
-    //         })
-    //     }
-    //     // setPurchasedItemData(initialData)
-    // }
+    const generatedId = async (firstId) => {
+        let lastGeneratedPID = ""
+        await getGoodsReceiptDetail().then((res) => {
+            if (res.data.length) {
+                lastGeneratedPID = res.data[res.data.length - 1].gId
+            } else {
+                lastGeneratedPID = firstId
+            }
+
+        })
+        let numStr = lastGeneratedPID.match(/\d+/)[0]
+        let num = Number(numStr) + 1
+        if (numStr.length) {
+            const padding = '0'.repeat(numStr.length - num.toString().length);
+            num = padding + num
+        }
+        let alphabet = lastGeneratedPID.match(/[a-z]/i)[0]
+        return alphabet + num
+    }
 
 
     const getRawMaterialTable = () => {
@@ -89,23 +126,36 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
     }
 
     const handleSubmitPurchasedItem = async (values) => {
-        console.log(values)
+        initialPurchaseOrder = { ...initialPurchaseOrder, ...values }
         if (isUpdate) {
-            updatePurchasedItems(values).then((res) => {
+            await updatePurchasedItems(values).then((res) => {
                 getPurchasedItemsByPId(pId).then((res1) => {
                     sendDataToParent(res1.data);
                 })
             })
-            // setIsUpdate(false)
+            //======================================== updating data in Goods Receipt PO table
+            updateGoodsReceiptDetail(initialPurchaseOrder).then((res) => {
+
+            })
+
         } else {
 
             console.log(values)
             await addPurchasedItemsDetail(values).then((res) => {
-
                 getPurchasedItemsByPId(pId).then((res1) => {
                     sendDataToParent(res1.data);
                 })
             })
+
+            //============================================= adding data in Goods Receipt PO table
+            generatedId("G0000").then(newId => {
+                initialPurchaseOrder = { ...initialPurchaseOrder, quotedUnitPrice: values.unitPrice, gId: newId }
+                delete initialPurchaseOrder.uniqueId
+                addGoodsReceiptDetail(initialPurchaseOrder).then((res) => {
+                    // navigate("/purchase-order-table")
+                })
+            })
+
         }
     }
 
@@ -158,9 +208,10 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                     </div>
                                                 </div>
 
-                                                <div className="row mb-1">
-                                                    <div className='col-4 form-label'>Material ID</div>
-                                                    <div className='col-8 d-flex'>
+                                                <div className="row mb-1 d-flex align-items-center">
+                                                    <div className='col-2 form-label'>Material </div>
+                                                    <div className='col-2 form-label'>Code</div>
+                                                    <div className='col-3 d-flex'>
 
                                                         <Field
                                                             className="form-select fw-light"
@@ -182,11 +233,8 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                         </Field>
                                                         <ErrorMessage className="text-danger ms-2" component="div" name='materialId' />
                                                     </div>
-                                                </div>
-
-                                                <div className="row mb-1">
-                                                    <div className='col-4 form-label'>Material Name</div>
-                                                    <div className='col-8 d-flex'>
+                                                    <div className='col-2 form-label'>Name</div>
+                                                    <div className='col-3 d-flex'>
                                                         <Field
                                                             className="form-control"
                                                             type="text"
@@ -201,7 +249,7 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
 
                                                 <div className="row mb-1">
                                                     <div className='col-4 form-label'>Unit Price</div>
-                                                    <div className='col-8 d-flex'>
+                                                    <div className='col-3 d-flex'>
                                                         <Field
                                                             className="form-control"
                                                             type="number"
@@ -212,11 +260,8 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                         />
                                                         <ErrorMessage className="text-danger ms-2" component="div" name='unitPrice' />
                                                     </div>
-                                                </div>
-
-                                                <div className="row mb-1">
-                                                    <div className='col-4 form-label'>Min Purchase Qty</div>
-                                                    <div className='col-8 d-flex'>
+                                                    <div className='col-2 form-label'> Qty(Min)</div>
+                                                    <div className='col-3 d-flex'>
                                                         <Field
                                                             className="form-control"
                                                             type="number"
@@ -230,7 +275,7 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                 </div>
 
                                                 <div className="row mb-1">
-                                                    <div className='col-4 form-label'>Requested Quantity</div>
+                                                    <div className='col-4 form-label'>Req Qty</div>
                                                     <div className='col-4 d-flex'>
                                                         <Field
                                                             className="form-control"
@@ -241,9 +286,9 @@ const PurchasedItemModal = ({ sendDataToParent, propData, propIsUpdate, closemod
                                                         />
                                                         <ErrorMessage className="text-danger ms-2" component="div" name='orderedQty' />
                                                     </div>
-                                                    <div className='col-4 d-flex'>
+                                                    <div className='col-4'>
                                                         <Field
-                                                            className="form-control"
+                                                            className={`form-control border-0 ${purchaseStyle.myUnitPosition}`}
                                                             type="text"
                                                             name="unit"
                                                         // value={purchasedItemData.orderedQty}

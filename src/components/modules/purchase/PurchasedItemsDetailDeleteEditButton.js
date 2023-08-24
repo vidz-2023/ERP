@@ -31,7 +31,6 @@ const PurchasedItemsDetailDeleteEditButton = (params) => {
                 onClick={() => { handleDelete(params) }}
             ><FaTrash />
             </button>
-
         </div>
     )
 }
